@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environment — never commit
+.venv/
+
+# Environment
+.env
+
+# Cache — never commit cached API responses
+.cache/
+
+# Raw transcripts — debug artefacts, not project outputs
+run_logs/
+
+# Test coverage
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db

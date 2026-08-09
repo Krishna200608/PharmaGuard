@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.1",
+  "source": "ChEMBL REST API v34 — IDs pre-resolved by querying /molecule endpoint by INN/trade name. All entries manually verified against ChEMBL web interface. Technical owner: Krishna Sikheriya (IIT2023139). Do NOT add entries without verifying the ChEMBL ID at https://www.ebi.ac.uk/chembl/.",
+  "drugs": {
+    "semaglutide": {
+      "chembl_id": "CHEMBL3307925",
+      "canonical_name": "Semaglutide",
+      "trade_names": ["Ozempic", "Wegovy", "Rybelsus"],
+      "mechanism_of_action": "GLP-1 receptor agonist — stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
+      "target_name": "Glucagon-like peptide 1 receptor",
+      "target_class": "Peptide hormone receptor",
+      "resolved_at": "2026-08-09",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL3307925/"
+    },
+    "metformin": {
+      "chembl_id": "CHEMBL1431",
+      "canonical_name": "Metformin",
+      "trade_names": ["Glucophage"],
+      "mechanism_of_action": "AMPK activator — inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
+      "target_name": "AMP-activated protein kinase",
+      "target_class": "Kinase",
+      "resolved_at": "2026-08-09",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1431/"
+    },
+    "atorvastatin": {
+      "chembl_id": "CHEMBL1582",
+      "canonical_name": "Atorvastatin",
+      "trade_names": ["Lipitor"],
+      "mechanism_of_action": "HMG-CoA reductase inhibitor — competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
+      "target_name": "3-hydroxy-3-methylglutaryl-coenzyme A reductase",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-08-09",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1582/"
+    }
+  }
+}

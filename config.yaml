@@ -1,0 +1,48 @@
+# PharmaGuard Configuration
+# ============================================================
+# All runtime-configurable settings live here.
+# Code reads this file at startup via pharmaguard/utils/config_loader.py (Sprint 2).
+# Do NOT hardcode values from this file into .py modules.
+
+# --- Agent mode ---
+agent:
+  mode: "react"           # "react" | "fixed_pipeline"
+                          # fixed_pipeline = OpenFDA → ChEMBL → PubMed → synthesize, no agent discretion
+                          # Change to fixed_pipeline by week 6 if ReAct reliability is shaky (see build brief §checkpoints)
+
+# --- Plausibility source ---
+plausibility:
+  source: "lookup_first"  # "lookup_first" | "force_agent"
+                          # lookup_first = human-curated entries used; agent-derived only on lookup miss (production default)
+                          # force_agent  = agent-derived for ALL pairs; used ONLY for ablation evaluation runs
+                          #                curated_reference and plausibility_agreement fields populated in TriageReport
+
+# --- Confidence formula weights ---
+# MUST sum to 1.0. Mirrored in agent/output_schema.py PRR_SCORE_WEIGHTS.
+confidence_weights:
+  w_signal: 0.40
+  w_grade: 0.40
+  w_plausibility: 0.20
+
+# --- Cache ---
+cache:
+  enabled: true           # Set false only for debugging (burns API quota)
+  dir: ".cache/pharmaguard"
+  ttl_seconds: 604800     # 7 days
+
+# --- API ---
+apis:
+  faers_endpoint: "openfda_legacy"   # "openfda_legacy" | "aems" — controls which SignalDataSource impl is used
+  max_pubmed_abstracts: 5
+  request_delay_seconds: 0.35        # Inter-request delay for NCBI E-utilities (safe for 3 req/s without key)
+
+# --- Logging ---
+logging:
+  level: "INFO"           # DEBUG for development; INFO for evaluation runs
+  transcript_dir: "run_logs"
+
+# --- Paths ---
+paths:
+  data_dir: "pharmaguard/data"
+  prompts_dir: "pharmaguard/prompts"
+  output_dir: "outputs"   # Teammate 2's evaluator reads TriageReport JSONs from here

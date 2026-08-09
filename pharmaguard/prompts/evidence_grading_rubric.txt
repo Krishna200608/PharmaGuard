@@ -1,0 +1,36 @@
+Evidence Grading Rubric — PharmaGuard v1.0
+==========================================
+
+Purpose: defines how PubMedTool._grade_evidence() assigns grades A, B, or C.
+This file is the authoritative rubric. The code implements it; the rubric is defined here.
+Owner: Krishna Sikheriya (IIT2023139) — iterate this file, not the code, to refine grading.
+
+GRADE A — Strong evidence
+  Criteria: Two or more retrieved abstracts contain language indicating a
+  statistically significant association between the drug and the adverse event.
+  Qualifying language (case-insensitive):
+    - "statistically significant"
+    - "p <" or "p=" followed by a numeric value < 0.05
+    - "odds ratio" / "relative risk" / "hazard ratio"
+    - "95% CI" or "confidence interval" where the interval excludes 1.0
+    - "association was significant"
+
+GRADE B — Limited evidence
+  Criteria: One abstract with statistical association language (see Grade A),
+  OR one or more abstracts with case report / association language without
+  statistical significance.
+  Qualifying language (case-insensitive):
+    - "adverse event" / "adverse reaction" / "side effect"
+    - "case report" / "we report" / "describe a patient"
+    - "presented with" / "developed" (in clinical context)
+    - "associated with" / "may cause" / "risk of"
+
+GRADE C — No supporting evidence
+  Criteria: No retrieved abstracts match Grade A or Grade B criteria,
+  OR zero abstracts were retrieved for the query.
+
+Notes:
+  - Grading is applied per-abstract, not per-sentence.
+  - An abstract qualifies for at most one grade tier (highest matching).
+  - Grade is determined by count: Grade A requires ≥2 Grade-A abstracts.
+  - Future version: weight recency (publication year) and study type (RCT > cohort > case report).

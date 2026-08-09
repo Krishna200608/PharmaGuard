@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "description": "Pilot set for mid-semester demo (Week 8-9). 8-10 drug-event pairs covering confirmed positives and negative controls. Owner: Naitik Jain (IIB2023036).",
+  "curation_note": "Negative controls must include background-reporting pairs (PRR ~ 1.0), NOT only zero-report pairs. See ground_truth.json header for full negative control definition.",
+  "pairs": [
+    {
+      "drug": "semaglutide",
+      "event": "pancreatitis",
+      "expected_escalation": "ESCALATE",
+      "expected_signal_strength": "STRONG",
+      "fda_signal_confirmed": true,
+      "notes": "Well-documented FAERS signal. FDA label warning exists. Use as positive anchor."
+    },
+    {
+      "drug": "metformin",
+      "event": "lactic_acidosis",
+      "expected_escalation": "ESCALATE",
+      "expected_signal_strength": "STRONG",
+      "fda_signal_confirmed": true,
+      "notes": "Black-box warning on label. Classic positive control."
+    },
+    {
+      "drug": "atorvastatin",
+      "event": "common_cold",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "expected_signal_strength": "NO_SIGNAL",
+      "fda_signal_confirmed": false,
+      "notes": "Negative control. Background co-reporting expected (common cold is frequent), PRR ~ 1.0. Tests discrimination of noise from signal."
+    }
+  ]
+}
