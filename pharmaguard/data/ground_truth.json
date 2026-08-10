@@ -59,12 +59,12 @@
       "rationale": "Immune-mediated adverse reaction warning in FDA label."
     },
     {
-      "drug_canonical": "omeprazole",
-      "event_meddra_pt": "myocardial_infarction",
+      "drug_canonical": "liraglutide",
+      "event_meddra_pt": "pancreatic_cancer",
       "expected_escalation": "DO_NOT_ESCALATE",
       "category": "genuine_negative_control",
-      "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6402741/",
-      "rationale": "Dismissed in subsequent pharmacoepidemiology studies proving confounding by indication for omeprazole monotherapy."
+      "source_url": "https://www.nejm.org/doi/full/10.1056/NEJMp1314078",
+      "rationale": "FDA and EMA jointly assessed and dismissed the pancreatic cancer signal, concluding no causal association (Egan et al., NEJM 2014)."
     },
     {
       "drug_canonical": "metformin",
@@ -83,12 +83,12 @@
       "rationale": "No causal link established per subsequent AHA/ACC reviews despite early FDA safety communication."
     },
     {
-      "drug_canonical": "saxagliptin",
-      "event_meddra_pt": "influenza",
+      "drug_canonical": "albuterol",
+      "event_meddra_pt": "suicidal_ideation",
       "expected_escalation": "DO_NOT_ESCALATE",
       "category": "genuine_negative_control",
-      "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8142203/",
-      "rationale": "Established negative control within the OMOP methodology framework."
+      "source_url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/021457s035lbl.pdf",
+      "rationale": "Structurally implausible active comparator negative control for asthma-drug-induced psychiatric events (unlike montelukast, albuterol is an inhaled beta-2 agonist lacking a neuropsychiatric boxed warning)."
     },
     {
       "drug_canonical": "amoxicillin",

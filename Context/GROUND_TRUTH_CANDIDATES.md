@@ -42,9 +42,9 @@ The following 15 curated drug-event pairs are proposed for `ground_truth.json`. 
 *Category: `genuine_negative_control`*
 *Expected Escalation: `DO_NOT_ESCALATE`*
 
-8. **omeprazole + myocardial_infarction**
-   - **Source**: [Gastroenterology RCT Meta-Analysis (Moayyedi et al. 2019)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6402741/)
-   - **Note**: A 2015 data-mining study erroneously flagged PPI monotherapy for MI. Subsequent rigorous large-scale RCTs dismissed this link, proving confounding by indication.
+8. **liraglutide + pancreatic_cancer**
+   - **Source**: [Egan et al., NEJM 2014](https://www.nejm.org/doi/full/10.1056/NEJMp1314078)
+   - **Note**: FDA and EMA jointly assessed and dismissed the pancreatic cancer signal, concluding no causal association in a definitive, uncontested statement.
 
 9. **metformin + hypoglycemia**
    - **Source**: [Glucophage FDA Label (PDF)](https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020357s037s039,021202s021s023lbl.pdf)
@@ -54,9 +54,9 @@ The following 15 curated drug-event pairs are proposed for `ground_truth.json`. 
     - **Source**: [AHA/ACC Scientific Statement (2018)](https://www.ahajournals.org/doi/10.1161/ATV.0000000000000073)
     - **Note**: FDA's 2012 safety communication noted cognitive impairment reports, but rigorous subsequent reviews concluded no causal link exists between statins and dementia.
 
-11. **saxagliptin + influenza**
-    - **Source**: [OHDSI/OMOP Reference Set Study](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8142203/)
-    - **Note**: Replaced `lisinopril+insomnia`. Saxagliptin + influenza is a formally established negative control within the OMOP methodology framework.
+11. **albuterol + suicidal_ideation**
+    - **Source**: [FDA ProAir HFA Label (PDF)](https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/021457s035lbl.pdf)
+    - **Note**: Replaced `saxagliptin+influenza`. This uses the "structurally implausible mechanism" logic applied to a confirmed positive (`montelukast+suicidal_ideation`). Albuterol is an inhaled beta-2 agonist asthma drug lacking any neuropsychiatric boxed warning.
 
 12. **amoxicillin + tendon_rupture**
     - **Source**: [Macellari et al. 2021 (PubMed)](https://pubmed.ncbi.nlm.nih.gov/34217117/)
