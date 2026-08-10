@@ -79,18 +79,27 @@ class FaersLegacySource(SignalDataSource):
       d = reports with NEITHER
 
     Approximate CI uses the Woolf log-CI method (standard for FAERS analyses).
+    PRR counts all drug mentions, not just primary-suspect reports (standard simplification,
+    worth stating explicitly rather than leaving implicit).
 
-    Rate limiting and disk caching are handled by the caller (cache.py wrapper),
-    not inside this class. This class is a pure data-fetching concern.
+    Rate limiting and disk caching are supported natively if a ToolCache is provided.
     """
 
     BASE_URL: str = "https://api.fda.gov/drug/event.json"
 
+    def __init__(self, cache=None):
+        import os
+        self._cache = cache
+        self._api_key = os.getenv("OPENFDA_API_KEY", "")
+
     def _fetch_count(self, query_params: dict) -> int:
         import requests
         import logging
+        params = dict(query_params)
+        if self._api_key:
+            params["api_key"] = self._api_key
         try:
-            resp = requests.get(self.BASE_URL, params=query_params, timeout=15)
+            resp = requests.get(self.BASE_URL, params=params, timeout=15)
             if resp.status_code == 404:
                 return 0
             resp.raise_for_status()
@@ -105,12 +114,20 @@ class FaersLegacySource(SignalDataSource):
         """
         import math
         
+        if self._cache:
+            cached = self._cache.get(self._cache.faers_key(drug, event))
+            if cached:
+                # Deserialize ISO formatted datetime if necessary
+                if isinstance(cached.get("data_pulled_at"), str):
+                    cached["data_pulled_at"] = datetime.fromisoformat(cached["data_pulled_at"])
+                return SignalStats(**cached)
+        
         # 1. Fetch co-occurrence count first. If 0, short-circuit.
         q_both = {'search': f'(patient.drug.medicinalproduct:"{drug}") AND (patient.reaction.reactionmeddrapt:"{event}")', 'limit': 1}
         a = self._fetch_count(q_both)
         
         if a == 0:
-            return SignalStats(
+            stats = SignalStats(
                 drug=drug,
                 event=event,
                 report_count=0,
@@ -122,6 +139,11 @@ class FaersLegacySource(SignalDataSource):
                 data_pulled_at=datetime.now(timezone.utc),
                 null_reason="Zero co-occurrences found in FAERS."
             )
+            if self._cache:
+                dump = stats.__dict__.copy()
+                dump["data_pulled_at"] = dump["data_pulled_at"].isoformat()
+                self._cache.set(self._cache.faers_key(drug, event), dump)
+            return stats
             
         # 2. Fetch marginal and total counts
         q_drug = {'search': f'patient.drug.medicinalproduct:"{drug}"', 'limit': 1}

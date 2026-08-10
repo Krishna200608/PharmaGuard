@@ -74,6 +74,12 @@ class ToolCache:
         return f"pubmed::{digest}"
 
     @staticmethod
+    def pubmed_grade_key(query: str, prompts_version: str) -> str:
+        """Cache the LLM grading step separately to avoid re-fetching abstracts."""
+        digest = hashlib.sha256(query.encode()).hexdigest()[:16]
+        return f"pubmed_grade::{digest}::{prompts_version}"
+
+    @staticmethod
     def plausibility_key(drug: str, event: str, prompts_version: str) -> str:
         """
         Includes prompts_version so rubric updates auto-invalidate cached

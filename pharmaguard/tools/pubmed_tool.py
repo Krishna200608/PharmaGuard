@@ -51,10 +51,11 @@ class PubMedTool:
     and grades the evidence using the loaded rubric.
     """
 
-    def __init__(self, cache: ToolCache, prompt_loader: PromptLoader):
+    def __init__(self, cache: ToolCache, prompt_loader: PromptLoader, llm_inference_fn=None):
         self._cache = cache
         self._prompt_loader = prompt_loader
         self._api_key = os.getenv("NCBI_API_KEY", "")
+        self._llm_fn = llm_inference_fn
         if not self._api_key:
             logger.warning(
                 "NCBI_API_KEY not set — rate limited to 3 req/s. "
@@ -78,7 +79,7 @@ class PubMedTool:
 
         pmids = self._esearch(query)
         abstracts = self._efetch_abstracts(pmids[:MAX_ABSTRACTS])
-        grade, supporting_pmids, summary = self._grade_evidence(abstracts, pmids)
+        grade, supporting_pmids, summary = self._grade_evidence(abstracts, pmids[:MAX_ABSTRACTS], query)
 
         result = PubMedResult(
             query=query,
@@ -174,7 +175,7 @@ class PubMedTool:
     # ------------------------------------------------------------------
 
     def _grade_evidence(
-        self, abstracts: list[str], pmids: list[str]
+        self, abstracts: list[str], pmids: list[str], query: str
     ) -> tuple[str, list[str], str]:
         """
         Grade evidence quality from a list of abstract texts.
@@ -195,50 +196,29 @@ class PubMedTool:
         if not abstracts:
             return "C", [], "No abstracts retrieved from PubMed for this query."
 
-        # Signal keywords for grade A (statistical association)
-        grade_a_signals = [
-            "statistically significant", "p <", "p=", "odds ratio", " or ",
-            "relative risk", "hazard ratio", " rr ", " hr ", "95% ci",
-            "confidence interval", "association was significant",
-        ]
-        # Signal keywords for grade B (any reported association / case)
-        grade_b_signals = [
-            "adverse event", "adverse reaction", "side effect", "case report",
-            "we report", "describe a patient", "presented with", "developed",
-            "associated with", "may cause", "risk of",
-        ]
+        cache_key = self._cache.pubmed_grade_key(query, self._prompt_loader.version)
+        cached = self._cache.get(cache_key)
+        if cached:
+            return cached["grade"], cached["supporting"], cached["summary"]
 
-        supporting_a: list[str] = []
-        supporting_b: list[str] = []
+        if self._llm_fn is None:
+            # Fallback for testing if LLM is not provided
+            return "C", [], "LLM not configured for semantic grading."
 
-        for abstract, pmid in zip(abstracts, pmids):
-            text_lower = abstract.lower()
-            if any(sig in text_lower for sig in grade_a_signals):
-                supporting_a.append(pmid)
-            elif any(sig in text_lower for sig in grade_b_signals):
-                supporting_b.append(pmid)
+        try:
+            rubric = self._prompt_loader.get("evidence_grading_rubric")
+        except FileNotFoundError:
+            return "C", [], "Grading rubric file missing."
 
-        if len(supporting_a) >= 2:
-            grade = "A"
-            supporting = supporting_a
-            summary = (
-                f"{len(supporting_a)} of {len(abstracts)} retrieved abstracts report "
-                f"statistically significant associations between the drug and event."
-            )
-        elif len(supporting_a) == 1 or supporting_b:
-            grade = "B"
-            supporting = supporting_a + supporting_b
-            summary = (
-                f"Limited evidence: {len(supporting_a + supporting_b)} of "
-                f"{len(abstracts)} abstracts indicate a possible association "
-                f"(case reports or single statistical report)."
-            )
-        else:
-            grade = "C"
-            supporting = []
-            summary = (
-                f"No supporting evidence found in {len(abstracts)} retrieved abstracts."
-            )
-
-        logger.info("Evidence grade: %s | supporting PMIDs: %s", grade, supporting)
+        # We pass the abstracts, PMIDs, and rubric to the LLM function
+        # The LLM function is expected to return (grade, supporting_pmids, summary)
+        grade, supporting, summary = self._llm_fn(abstracts, pmids, rubric)
+        
+        result_data = {
+            "grade": grade,
+            "supporting": supporting,
+            "summary": summary
+        }
+        self._cache.set(cache_key, result_data)
+        logger.info("Evidence grade (LLM derived): %s | supporting PMIDs: %s", grade, supporting)
         return grade, supporting, summary
