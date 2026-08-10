@@ -15,6 +15,7 @@ _CONFIG_PATH = _PROJECT_ROOT / "config.yaml"
 
 class AgentConfig(BaseModel):
     mode: str = Field(pattern="^(react|fixed_pipeline)$")
+    llm_model: str
 
 
 class PlausibilityConfig(BaseModel):

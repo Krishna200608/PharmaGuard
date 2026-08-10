@@ -35,7 +35,7 @@ class FixedPipelineAgent:
         from langchain_core.messages import SystemMessage, HumanMessage
         import json
         
-        self.llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.0)
+        self.llm = ChatGoogleGenerativeAI(model=self.config.agent.llm_model, temperature=0.0)
         
         def pubmed_llm_fn(abstracts: list[str], pmids: list[str], rubric: str):
             sys_msg = SystemMessage(content=rubric)

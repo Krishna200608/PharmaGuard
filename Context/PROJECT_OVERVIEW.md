@@ -1,10 +1,4 @@
-> SESSION BOOTSTRAP: Any AI agent working in this repository must read all five
-> memory-bank files (PROJECT_OVERVIEW.md, ARCHITECTURE.md, DECISIONS.md,
-> PROGRESS.md, CONVENTIONS.md) in full before taking any action — before writing
-> code, editing files, or proposing changes. These files reflect verified project
-> ground truth as of their last-updated date below. If something in the repo
-> appears to contradict these files, flag the discrepancy to the user rather than
-> silently trusting either source.
+> **SESSION BOOTSTRAP**: At the beginning of every session, immediately read all 5 files in the `Context/` folder (`PROJECT_OVERVIEW.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `PROGRESS.md`, `CONVENTIONS.md`). Do not begin execution until you have read and internalized the current ground truth.
 
 Last updated: 2026-08-10 | Sprint: Sprint 1 (Transitioning to Sprint 2) | Updated by: Antigravity
 

@@ -6,8 +6,8 @@
 
 # --- Agent mode ---
 agent:
-  mode: "react"           # "react" | "fixed_pipeline"
-                          # fixed_pipeline = OpenFDA → ChEMBL → PubMed → synthesize, no agent discretion
+  mode: "react"
+  llm_model: "gemini-3.1-flash-lite"
                           # Change to fixed_pipeline by week 6 if ReAct reliability is shaky (see build brief §checkpoints)
 
 # --- Plausibility source ---

@@ -47,7 +47,7 @@ class PharmaGuardAgent:
         self.prompt_loader = PromptLoader()
         self.tlog = TranscriptLogger(run_id=run_id)
         
-        self.llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.0)
+        self.llm = ChatGoogleGenerativeAI(model=self.config.agent.llm_model, temperature=0.0)
         
         # We need LLM fns for the tools
         def pubmed_llm_fn(abstracts: list[str], pmids: list[str], rubric: str):

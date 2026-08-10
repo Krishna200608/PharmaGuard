@@ -37,3 +37,7 @@ Last updated: 2026-08-10 | Sprint: Sprint 1 (Transitioning to Sprint 2) | Update
 ## 9. ReAct Architecture Tool Nodes
 **Decision:** LangGraph nodes directly execute the three underlying data fetchers (FAERS, ChEMBL, PubMed), pushing the raw return objects onto the graph state before assembling the final TriageReport deterministically outside the LLM.
 **Why:** Ensures compute_prr_score, compute_confidence, and derive_escalation remain untampered by the agent's generative layer.
+
+## 10. LLM Model Selection & Configuration
+**Decision:** The default Gemini model is configured to "gemini-3.1-flash-lite" via config.yaml, reading from Google's v1beta endpoints.
+**Why:** Gemini 1.0 and 1.5 models were retired, leading to 404 NOT_FOUND errors. A dynamic reading of available models showed 3.1-flash-lite as a stable fallback. It's explicitly decoupled to config.yaml to handle Google's aggressive deprecation cadence (e.g. 2.0 Flash retired June 2026, 2.5 Flash cut off before Oct 2026). A mid-semester verification is recommended.
