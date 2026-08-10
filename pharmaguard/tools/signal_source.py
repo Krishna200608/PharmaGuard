@@ -108,6 +108,14 @@ class FaersLegacySource(SignalDataSource):
             logging.getLogger(__name__).warning(f"openFDA query failed: {e}")
             return 0
 
+    def _finalize(self, drug: str, event: str, stats: SignalStats) -> SignalStats:
+        """Helper to ensure all returns are consistently cache-written."""
+        if self._cache:
+            dump = stats.__dict__.copy()
+            dump["data_pulled_at"] = dump["data_pulled_at"].isoformat()
+            self._cache.set(self._cache.faers_key(drug, event), dump)
+        return stats
+
     def get_signal_stats(self, drug: str, event: str) -> SignalStats:
         """
         Fetch disproportionality statistics from the openFDA legacy endpoint.
@@ -127,7 +135,7 @@ class FaersLegacySource(SignalDataSource):
         a = self._fetch_count(q_both)
         
         if a == 0:
-            stats = SignalStats(
+            return self._finalize(drug, event, SignalStats(
                 drug=drug,
                 event=event,
                 report_count=0,
@@ -138,12 +146,7 @@ class FaersLegacySource(SignalDataSource):
                 source_endpoint="openfda_legacy",
                 data_pulled_at=datetime.now(timezone.utc),
                 null_reason="Zero co-occurrences found in FAERS."
-            )
-            if self._cache:
-                dump = stats.__dict__.copy()
-                dump["data_pulled_at"] = dump["data_pulled_at"].isoformat()
-                self._cache.set(self._cache.faers_key(drug, event), dump)
-            return stats
+            ))
             
         # 2. Fetch marginal and total counts
         q_drug = {'search': f'patient.drug.medicinalproduct:"{drug}"', 'limit': 1}
@@ -160,7 +163,7 @@ class FaersLegacySource(SignalDataSource):
         d = n_total - a - b - c
         
         if b <= 0 or c <= 0 or d <= 0:
-            return SignalStats(
+            return self._finalize(drug, event, SignalStats(
                 drug=drug,
                 event=event,
                 report_count=a,
@@ -171,7 +174,7 @@ class FaersLegacySource(SignalDataSource):
                 source_endpoint="openfda_legacy",
                 data_pulled_at=datetime.now(timezone.utc),
                 null_reason="Insufficient data for disproportionality calculation."
-            )
+            ))
             
         # 4. Compute statistics
         prr = (a / (a + b)) / (c / (c + d))
@@ -183,7 +186,7 @@ class FaersLegacySource(SignalDataSource):
         se_log_ror = math.sqrt(1/a + 1/b + 1/c + 1/d)
         ror_lower_ci = math.exp(math.log(ror) - 1.96 * se_log_ror)
         
-        return SignalStats(
+        return self._finalize(drug, event, SignalStats(
             drug=drug,
             event=event,
             report_count=a,
@@ -194,7 +197,7 @@ class FaersLegacySource(SignalDataSource):
             source_endpoint="openfda_legacy",
             data_pulled_at=datetime.now(timezone.utc),
             null_reason=None
-        )
+        ))
 
     # Note: MockSignalSource below
 

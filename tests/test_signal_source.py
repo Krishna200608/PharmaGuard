@@ -123,3 +123,33 @@ def test_faers_legacy_calculates_prr_ror(monkeypatch):
     assert stats.ror == pytest.approx(10.7334, abs=1e-3)
     assert stats.prr_lower_ci == pytest.approx(9.263, abs=1e-3)
     assert stats.ror_lower_ci == pytest.approx(9.5696, abs=1e-3)
+
+def test_faers_legacy_caching_behavior(tmp_path):
+    from pharmaguard.tools.cache import ToolCache
+    cache = ToolCache(cache_dir=tmp_path)
+    source = FaersLegacySource(cache=cache)
+    
+    # We will track how many times _fetch_count is called
+    call_count = 0
+    original_fetch = source._fetch_count
+    
+    def tracked_fetch(query):
+        nonlocal call_count
+        call_count += 1
+        # mock a positive result so it goes through all 4 calls
+        if "AND" in query.get("search", ""): return 100
+        if "patient.drug.medicinalproduct" in query.get("search", ""): return 1000
+        if "patient.reaction.reactionmeddrapt" in query.get("search", ""): return 1000
+        return 10000
+
+    source._fetch_count = tracked_fetch
+    
+    # First call - should hit tracked_fetch 4 times
+    stats1 = source.get_signal_stats("cache_drug", "cache_event")
+    assert call_count == 4
+    
+    # Second call - should hit cache and NOT increment call_count
+    stats2 = source.get_signal_stats("cache_drug", "cache_event")
+    assert call_count == 4
+    
+    assert stats1.report_count == stats2.report_count
