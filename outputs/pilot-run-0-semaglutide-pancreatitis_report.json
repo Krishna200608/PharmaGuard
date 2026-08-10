@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "pilot-run-0-semaglutide-pancreatitis",
-  "timestamp": "2026-08-10T11:16:01.750999Z",
+  "timestamp": "2026-08-10T11:24:12.756246Z",
   "prompts_version": "v1.0",
   "drug": "semaglutide",
   "event": "pancreatitis",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 9.569643373695541,
     "report_count": 305,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-10T11:15:43.313786Z",
+    "data_pulled_at": "2026-08-10T11:24:06.770504Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -49,8 +49,7 @@
     "confidence": 0.8,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"semaglutide\",\n  \"event\": \"pancreatitis\",\n  \"triage_report\": {\n    \"faers_signal\": {\n      \"prr\": 10.34,\n      \"ror\": 10.73,\n      \"report_count\": 305,\n      \"interpretation\": \"Strong disproportionality signal detected.\"\n    },\n    \"biological_plausibility\": {\n      \"score\": \"HIGH\",\n      \"rationale\": \"GLP-1 receptor agonism stimulates pancreatic exocrine secretion and may increase pancreatic ductal pressure, providing a clear mechanistic pathway.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Multiple clinical reports and reviews document the association between semaglutide and pancreatitis, though high-level statistical evidence (e.g., meta-analysis with specific odds ratios) is not explicitly detailed in the retrieved abstracts.\"\n    },\n    \"recommendation\": {\n      \"status\": \"ESCALATE\",\n      \"justification\": \"The combination of a strong FAERS disproportionality signal (PRR > 10), high biological plausibility, and supporting clinical literature warrants immediate regulatory review and potential label update or safety communication.\"\n    }\n  }\n}\n```",
-      "```json\n{\n  \"drug\": \"semaglutide\",\n  \"event\": \"pancreatitis\",\n  \"triage_recommendation\": {\n    \"confidence_level\": \"HIGH\",\n    \"escalation_status\": \"ESCALATE\",\n    \"rationale\": \"The evaluation reveals a strong, consistent signal across all data sources. The FAERS analysis shows a significant disproportionality signal (PRR 10.34, ROR 10.73), indicating that reports of pancreatitis are substantially higher than expected for this drug. This is supported by high biological plausibility, as GLP-1 receptor agonists are known to stimulate pancreatic exocrine secretion and increase ductal pressure. Clinical literature (Grade B) further corroborates these findings through documented adverse event reports. Given the severity of the event and the strength of the combined evidence, immediate regulatory review and clinical monitoring are required.\"\n  }\n}\n```"
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
     ]
   }
 }

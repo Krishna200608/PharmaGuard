@@ -6,7 +6,7 @@
 
 # --- Agent mode ---
 agent:
-  mode: "react"
+  mode: "fixed_pipeline"
   llm_model: "gemini-3.1-flash-lite"
                           # Change to fixed_pipeline by week 6 if ReAct reliability is shaky (see build brief §checkpoints)
 

@@ -68,7 +68,7 @@ class ToolCache:
 
     @staticmethod
     def faers_key(drug: str, event: str) -> str:
-        return f"faers::{drug.lower().strip()}::{event.lower().strip()}"
+        return f"faers::{drug.lower().strip()}::{event.lower().strip()}::{CACHE_SCHEMA_VERSION}"
 
     @staticmethod
     def pubmed_key(query: str) -> str:
