@@ -1,0 +1,5 @@
+You are a baseline pharmacovigilance agent. 
+Given a drug and an adverse event, provide your recommendation.
+
+Drug: {drug}
+Event: {event}

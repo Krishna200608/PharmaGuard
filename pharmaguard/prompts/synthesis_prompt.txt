@@ -1,0 +1,8 @@
+Synthesize the findings from FAERS, ChEMBL, and PubMed into a final triage recommendation.
+You must use the deterministic rules for confidence and escalation mapping.
+
+Input:
+{agent_scratchpad}
+
+Output JSON format:
+{output_schema}

@@ -145,10 +145,20 @@ def derive_escalation(confidence: float, signal_strength: SignalStrength) -> Esc
     """
     Deterministic escalation decision from confidence score and signal strength label.
 
-    Rules:
-      confidence ≥ 0.70 AND strength ∈ {STRONG, MODERATE}  → ESCALATE
-      confidence ≥ 0.35                                     → MONITOR
-      otherwise                                             → DO_NOT_ESCALATE
+    Rules (evaluated in order -- first match wins):
+
+      1. signal_strength == NO_SIGNAL  ->  DO_NOT_ESCALATE  [hard gate, unconditional]
+         FAERS has zero disproportionality (report_count==0 or PRR<2.0 after CI check).
+         Literature and plausibility are corroborating inputs, not primary signals.
+         This gate fires before confidence is checked -- confidence is ignored.
+
+      2. confidence >= 0.70  AND  signal_strength in {STRONG, MODERATE}  ->  ESCALATE
+
+      3. confidence >= 0.35  (any non-NO_SIGNAL strength)  ->  MONITOR
+
+      4. otherwise  ->  DO_NOT_ESCALATE
+
+    Note: thresholds 0.70 and 0.35 are uncalibrated priors. See NOTES.md.
     """
     # Gate 1: NO_SIGNAL hard-stop. Must run before confidence checks.
     # Rationale: literature + plausibility are corroborating inputs, not primary signals.

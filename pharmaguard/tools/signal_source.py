@@ -86,17 +86,95 @@ class FaersLegacySource(SignalDataSource):
 
     BASE_URL: str = "https://api.fda.gov/drug/event.json"
 
+    def _fetch_count(self, query_params: dict) -> int:
+        import requests
+        import logging
+        try:
+            resp = requests.get(self.BASE_URL, params=query_params, timeout=15)
+            if resp.status_code == 404:
+                return 0
+            resp.raise_for_status()
+            return resp.json().get('meta', {}).get('results', {}).get('total', 0)
+        except requests.RequestException as e:
+            logging.getLogger(__name__).warning(f"openFDA query failed: {e}")
+            return 0
+
     def get_signal_stats(self, drug: str, event: str) -> SignalStats:
         """
         Fetch disproportionality statistics from the openFDA legacy endpoint.
-
-        Implementation note: full implementation in Sprint 1.
-        Stub signature here ensures interface compliance is testable from day 1.
         """
-        raise NotImplementedError(
-            "FaersLegacySource.get_signal_stats — to be implemented in Sprint 1."
+        import math
+        
+        # 1. Fetch co-occurrence count first. If 0, short-circuit.
+        q_both = {'search': f'(patient.drug.medicinalproduct:"{drug}") AND (patient.reaction.reactionmeddrapt:"{event}")', 'limit': 1}
+        a = self._fetch_count(q_both)
+        
+        if a == 0:
+            return SignalStats(
+                drug=drug,
+                event=event,
+                report_count=0,
+                prr=None,
+                ror=None,
+                prr_lower_ci=None,
+                ror_lower_ci=None,
+                source_endpoint="openfda_legacy",
+                data_pulled_at=datetime.now(timezone.utc),
+                null_reason="Zero co-occurrences found in FAERS."
+            )
+            
+        # 2. Fetch marginal and total counts
+        q_drug = {'search': f'patient.drug.medicinalproduct:"{drug}"', 'limit': 1}
+        q_event = {'search': f'patient.reaction.reactionmeddrapt:"{event}"', 'limit': 1}
+        q_total = {'limit': 1}
+        
+        n_drug = self._fetch_count(q_drug)
+        n_event = self._fetch_count(q_event)
+        n_total = self._fetch_count(q_total)
+        
+        # 3. Calculate contingency table cells
+        b = n_drug - a
+        c = n_event - a
+        d = n_total - a - b - c
+        
+        if b <= 0 or c <= 0 or d <= 0:
+            return SignalStats(
+                drug=drug,
+                event=event,
+                report_count=a,
+                prr=None,
+                ror=None,
+                prr_lower_ci=None,
+                ror_lower_ci=None,
+                source_endpoint="openfda_legacy",
+                data_pulled_at=datetime.now(timezone.utc),
+                null_reason="Insufficient data for disproportionality calculation."
+            )
+            
+        # 4. Compute statistics
+        prr = (a / (a + b)) / (c / (c + d))
+        ror = (a / b) / (c / d)
+        
+        se_log_prr = math.sqrt(1/a - 1/(a+b) + 1/c - 1/(c+d))
+        prr_lower_ci = math.exp(math.log(prr) - 1.96 * se_log_prr)
+        
+        se_log_ror = math.sqrt(1/a + 1/b + 1/c + 1/d)
+        ror_lower_ci = math.exp(math.log(ror) - 1.96 * se_log_ror)
+        
+        return SignalStats(
+            drug=drug,
+            event=event,
+            report_count=a,
+            prr=prr,
+            ror=ror,
+            prr_lower_ci=prr_lower_ci,
+            ror_lower_ci=ror_lower_ci,
+            source_endpoint="openfda_legacy",
+            data_pulled_at=datetime.now(timezone.utc),
+            null_reason=None
         )
 
+    # Note: MockSignalSource below
 
 class MockSignalSource(SignalDataSource):
     """
