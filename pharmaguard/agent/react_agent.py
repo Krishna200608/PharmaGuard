@@ -29,6 +29,11 @@ from pharmaguard.utils.config_loader import load_config
 
 logger = logging.getLogger(__name__)
 
+def extract_text(content) -> str:
+    if isinstance(content, str): return content
+    if isinstance(content, list): return " ".join([part.get("text", "") for part in content if isinstance(part, dict) and "text" in part])
+    return str(content)
+
 class AgentState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], operator.add]
     run_id: str
@@ -54,17 +59,19 @@ class PharmaGuardAgent:
             sys_msg = SystemMessage(content=rubric)
             user_msg = HumanMessage(content=f"Abstracts:\n{json.dumps(abstracts)}\nPMIDs:\n{json.dumps(pmids)}")
             resp = self.llm.invoke([sys_msg, user_msg])
+            text_content = extract_text(resp.content)
             # Simplified mock parsing for now
-            if "Grade: A" in resp.content or "GRADE A" in resp.content.upper(): grade = "A"
-            elif "Grade: B" in resp.content or "GRADE B" in resp.content.upper(): grade = "B"
+            if "Grade: A" in text_content or "GRADE A" in text_content.upper(): grade = "A"
+            elif "Grade: B" in text_content or "GRADE B" in text_content.upper(): grade = "B"
             else: grade = "C"
-            return grade, pmids, resp.content
+            return grade, pmids, text_content
             
         def chembl_llm_fn(moa: str, event: str):
             prompt = f"Given MoA: {moa}, how plausible is {event}? Return HIGH, MODERATE, or LOW."
             resp = self.llm.invoke([HumanMessage(content=prompt)])
-            if "HIGH" in resp.content.upper(): return PlausibilityLevel.HIGH
-            if "MODERATE" in resp.content.upper(): return PlausibilityLevel.MODERATE
+            text_content = extract_text(resp.content)
+            if "HIGH" in text_content.upper(): return PlausibilityLevel.HIGH
+            if "MODERATE" in text_content.upper(): return PlausibilityLevel.MODERATE
             return PlausibilityLevel.LOW
 
         self.faers = FaersLegacySource(cache=self.cache)
@@ -150,9 +157,10 @@ class PharmaGuardAgent:
             resp = self.llm_with_tools.invoke(messages)
             
             # Log thought if text is present
-            if resp.content:
-                self.tlog.log_thought(resp.content)
-                state["agent_reasoning_trace"].append(resp.content)
+            text_content = extract_text(resp.content)
+            if text_content:
+                self.tlog.log_thought(text_content)
+                state["agent_reasoning_trace"].append(text_content)
             
             return {"messages": [resp], "agent_reasoning_trace": state["agent_reasoning_trace"]}
 
@@ -211,8 +219,9 @@ class PharmaGuardAgent:
         synth_prompt = self.prompt_loader.get("synthesis")
         messages = list(final_state["messages"]) + [HumanMessage(content=synth_prompt)]
         synth_resp = self.llm.invoke(messages)
-        self.tlog.log_final_answer(synth_resp.content)
-        final_state["agent_reasoning_trace"].append(synth_resp.content)
+        text_content = extract_text(synth_resp.content)
+        self.tlog.log_final_answer(text_content)
+        final_state["agent_reasoning_trace"].append(text_content)
         
         self.tlog.finalize()
         
