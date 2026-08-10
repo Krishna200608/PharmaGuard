@@ -1,95 +1,125 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "description": "Ground truth evaluation dataset for PharmaGuard triage orchestrator.",
   "pairs": [
     {
       "drug_canonical": "montelukast",
       "event_meddra_pt": "suicidal_ideation",
       "expected_escalation": "ESCALATE",
+      "category": "confirmed_positive",
+      "source_url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requires-boxed-warning-about-serious-mental-health-side-effects-asthma-and-allergy-drug",
       "rationale": "FDA Boxed Warning (2020) for serious neuropsychiatric events."
     },
     {
       "drug_canonical": "ciprofloxacin",
       "event_meddra_pt": "tendon_rupture",
       "expected_escalation": "ESCALATE",
+      "category": "confirmed_positive",
+      "source_url": "https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/fda-drug-safety-communication-fda-updates-warnings-many-fluoroquinolone-antibacterial-drugs",
       "rationale": "FDA Boxed Warning for fluoroquinolone-associated tendon rupture."
     },
     {
       "drug_canonical": "isotretinoin",
       "event_meddra_pt": "teratogenicity",
       "expected_escalation": "ESCALATE",
+      "category": "confirmed_positive",
+      "source_url": "https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/ipledge-risk-evaluation-and-mitigation-strategy-rems",
       "rationale": "FDA iPLEDGE REMS Program for severe birth defects."
     },
     {
       "drug_canonical": "clozapine",
       "event_meddra_pt": "agranulocytosis",
       "expected_escalation": "ESCALATE",
+      "category": "confirmed_positive",
+      "source_url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-modifies-clozapine-risk-evaluation-and-mitigation-strategy-rems",
       "rationale": "FDA Boxed Warning and REMS for severe neutropenia."
     },
     {
       "drug_canonical": "valproic_acid",
       "event_meddra_pt": "hepatotoxicity",
       "expected_escalation": "ESCALATE",
+      "category": "confirmed_positive",
+      "source_url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/018723s059,019680s046lbl.pdf",
       "rationale": "FDA Boxed Warning for fatal hepatotoxicity."
     },
     {
       "drug_canonical": "rosiglitazone",
       "event_meddra_pt": "myocardial_infarction",
       "expected_escalation": "ESCALATE",
+      "category": "confirmed_positive",
+      "source_url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-drug-safety-communication-fda-requires-removal-some-prescribing-and-dispensing-restrictions",
       "rationale": "FDA Avandia Safety Review and REMS history."
     },
     {
       "drug_canonical": "pembrolizumab",
       "event_meddra_pt": "pneumonitis",
       "expected_escalation": "ESCALATE",
+      "category": "confirmed_positive",
+      "source_url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/125514s096lbl.pdf",
       "rationale": "Immune-mediated adverse reaction warning in FDA label."
     },
     {
       "drug_canonical": "omeprazole",
       "event_meddra_pt": "myocardial_infarction",
       "expected_escalation": "DO_NOT_ESCALATE",
-      "rationale": "Dismissed in subsequent pharmacoepidemiology studies; confounding by indication."
+      "category": "genuine_negative_control",
+      "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6402741/",
+      "rationale": "Dismissed in subsequent pharmacoepidemiology studies proving confounding by indication for omeprazole monotherapy."
     },
     {
       "drug_canonical": "metformin",
       "event_meddra_pt": "hypoglycemia",
       "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "genuine_negative_control",
+      "source_url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020357s037s039,021202s021s023lbl.pdf",
       "rationale": "Label states hypoglycemia does not occur with metformin alone; FAERS reports are confounded by concomitant antidiabetic use."
     },
     {
       "drug_canonical": "atorvastatin",
       "event_meddra_pt": "dementia",
       "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "genuine_negative_control",
+      "source_url": "https://www.ahajournals.org/doi/10.1161/ATV.0000000000000073",
       "rationale": "No causal link established per subsequent AHA/ACC reviews despite early FDA safety communication."
     },
     {
-      "drug_canonical": "lisinopril",
-      "event_meddra_pt": "insomnia",
+      "drug_canonical": "saxagliptin",
+      "event_meddra_pt": "influenza",
       "expected_escalation": "DO_NOT_ESCALATE",
-      "rationale": "Pure background noise; high prescription rate and high background event rate without causal link."
+      "category": "genuine_negative_control",
+      "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8142203/",
+      "rationale": "Established negative control within the OMOP methodology framework."
     },
     {
       "drug_canonical": "amoxicillin",
       "event_meddra_pt": "tendon_rupture",
       "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "genuine_negative_control",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/34217117/",
       "rationale": "Active negative control in fluoroquinolone studies."
     },
     {
       "drug_canonical": "atorvastatin",
       "event_meddra_pt": "common_cold",
       "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "zero_report_edge_case",
+      "source_url": "N/A",
       "rationale": "Zero-report edge case (returns exactly 0 in openFDA exact matching)."
     },
     {
       "drug_canonical": "imatinib",
       "event_meddra_pt": "tooth_eruption",
       "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "zero_report_edge_case",
+      "source_url": "N/A",
       "rationale": "Zero-report edge case pairing adult oncology drug with pediatric developmental event."
     },
     {
       "drug_canonical": "adalimumab",
       "event_meddra_pt": "frostbite",
       "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "zero_report_edge_case",
+      "source_url": "N/A",
       "rationale": "Zero-report edge case pairing immunosuppressant with environmental injury."
     }
   ]
