@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "pilot-run-1-metformin-lactic_acidosis",
-  "timestamp": "2026-08-10T05:02:04.115652Z",
+  "timestamp": "2026-08-10T05:15:14.742230Z",
   "prompts_version": "v1.0",
   "drug": "metformin",
   "event": "lactic_acidosis",
@@ -20,7 +20,7 @@
   },
   "mechanism": {
     "chembl_id": "CHEMBL1431",
-    "moa": "AMPK activator — inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
+    "moa": "AMPK activator â€” inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
     "biological_plausibility": "HIGH",
     "plausibility_score": 1.0,
     "plausibility_source": "human_curated",

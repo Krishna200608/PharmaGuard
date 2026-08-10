@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "pilot-run-2-atorvastatin-common_cold",
-  "timestamp": "2026-08-10T05:02:11.635908Z",
+  "timestamp": "2026-08-10T05:15:20.662311Z",
   "prompts_version": "v1.0",
   "drug": "atorvastatin",
   "event": "common_cold",
@@ -20,7 +20,7 @@
   },
   "mechanism": {
     "chembl_id": "CHEMBL1582",
-    "moa": "HMG-CoA reductase inhibitor — competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
+    "moa": "HMG-CoA reductase inhibitor â€” competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
     "biological_plausibility": "LOW",
     "plausibility_score": 0.0,
     "plausibility_source": "human_curated",

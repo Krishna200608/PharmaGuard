@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "pilot-run-0-semaglutide-pancreatitis",
-  "timestamp": "2026-08-10T05:01:47.956170Z",
+  "timestamp": "2026-08-10T05:15:08.464275Z",
   "prompts_version": "v1.0",
   "drug": "semaglutide",
   "event": "pancreatitis",
@@ -20,7 +20,7 @@
   },
   "mechanism": {
     "chembl_id": "CHEMBL3307925",
-    "moa": "GLP-1 receptor agonist — stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
+    "moa": "GLP-1 receptor agonist â€” stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
     "biological_plausibility": "HIGH",
     "plausibility_score": 1.0,
     "plausibility_source": "human_curated",
