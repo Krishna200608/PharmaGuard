@@ -55,7 +55,7 @@ def run_pilot():
             # Save the final report
             output_dir = project_root / "outputs"
             output_dir.mkdir(exist_ok=True)
-            with open(output_dir / f"{run_id}_report.json", "w") as rf:
+            with open(output_dir / f"{run_id}_report.json", "w", encoding="utf-8") as rf:
                 rf.write(report.model_dump_json(indent=2))
         except Exception as e:
             logger.error(f"Error running agent on {drug} + {event}: {e}")

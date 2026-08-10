@@ -23,11 +23,23 @@ from pharmaguard.tools.pubmed_tool import PubMedTool
 from pharmaguard.tools.cache import ToolCache
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
-    compute_prr_score, compute_confidence, derive_escalation, SignalStrength, EvidenceGrade, PlausibilityLevel, EscalationDecision, PlausibilitySource
+    SignalStrength, EscalationDecision, PlausibilityLevel,
+    compute_prr_score, compute_confidence, derive_escalation, EvidenceGrade, PlausibilitySource
 )
 from pharmaguard.utils.config_loader import load_config
 
 logger = logging.getLogger(__name__)
+
+from pydantic import BaseModel, Field
+from typing import Literal
+
+class GradeOutput(BaseModel):
+    grade: Literal["A", "B", "C"] = Field(description="The evidence grade based on the rubric. Must be A, B, or C.")
+    explanation: str = Field(description="Explanation for why this grade was assigned.")
+
+class PlausibilityLLMOutput(BaseModel):
+    plausibility: Literal["HIGH", "MODERATE", "LOW"] = Field(description="The plausibility level. Must be HIGH, MODERATE, or LOW.")
+    explanation: str = Field(description="Explanation for why this plausibility was assigned.")
 
 def extract_text(content) -> str:
     if isinstance(content, str): return content
@@ -58,20 +70,18 @@ class PharmaGuardAgent:
         def pubmed_llm_fn(abstracts: list[str], pmids: list[str], rubric: str):
             sys_msg = SystemMessage(content=rubric)
             user_msg = HumanMessage(content=f"Abstracts:\n{json.dumps(abstracts)}\nPMIDs:\n{json.dumps(pmids)}")
-            resp = self.llm.invoke([sys_msg, user_msg])
-            text_content = extract_text(resp.content)
-            # Simplified mock parsing for now
-            if "Grade: A" in text_content or "GRADE A" in text_content.upper(): grade = "A"
-            elif "Grade: B" in text_content or "GRADE B" in text_content.upper(): grade = "B"
-            else: grade = "C"
-            return grade, pmids, text_content
+            structured_llm = self.llm.with_structured_output(GradeOutput)
+            result = structured_llm.invoke([sys_msg, user_msg])
+            text_content = f"Final Grade: {result.grade}\nExplanation: {result.explanation}"
+            return result.grade, pmids, text_content
             
         def chembl_llm_fn(moa: str, event: str):
-            prompt = f"Given MoA: {moa}, how plausible is {event}? Return HIGH, MODERATE, or LOW."
-            resp = self.llm.invoke([HumanMessage(content=prompt)])
-            text_content = extract_text(resp.content)
-            if "HIGH" in text_content.upper(): return PlausibilityLevel.HIGH
-            if "MODERATE" in text_content.upper(): return PlausibilityLevel.MODERATE
+            prompt = f"Given MoA: {moa}, how plausible is {event}? Explain first, then assign HIGH, MODERATE, or LOW."
+            structured_llm = self.llm.with_structured_output(PlausibilityLLMOutput)
+            result = structured_llm.invoke([HumanMessage(content=prompt)])
+            
+            if result.plausibility == "HIGH": return PlausibilityLevel.HIGH
+            if result.plausibility == "MODERATE": return PlausibilityLevel.MODERATE
             return PlausibilityLevel.LOW
 
         self.faers = FaersLegacySource(cache=self.cache)
