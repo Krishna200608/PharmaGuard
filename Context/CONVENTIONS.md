@@ -23,5 +23,5 @@ Last updated: 2026-08-10 | Sprint: Sprint 1 (Transitioning to Sprint 2) | Update
 
 ## Team Ownership Rules
 - **Krishna (Core Technical)**: Owns ~70-80% of core framework engineering, which includes agent logic, orchestration, configuration loops, and tool wrapper architecture.
-- **Teammate 1 (Data & Baseline)**: Owns ground-truth curation, extending data/plausibility_ratings.json, and creating single-shot baseline functionality.
+- **Teammate 1 (Naitik Jain - Data & Baseline)**: Owns ground-truth curation, extending data/plausibility_ratings.json, and creating single-shot baseline functionality.
 - **Teammate 2 (Evaluation & Docs)**: Owns the evaluation harness (specifically evaluator.py) to parse TriageReport outputs using strict/lenient evaluation logic as defined in NOTES.md.
