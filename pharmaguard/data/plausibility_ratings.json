@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "description": "Per (drug, event) biological plausibility ratings. Owner: Naitik Jain (IIB2023036). Do not edit without consulting lead developer (Krishna Sikheriya). Key format: '{drug_canonical}::{event_meddra_pt}' — lowercase canonical drug name from chembl_lookup.json, MedDRA Preferred Term in snake_case.",
+  "description": "Per (drug, event) biological plausibility ratings. (Historical note: Originally owned by Naitik Jain. As of Sprint 3, Krishna Sikheriya is the sole developer for all curation and evaluation). Key format: '{drug_canonical}::{event_meddra_pt}' — lowercase canonical drug name from chembl_lookup.json, MedDRA Preferred Term in snake_case.",
   "source_policy": "HUMAN_CURATED — rubric defined in prompts/evidence_grading_rubric.txt. Entries must include ChEMBL ID reference and written rationale.",
   "entries": {
     "semaglutide::pancreatitis": {

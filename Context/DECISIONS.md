@@ -7,7 +7,7 @@ Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravit
 **Why:** Reliability tradeoff; fuzzy dynamic matching via ChEMBL API is error-prone, and a static map ensures guaranteed agent stability on the limited target evaluation set.
 
 ## 2. Plausibility Default is Human-Curated
-**Decision:** Plausibility levels default to human-curated labels in data/plausibility_ratings.json. (Note explicitly: Naitik Jain = Teammate 1, data curation/plausibility ratings owner).
+**Decision:** Plausibility levels default to human-curated labels in data/plausibility_ratings.json. (Historical note: Initially assigned to Naitik Jain. As of Sprint 3, all further curation, evaluation, and documentation work is solely Krishna's responsibility).
 **Why:** Agent-derived plausibility is kept as a fallback/ablation mode via config.yaml (plausibility.source = force_agent). This guarantees verifiable reference baselines without burning unnecessary agent logic for the main pipeline.
 
 ## 3. FAERS Caching Finalization

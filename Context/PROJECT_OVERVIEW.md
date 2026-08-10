@@ -1,6 +1,6 @@
 > **SESSION BOOTSTRAP**: At the beginning of every session, immediately read all 5 files in the `Context/` folder (`PROJECT_OVERVIEW.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `PROGRESS.md`, `CONVENTIONS.md`). Do not begin execution until you have read and internalized the current ground truth.
 
-Last updated: 2026-08-10 | Sprint: Sprint 1 (Transitioning to Sprint 2) | Updated by: Antigravity
+Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravity
 
 # PROJECT OVERVIEW
 
@@ -10,7 +10,7 @@ PharmaGuard is a ReAct-based pharmacovigilance triage agent designed to evaluate
 - Mechanism-of-action lookup from ChEMBL.
 - Evidence grading from PubMed literature.
 
-The project is a 7th-semester academic capstone by a team of 3 students.
+The project is a 7th-semester academic capstone owned and developed entirely by a single student (Krishna).
 
 ## Target Scope
 - **Evaluation Set**: Mid-semester demo targets 8-10 verified drug-event pairs. End-semester targets 15-20 verified pairs with baseline comparisons.
