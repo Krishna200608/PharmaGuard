@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "description": "Ground truth evaluation dataset for PharmaGuard triage orchestrator.",
+  "pairs": [
+    {
+      "drug_canonical": "montelukast",
+      "event_meddra_pt": "suicidal_ideation",
+      "expected_escalation": "ESCALATE",
+      "rationale": "FDA Boxed Warning (2020) for serious neuropsychiatric events."
+    },
+    {
+      "drug_canonical": "ciprofloxacin",
+      "event_meddra_pt": "tendon_rupture",
+      "expected_escalation": "ESCALATE",
+      "rationale": "FDA Boxed Warning for fluoroquinolone-associated tendon rupture."
+    },
+    {
+      "drug_canonical": "isotretinoin",
+      "event_meddra_pt": "teratogenicity",
+      "expected_escalation": "ESCALATE",
+      "rationale": "FDA iPLEDGE REMS Program for severe birth defects."
+    },
+    {
+      "drug_canonical": "clozapine",
+      "event_meddra_pt": "agranulocytosis",
+      "expected_escalation": "ESCALATE",
+      "rationale": "FDA Boxed Warning and REMS for severe neutropenia."
+    },
+    {
+      "drug_canonical": "valproic_acid",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "rationale": "FDA Boxed Warning for fatal hepatotoxicity."
+    },
+    {
+      "drug_canonical": "rosiglitazone",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "rationale": "FDA Avandia Safety Review and REMS history."
+    },
+    {
+      "drug_canonical": "pembrolizumab",
+      "event_meddra_pt": "pneumonitis",
+      "expected_escalation": "ESCALATE",
+      "rationale": "Immune-mediated adverse reaction warning in FDA label."
+    },
+    {
+      "drug_canonical": "omeprazole",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "Dismissed in subsequent pharmacoepidemiology studies; confounding by indication."
+    },
+    {
+      "drug_canonical": "metformin",
+      "event_meddra_pt": "hypoglycemia",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "Label states hypoglycemia does not occur with metformin alone; FAERS reports are confounded by concomitant antidiabetic use."
+    },
+    {
+      "drug_canonical": "atorvastatin",
+      "event_meddra_pt": "dementia",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "No causal link established per subsequent AHA/ACC reviews despite early FDA safety communication."
+    },
+    {
+      "drug_canonical": "lisinopril",
+      "event_meddra_pt": "insomnia",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "Pure background noise; high prescription rate and high background event rate without causal link."
+    },
+    {
+      "drug_canonical": "amoxicillin",
+      "event_meddra_pt": "tendon_rupture",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "Active negative control in fluoroquinolone studies."
+    },
+    {
+      "drug_canonical": "atorvastatin",
+      "event_meddra_pt": "common_cold",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "Zero-report edge case (returns exactly 0 in openFDA exact matching)."
+    },
+    {
+      "drug_canonical": "imatinib",
+      "event_meddra_pt": "tooth_eruption",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "Zero-report edge case pairing adult oncology drug with pediatric developmental event."
+    },
+    {
+      "drug_canonical": "adalimumab",
+      "event_meddra_pt": "frostbite",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "rationale": "Zero-report edge case pairing immunosuppressant with environmental injury."
+    }
+  ]
+}

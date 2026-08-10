@@ -1,0 +1,12 @@
+PharmaGuard Evaluation Report
+Pairs evaluated: 1 / 15
+
+Strict Metrics:
+TP: 0, FP: 0, TN: 1, FN: 0
+Precision=0.000, Recall=0.000, Specificity=1.000, F1=0.000
+
+Lenient Metrics:
+TP: 0, FP: 0, TN: 1, FN: 0
+Precision=0.000, Recall=0.000, Specificity=1.000, F1=0.000
+
+Over-Caution Rate: 0.0% (0/1)
