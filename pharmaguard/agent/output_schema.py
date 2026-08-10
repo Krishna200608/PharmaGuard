@@ -150,10 +150,21 @@ def derive_escalation(confidence: float, signal_strength: SignalStrength) -> Esc
       confidence ≥ 0.35                                     → MONITOR
       otherwise                                             → DO_NOT_ESCALATE
     """
+    # Gate 1: NO_SIGNAL hard-stop. Must run before confidence checks.
+    # Rationale: literature + plausibility are corroborating inputs, not primary signals.
+    # A zero-report pair (confidence achievable = 0.60 from grade-A + HIGH plausibility)
+    # must not escalate — it is a hypothesis, not a verified disproportionality signal.
+    if signal_strength == SignalStrength.NO_SIGNAL:
+        return EscalationDecision.DO_NOT_ESCALATE
+
+    # Gate 2: strong signal + high confidence -> escalate
     if confidence >= 0.70 and signal_strength in (SignalStrength.STRONG, SignalStrength.MODERATE):
         return EscalationDecision.ESCALATE
+
+    # Gate 3: mid-range confidence -> monitor
     if confidence >= 0.35:
         return EscalationDecision.MONITOR
+
     return EscalationDecision.DO_NOT_ESCALATE
 
 

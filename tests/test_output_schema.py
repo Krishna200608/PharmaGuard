@@ -153,3 +153,32 @@ class TestDeriveEscalation:
     def test_boundary_confidence_just_below_monitor(self):
         decision = derive_escalation(0.34, SignalStrength.WEAK)
         assert decision == EscalationDecision.DO_NOT_ESCALATE
+
+
+    # ------------------------------------------------------------------
+    # Regression tests for NO_SIGNAL hard gate (bug found post-deploy)
+    # ------------------------------------------------------------------
+
+    def test_no_signal_mid_confidence_does_not_monitor(self):
+        """
+        Regression: confidence=0.60 + NO_SIGNAL must be DO_NOT_ESCALATE, not MONITOR.
+
+        Exact failure case: zero-report FAERS pair with grade-A literature and HIGH
+        plausibility yields confidence = 0.40*0 + 0.40*1.0 + 0.20*1.0 = 0.60.
+        Old code hit the confidence >= 0.35 branch and returned MONITOR.
+        The NO_SIGNAL gate must fire first, before any confidence check.
+        """
+        conf = compute_confidence(0.0, "A", "HIGH")   # PRR_score=0, grade=A, plaus=HIGH
+        assert conf == pytest.approx(0.60, abs=1e-3)  # confirm 0.60 is reproducible
+        decision = derive_escalation(conf, SignalStrength.NO_SIGNAL)
+        assert decision == EscalationDecision.DO_NOT_ESCALATE
+
+    def test_no_signal_high_confidence_does_not_escalate(self):
+        """Regression: confidence=1.0 + NO_SIGNAL must still be DO_NOT_ESCALATE."""
+        decision = derive_escalation(1.0, SignalStrength.NO_SIGNAL)
+        assert decision == EscalationDecision.DO_NOT_ESCALATE
+
+    def test_no_signal_zero_confidence_does_not_escalate(self):
+        """Regression: confidence=0.0 + NO_SIGNAL -- gate fires, not coincidental fallthrough."""
+        decision = derive_escalation(0.0, SignalStrength.NO_SIGNAL)
+        assert decision == EscalationDecision.DO_NOT_ESCALATE
