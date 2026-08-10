@@ -22,15 +22,21 @@ Last updated: 2026-08-10 | Sprint: Sprint 1 (Transitioning to Sprint 2) | Update
 **Decision:** confidence >= 0.70 (ESCALATE) and confidence >= 0.35 (MONITOR).
 **Why:** Set arbitrarily during scaffolding to allow the pipeline to function. Explicitly noted to be recalibrated once the ground-truth set is evaluated.
 
-## 6. PubMed Grading via LLM, Not Keywords
+## 6. Caching Layer & Rate Limiting
+- **Decision:** All external tool calls (FAERS, PubMed, ChEMBL) must pass through `ToolCache` (disk-backed using `diskcache`).
+- **Rationale:** The system is heavily constrained by public API rate limits (e.g. NCBI's 3 req/s without key, 10 req/s with key) and free-tier LLM rate limits. Caching makes development iteration viable.
+- **Decision:** Cache keys for LLM grading and plausibility derivation must include both `prompts_version` and an internal `CACHE_SCHEMA_VERSION`.
+- **Rationale:** Changing the rubric (text) invalidates via `prompts_version`. Changing the parsing logic/schema (code) invalidates via `CACHE_SCHEMA_VERSION`. This guarantees stale outputs are never inadvertently served after code refactors.
+
+## 7. PubMed Grading via LLM, Not Keywords
 **Decision:** The PubMed tool routes evidence grading through an LLM evaluation instead of string substring matching (e.g. searching for " or ").
 **Why:** String matching was highly adversarial and triggered false positives (e.g. general English words). LLM evaluation ensures semantic checking based on the rubric, cached efficiently against the prompt's version.
 
-## 7. ReAct Fallback Pipeline
+## 8. ReAct Fallback Pipeline
 **Decision:** A fallback fixed-order pipeline must be implemented alongside ReAct.
 **Why:** If the LangGraph ReAct model becomes unreliable or flaky during mid-semester testing, a deterministic sequence guarantees a working demo.
 
-## 8. LangGraph ReAct Agent Guardrails
+## 9. LangGraph ReAct Agent Guardrails
 **Decision:** The ReAct loop enforces a strict recursion_limit (e.g. 15 iterations) and defaults to safe placeholder values (UNKNOWN/C/None) if the agent terminates early without properly fetching data from all tools.
 **Why:** Prevents runaway agent iterations draining the LLM API quota, fulfilling the robustness requirement while preserving the fallback gracefully.
 

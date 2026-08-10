@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "pilot-run-1-metformin-lactic_acidosis",
-  "timestamp": "2026-08-10T05:15:14.742230Z",
+  "timestamp": "2026-08-10T11:16:20.603626Z",
   "prompts_version": "v1.0",
   "drug": "metformin",
   "event": "lactic_acidosis",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-10T04:59:08.095176Z",
+    "data_pulled_at": "2026-08-10T11:16:07.328095Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -31,8 +31,8 @@
   "literature": {
     "pubmed_query": "\"metformin\"[tiab] AND \"lactic_acidosis\"[tiab] AND \"adverse\"[tiab]",
     "abstracts_retrieved": 5,
-    "evidence_grade": "A",
-    "grade_score": 1.0,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
     "supporting_pmids": [
       "42234904",
       "42178010",
@@ -40,17 +40,17 @@
       "42147805",
       "42075647"
     ],
-    "evidence_summary": "Based on the provided Evidence Grading Rubric (PharmaGuard v1.0), here is the evaluation of the evidence regarding the association between **Metformin and Lactic Acidosis**:\n\n### Evidence Grading Analysis\n\n*   **Abstract 1 (PMID: 42234904):** Mentions \"risk of lactic acidosis\" in the context of CKD. This qualifies as **Grade B** (contains \"risk of\" and \"adverse events\").\n*   **Abstract 2 (PMID: 42178010):** Discusses \"metformin-associated lactic acidosis (MALA)\" as a \"serious adverse event.\" This qualifies as **Grade B** (contains \"adverse event\").\n*   **Abstract 3 (PMID: 42164410):** Describes a \"series of four critically ill patients... who presented with severe MALA.\" This qualifies as **Grade B** (contains \"case report\" / \"we report\" / \"presented with\").\n*   **Abstract 4 (PMID: 42147805):** Reports a case of a patient \"developing... metformin-induced lactic acidosis.\" This qualifies as **Grade B** (contains \"we report\" / \"adverse events\").\n*   **Abstract 5 (PMID: N/A):** Empty/No data.\n\n### Final Grade Determination\n*   **Grade A Criteria:** Requires two or more abstracts with *statistically significant* language (e.g., p-values, confidence intervals, odds ratios). None of the provided abstracts contain this specific statistical language.\n*   **Grade B Criteria:** Requires one or more abstracts with case report/association language. Multiple abstracts (1, 2, 3, and 4) meet this criteria by describing the association, reporting cases, and identifying the condition as an adverse event.\n\n**Final Grade: B (Limited evidence)**"
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple mentions of adverse events (e.g., 'metformin-associated lactic acidosis', 'gastrointestinal adverse reactions', 'dehydration') and include case reports describing these associations. However, none of the abstracts provide statistical metrics (such as p-values < 0.05, confidence intervals excluding 1.0, or odds ratios) required to meet the criteria for Grade A."
   },
   "triage": {
     "signal_strength": "NO_SIGNAL",
-    "evidence_grade": "A",
+    "evidence_grade": "B",
     "escalation": "DO_NOT_ESCALATE",
-    "confidence": 0.6,
+    "confidence": 0.4,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"triage_report\": {\n    \"drug\": \"metformin\",\n    \"event\": \"lactic_acidosis\",\n    \"signal_assessment\": {\n      \"faers_disproportionality\": {\n        \"report_count\": 0,\n        \"status\": \"No signal detected in FAERS (zero co-occurrences).\"\n      },\n      \"biological_plausibility\": {\n        \"score\": \"HIGH\",\n        \"rationale\": \"Metformin inhibits mitochondrial complex I, impairing lactate oxidation in hepatocytes. In patients with renal impairment, accumulation leads to elevated lactate levels. Well-established pharmacological mechanism.\"\n      },\n      \"literature_evidence\": {\n        \"grade\": \"B\",\n        \"summary\": \"Multiple case reports and clinical literature confirm the association between metformin and lactic acidosis (MALA), particularly in patients with renal impairment.\"\n      }\n    },\n    \"recommendation\": {\n      \"action\": \"MONITOR\",\n      \"rationale\": \"While FAERS data shows zero co-occurrences (likely due to data source limitations or reporting patterns), the biological plausibility is high and the literature evidence is well-established (Grade B). This is a known, labeled adverse event for metformin. No new regulatory escalation is required as this is already a recognized safety concern.\"\n    }\n  }\n}\n```",
-      "```json\n{\n  \"drug\": \"metformin\",\n  \"event\": \"lactic_acidosis\",\n  \"synthesis\": {\n    \"faers_analysis\": \"The FAERS database search returned zero co-occurrences. This result is likely an artifact of the specific data source query or reporting patterns, as metformin-associated lactic acidosis (MALA) is a well-documented clinical entity.\",\n    \"biological_plausibility\": \"High. Metformin acts as an inhibitor of mitochondrial complex I, which impairs the oxidation of lactate in the liver. This mechanism is well-established, particularly in the context of drug accumulation due to renal impairment.\",\n    \"literature_evidence\": \"Grade B. Multiple case reports and clinical studies consistently describe MALA as a serious adverse event. The literature confirms the clinical relevance of this association, especially in vulnerable patient populations.\",\n    \"final_triage_recommendation\": \"MONITOR\",\n    \"rationale\": \"Although the FAERS query yielded no results, the high biological plausibility and consistent literature evidence (Grade B) confirm that this is a known, clinically significant safety concern. Because this is already a recognized and labeled adverse event for metformin, no new regulatory escalation is required. Clinical vigilance remains the appropriate standard of care.\"\n  }\n}\n```"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"metformin\",\n  \"event\": \"lactic_acidosis\",\n  \"faers_signal\": {\n    \"report_count\": 0,\n    \"prr\": null,\n    \"ror\": null,\n    \"status\": \"No signal detected in FAERS\"\n  },\n  \"biological_plausibility\": {\n    \"score\": \"HIGH\",\n    \"mechanism\": \"AMPK activator — inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.\",\n    \"rationale\": \"Metformin inhibits mitochondrial complex I, impairing lactate oxidation in hepatocytes. In patients with renal impairment, accumulation leads to elevated lactate levels. Well-established pharmacological mechanism.\"\n  },\n  \"literature_evidence\": {\n    \"grade\": \"B\",\n    \"summary\": \"The retrieved abstracts contain multiple mentions of adverse events (e.g., 'metformin-associated lactic acidosis', 'gastrointestinal adverse reactions', 'dehydration') and include case reports describing these associations. However, none of the abstracts provide statistical metrics (such as p-values < 0.05, confidence intervals excluding 1.0, or odds ratios) required to meet the criteria for Grade A.\",\n    \"pmids\": [\n      \"42234904\",\n      \"42178010\",\n      \"42164410\",\n      \"42147805\",\n      \"42075647\"\n    ]\n  },\n  \"triage_recommendation\": {\n    \"action\": \"MONITOR\",\n    \"rationale\": \"While FAERS data shows no current signal (likely due to reporting bias or established knowledge), the biological plausibility is high and well-documented in literature. Metformin-associated lactic acidosis is a known, albeit rare, clinical entity. No immediate regulatory escalation is required as this is a well-characterized risk already reflected in product labeling.\"\n  }\n}\n```",
+      "```json\n{\n  \"synthesis\": {\n    \"faers_analysis\": \"The FAERS database returned zero co-occurrences for metformin and lactic acidosis. This is likely due to the fact that metformin-associated lactic acidosis (MALA) is a well-established, historical clinical risk that is already extensively documented in medical literature and product labeling, leading to a potential 'reporting saturation' or lack of new signal generation in spontaneous reporting systems.\",\n    \"biological_plausibility\": \"There is high biological plausibility. Metformin acts as an AMPK activator and inhibits mitochondrial complex I. This inhibition impairs the oxidation of lactate in hepatocytes, which, particularly in the setting of renal impairment or drug accumulation, can lead to elevated systemic lactate levels and subsequent lactic acidosis.\",\n    \"literature_evidence\": \"Literature consistently supports the association between metformin and lactic acidosis. Multiple case reports and clinical reviews confirm the existence of 'metformin-associated lactic acidosis' (MALA). While the evidence is robust (Grade B), it lacks the statistical metrics required for Grade A, as the condition is rare and typically studied through observational case series rather than large-scale randomized controlled trials.\",\n    \"final_triage_recommendation\": \"MONITOR\",\n    \"rationale\": \"The association between metformin and lactic acidosis is a well-characterized, clinically recognized adverse event. The high biological plausibility and consistent literature support confirm the risk, even in the absence of a current FAERS signal. Because this risk is already integrated into clinical practice guidelines and product labeling, no new regulatory escalation is required. Continued monitoring is appropriate to ensure that clinical awareness remains high, particularly regarding contraindications in patients with renal impairment.\"\n  }\n}\n```"
     ]
   }
 }

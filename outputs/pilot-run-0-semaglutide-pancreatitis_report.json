@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "pilot-run-0-semaglutide-pancreatitis",
-  "timestamp": "2026-08-10T05:15:08.464275Z",
+  "timestamp": "2026-08-10T11:16:01.750999Z",
   "prompts_version": "v1.0",
   "drug": "semaglutide",
   "event": "pancreatitis",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 9.569643373695541,
     "report_count": 305,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-10T04:58:52.562133Z",
+    "data_pulled_at": "2026-08-10T11:15:43.313786Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -31,8 +31,8 @@
   "literature": {
     "pubmed_query": "\"semaglutide\"[tiab] AND \"pancreatitis\"[tiab] AND \"adverse\"[tiab]",
     "abstracts_retrieved": 5,
-    "evidence_grade": "A",
-    "grade_score": 1.0,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
     "supporting_pmids": [
       "42562129",
       "42536519",
@@ -40,17 +40,17 @@
       "42356493",
       "42215399"
     ],
-    "evidence_summary": "Based on the provided abstracts and the **PharmaGuard v1.0 Evidence Grading Rubric**, here is the evaluation:\n\n### Analysis of Abstracts:\n1.  **Abstract 42562129:** Mentions \"adverse effects,\" \"side effects,\" and \"dermatologic adverse events.\" This qualifies as **Grade B** language.\n2.  **Abstract 42536519:** Discusses efficacy and safety but does not explicitly list or describe specific adverse events or statistical associations. This does not meet the criteria for Grade A or B.\n3.  **Abstract 42414781:** Mentions \"side effects\" and \"adverse events.\" This qualifies as **Grade B** language.\n4.  **Abstract 42356493:** Empty string. No evidence.\n5.  **Abstract 42215399:** Mentions \"thromboembolic events risk reduction.\" This does not meet the criteria for Grade A or B.\n\n### Grading Determination:\n*   **Grade A Criteria:** Requires two or more abstracts with statistically significant association language (e.g., \"p < 0.05,\" \"95% CI,\" \"odds ratio\"). None of the provided abstracts contain this specific statistical language.\n*   **Grade B Criteria:** Requires one or more abstracts with case report/association language (e.g., \"adverse event,\" \"side effect\"). Abstracts **42562129** and **42414781** both contain this language.\n\n**Final Grade: GRADE B (Limited evidence)**\n\n**Reasoning:** While the retrieved data contains multiple mentions of \"adverse events\" and \"side effects\" (meeting the criteria for Grade B), there is a lack of explicit statistical reporting (such as p-values or confidence intervals) required to elevate the evidence to Grade A."
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple mentions of 'adverse effects', 'side effects', and 'adverse events' (e.g., in abstracts 42562129 and 42414781), which meet the criteria for Grade B. However, none of the abstracts provide statistical association language such as p-values, confidence intervals, or odds ratios, failing to meet the threshold for Grade A."
   },
   "triage": {
     "signal_strength": "STRONG",
-    "evidence_grade": "A",
+    "evidence_grade": "B",
     "escalation": "ESCALATE",
-    "confidence": 1.0,
+    "confidence": 0.8,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"semaglutide\",\n  \"event\": \"pancreatitis\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for pancreatitis associated with semaglutide is strong and warrants regulatory escalation. FAERS data shows a significant disproportionality (PRR: 10.34, ROR: 10.73), indicating a high reporting frequency compared to background. Biological plausibility is high, as GLP-1 receptor agonists are known to stimulate pancreatic exocrine secretion and increase ductal pressure. PubMed evidence is graded as B, confirming clinical recognition of the adverse event profile in literature. Given the combination of high statistical signal and established biological mechanism, this pair requires formal regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 10.34,\n    \"faers_ror\": 10.73,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```",
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"semaglutide\",\n  \"event\": \"pancreatitis\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The evaluation of semaglutide and pancreatitis reveals a strong safety signal. FAERS data demonstrates significant disproportionality (PRR: 10.34, ROR: 10.73), far exceeding the threshold for potential concern. This is supported by high biological plausibility, as GLP-1 receptor agonists are known to stimulate pancreatic exocrine secretion and increase pancreatic ductal pressure. PubMed evidence, while currently graded as B due to a lack of explicit statistical reporting in the retrieved abstracts, confirms the clinical recognition of this adverse event. The convergence of a high statistical signal and a well-documented mechanistic pathway necessitates formal regulatory escalation.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 10.34,\n    \"faers_ror\": 10.73,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"semaglutide\",\n  \"event\": \"pancreatitis\",\n  \"triage_report\": {\n    \"faers_signal\": {\n      \"prr\": 10.34,\n      \"ror\": 10.73,\n      \"report_count\": 305,\n      \"interpretation\": \"Strong disproportionality signal detected.\"\n    },\n    \"biological_plausibility\": {\n      \"score\": \"HIGH\",\n      \"rationale\": \"GLP-1 receptor agonism stimulates pancreatic exocrine secretion and may increase pancreatic ductal pressure, providing a clear mechanistic pathway.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Multiple clinical reports and reviews document the association between semaglutide and pancreatitis, though high-level statistical evidence (e.g., meta-analysis with specific odds ratios) is not explicitly detailed in the retrieved abstracts.\"\n    },\n    \"recommendation\": {\n      \"status\": \"ESCALATE\",\n      \"justification\": \"The combination of a strong FAERS disproportionality signal (PRR > 10), high biological plausibility, and supporting clinical literature warrants immediate regulatory review and potential label update or safety communication.\"\n    }\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"semaglutide\",\n  \"event\": \"pancreatitis\",\n  \"triage_recommendation\": {\n    \"confidence_level\": \"HIGH\",\n    \"escalation_status\": \"ESCALATE\",\n    \"rationale\": \"The evaluation reveals a strong, consistent signal across all data sources. The FAERS analysis shows a significant disproportionality signal (PRR 10.34, ROR 10.73), indicating that reports of pancreatitis are substantially higher than expected for this drug. This is supported by high biological plausibility, as GLP-1 receptor agonists are known to stimulate pancreatic exocrine secretion and increase ductal pressure. Clinical literature (Grade B) further corroborates these findings through documented adverse event reports. Given the severity of the event and the strength of the combined evidence, immediate regulatory review and clinical monitoring are required.\"\n  }\n}\n```"
     ]
   }
 }

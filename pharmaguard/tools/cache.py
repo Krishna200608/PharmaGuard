@@ -33,6 +33,9 @@ DEFAULT_CACHE_DIR = Path(__file__).resolve().parents[2] / ".cache" / "pharmaguar
 # Default TTL: 7 days (FAERS data is stable; PubMed abstracts don't change)
 DEFAULT_TTL_SECONDS: int = 7 * 24 * 60 * 60
 
+# Internal schema version to auto-invalidate cached logic/parsing outputs.
+# Bump this whenever the underlying parsing or schema logic changes.
+CACHE_SCHEMA_VERSION = "v2"
 
 class ToolCache:
     """
@@ -77,18 +80,19 @@ class ToolCache:
     def pubmed_grade_key(query: str, prompts_version: str) -> str:
         """Cache the LLM grading step separately to avoid re-fetching abstracts."""
         digest = hashlib.sha256(query.encode()).hexdigest()[:16]
-        return f"pubmed_grade::{digest}::{prompts_version}"
+        return f"pubmed_grade::{digest}::{prompts_version}::{CACHE_SCHEMA_VERSION}"
 
     @staticmethod
     def plausibility_key(drug: str, event: str, prompts_version: str) -> str:
         """
-        Includes prompts_version so rubric updates auto-invalidate cached
+        Includes prompts_version and CACHE_SCHEMA_VERSION so rubric/logic updates auto-invalidate cached
         agent-derived plausibility scores without touching FAERS/PubMed cache.
         """
         return (
             f"plausibility::{drug.lower().strip()}"
             f"::{event.lower().strip()}"
             f"::{prompts_version}"
+            f"::{CACHE_SCHEMA_VERSION}"
         )
 
     # ------------------------------------------------------------------
