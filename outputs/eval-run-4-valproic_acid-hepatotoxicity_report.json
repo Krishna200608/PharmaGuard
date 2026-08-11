@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
-  "timestamp": "2026-08-11T05:53:48.087628Z",
+  "timestamp": "2026-08-11T06:08:11.241371Z",
   "prompts_version": "v1.0",
   "drug": "valproic_acid",
   "event": "hepatotoxicity",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 4.7678910815949305,
     "report_count": 189,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:53:46.480325Z",
+    "data_pulled_at": "2026-08-11T06:08:09.598962Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -21,10 +21,10 @@
   "mechanism": {
     "chembl_id": null,
     "moa": null,
-    "biological_plausibility": "LOW",
-    "plausibility_score": 0.0,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'Succinate semialdehyde dehydrogenase inhibitor'",
+    "plausibility_rationale": "Agent-derived from MoA: 'Histone deacetylase inhibitor; Succinate semialdehyde dehydrogenase inhibitor; GABA transaminase inhibitor; alters mitochondrial beta-oxidation and causes mitochondrial dysfunction.'",
     "curated_reference": null,
     "plausibility_agreement": null
   },
@@ -45,8 +45,8 @@
   "triage": {
     "signal_strength": "STRONG",
     "evidence_grade": "B",
-    "escalation": "MONITOR",
-    "confidence": 0.6,
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
       "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
