@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-10-albuterol-suicidal_ideation",
-  "timestamp": "2026-08-11T06:09:51.488135Z",
+  "timestamp": "2026-08-11T12:46:17.114769Z",
   "prompts_version": "v1.0",
   "drug": "albuterol",
   "event": "suicidal_ideation",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 1.2007759370823157,
     "report_count": 1338,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T06:09:49.816923Z",
+    "data_pulled_at": "2026-08-11T12:46:15.572179Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
-  "timestamp": "2026-08-11T06:09:15.266729Z",
+  "timestamp": "2026-08-11T12:45:46.598493Z",
   "prompts_version": "v1.0",
   "drug": "liraglutide",
   "event": "pancreatic_cancer",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T06:08:55.984167Z",
+    "data_pulled_at": "2026-08-11T12:45:45.120592Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",

@@ -6,6 +6,10 @@ Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravit
 **Decision:** ChEMBL IDs are pre-resolved in a static local JSON lookup table.
 **Why:** Reliability tradeoff; fuzzy dynamic matching via ChEMBL API is error-prone, and a static map ensures guaranteed agent stability on the limited target evaluation set.
 
+## 1.1 MoA Curation Methodology (Anti-Circularity Rule)
+**Decision:** Mechanism of Action (MoA) text must be authored or reviewed strictly for general pharmacology WITHOUT looking at which adverse event it will be evaluated against. General pharmacology is written first, and only paired with `ground_truth.json` afterward.
+**Why:** Prevents data leakage/circularity. If an adverse-event-specific mechanism (e.g., "causes mitochondrial dysfunction" for hepatotoxicity) is planted directly into the MoA field, the LLM isn't independently reasoning from general pharmacology—it's just being handed the answer.
+
 ## 2. Plausibility Default is Human-Curated
 **Decision:** Plausibility levels default to human-curated labels in data/plausibility_ratings.json. (Historical note: Initially assigned to Naitik Jain. As of Sprint 3, all further curation, evaluation, and documentation work is solely Krishna's responsibility).
 **Why:** Agent-derived plausibility is kept as a fallback/ablation mode via config.yaml (plausibility.source = force_agent). This guarantees verifiable reference baselines without burning unnecessary agent logic for the main pipeline.

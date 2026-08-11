@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-2-isotretinoin-teratogenicity",
-  "timestamp": "2026-08-11T06:07:36.852177Z",
+  "timestamp": "2026-08-11T12:44:45.466049Z",
   "prompts_version": "v1.0",
   "drug": "isotretinoin",
   "event": "teratogenicity",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 26.83491082391524,
     "report_count": 11,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T06:07:35.067655Z",
+    "data_pulled_at": "2026-08-11T12:44:43.819830Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
-  "timestamp": "2026-08-11T06:08:11.241371Z",
+  "timestamp": "2026-08-11T12:45:17.474854Z",
   "prompts_version": "v1.0",
   "drug": "valproic_acid",
   "event": "hepatotoxicity",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 4.7678910815949305,
     "report_count": 189,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T06:08:09.598962Z",
+    "data_pulled_at": "2026-08-11T12:45:16.182991Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -24,7 +24,7 @@
     "biological_plausibility": "HIGH",
     "plausibility_score": 1.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'Histone deacetylase inhibitor; Succinate semialdehyde dehydrogenase inhibitor; GABA transaminase inhibitor; alters mitochondrial beta-oxidation and causes mitochondrial dysfunction.'",
+    "plausibility_rationale": "Agent-derived from MoA: 'Histone deacetylase inhibitor; Succinate semialdehyde dehydrogenase inhibitor; GABA transaminase inhibitor; sodium channel blocker.'",
     "curated_reference": null,
     "plausibility_agreement": null
   },

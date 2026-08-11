@@ -35,7 +35,7 @@ DEFAULT_TTL_SECONDS: int = 7 * 24 * 60 * 60
 
 # Internal schema version to auto-invalidate cached logic/parsing outputs.
 # Bump this whenever the underlying parsing or schema logic changes.
-CACHE_SCHEMA_VERSION = "v5"
+CACHE_SCHEMA_VERSION = "v6"
 
 class ToolCache:
     """

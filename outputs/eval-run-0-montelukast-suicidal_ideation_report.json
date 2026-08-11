@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-0-montelukast-suicidal_ideation",
-  "timestamp": "2026-08-11T06:07:08.989399Z",
+  "timestamp": "2026-08-11T12:44:21.880419Z",
   "prompts_version": "v1.0",
   "drug": "montelukast",
   "event": "suicidal_ideation",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 3.2166903098398314,
     "report_count": 1259,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T06:07:06.389797Z",
+    "data_pulled_at": "2026-08-11T12:44:20.067159Z",
     "null_reason": null,
     "prr_score": 0.66,
     "prr_score_label": "MODERATE",
