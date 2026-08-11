@@ -10,7 +10,7 @@ import yaml
 from pydantic import BaseModel, Field
 
 _PROJECT_ROOT = Path(__file__).resolve().parents[2]
-_CONFIG_PATH = _PROJECT_ROOT / "config.yaml"
+_CONFIG_PATH = _PROJECT_ROOT / "configs" / "config.yaml"
 
 
 class AgentConfig(BaseModel):

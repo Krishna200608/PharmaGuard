@@ -23,20 +23,20 @@ def test_cache_miss_returns_none(tmp_cache):
 
 
 def test_cache_set_and_get(tmp_cache):
-    tmp_cache.set("faers::ozempic::pancreatitis", {"prr": 4.21})
-    result = tmp_cache.get("faers::ozempic::pancreatitis")
+    tmp_cache.set("faers::ozempic::pancreatitis::v2", {"prr": 4.21})
+    result = tmp_cache.get("faers::ozempic::pancreatitis::v2")
     assert result == {"prr": 4.21}
 
 
 def test_cache_invalidate(tmp_cache):
-    tmp_cache.set("faers::ozempic::pancreatitis", {"prr": 4.21})
-    tmp_cache.invalidate("faers::ozempic::pancreatitis")
-    assert tmp_cache.get("faers::ozempic::pancreatitis") is None
+    tmp_cache.set("faers::ozempic::pancreatitis::v2", {"prr": 4.21})
+    tmp_cache.invalidate("faers::ozempic::pancreatitis::v2")
+    assert tmp_cache.get("faers::ozempic::pancreatitis::v2") is None
 
 
 def test_faers_key_format(tmp_cache):
     key = ToolCache.faers_key("Ozempic", "Pancreatitis")
-    assert key == "faers::ozempic::pancreatitis"
+    assert key == "faers::ozempic::pancreatitis::v2"
 
 
 def test_pubmed_key_is_deterministic():

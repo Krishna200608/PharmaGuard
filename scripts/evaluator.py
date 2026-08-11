@@ -6,6 +6,10 @@ import json
 import logging
 from pathlib import Path
 from pydantic import ValidationError
+import sys
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+
 from pharmaguard.agent.output_schema import TriageReport
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -21,7 +25,7 @@ def load_ground_truth(gt_path: Path) -> dict:
     return {f"{pair['drug_canonical']}::{pair['event_meddra_pt']}": pair for pair in data.get("pairs", [])}
 
 def run_evaluation():
-    project_root = Path(__file__).resolve().parent
+    project_root = Path(__file__).resolve().parents[1]
     gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
     outputs_dir = project_root / "outputs"
     

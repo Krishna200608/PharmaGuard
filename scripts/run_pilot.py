@@ -6,6 +6,9 @@ import json
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
+import sys
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from pharmaguard.utils.config_loader import load_config
 from pharmaguard.agent.react_agent import PharmaGuardAgent
@@ -17,7 +20,7 @@ logger = logging.getLogger(__name__)
 def run_pilot():
     load_dotenv()
     
-    project_root = Path(__file__).resolve().parent
+    project_root = Path(__file__).resolve().parents[1]
     pilot_file = project_root / "pharmaguard" / "data" / "pilot_set.json"
     
     if not pilot_file.exists():
