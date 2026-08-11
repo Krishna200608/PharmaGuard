@@ -1,12 +1,16 @@
 {
   "schema_version": "1.1",
-  "source": "ChEMBL REST API v34 — IDs pre-resolved by querying /molecule endpoint by INN/trade name. All entries manually verified against ChEMBL web interface. Technical owner: Krishna Sikheriya (IIT2023139). Do NOT add entries without verifying the ChEMBL ID at https://www.ebi.ac.uk/chembl/.",
+  "source": "ChEMBL REST API v34 \u2014 IDs pre-resolved by querying /molecule endpoint by INN/trade name. All entries manually verified against ChEMBL web interface. Technical owner: Krishna Sikheriya (IIT2023139). Do NOT add entries without verifying the ChEMBL ID at https://www.ebi.ac.uk/chembl/.",
   "drugs": {
     "semaglutide": {
       "chembl_id": "CHEMBL3307925",
       "canonical_name": "Semaglutide",
-      "trade_names": ["Ozempic", "Wegovy", "Rybelsus"],
-      "mechanism_of_action": "GLP-1 receptor agonist — stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
+      "trade_names": [
+        "Ozempic",
+        "Wegovy",
+        "Rybelsus"
+      ],
+      "mechanism_of_action": "GLP-1 receptor agonist \u2014 stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
       "target_name": "Glucagon-like peptide 1 receptor",
       "target_class": "Peptide hormone receptor",
       "resolved_at": "2026-08-09",
@@ -15,8 +19,10 @@
     "metformin": {
       "chembl_id": "CHEMBL1431",
       "canonical_name": "Metformin",
-      "trade_names": ["Glucophage"],
-      "mechanism_of_action": "AMPK activator — inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
+      "trade_names": [
+        "Glucophage"
+      ],
+      "mechanism_of_action": "AMPK activator \u2014 inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
       "target_name": "AMP-activated protein kinase",
       "target_class": "Kinase",
       "resolved_at": "2026-08-09",
@@ -25,12 +31,134 @@
     "atorvastatin": {
       "chembl_id": "CHEMBL1582",
       "canonical_name": "Atorvastatin",
-      "trade_names": ["Lipitor"],
-      "mechanism_of_action": "HMG-CoA reductase inhibitor — competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
+      "trade_names": [
+        "Lipitor"
+      ],
+      "mechanism_of_action": "HMG-CoA reductase inhibitor \u2014 competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
       "target_name": "3-hydroxy-3-methylglutaryl-coenzyme A reductase",
       "target_class": "Enzyme",
       "resolved_at": "2026-08-09",
       "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1582/"
+    },
+    "liraglutide": {
+      "chembl_id": "CHEMBL4084119",
+      "canonical_name": "LIRAGLUTIDE",
+      "trade_names": [],
+      "mechanism_of_action": "Glucagon-like peptide 1 receptor agonist",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL4084119/"
+    },
+    "isotretinoin": {
+      "chembl_id": "CHEMBL547",
+      "canonical_name": "ISOTRETINOIN",
+      "trade_names": [],
+      "mechanism_of_action": "Retinoic acid receptor agonist",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL547/"
+    },
+    "albuterol": {
+      "chembl_id": "CHEMBL714",
+      "canonical_name": "ALBUTEROL",
+      "trade_names": [],
+      "mechanism_of_action": "Beta-2 adrenergic receptor agonist",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL714/"
+    },
+    "rosiglitazone": {
+      "chembl_id": "CHEMBL121",
+      "canonical_name": "ROSIGLITAZONE",
+      "trade_names": [],
+      "mechanism_of_action": "Peroxisome proliferator-activated receptor gamma agonist",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL121/"
+    },
+    "adalimumab": {
+      "chembl_id": "CHEMBL1201580",
+      "canonical_name": "ADALIMUMAB",
+      "trade_names": [],
+      "mechanism_of_action": "TNF-alpha inhibitor",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1201580/"
+    },
+    "pembrolizumab": {
+      "chembl_id": "CHEMBL3137343",
+      "canonical_name": "PEMBROLIZUMAB",
+      "trade_names": [],
+      "mechanism_of_action": "Programmed cell death protein 1 inhibitor",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL3137343/"
+    },
+    "montelukast": {
+      "chembl_id": "CHEMBL787",
+      "canonical_name": "MONTELUKAST",
+      "trade_names": [],
+      "mechanism_of_action": "Unknown",
+      "target_name": "Unknown",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL787/"
+    },
+    "imatinib": {
+      "chembl_id": "CHEMBL941",
+      "canonical_name": "IMATINIB",
+      "trade_names": [],
+      "mechanism_of_action": "Unknown",
+      "target_name": "Unknown",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL941/"
+    },
+    "clozapine": {
+      "chembl_id": "CHEMBL42",
+      "canonical_name": "CLOZAPINE",
+      "trade_names": [],
+      "mechanism_of_action": "Serotonin 2a (5-HT2a) receptor antagonist",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL42/"
+    },
+    "amoxicillin": {
+      "chembl_id": "CHEMBL1082",
+      "canonical_name": "AMOXICILLIN",
+      "trade_names": [],
+      "mechanism_of_action": "Bacterial penicillin-binding protein inhibitor",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1082/"
+    },
+    "ciprofloxacin": {
+      "chembl_id": "CHEMBL8",
+      "canonical_name": "CIPROFLOXACIN",
+      "trade_names": [],
+      "mechanism_of_action": "Bacterial DNA gyrase inhibitor",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL8/"
+    },
+    "valproic_acid": {
+      "chembl_id": "CHEMBL109",
+      "canonical_name": "VALPROIC ACID",
+      "trade_names": [],
+      "mechanism_of_action": "Succinate semialdehyde dehydrogenase inhibitor",
+      "target_name": "",
+      "target_class": "Unknown",
+      "resolved_at": "2026-08-11",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL109/"
     }
   }
 }

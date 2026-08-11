@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-13-imatinib-tooth_eruption",
-  "timestamp": "2026-08-11T05:42:42.847261Z",
+  "timestamp": "2026-08-11T05:55:16.799275Z",
   "prompts_version": "v1.0",
   "drug": "imatinib",
   "event": "tooth_eruption",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:42:40.984518Z",
+    "data_pulled_at": "2026-08-11T05:55:15.442242Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -21,10 +21,10 @@
   "mechanism": {
     "chembl_id": null,
     "moa": null,
-    "biological_plausibility": "UNKNOWN",
+    "biological_plausibility": "LOW",
     "plausibility_score": 0.0,
-    "plausibility_source": "unknown",
-    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Agent-derived from MoA: 'Unknown'",
     "curated_reference": null,
     "plausibility_agreement": null
   },

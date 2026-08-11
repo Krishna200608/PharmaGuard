@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
-  "timestamp": "2026-08-11T05:41:33.859318Z",
+  "timestamp": "2026-08-11T05:53:59.116398Z",
   "prompts_version": "v1.0",
   "drug": "rosiglitazone",
   "event": "myocardial_infarction",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 27.441876671263717,
     "report_count": 929,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:41:27.960608Z",
+    "data_pulled_at": "2026-08-11T05:53:57.839950Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -21,10 +21,10 @@
   "mechanism": {
     "chembl_id": null,
     "moa": null,
-    "biological_plausibility": "UNKNOWN",
-    "plausibility_score": 0.0,
-    "plausibility_source": "unknown",
-    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Agent-derived from MoA: 'Peroxisome proliferator-activated receptor gamma agonist'",
     "curated_reference": null,
     "plausibility_agreement": null
   },
@@ -45,8 +45,8 @@
   "triage": {
     "signal_strength": "STRONG",
     "evidence_grade": "B",
-    "escalation": "MONITOR",
-    "confidence": 0.6,
+    "escalation": "ESCALATE",
+    "confidence": 0.7,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
       "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"

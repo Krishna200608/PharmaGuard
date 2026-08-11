@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-12-atorvastatin-common_cold",
-  "timestamp": "2026-08-11T05:42:38.847216Z",
+  "timestamp": "2026-08-11T05:55:12.779204Z",
   "prompts_version": "v1.0",
   "drug": "atorvastatin",
   "event": "common_cold",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:42:37.483511Z",
+    "data_pulled_at": "2026-08-11T05:55:12.774237Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
