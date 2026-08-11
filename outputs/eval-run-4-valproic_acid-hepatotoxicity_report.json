@@ -1,21 +1,21 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
-  "timestamp": "2026-08-11T05:27:01.697176Z",
+  "timestamp": "2026-08-11T05:41:19.314436Z",
   "prompts_version": "v1.0",
   "drug": "valproic_acid",
   "event": "hepatotoxicity",
   "signal_stats": {
-    "prr": null,
-    "ror": null,
-    "prr_lower_ci": null,
-    "ror_lower_ci": null,
-    "report_count": 0,
+    "prr": 5.4782574839101965,
+    "ror": 5.504156831047864,
+    "prr_lower_ci": 4.749348531951588,
+    "ror_lower_ci": 4.7678910815949305,
+    "report_count": 189,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:23:55.020943Z",
-    "null_reason": "Zero co-occurrences found in FAERS.",
-    "prr_score": 0.0,
-    "prr_score_label": "NO_SIGNAL",
+    "data_pulled_at": "2026-08-11T05:41:14.474095Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
     "ci_downgraded": false
   },
   "mechanism": {
@@ -29,7 +29,7 @@
     "plausibility_agreement": null
   },
   "literature": {
-    "pubmed_query": "\"valproic_acid\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "pubmed_query": "\"valproic acid\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
     "abstracts_retrieved": 3,
     "evidence_grade": "B",
     "grade_score": 0.5,
@@ -43,10 +43,10 @@
     "evidence_summary": "Final Grade: B\nExplanation: The provided abstracts contain multiple mentions of 'adverse reactions', 'adverse effects', and 'associated with a risk of', which meet the criteria for Grade B. No abstracts provided statistical significance language (e.g., p-values, confidence intervals, or odds ratios) required for Grade A."
   },
   "triage": {
-    "signal_strength": "NO_SIGNAL",
+    "signal_strength": "STRONG",
     "evidence_grade": "B",
-    "escalation": "DO_NOT_ESCALATE",
-    "confidence": 0.2,
+    "escalation": "MONITOR",
+    "confidence": 0.6,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
       "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"

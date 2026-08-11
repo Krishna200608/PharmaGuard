@@ -1,19 +1,19 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-11-amoxicillin-tendon_rupture",
-  "timestamp": "2026-08-11T05:27:26.202471Z",
+  "timestamp": "2026-08-11T05:42:35.263317Z",
   "prompts_version": "v1.0",
   "drug": "amoxicillin",
   "event": "tendon_rupture",
   "signal_stats": {
-    "prr": null,
-    "ror": null,
-    "prr_lower_ci": null,
-    "ror_lower_ci": null,
-    "report_count": 0,
+    "prr": 1.0905040699386854,
+    "ror": 1.0905623478813888,
+    "prr_lower_ci": 0.8677730859530671,
+    "ror_lower_ci": 0.8676918655175847,
+    "report_count": 74,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:24:59.878418Z",
-    "null_reason": "Zero co-occurrences found in FAERS.",
+    "data_pulled_at": "2026-08-11T05:42:30.368889Z",
+    "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
     "ci_downgraded": false
@@ -29,7 +29,7 @@
     "plausibility_agreement": null
   },
   "literature": {
-    "pubmed_query": "\"amoxicillin\"[tiab] AND \"tendon_rupture\"[tiab] AND \"adverse\"[tiab]",
+    "pubmed_query": "\"amoxicillin\"[tiab] AND \"tendon rupture\"[tiab] AND \"adverse\"[tiab]",
     "abstracts_retrieved": 4,
     "evidence_grade": "B",
     "grade_score": 0.5,

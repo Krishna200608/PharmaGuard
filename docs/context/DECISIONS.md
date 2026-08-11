@@ -48,6 +48,6 @@ Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravit
 **Decision:** The default Gemini model is configured to "gemini-3.1-flash-lite" via config.yaml, reading from Google's v1beta endpoints.
 **Why:** Gemini 1.0 and 1.5 models were retired, leading to 404 NOT_FOUND errors. A dynamic reading of available models showed 3.1-flash-lite as a stable fallback. It's explicitly decoupled to config.yaml to handle Google's aggressive deprecation cadence (e.g. 2.0 Flash retired June 2026, 2.5 Flash cut off before Oct 2026). A mid-semester verification is recommended.
 
-## 11. Sprint 3 Evaluator Hand-off & False Negative Rate
-**Decision:** We are observing a 100% Specificity (Over-Caution = 0.0%) but 0% Strict Recall / 42.9% Lenient Recall on the 15-pair ground truth.
-**Why:** The agent overwhelmingly defaults to DO_NOT_ESCALATE on confirmed positive pairs. This is driven by strict reliance on high FAERS signal and conservative LLM grading. Next sprints will need to recalibrate thresholds (e.g., lower the confidence bounds for ESCALATE) and prompt engineering to improve Recall without hurting Specificity.
+## 11. Sprint 3 Evaluator Hand-off & Query Normalization
+**Decision:** All external API query construction (e.g. FAERS, PubMed) must pass through a shared `normalize_term` utility to convert internal snake_case keys into natural language strings (e.g., `tendon_rupture` to `tendon rupture`).
+**Why:** Directly passing internal schema keys to external APIs (like FAERS' `patient.reaction` field) corrupted the signal strength, yielding zero results for heavily documented side effects because the endpoints expect spaces. After implementing normalization, the pipeline achieved 100% Specificity and 100% Lenient Recall on the 15-pair ground truth. (Strict Recall remains 0%, as all true positives correctly triggered `MONITOR` rather than `ESCALATE`).

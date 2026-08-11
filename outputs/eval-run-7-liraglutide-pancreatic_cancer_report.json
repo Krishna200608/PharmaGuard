@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
-  "timestamp": "2026-08-11T05:27:03.241859Z",
+  "timestamp": "2026-08-11T05:41:52.493393Z",
   "prompts_version": "v1.0",
   "drug": "liraglutide",
   "event": "pancreatic_cancer",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:24:26.859169Z",
+    "data_pulled_at": "2026-08-11T05:41:46.121990Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -29,7 +29,7 @@
     "plausibility_agreement": null
   },
   "literature": {
-    "pubmed_query": "\"liraglutide\"[tiab] AND \"pancreatic_cancer\"[tiab] AND \"adverse\"[tiab]",
+    "pubmed_query": "\"liraglutide\"[tiab] AND \"pancreatic cancer\"[tiab] AND \"adverse\"[tiab]",
     "abstracts_retrieved": 5,
     "evidence_grade": "B",
     "grade_score": 0.5,

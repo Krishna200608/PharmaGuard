@@ -153,3 +153,18 @@ def test_faers_legacy_caching_behavior(tmp_path):
     assert call_count == 4
     
     assert stats1.report_count == stats2.report_count
+def test_faers_query_normalization(monkeypatch):
+    source = FaersLegacySource()
+    captured_urls = []
+    def mock_fetch_count(self, params):
+        captured_urls.append(params)
+        return 0
+    monkeypatch.setattr(FaersLegacySource, '_fetch_count', mock_fetch_count)
+    source.get_signal_stats('valproic_acid', 'hepatic_failure')
+    
+    assert len(captured_urls) > 0
+    q_both = captured_urls[0]['search']
+    assert 'valproic acid' in q_both
+    assert 'hepatic failure' in q_both
+    assert '_' not in q_both
+

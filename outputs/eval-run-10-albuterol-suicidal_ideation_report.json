@@ -1,19 +1,19 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-10-albuterol-suicidal_ideation",
-  "timestamp": "2026-08-11T05:27:25.746095Z",
+  "timestamp": "2026-08-11T05:42:20.130582Z",
   "prompts_version": "v1.0",
   "drug": "albuterol",
   "event": "suicidal_ideation",
   "signal_stats": {
-    "prr": null,
-    "ror": null,
-    "prr_lower_ci": null,
-    "ror_lower_ci": null,
-    "report_count": 0,
+    "prr": 1.266092794401247,
+    "ror": 1.267569028184496,
+    "prr_lower_ci": 1.1997346412673344,
+    "ror_lower_ci": 1.2007759370823157,
+    "report_count": 1338,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:24:55.862286Z",
-    "null_reason": "Zero co-occurrences found in FAERS.",
+    "data_pulled_at": "2026-08-11T05:42:18.463587Z",
+    "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
     "ci_downgraded": false
@@ -29,7 +29,7 @@
     "plausibility_agreement": null
   },
   "literature": {
-    "pubmed_query": "\"albuterol\"[tiab] AND \"suicidal_ideation\"[tiab] AND \"adverse\"[tiab]",
+    "pubmed_query": "\"albuterol\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
     "abstracts_retrieved": 0,
     "evidence_grade": "C",
     "grade_score": 0.0,

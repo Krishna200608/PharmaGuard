@@ -131,7 +131,11 @@ class FaersLegacySource(SignalDataSource):
                 return SignalStats(**cached)
         
         # 1. Fetch co-occurrence count first. If 0, short-circuit.
-        q_both = {'search': f'(patient.drug.medicinalproduct:"{drug}") AND (patient.reaction.reactionmeddrapt:"{event}")', 'limit': 1}
+        from pharmaguard.utils.text import normalize_term
+        ndrug = normalize_term(drug)
+        nevent = normalize_term(event)
+        
+        q_both = {'search': f'(patient.drug.medicinalproduct:"{ndrug}") AND (patient.reaction.reactionmeddrapt:"{nevent}")', 'limit': 1}
         a = self._fetch_count(q_both)
         
         if a == 0:
@@ -149,8 +153,8 @@ class FaersLegacySource(SignalDataSource):
             ))
             
         # 2. Fetch marginal and total counts
-        q_drug = {'search': f'patient.drug.medicinalproduct:"{drug}"', 'limit': 1}
-        q_event = {'search': f'patient.reaction.reactionmeddrapt:"{event}"', 'limit': 1}
+        q_drug = {'search': f'patient.drug.medicinalproduct:"{ndrug}"', 'limit': 1}
+        q_event = {'search': f'patient.reaction.reactionmeddrapt:"{nevent}"', 'limit': 1}
         q_total = {'limit': 1}
         
         n_drug = self._fetch_count(q_drug)

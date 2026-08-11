@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-3-clozapine-agranulocytosis",
-  "timestamp": "2026-08-11T05:27:01.211897Z",
+  "timestamp": "2026-08-11T05:41:05.407844Z",
   "prompts_version": "v1.0",
   "drug": "clozapine",
   "event": "agranulocytosis",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 27.84028637270163,
     "report_count": 1854,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T05:23:46.689134Z",
+    "data_pulled_at": "2026-08-11T05:41:05.402593Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",

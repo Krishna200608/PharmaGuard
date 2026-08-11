@@ -104,7 +104,10 @@ class PubMedTool:
         Uses MeSH-friendly construction; no controlled vocabulary enforcement
         at this stage (future improvement if recall is low).
         """
-        return f'"{drug}"[tiab] AND "{event}"[tiab] AND "adverse"[tiab]'
+        from pharmaguard.utils.text import normalize_term
+        ndrug = normalize_term(drug)
+        nevent = normalize_term(event)
+        return f'"{ndrug}"[tiab] AND "{nevent}"[tiab] AND "adverse"[tiab]'
 
     # ------------------------------------------------------------------
     # Internal: E-utilities calls
