@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-6-pembrolizumab-pneumonitis",
+  "timestamp": "2026-08-11T05:27:02.708245Z",
+  "prompts_version": "v1.0",
+  "drug": "pembrolizumab",
+  "event": "pneumonitis",
+  "signal_stats": {
+    "prr": 24.16658175646418,
+    "ror": 25.01427079351662,
+    "prr_lower_ci": 22.864801920125803,
+    "ror_lower_ci": 23.6207992790713,
+    "report_count": 1261,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-11T05:24:18.725721Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"pembrolizumab\"[tiab] AND \"pneumonitis\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42568649",
+      "42459692",
+      "42382749",
+      "42373597",
+      "42373128"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: Only one abstract (PMID 42373597) contains statistical association language (p-values < 0.05). The other abstracts mention 'adverse events' or 'irAEs' in a clinical context but do not provide statistical evidence of association. Since Grade A requires two or more abstracts with statistical association, the evidence is classified as Grade B."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.6,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

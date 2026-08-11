@@ -47,3 +47,7 @@ Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravit
 ## 10. LLM Model Selection & Configuration
 **Decision:** The default Gemini model is configured to "gemini-3.1-flash-lite" via config.yaml, reading from Google's v1beta endpoints.
 **Why:** Gemini 1.0 and 1.5 models were retired, leading to 404 NOT_FOUND errors. A dynamic reading of available models showed 3.1-flash-lite as a stable fallback. It's explicitly decoupled to config.yaml to handle Google's aggressive deprecation cadence (e.g. 2.0 Flash retired June 2026, 2.5 Flash cut off before Oct 2026). A mid-semester verification is recommended.
+
+## 11. Sprint 3 Evaluator Hand-off & False Negative Rate
+**Decision:** We are observing a 100% Specificity (Over-Caution = 0.0%) but 0% Strict Recall / 42.9% Lenient Recall on the 15-pair ground truth.
+**Why:** The agent overwhelmingly defaults to DO_NOT_ESCALATE on confirmed positive pairs. This is driven by strict reliance on high FAERS signal and conservative LLM grading. Next sprints will need to recalibrate thresholds (e.g., lower the confidence bounds for ESCALATE) and prompt engineering to improve Recall without hurting Specificity.

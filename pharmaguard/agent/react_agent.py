@@ -126,15 +126,15 @@ class PharmaGuardAgent:
             plaus = self.chembl.get_plausibility(drug, event)
             entry = self.chembl.get_drug_entry(drug)
             d = {
-                "chembl_id": entry.chembl_id if entry else None,
-                "moa": entry.mechanism_of_action if entry else None,
-                "level": plaus.level.value,
+                "chembl_id": getattr(plaus, "chembl_id", None),
+                "moa": getattr(plaus, "moa", None),
+                "level": getattr(plaus.level, "value", plaus.level),
                 "score": plaus.score,
                 "source": plaus.plausibility_source,
                 "rationale": plaus.rationale
             }
             if plaus.curated_reference:
-                d["curated_reference"] = plaus.curated_reference.value
+                d["curated_reference"] = getattr(plaus.curated_reference, "value", plaus.curated_reference)
                 d["agreement"] = plaus.agreement
             self.tlog.log_observation("chembl_mechanism_tool", d, cache_hit=False)
             return d

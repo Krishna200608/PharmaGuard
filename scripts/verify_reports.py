@@ -5,11 +5,7 @@ print("--- Verifying UTF-8 Encoding ---")
 project_root = Path(__file__).resolve().parents[1]
 outputs_dir = project_root / "outputs"
 
-files = [
-    outputs_dir / "pilot-run-0-semaglutide-pancreatitis_report.json",
-    outputs_dir / "pilot-run-1-metformin-lactic_acidosis_report.json",
-    outputs_dir / "pilot-run-2-atorvastatin-common_cold_report.json"
-]
+files = list(outputs_dir.glob("eval-run-*_report.json"))
 
 for file in files:
     try:
