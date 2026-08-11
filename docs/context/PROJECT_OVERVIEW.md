@@ -1,4 +1,4 @@
-> **SESSION BOOTSTRAP**: At the beginning of every session, immediately read all 5 files in the `Context/` folder (`PROJECT_OVERVIEW.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `PROGRESS.md`, `CONVENTIONS.md`). Do not begin execution until you have read and internalized the current ground truth.
+> **SESSION BOOTSTRAP**: At the beginning of every session, immediately read all 5 files in the `docs/context/` folder (`PROJECT_OVERVIEW.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `PROGRESS.md`, `CONVENTIONS.md`). Do not begin execution until you have read and internalized the current ground truth.
 
 Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravity
 

@@ -56,6 +56,7 @@ The following 15 curated drug-event pairs are proposed for `ground_truth.json`. 
 
 11. **albuterol + suicidal_ideation**
     - **Source**: [FDA ProAir HFA Label (PDF)](https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/021457s035lbl.pdf)
+    - **Empirical Evidence**: FAERS `report_count=1338`, `prr=1.266`, `null_reason=None` (confirmed fine as genuine negative control, background noise but no true disproportionate signal).
     - **Note**: Replaced `saxagliptin+influenza`. This uses the "structurally implausible mechanism" logic applied to a confirmed positive (`montelukast+suicidal_ideation`). Albuterol is an inhaled beta-2 agonist asthma drug lacking any neuropsychiatric boxed warning.
 
 12. **amoxicillin + tendon_rupture**
