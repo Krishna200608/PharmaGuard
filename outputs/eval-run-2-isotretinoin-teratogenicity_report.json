@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-2-isotretinoin-teratogenicity",
-  "timestamp": "2026-08-12T09:28:06.222469Z",
+  "timestamp": "2026-08-12T09:41:46.054487Z",
   "prompts_version": "v1.0",
   "drug": "isotretinoin",
   "event": "teratogenicity",

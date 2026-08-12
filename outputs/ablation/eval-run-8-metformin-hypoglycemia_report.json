@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-8-metformin-hypoglycemia",
-  "timestamp": "2026-08-12T09:30:42.553902Z",
+  "timestamp": "2026-08-12T09:43:21.175095Z",
   "prompts_version": "v1.0",
   "drug": "metformin",
   "event": "hypoglycemia",
