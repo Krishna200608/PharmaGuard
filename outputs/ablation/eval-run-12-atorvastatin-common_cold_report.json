@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-12-atorvastatin-common_cold",
+  "timestamp": "2026-08-12T09:19:14.737726Z",
+  "prompts_version": "v1.0",
+  "drug": "atorvastatin",
+  "event": "common_cold",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-11T12:46:31.602540Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "HMG-CoA reductase inhibitors (statins) are used to manage cholesterol levels and cardiovascular risk. The common cold is a viral upper respiratory infection caused by rhinoviruses or other respiratory viruses. There is no pharmacological mechanism by which inhibiting cholesterol synthesis would treat or cause the common cold, and they are clinically unrelated.",
+    "curated_reference": "LOW",
+    "plausibility_agreement": true
+  },
+  "literature": {
+    "pubmed_query": "\"atorvastatin\"[tiab] AND \"common cold\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

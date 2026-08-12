@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-9-atorvastatin-dementia",
+  "timestamp": "2026-08-12T09:19:08.924292Z",
+  "prompts_version": "v1.0",
+  "drug": "atorvastatin",
+  "event": "dementia",
+  "signal_stats": {
+    "prr": 1.7189960827713182,
+    "ror": 1.7213220281988486,
+    "prr_lower_ci": 1.6195216772667191,
+    "ror_lower_ci": 1.6214040318298104,
+    "report_count": 1109,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-11T12:46:02.261519Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Agent-derived from MoA: 'HMG-CoA reductase inhibitor — competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.'",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"atorvastatin\"[tiab] AND \"dementia\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "39882323",
+      "39673546",
+      "39262357",
+      "37597795",
+      "37375800"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: Two abstracts (PMID 37597795 and 37375800) contain statistical language regarding the association between statins and dementia. PMID 37597795 reports an odds ratio and confidence interval (though not significant), and PMID 37375800 reports hazard ratios and 95% confidence intervals that exclude 1.0, indicating a statistically significant association."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "A",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.4,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}
