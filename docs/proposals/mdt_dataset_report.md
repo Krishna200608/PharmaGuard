@@ -1,6 +1,6 @@
 # OncoSwarm: MDT Dataset Research Report
 **Compiled for:** IIIT Allahabad | 7th Semester Research Project  
-**Team:** Krishna Sikheriya, Naitik Jain, Lokesh Bawariya  
+**Team:** Krishna Sikheriya (IIT2023139)  
 **Supervisor:** Dr. Nikhilanand Arya
 
 ---

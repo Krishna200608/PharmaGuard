@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "description": "Per (drug, event) biological plausibility ratings. (Historical note: Originally owned by Naitik Jain. As of Sprint 3, Krishna Sikheriya is the sole developer for all curation and evaluation). Key format: '{drug_canonical}::{event_meddra_pt}' — lowercase canonical drug name from chembl_lookup.json, MedDRA Preferred Term in snake_case.",
+  "description": "Per (drug, event) biological plausibility ratings. Key format: '{drug_canonical}::{event_meddra_pt}' — lowercase canonical drug name from chembl_lookup.json, MedDRA Preferred Term in snake_case.",
   "source_policy": "HUMAN_CURATED — rubric defined in prompts/evidence_grading_rubric.txt. Entries must include ChEMBL ID reference and written rationale.",
   "entries": {
     "semaglutide::pancreatitis": {
@@ -9,7 +9,7 @@
       "plausibility": "HIGH",
       "rationale": "GLP-1 receptor agonism directly stimulates pancreatic exocrine secretion and has been shown in preclinical models to increase pancreatic ductal pressure. Several mechanistic reviews support a biological link.",
       "moa_source_chembl_id": "CHEMBL3307925",
-      "curated_by": "Naitik Jain",
+      "curated_by": "Krishna Sikheriya",
       "curated_at": "2026-08-09"
     },
     "metformin::lactic_acidosis": {
@@ -18,7 +18,7 @@
       "plausibility": "HIGH",
       "rationale": "Metformin inhibits mitochondrial complex I, impairing lactate oxidation in hepatocytes. In patients with renal impairment, accumulation leads to elevated lactate levels. Well-established pharmacological mechanism.",
       "moa_source_chembl_id": "CHEMBL1431",
-      "curated_by": "Naitik Jain",
+      "curated_by": "Krishna Sikheriya",
       "curated_at": "2026-08-09"
     },
     "atorvastatin::common_cold": {
@@ -27,7 +27,7 @@
       "plausibility": "LOW",
       "rationale": "HMG-CoA reductase inhibition has no established mechanistic pathway affecting rhinovirus susceptibility or upper respiratory tract immune response. This pair is a negative-control entry.",
       "moa_source_chembl_id": "CHEMBL1582",
-      "curated_by": "Naitik Jain",
+      "curated_by": "Krishna Sikheriya",
       "curated_at": "2026-08-09"
     }
   }

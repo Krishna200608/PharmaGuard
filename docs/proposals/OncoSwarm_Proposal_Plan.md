@@ -6,8 +6,6 @@
 
 **Project Team:**  
 - Krishna Sikheriya (IIT2023139)
-- Naitik Jain (IIB2023036)  
-- Lokesh Bawariya (IIT2023138)  
 
 ---
 

@@ -6,7 +6,7 @@ Design decisions:
      name-matching during a triage run. Deliberate reliability tradeoff (brief §arch req 2).
      Do NOT replace with dynamic resolution without approval.
   2. Plausibility is drug+EVENT keyed (data/plausibility_ratings.json).
-     Human-curated entries (Naitik Jain) are the production default.
+     Human-curated entries are the production default (solo-owned as of Sprint 3).
   3. force_agent_derivation mode: bypasses the lookup and calls the LLM-derived
      path even for curated pairs — used ONLY in evaluation ablation runs.
      Controlled via config.yaml plausibility.source setting.

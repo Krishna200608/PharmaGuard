@@ -1,5 +1,5 @@
 # OncoSwarm: Problem Statement Landscape Report
-**Team:** Krishna Sikheriya (IIT2023139), Naitik Jain (IIB2023036), Lokesh Bawariya (IIT2023138)  
+**Team:** Krishna Sikheriya (IIT2023139)  
 **Supervisor:** Dr. Nikhilanand Arya | IIIT Allahabad, B.Tech IT — 7th Semester
 
 > [!CAUTION]

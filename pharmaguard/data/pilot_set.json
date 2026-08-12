@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "description": "Pilot set for mid-semester demo (Week 8-9). 8-10 drug-event pairs covering confirmed positives and negative controls. Owner: Naitik Jain (IIB2023036).",
+  "description": "Pilot set for mid-semester demo (Week 8-9). 8-10 drug-event pairs covering confirmed positives and negative controls.",
   "curation_note": "Negative controls must include background-reporting pairs (PRR ~ 1.0), NOT only zero-report pairs. See ground_truth.json header for full negative control definition.",
   "pairs": [
     {

@@ -74,7 +74,7 @@ Secondary metrics: lenient recall, over-caution rate.
 
 ## 3. Plausibility Ratings (data/plausibility_ratings.json)
 
-HIGH/MODERATE/LOW ratings are human-assigned (Naitik Jain) using the rubric in
+HIGH/MODERATE/LOW ratings are human-assigned using the rubric in
 `pharmaguard/prompts/evidence_grading_rubric.txt`. Not independently validated.
 The ablation (force_agent vs. human-curated on identical pairs) will report
 agreement rate -- that agreement rate is itself an evaluation result.
