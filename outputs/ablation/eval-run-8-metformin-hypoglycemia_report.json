@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-8-metformin-hypoglycemia",
-  "timestamp": "2026-08-12T09:19:08.243160Z",
+  "timestamp": "2026-08-12T09:30:42.553902Z",
   "prompts_version": "v1.0",
   "drug": "metformin",
   "event": "hypoglycemia",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T12:45:48.891137Z",
+    "data_pulled_at": "2026-08-12T09:29:02.689530Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -24,7 +24,7 @@
     "biological_plausibility": "LOW",
     "plausibility_score": 0.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'AMPK activator — inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.'",
+    "plausibility_rationale": "While AMPK activation inhibits hepatic gluconeogenesis, it does not typically cause hypoglycemia in clinical settings because it does not stimulate insulin secretion. Metformin, the primary drug with this mechanism of action, is considered euglycemic and rarely causes hypoglycemia unless combined with other glucose-lowering agents like insulin or sulfonylureas.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

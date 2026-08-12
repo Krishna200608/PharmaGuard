@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-10-albuterol-suicidal_ideation",
-  "timestamp": "2026-08-12T09:19:10.400095Z",
+  "timestamp": "2026-08-12T09:30:46.350790Z",
   "prompts_version": "v1.0",
   "drug": "albuterol",
   "event": "suicidal_ideation",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 1.2007759370823157,
     "report_count": 1338,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T12:46:15.572179Z",
+    "data_pulled_at": "2026-08-12T09:29:24.025793Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -24,9 +24,9 @@
     "biological_plausibility": "LOW",
     "plausibility_score": 0.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'Beta-2 adrenergic receptor agonist.'",
-    "curated_reference": null,
-    "plausibility_agreement": null
+    "plausibility_rationale": "Beta-2 adrenergic receptor agonists, such as albuterol or salmeterol, are primarily used for respiratory conditions like asthma and COPD. While some systemic side effects like tremors, anxiety, or palpitations can occur due to sympathetic nervous system stimulation, there is no established clinical evidence or pharmacological mechanism linking these medications to the induction of suicidal ideation.",
+    "curated_reference": "LOW",
+    "plausibility_agreement": true
   },
   "literature": {
     "pubmed_query": "\"albuterol\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",

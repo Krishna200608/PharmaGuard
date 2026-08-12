@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-9-atorvastatin-dementia",
-  "timestamp": "2026-08-12T09:19:08.924292Z",
+  "timestamp": "2026-08-12T09:30:44.345097Z",
   "prompts_version": "v1.0",
   "drug": "atorvastatin",
   "event": "dementia",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 1.6214040318298104,
     "report_count": 1109,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T12:46:02.261519Z",
+    "data_pulled_at": "2026-08-12T09:29:13.399093Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -24,9 +24,9 @@
     "biological_plausibility": "LOW",
     "plausibility_score": 0.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'HMG-CoA reductase inhibitor — competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.'",
-    "curated_reference": null,
-    "plausibility_agreement": null
+    "plausibility_rationale": "While there have been historical concerns and some observational studies suggesting a potential link between statin use and cognitive impairment, large-scale randomized controlled trials and meta-analyses have consistently failed to demonstrate a causal relationship between HMG-CoA reductase inhibitors and the development of dementia. Most major medical organizations and regulatory bodies consider the evidence for statin-induced dementia to be insufficient or non-existent, often attributing observed associations to confounding factors or the 'healthy user' effect.",
+    "curated_reference": "MODERATE",
+    "plausibility_agreement": false
   },
   "literature": {
     "pubmed_query": "\"atorvastatin\"[tiab] AND \"dementia\"[tiab] AND \"adverse\"[tiab]",

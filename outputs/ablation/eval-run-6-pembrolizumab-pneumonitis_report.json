@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-6-pembrolizumab-pneumonitis",
-  "timestamp": "2026-08-12T09:19:07.045984Z",
+  "timestamp": "2026-08-12T09:30:40.048666Z",
   "prompts_version": "v1.0",
   "drug": "pembrolizumab",
   "event": "pneumonitis",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 23.6207992790713,
     "report_count": 1261,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T12:45:41.652739Z",
+    "data_pulled_at": "2026-08-12T09:28:57.964588Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -24,9 +24,9 @@
     "biological_plausibility": "HIGH",
     "plausibility_score": 1.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'Programmed cell death protein 1 (PD-1) inhibitor.'",
-    "curated_reference": null,
-    "plausibility_agreement": null
+    "plausibility_rationale": "Pneumonitis is a well-documented and clinically significant immune-related adverse event (irAE) associated with PD-1 inhibitors. It occurs due to the activation of T-cells against lung tissue, and while its incidence is relatively low (typically 1-5%), it is a recognized, potentially life-threatening toxicity that requires close monitoring and specific management protocols in oncology.",
+    "curated_reference": "HIGH",
+    "plausibility_agreement": true
   },
   "literature": {
     "pubmed_query": "\"pembrolizumab\"[tiab] AND \"pneumonitis\"[tiab] AND \"adverse\"[tiab]",

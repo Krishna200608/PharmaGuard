@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
-  "timestamp": "2026-08-11T12:45:17.474854Z",
+  "timestamp": "2026-08-12T09:28:35.232954Z",
   "prompts_version": "v1.0",
   "drug": "valproic_acid",
   "event": "hepatotoxicity",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 4.7678910815949305,
     "report_count": 189,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T12:45:16.182991Z",
+    "data_pulled_at": "2026-08-12T09:28:33.608494Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -24,7 +24,7 @@
     "biological_plausibility": "HIGH",
     "plausibility_score": 1.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'Histone deacetylase inhibitor; Succinate semialdehyde dehydrogenase inhibitor; GABA transaminase inhibitor; sodium channel blocker.'",
+    "plausibility_rationale": "Valproic acid, which possesses this specific multi-target profile (HDAC inhibition, GABA-T inhibition, SSADH inhibition, and sodium channel blockade), is well-documented to cause idiosyncratic hepatotoxicity, ranging from mild asymptomatic transaminase elevation to severe, potentially fatal microvesicular steatosis and hepatic failure.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

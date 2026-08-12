@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-0-montelukast-suicidal_ideation",
-  "timestamp": "2026-08-12T09:19:03.870981Z",
+  "timestamp": "2026-08-12T09:30:34.069137Z",
   "prompts_version": "v1.0",
   "drug": "montelukast",
   "event": "suicidal_ideation",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 3.2166903098398314,
     "report_count": 1259,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T12:44:20.067159Z",
+    "data_pulled_at": "2026-08-12T09:27:42.108537Z",
     "null_reason": null,
     "prr_score": 0.66,
     "prr_score_label": "MODERATE",
@@ -24,9 +24,9 @@
     "biological_plausibility": "MODERATE",
     "plausibility_score": 0.5,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'Leukotriene receptor antagonist (CysLT1 receptor antagonist).'",
-    "curated_reference": null,
-    "plausibility_agreement": null
+    "plausibility_rationale": "The FDA has issued a boxed warning for montelukast, a prominent leukotriene receptor antagonist, due to the risk of serious neuropsychiatric events, including suicidal ideation and behavior. While the exact mechanism remains under investigation, clinical data and post-marketing surveillance have established a recognized association between the drug class and these adverse effects.",
+    "curated_reference": "LOW",
+    "plausibility_agreement": false
   },
   "literature": {
     "pubmed_query": "\"montelukast\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",

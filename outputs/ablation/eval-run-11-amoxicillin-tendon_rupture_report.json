@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-11-amoxicillin-tendon_rupture",
-  "timestamp": "2026-08-12T09:19:11.672253Z",
+  "timestamp": "2026-08-12T09:30:46.871462Z",
   "prompts_version": "v1.0",
   "drug": "amoxicillin",
   "event": "tendon_rupture",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 0.8676918655175847,
     "report_count": 74,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-11T12:46:27.865643Z",
+    "data_pulled_at": "2026-08-12T09:29:38.465097Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -24,7 +24,7 @@
     "biological_plausibility": "LOW",
     "plausibility_score": 0.0,
     "plausibility_source": "agent_derived",
-    "plausibility_rationale": "Agent-derived from MoA: 'Bacterial penicillin-binding protein inhibitor (Beta-lactam antibiotic).'",
+    "plausibility_rationale": "Tendon rupture is a well-documented adverse effect associated with fluoroquinolone antibiotics, which function by inhibiting bacterial DNA gyrase and topoisomerase IV. Beta-lactam antibiotics, which inhibit penicillin-binding proteins to disrupt cell wall synthesis, do not share this mechanism of action and are not clinically associated with an increased risk of tendon rupture.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

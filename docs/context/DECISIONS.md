@@ -13,6 +13,7 @@ Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravit
 
 ## 2. Plausibility Default is Human-Curated
 **Decision:** Plausibility levels default to human-curated labels in data/plausibility_ratings.json. (As of Sprint 3, all further curation, evaluation, and documentation work is solely Krishna's responsibility).
+**Note on Data Gap:** The original `plausibility_ratings.json` was only ever populated with 3 illustrative pairs from early development (`semaglutide::pancreatitis`, `metformin::lactic_acidosis`, `atorvastatin::common_cold`) and was never fully extended to cover the 15-pair evaluation set. As a result, 14 of the 15 ground truth pairs initially fell back to agent derivation in both standard and ablation modes, making early ablation comparisons structurally uninformative. This has since been partially rectified by curating 6 additional pairs blind to support a valid ablation comparison.
 **Why:** Agent-derived plausibility is kept as a fallback/ablation mode via config.yaml (plausibility.source = force_agent). This guarantees verifiable reference baselines without burning unnecessary agent logic for the main pipeline.
 
 ## 3. FAERS Caching Finalization
