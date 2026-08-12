@@ -13,8 +13,7 @@ Design decisions:
   4. Agent-derived calls go through the cache layer (same rate-limit protections
      as FAERS and PubMed). Cache key includes prompts_version.
 
-Owner: Krishna Sikheriya (IIT2023139)
-Plausibility data owner: Naitik Jain (IIB2023036) — do not edit plausibility_ratings.json
+Owner: Krishna Sikheriya (IIT2023139) — do not edit plausibility_ratings.json without bumping cache schema.
 """
 
 import json
