@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
+  "timestamp": "2026-08-12T08:37:59.941598Z",
+  "prompts_version": "v1.0",
+  "drug": "valproic_acid",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "baseline_no_tool_call",
+    "data_pulled_at": "1970-01-01T00:00:00Z",
+    "null_reason": "Baseline: no FAERS query made.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Baseline: no ChEMBL query made.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "Baseline: no PubMed query made."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "ESCALATE",
+    "confidence": 1.0,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Baseline single-shot call. No tool use.",
+      "LLM decision: ESCALATE (confidence=1.00)",
+      "Rationale: Valproic acid is well-documented to cause idiosyncratic hepatotoxicity, which can be severe or fatal. Due to the established black box warning and the serious nature of this adverse event, it requires immediate clinical attention."
+    ]
+  }
+}
