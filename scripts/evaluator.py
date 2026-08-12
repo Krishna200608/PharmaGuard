@@ -2,6 +2,7 @@
 Evaluator for PharmaGuard Triage Reports.
 Calculates Strict and Lenient metrics against ground_truth.json.
 """
+import argparse
 import json
 import logging
 from pathlib import Path
@@ -24,10 +25,11 @@ def load_ground_truth(gt_path: Path) -> dict:
     # Return as dict keyed by canonical drug/event pair
     return {f"{pair['drug_canonical']}::{pair['event_meddra_pt']}": pair for pair in data.get("pairs", [])}
 
-def run_evaluation():
+def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
     project_root = Path(__file__).resolve().parents[1]
     gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
-    outputs_dir = project_root / "outputs"
+    if outputs_dir is None:
+        outputs_dir = project_root / "outputs"
     
     ground_truth = load_ground_truth(gt_path)
     if not ground_truth:
@@ -125,7 +127,7 @@ def run_evaluation():
         logger.warning(f"Missing reports for {len(missing)} pairs: {missing}")
 
     print("=" * 60)
-    print(f"PharmaGuard Evaluation Report")
+    print(f"{title} Evaluation Report")
     print(f"Pairs evaluated: {len(evaluated_pairs)} / {len(ground_truth)}")
     print("=" * 60)
     
@@ -180,4 +182,18 @@ def run_evaluation():
     logger.info(f"Saved summary to {outputs_dir / 'evaluation_summary.txt'}")
 
 if __name__ == "__main__":
-    run_evaluation()
+    parser = argparse.ArgumentParser(description="Evaluate PharmaGuard triage reports.")
+    parser.add_argument(
+        "--outputs-dir",
+        type=Path,
+        default=None,
+        help="Directory containing eval-run-*_report.json files. Defaults to outputs/.",
+    )
+    parser.add_argument(
+        "--title",
+        type=str,
+        default="PharmaGuard",
+        help="Label shown in the report header (e.g. 'PharmaGuard' or 'Baseline').",
+    )
+    args = parser.parse_args()
+    run_evaluation(outputs_dir=args.outputs_dir, title=args.title)
