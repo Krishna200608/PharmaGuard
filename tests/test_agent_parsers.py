@@ -47,7 +47,10 @@ def test_adversarial_plausibility_extraction():
     
     chembl_fn = agent.chembl._llm_fn
     
-    plausibility = chembl_fn("moa", "event")
-    
+    level, explanation = chembl_fn("moa", "event")
+
     # It should extract LOW correctly despite "HIGH" appearing in explanation
-    assert plausibility == PlausibilityLevel.LOW
+    assert level == PlausibilityLevel.LOW
+    # And the explanation string should be passed through, not discarded
+    assert isinstance(explanation, str)
+    assert len(explanation) > 0

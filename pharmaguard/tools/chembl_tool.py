@@ -96,7 +96,7 @@ class ChemblTool:
         cache: ToolCache,
         prompts_version: str,
         force_agent_derivation: bool = False,
-        llm_inference_fn=None,         # callable(moa: str, event: str) -> PlausibilityLevel
+        llm_inference_fn=None,         # callable(moa: str, event: str) -> tuple[PlausibilityLevel, str]
     ):
         self._cache = cache
         self._prompts_version = prompts_version
@@ -186,11 +186,15 @@ class ChemblTool:
             )
             return result
 
-        level = self._llm_fn(entry.mechanism_of_action, event_meddra_pt)
+        level, explanation = self._llm_fn(entry.mechanism_of_action, event_meddra_pt)
         result_data = {
             "level": level.value,
             "score": PLAUSIBILITY_SCORE_MAP[level],
-            "rationale": f"Agent-derived from MoA: '{entry.mechanism_of_action}'",
+            # Store the LLM's actual free-text reasoning, not a template.
+            # NOTE: for famous drug-safety cases this text may reflect training-data
+            # memorization rather than genuine step-by-step pharmacological inference
+            # — both are valid capabilities but are distinct claims (see DECISIONS.md #1.1).
+            "rationale": explanation,
         }
         self._cache.set(cache_key, result_data)
         return PlausibilityResult(**result_data, plausibility_source="agent_derived")

@@ -36,7 +36,7 @@ def test_cache_invalidate(tmp_cache):
 
 def test_faers_key_format(tmp_cache):
     key = ToolCache.faers_key("Ozempic", "Pancreatitis")
-    assert key == "faers::ozempic::pancreatitis::v3"
+    assert key == "faers::ozempic::pancreatitis::v6"
 
 
 def test_pubmed_key_is_deterministic():

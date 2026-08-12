@@ -7,7 +7,7 @@ def chembl_tool(tmp_path):
     cache = ToolCache(cache_dir=tmp_path)
     
     def mock_llm(moa, event):
-        return PlausibilityLevel.MODERATE
+        return PlausibilityLevel.MODERATE, "Mock agent explanation."
         
     return ChemblTool(
         cache=cache,
@@ -40,7 +40,7 @@ def test_plausibility_miss_falls_back_to_agent(chembl_tool):
 def test_force_agent_mode(tmp_path):
     cache = ToolCache(cache_dir=tmp_path)
     def mock_llm(moa, event):
-        return PlausibilityLevel.LOW # Disagrees with HIGH
+        return PlausibilityLevel.LOW, "Mock agent explanation (LOW)." # Disagrees with HIGH
         
     tool = ChemblTool(
         cache=cache,

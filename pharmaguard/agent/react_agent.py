@@ -79,10 +79,11 @@ class PharmaGuardAgent:
             prompt = f"Given MoA: {moa}, how plausible is {event}? Explain first, then assign HIGH, MODERATE, or LOW."
             structured_llm = self.llm.with_structured_output(PlausibilityLLMOutput)
             result = structured_llm.invoke([HumanMessage(content=prompt)])
-            
-            if result.plausibility == "HIGH": return PlausibilityLevel.HIGH
-            if result.plausibility == "MODERATE": return PlausibilityLevel.MODERATE
-            return PlausibilityLevel.LOW
+
+            if result.plausibility == "HIGH": level = PlausibilityLevel.HIGH
+            elif result.plausibility == "MODERATE": level = PlausibilityLevel.MODERATE
+            else: level = PlausibilityLevel.LOW
+            return level, result.explanation
 
         self.faers = FaersLegacySource(cache=self.cache)
         self.chembl = ChemblTool(
