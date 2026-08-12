@@ -56,3 +56,35 @@ Last updated: 2026-08-10 | Sprint: Sprint 2 (COMPLETED) | Updated by: Antigravit
 ## 11. Sprint 3 Evaluator Hand-off & Query Normalization
 **Decision:** All external API query construction (e.g. FAERS, PubMed) must pass through a shared `normalize_term` utility to convert internal snake_case keys into natural language strings (e.g., `tendon_rupture` to `tendon rupture`).
 **Why:** Directly passing internal schema keys to external APIs (like FAERS' `patient.reaction` field) corrupted the signal strength, yielding zero results for heavily documented side effects because the endpoints expect spaces. After implementing normalization, the pipeline achieved 100% Specificity and 100% Lenient Recall on the 15-pair ground truth. (Strict Recall remains 0%, as all true positives correctly triggered `MONITOR` rather than `ESCALATE`).
+
+## 12. Confidence Score Comparability Caveat (Baseline vs. Pipeline)
+**Decision:** When presenting comparison tables between PharmaGuard and the single-shot baseline, any column labelled "confidence" must carry a note distinguishing the two scales.
+**Why:** PharmaGuard's `confidence` is a deterministic formula output:
+```
+confidence = 0.40 × PRR_score + 0.40 × grade_score + 0.20 × plausibility_score
+```
+It is bounded by what the FAERS/PubMed/ChEMBL data can support and is fully reproducible.
+The baseline's `confidence` is raw LLM self-report — a single-call subjective probability estimate with no grounding in external data. The escalation **decisions** (ESCALATE / MONITOR / DO_NOT_ESCALATE) are directly comparable across both systems. The confidence **numbers** are not on the same scale and must not be presented as if they are.
+
+**Standard footnote to attach to any comparison table:**
+> ⚠️ "Confidence" values are not directly comparable: PharmaGuard uses a deterministic weighted formula over FAERS PRR score, PubMed evidence grade, and ChEMBL plausibility score; the baseline uses raw LLM self-reported confidence with no grounding in external data. Escalation decisions are comparable; confidence numbers are not.
+
+## 13. Preserved Example — liraglutide + pancreatic_cancer (Grounded vs. Ungrounded Reasoning)
+**Purpose:** Citable illustration of the difference between PharmaGuard's tool-grounded triage and the baseline's ungrounded prior. Preserved here so it survives cache-clears and re-runs.
+
+**Pair:** `liraglutide` + `pancreatic_cancer` | Ground truth: `genuine_negative_control` | Expected: `DO_NOT_ESCALATE`
+
+### Baseline (Single-Shot LLM) — WRONG: ESCALATE, confidence=0.85
+> *"Liraglutide is a GLP-1 receptor agonist, and there has been significant historical concern and ongoing regulatory scrutiny regarding the potential association between GLP-1 receptor agonists and an increased risk of pancreatitis and pancreatic neoplasms. Given the seriousness of pancreatic cancer, this signal warrants immediate escalation for formal safety review."*
+
+The model correctly recalls that a concern exists, but it halts at the concern itself. It neither consults the regulatory resolution nor distinguishes "this concern was investigated" from "this concern was confirmed."
+
+### PharmaGuard (Fixed Pipeline) — CORRECT: DO_NOT_ESCALATE, confidence=0.20
+- **FAERS signal:** NO_SIGNAL (PRR score = 0.0) — FAERS disproportionality data did not support a statistically significant signal.
+- **PubMed evidence grade:** B — retrieved abstracts contained association language but no statistical evidence (p-values, CIs excluding 1.0, hazard ratios) meeting Grade A criteria.
+- **Plausibility:** LOW (agent-derived from GLP-1 receptor agonist MoA).
+- **Outcome:** The hard NO_SIGNAL gate in `derive_escalation()` forces DO_NOT_ESCALATE regardless of literature grade or plausibility score.
+
+**Why this matters for the writeup:**
+The FDA and EMA both conducted formal safety reviews of GLP-1 agonists and pancreatic cancer (2014 FDA/EMA joint review; see `source_url` in `ground_truth.json`) and concluded the evidence was insufficient to establish causality. The baseline escalates on the unresolved historical concern; PharmaGuard correctly resolves it through signal grounding. This is the clearest single example in the 15-pair set of what tool-grounded triage adds over raw LLM recall.
+
