@@ -186,5 +186,21 @@ Agent-derived plausibility should be characterized as **grounded pharmacological
 **Decision:** Formal adoption of the draft Bradford Hill plausibility rubric (`pharmaguard/prompts/plausibility_rubric.txt`) and bulk re-curation of `plausibility_ratings.json` is **deferred indefinitely**.
 **Rationale:** As demonstrated in §15, achieving true blinding and bias-free curation within a continuous development session proved methodologically unachievable when the author is aware of pipeline performance. Rather than deploying an unblinded revision, Sprint 3 permanently locks the original human-curated ratings (v1.0), yielding the honest, verified benchmark metrics ($6/7$ strict recall, $7/7$ lenient recall). Any future rubric adoption must be conducted by an external human-expert panel.
 
+## 21. MedDRA Preferred Term (PT) Audit & Empirical Verification
+**Background:** An exhaustive audit of all 15 ground-truth event terms against openFDA was conducted to identify any vocabulary aliasing or Lowest Level Term (LLT) gaps.
+
+### Empirical Findings:
+1. **Confirmed Positives (7/7 Clean):** All 7 confirmed positive pairs use valid, queryable MedDRA Preferred Terms with high reporting frequencies (300 to 173,511 total FAERS reports).
+2. **`isotretinoin::teratogenicity` Reporting Pattern:** `TERATOGENICITY` is a valid MedDRA PT (300 total reports in FAERS, 11 for isotretinoin, PRR ≈ 48.9 STRONG). The modest absolute count across FAERS reflects MedDRA coding practice: clinical reporters predominantly log concrete clinical outcomes (`EXPOSURE DURING PREGNANCY`: 744, `ABORTION INDUCED`: 697, `CONGENITAL ANOMALY`: 27, `MICROCEPHALY`: 7) rather than the abstract concept `TERATOGENICITY`.
+3. **`metformin::hypoglycaemia` Confounded-Signal Re-run:**
+   - In `ground_truth.json`, the US spelling `hypoglycemia` was initially used, returning 0 reports because MedDRA indexes under British English **`HYPOGLYCAEMIA`**.
+   - Re-running with the true MedDRA PT `HYPOGLYCAEMIA` (9,344 reports, PRR = 10.73, STRONG signal):
+     - **Plausibility:** LOW (score 0.0), with accurate agent-derived rationale noting that metformin monotherapy is euglycemic and does not cause hypoglycemia without concomitant secretagogues/insulin.
+     - **PubMed:** 5 abstracts, Evidence Grade: C (score 0.0).
+     - **Composite Confidence:** $0.40 \times 1.0 + 0.40 \times 0.0 + 0.20 \times 0.0 = \mathbf{0.400}$.
+     - **Final Escalation:** **`MONITOR`** (confidence $0.400 \in [0.35, 0.70)$).
+   - **Architectural Takeaway:** This uncovers a genuine system property: when a confounded postmarketing signal is statistically strong in FAERS ($PRR > 10$) due to polypharmacy, the $0.40 \times \text{Signal\_Score}$ term alone yields a 0.40 confidence floor, shifting the signal into `MONITOR` rather than `DO_NOT_ESCALATE`. This is a classic safety-first behavior (preferring human review over silent dropping when 9,000+ spontaneous reports exist), but it highlights that linear scoring cannot fully zero out a signal when FAERS is heavily confounded without a specialized negative-confounding discounting rule.
+
+
 
 
