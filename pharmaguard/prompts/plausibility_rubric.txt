@@ -1,6 +1,11 @@
-# Plausibility Rating Rubric -- PharmaGuard v1.1
-# ================================================
-# Version: 1.1 | Effective: 2026-08-14
+# ==============================================================================
+# STATUS: UNAPPLIED DRAFT ARTEFACT -- Deferred indefinitely per DECISIONS.md §15.
+# This rubric is preserved as a theoretical design artefact only. It is NOT
+# applied to plausibility_ratings.json; Sprint 3 uses verified v1.0 ratings.
+# ==============================================================================
+# Plausibility Rating Rubric -- PharmaGuard v1.1 (Draft)
+# ==============================================================================
+# Version: 1.1 (Draft) | Effective: N/A (Deferred)
 # Owner: Krishna Sikheriya (IIT2023139)
 #
 # DESIGN INTENT (Bradford Hill criterion)
@@ -23,7 +28,7 @@
 #
 # ANTI-CIRCULARITY NOTE
 # ----------------------
-# See DECISIONS.md S1.1. Curation must be based on general pharmacological MoA.
+# See DECISIONS.md §1.1 & §15. Curation must be based on general pharmacological MoA.
 # Do NOT reason from known adverse event associations, regulatory warnings, or
 # published case reports.
 
@@ -42,7 +47,7 @@
 #   require mechanisms for which there is no pharmacological basis. Reserved for
 #   biologically arbitrary connections.
 
-# CURATION PROCEDURE
+# CURATION PROCEDURE (For future unblinded panel use only):
 # 1. Read only the drug's MoA from chembl_lookup.json.
 # 2. Ask: "Can this mechanism plausibly produce this event -- even speculatively?"
 #    - YES, directly and clearly  --> HIGH
@@ -50,4 +55,3 @@
 #    - NO credible pathway        --> LOW
 # 3. Write rationale from mechanistic reasoning only (not regulatory history).
 # 4. Record ChEMBL ID, curated_by, curated_at.
-# 5. Bump CACHE_SCHEMA_VERSION in cache.py after any re-curation batch.

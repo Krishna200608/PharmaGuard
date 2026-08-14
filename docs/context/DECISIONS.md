@@ -172,4 +172,19 @@ The probe reveals an inescapable epistemic circularity in evaluating LLMs on bio
 **Conclusion for Writeup & System Architecture:**
 Agent-derived plausibility should be characterized as **grounded pharmacological knowledge retrieval and pathway synthesis**, NOT as de novo algorithmic reasoning from first principles. This distinction does not diminish the practical utility of the tool — synthesizing complex receptor/enzyme pathways into structured triage scores remains a valuable capability — but claims of "genuine unmemorized reasoning" cannot be scientifically supported on real-world pharmacology data.
 
+## 18. Formal Status of Escalation Thresholds (0.70 / 0.35) — Heuristic Priors
+**Decision:** The escalation thresholds ($T_{\text{escalate}} = 0.70$, $T_{\text{monitor}} = 0.35$) are established, documented heuristic priors derived from safety-first pharmacovigilance triage principles (see §5).
+**Status:** Formal empirical calibration (e.g., Platt scaling, isotonic regression, or ROC Youden's $J$ optimization) is explicitly **out of scope for $n=15$**. At small sample sizes, empirical threshold tuning leads to extreme overfitting to the specific validation set. These thresholds remain fixed, auditable priors for Sprint 3.
+
+## 19. Epidemiological Leakage in LLM Plausibility Derivation — Architectural Policy
+**Decision:** We formally document the current behavior of the agent-derived plausibility module: the LLM frequently retrieves epidemiological and regulatory associations from parametric pre-training memory alongside biochemical mechanisms (as proved in §12 and §17).
+**Policy:**
+- For Sprint 3, the current prompt and scoring pipeline are retained as-is and honestly reported as "grounded pharmacological knowledge retrieval and pathway synthesis."
+- For future multi-agent architectures (Sprint 4+), we commit to developing a formal anti-leakage prompt guard or a dual-reviewer pattern (e.g., instructing an adversarial critic LLM to reject any justification that cites regulatory warnings or clinical trial names rather than molecular receptors/enzymes).
+
+## 20. Bradford Hill Plausibility Rubric — Indefinitely Deferred
+**Decision:** Formal adoption of the draft Bradford Hill plausibility rubric (`pharmaguard/prompts/plausibility_rubric.txt`) and bulk re-curation of `plausibility_ratings.json` is **deferred indefinitely**.
+**Rationale:** As demonstrated in §15, achieving true blinding and bias-free curation within a continuous development session proved methodologically unachievable when the author is aware of pipeline performance. Rather than deploying an unblinded revision, Sprint 3 permanently locks the original human-curated ratings (v1.0), yielding the honest, verified benchmark metrics ($6/7$ strict recall, $7/7$ lenient recall). Any future rubric adoption must be conducted by an external human-expert panel.
+
+
 

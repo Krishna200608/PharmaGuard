@@ -90,9 +90,10 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 
 ## Planned: Sprint 4
 
-- Expand ground truth set beyond 15 pairs
-- Human-expert validation outreach for plausibility ratings
-- Rubric formalisation (Bradford Hill) -- see DECISIONS.md S15 for the correct process
-- Calibrate escalation thresholds (see DECISIONS.md S5 -- currently uncalibrated priors)
-- Multi-dataset generalization testing (e.g., EudraVigilance or JADER comparisons)
+- Medical ontology normalization layer (MedDRA LLT-to-PT canonicalization and UK/US spelling mapping)
+- Anti-leakage prompt guardrails for agent-derived plausibility (see DECISIONS.md S19)
+- Independent human-expert panel for biological plausibility adjudication (see DECISIONS.md S20)
+- Multi-signal pharmacovigilance integration (EudraVigilance / JADER / WHO VigiBase APIs)
+- Paper writing, documentation synthesis, and report generation
+
 
