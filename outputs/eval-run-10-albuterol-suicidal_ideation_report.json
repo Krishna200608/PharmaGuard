@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-10-albuterol-suicidal_ideation",
-  "timestamp": "2026-08-14T03:00:20.243986Z",
+  "timestamp": "2026-08-14T03:20:33.006678Z",
   "prompts_version": "v1.0",
   "drug": "albuterol",
   "event": "suicidal_ideation",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 1.2007759370823157,
     "report_count": 1338,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:00:18.610591Z",
+    "data_pulled_at": "2026-08-14T03:20:31.182672Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -21,10 +21,10 @@
   "mechanism": {
     "chembl_id": null,
     "moa": null,
-    "biological_plausibility": "MODERATE",
-    "plausibility_score": 0.5,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
     "plausibility_source": "human_curated",
-    "plausibility_rationale": "Beta-2 adrenergic receptor agonism causes peripheral sympathetic activation. While primarily a pulmonary bronchodilator, adrenergic signalling has CNS effects via autonomic pathways and indirect neuroinflammatory or neuromodulatory routes. A speculative mechanistic link to complex psychiatric events like suicidal ideation is pharmacologically conceivable under Bradford Hill criteria, even without a confirmed pathway.",
+    "plausibility_rationale": "Beta-2 adrenergic receptor agonism causes sympathetic activation (tachycardia, tremor), but there is no direct established pharmacological mechanism linking peripheral or central beta-2 stimulation to complex psychiatric events like suicidal ideation.",
     "curated_reference": null,
     "plausibility_agreement": null
   },
@@ -40,7 +40,7 @@
     "signal_strength": "NO_SIGNAL",
     "evidence_grade": "C",
     "escalation": "DO_NOT_ESCALATE",
-    "confidence": 0.1,
+    "confidence": 0.0,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
       "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-0-montelukast-suicidal_ideation",
-  "timestamp": "2026-08-14T02:56:29.094477Z",
+  "timestamp": "2026-08-14T03:13:39.325142Z",
   "prompts_version": "v1.0",
   "drug": "montelukast",
   "event": "suicidal_ideation",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 3.2166903098398314,
     "report_count": 1259,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T02:56:22.106630Z",
+    "data_pulled_at": "2026-08-14T03:13:33.986144Z",
     "null_reason": null,
     "prr_score": 0.66,
     "prr_score_label": "MODERATE",
@@ -21,10 +21,10 @@
   "mechanism": {
     "chembl_id": null,
     "moa": null,
-    "biological_plausibility": "MODERATE",
-    "plausibility_score": 0.5,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
     "plausibility_source": "human_curated",
-    "plausibility_rationale": "CysLT1 receptor antagonism primarily targets peripheral airways, but leukotrienes have established roles in neuroinflammatory signalling. An indirect CNS pathway via leukotriene modulation of neuroinflammation and mood regulation is speculative but pharmacologically coherent under Bradford Hill criteria -- a mechanism can be reasonably hypothesised without being confirmed.",
+    "plausibility_rationale": "CysLT1 receptors are primarily targeted in the peripheral airways. While leukotrienes may have some role in neuroinflammation, direct causal mechanisms linking antagonism to suicidal ideation are not well established pharmacologically.",
     "curated_reference": null,
     "plausibility_agreement": null
   },
@@ -45,8 +45,8 @@
   "triage": {
     "signal_strength": "MODERATE",
     "evidence_grade": "A",
-    "escalation": "ESCALATE",
-    "confidence": 0.764,
+    "escalation": "MONITOR",
+    "confidence": 0.664,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
       "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"

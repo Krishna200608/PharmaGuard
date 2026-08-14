@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-9-atorvastatin-dementia",
-  "timestamp": "2026-08-14T02:59:55.840329Z",
+  "timestamp": "2026-08-14T03:20:18.456155Z",
   "prompts_version": "v1.0",
   "drug": "atorvastatin",
   "event": "dementia",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 1.6214040318298104,
     "report_count": 1109,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T02:59:49.124360Z",
+    "data_pulled_at": "2026-08-14T03:20:11.857758Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -24,7 +24,7 @@
     "biological_plausibility": "MODERATE",
     "plausibility_score": 0.5,
     "plausibility_source": "human_curated",
-    "plausibility_rationale": "HMG-CoA reductase inhibitors reduce cholesterol synthesis systemically. Brain cholesterol is synthesised locally and is critical for neuronal membrane integrity, synaptic function, and myelination. Statins with CNS penetration could plausibly impair these processes indirectly, making dementia a pharmacologically speculative but non-arbitrary hypothesis.",
+    "plausibility_rationale": "HMG-CoA reductase inhibitors block cholesterol synthesis. Since brain cholesterol (synthesized locally) is critical for neuronal function and myelin maintenance, statins that cross the blood-brain barrier could plausibly impair cognition, though dementia is a chronic complex process.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

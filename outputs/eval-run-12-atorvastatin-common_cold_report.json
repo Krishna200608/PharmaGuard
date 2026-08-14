@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-12-atorvastatin-common_cold",
-  "timestamp": "2026-08-14T03:00:46.129156Z",
+  "timestamp": "2026-08-14T03:20:53.237184Z",
   "prompts_version": "v1.0",
   "drug": "atorvastatin",
   "event": "common_cold",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:00:43.976978Z",
+    "data_pulled_at": "2026-08-14T03:20:51.564853Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -24,7 +24,7 @@
     "biological_plausibility": "LOW",
     "plausibility_score": 0.0,
     "plausibility_source": "human_curated",
-    "plausibility_rationale": "HMG-CoA reductase inhibition has no credible mechanistic pathway to rhinovirus susceptibility or upper respiratory tract immunity. No direct or indirect pharmacological basis connects cholesterol synthesis inhibition to viral respiratory infection.",
+    "plausibility_rationale": "HMG-CoA reductase inhibition has no established mechanistic pathway affecting rhinovirus susceptibility or upper respiratory tract immune response. This pair is a negative-control entry.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

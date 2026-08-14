@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
-  "timestamp": "2026-08-14T02:57:50.158228Z",
+  "timestamp": "2026-08-14T03:18:55.546624Z",
   "prompts_version": "v1.0",
   "drug": "valproic_acid",
   "event": "hepatotoxicity",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 4.7678910815949305,
     "report_count": 189,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T02:57:38.551359Z",
+    "data_pulled_at": "2026-08-14T03:18:43.890266Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",

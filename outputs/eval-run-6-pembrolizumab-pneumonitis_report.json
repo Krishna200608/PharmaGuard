@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-6-pembrolizumab-pneumonitis",
-  "timestamp": "2026-08-14T02:59:17.720525Z",
+  "timestamp": "2026-08-14T03:19:36.387757Z",
   "prompts_version": "v1.0",
   "drug": "pembrolizumab",
   "event": "pneumonitis",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 23.6207992790713,
     "report_count": 1261,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T02:58:56.142503Z",
+    "data_pulled_at": "2026-08-14T03:19:30.623844Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -24,7 +24,7 @@
     "biological_plausibility": "HIGH",
     "plausibility_score": 1.0,
     "plausibility_source": "human_curated",
-    "plausibility_rationale": "PD-1 inhibition directly removes negative regulatory checkpoints on T-cell activation, unleashing systemic immune responses. Autoimmune and inflammatory toxicities -- including pneumonitis -- are a direct, mechanistically inevitable consequence of this MoA and require no speculative inferential steps.",
+    "plausibility_rationale": "PD-1 inhibition directly removes negative regulation of T-cell activation. This mechanism of unleashing systemic immune responses inherently carries a high biological plausibility for autoimmune and inflammatory toxicities, including pneumonitis.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

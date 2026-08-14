@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
-  "timestamp": "2026-08-14T02:56:45.186157Z",
+  "timestamp": "2026-08-14T03:14:13.312636Z",
   "prompts_version": "v1.0",
   "drug": "ciprofloxacin",
   "event": "tendon_rupture",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 22.519778390535862,
     "report_count": 1108,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T02:56:39.033787Z",
+    "data_pulled_at": "2026-08-14T03:13:49.143068Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -24,7 +24,7 @@
     "biological_plausibility": "MODERATE",
     "plausibility_score": 0.5,
     "plausibility_source": "human_curated",
-    "plausibility_rationale": "While the primary MoA targets bacterial DNA gyrase and Topoisomerase IV, fluoroquinolones are known to exert off-target toxic effects on mammalian tenocytes, potentially via disruption of collagen synthesis and matrix metalloproteinase upregulation. This off-target pathway is indirect relative to the primary antibacterial MoA but is a pharmacologically coherent hypothesis.",
+    "plausibility_rationale": "While primarily targeting bacterial DNA gyrase and Topoisomerase IV, fluoroquinolones are known to exert off-target toxic effects on mammalian cells, potentially altering collagen synthesis and upregulating matrix metalloproteinases in tendocytes.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

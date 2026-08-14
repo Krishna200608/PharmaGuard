@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-11-amoxicillin-tendon_rupture",
-  "timestamp": "2026-08-14T03:00:40.715506Z",
+  "timestamp": "2026-08-14T03:20:49.550810Z",
   "prompts_version": "v1.0",
   "drug": "amoxicillin",
   "event": "tendon_rupture",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 0.8676918655175847,
     "report_count": 74,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:00:32.568482Z",
+    "data_pulled_at": "2026-08-14T03:20:42.454524Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
