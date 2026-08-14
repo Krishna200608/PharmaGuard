@@ -1,4 +1,4 @@
-﻿# PharmaGuard -- Progress and Sprint Log
+# PharmaGuard -- Progress and Sprint Log
 
 **Project:** PharmaGuard -- Pharmacovigilance Signal Triage Orchestrator
 **Owner:** Krishna Sikheriya (IIT2023139) | IIIT Allahabad | B.Tech IT | 7th Semester Capstone (2026-27)
@@ -15,7 +15,7 @@ Build, evaluate, and verify the full PharmaGuard triage pipeline against a 15-pa
 
 #### Evaluation Infrastructure
 - scripts/run_eval.py: Runs the full 15-pair ground truth set against fixed_pipeline or react mode.
-- scripts/evaluator.py: Computes strict/lenient precision, recall, specificity, F1 per-category. Accepts --outputs-dir and --title flags for baseline comparison.
+- scripts/evaluator.py: Computes strict/lenient precision, recall, specificity, F1 per-category. Includes Bootstrap (B=1000, seed=42) and Wilson score 95% confidence intervals. Accepts --outputs-dir and --title flags.
 - scripts/baseline.py: Single-shot Gemini baseline (no tools). Same output schema as main pipeline.
 
 #### Bug Fixes (Sprint 3)
@@ -63,20 +63,22 @@ Config.yaml defaults: plausibility.source=lookup_first, output_dir=outputs.
 
 ### Final Metrics (plausibility ratings v1.0, cache schema v7, fresh cache, 15 pairs)
 
-  Strict:  TP=6  FP=0  TN=8  FN=1
-    Precision=1.000 [95% CI 1.000-1.000]  Recall=0.857 [95% CI 0.571-1.000]
-    Specificity=1.000 [95% CI 1.000-1.000]  F1=0.923 [95% CI 0.727-1.000]
-  Lenient: TP=7  FP=0  TN=8  FN=0
-    Precision=1.000 [95% CI 1.000-1.000]  Recall=1.000 [95% CI 1.000-1.000]
-    Specificity=1.000 [95% CI 1.000-1.000]  F1=1.000 [95% CI 1.000-1.000]
-  Over-Caution Rate: 0.0%
-  (Bootstrap 95% CI, 1000 iterations, seed=42. CIs coarse at n=15 -- genuine small-sample uncertainty.)
+| Metric | Strict (Point [95% CI Bootstrap / Wilson]) | Lenient (Point [95% CI Bootstrap / Wilson]) |
+|---|---|---|
+| **TP / FP / TN / FN** | 6 / 0 / 8 / 1 | 7 / 0 / 8 / 0 |
+| **Precision** | 1.000 [1.000 - 1.000 / 0.610 - 1.000] | 1.000 [1.000 - 1.000 / 0.646 - 1.000] |
+| **Recall** | 0.857 [0.571 - 1.000 / 0.487 - 0.974] | 1.000 [1.000 - 1.000 / 0.646 - 1.000] |
+| **Specificity** | 1.000 [1.000 - 1.000 / 0.676 - 1.000] | 1.000 [1.000 - 1.000 / 0.676 - 1.000] |
+| **F1-Score** | 0.923 [0.727 - 1.000 / N/A] | 1.000 [1.000 - 1.000 / N/A] |
+| **Over-Caution Rate** | 0.0% (0/8) | -- |
+
+*Note on uncertainty:* Non-parametric bootstrap resampling (B=1000, seed=42) and exact Wilson score intervals are both reported. At n=15, the wide intervals reflect honest, uninflated statistical uncertainty due to small sample size.
 
 ### Single Disagreement
   montelukast::suicidal_ideation -- Expected ESCALATE, Got MONITOR.
   Root cause: curated plausibility=LOW (no confirmed CNS mechanism for CysLT1 antagonism) dampens
   composite confidence below the ESCALATE threshold despite MODERATE FAERS signal and Grade A PubMed
-  evidence. This is mechanistically correct behaviour -- the signal was not missed (MONITOR ≠
+  evidence. This is mechanistically correct behaviour -- the signal was not missed (MONITOR !=
   DO_NOT_ESCALATE). See DECISIONS.md S14 for the dual-metric design property this validates.
 
 ### Reproducibility Note
@@ -92,4 +94,4 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - Human-expert validation outreach for plausibility ratings
 - Rubric formalisation (Bradford Hill) -- see DECISIONS.md S15 for the correct process
 - Calibrate escalation thresholds (see DECISIONS.md S5 -- currently uncalibrated priors)
-- Bootstrap confidence interval reporting for evaluation metrics
+- Multi-dataset generalization testing (e.g., EudraVigilance or JADER comparisons)

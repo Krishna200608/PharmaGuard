@@ -1,21 +1,10 @@
 """
 Evaluator for PharmaGuard Triage Reports.
 Calculates Strict and Lenient metrics against ground_truth.json.
-
-Confidence intervals: bootstrap resampling (1000 iterations, 95% CI).
-Rationale for bootstrap over Wilson score: Wilson applies cleanly to a single
-proportion (e.g. bare recall = TP/(TP+FN)), but precision, F1, and specificity
-are computed from *jointly dependent* TP/FP/TN/FN counts across the same n=15
-sample. Bootstrap treats the 15 (prediction, ground-truth) pairs as the empirical
-distribution, resamples with replacement, and propagates uncertainty through all
-metric formulas simultaneously -- capturing the joint covariance that Wilson would
-ignore. At n=15 this is the standard choice; the resampling distribution is
-reported as the 2.5th--97.5th percentile interval.
 """
 import argparse
 import json
 import logging
-import random
 from pathlib import Path
 from pydantic import ValidationError
 import sys
@@ -36,62 +25,6 @@ def load_ground_truth(gt_path: Path) -> dict:
     # Return as dict keyed by canonical drug/event pair
     return {f"{pair['drug_canonical']}::{pair['event_meddra_pt']}": pair for pair in data.get("pairs", [])}
 
-BOOTSTRAP_N = 1000
-BOOTSTRAP_SEED = 42
-CI_ALPHA = 0.05  # 95% confidence interval
-
-
-def bootstrap_ci(
-    observations: list[tuple[bool, bool]],  # list of (is_gt_positive, is_predicted_positive)
-    n_iter: int = BOOTSTRAP_N,
-    seed: int = BOOTSTRAP_SEED,
-) -> dict[str, tuple[float, float]]:
-    """
-    Bootstrap 95% CI for precision, recall, specificity, and F1.
-
-    Each observation is a (is_gt_positive, is_predicted_positive) pair.
-    Resamples with replacement n_iter times; returns the 2.5th-97.5th
-    percentile interval for each metric.
-
-    NOTE: at n=15 the bootstrap distribution is granular (precision can only
-    take values k/15 for small k), so CIs are coarse by nature of the sample
-    size, not a limitation of the method. This is the honest result to report.
-    """
-    rng = random.Random(seed)
-    n = len(observations)
-    precisions, recalls, specificities, f1s = [], [], [], []
-
-    for _ in range(n_iter):
-        sample = [observations[rng.randint(0, n - 1)] for _ in range(n)]
-        tp = sum(1 for gt, pred in sample if gt and pred)
-        fp = sum(1 for gt, pred in sample if not gt and pred)
-        tn = sum(1 for gt, pred in sample if not gt and not pred)
-        fn = sum(1 for gt, pred in sample if gt and not pred)
-        prec = tp / (tp + fp) if (tp + fp) > 0 else 0.0
-        rec  = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-        spec = tn / (tn + fp) if (tn + fp) > 0 else 0.0
-        f1   = 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0.0
-        precisions.append(prec)
-        recalls.append(rec)
-        specificities.append(spec)
-        f1s.append(f1)
-
-    def percentile(data: list[float], pct: float) -> float:
-        data_sorted = sorted(data)
-        idx = (pct / 100) * (len(data_sorted) - 1)
-        lo, hi = int(idx), min(int(idx) + 1, len(data_sorted) - 1)
-        return data_sorted[lo] + (idx - lo) * (data_sorted[hi] - data_sorted[lo])
-
-    lo_pct = CI_ALPHA / 2 * 100
-    hi_pct = (1 - CI_ALPHA / 2) * 100
-    return {
-        "precision":    (percentile(precisions,    lo_pct), percentile(precisions,    hi_pct)),
-        "recall":       (percentile(recalls,        lo_pct), percentile(recalls,        hi_pct)),
-        "specificity":  (percentile(specificities,  lo_pct), percentile(specificities,  hi_pct)),
-        "f1":           (percentile(f1s,            lo_pct), percentile(f1s,            hi_pct)),
-    }
-
-
 def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
     project_root = Path(__file__).resolve().parents[1]
     gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
@@ -107,11 +40,7 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
     lenient_metrics = {"TP": 0, "FP": 0, "TN": 0, "FN": 0}
     over_caution_count = 0
     negative_control_count = 0
-
-    # Per-pair (is_gt_positive, is_predicted_positive) observations for bootstrap
-    strict_obs: list[tuple[bool, bool]] = []
-    lenient_obs: list[tuple[bool, bool]] = []
-
+    
     evaluated_pairs = set()
     category_metrics = {}
     disagreements = []
@@ -170,8 +99,7 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
             else:
                 strict_metrics["TN"] += 1
                 category_metrics[category]["strict"]["TN"] += 1
-        strict_obs.append((is_gt_positive, is_strict_positive))
-
+                
         # Lenient logic update
         if is_gt_positive:
             if is_lenient_positive:
@@ -187,7 +115,6 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
             else:
                 lenient_metrics["TN"] += 1
                 category_metrics[category]["lenient"]["TN"] += 1
-        lenient_obs.append((is_gt_positive, is_lenient_positive))
                 
         # Over-caution tracking
         if is_gt_negative:
@@ -227,6 +154,107 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
     print(f"Recall     : {r_l:.3f}")
     print(f"Specificity: {s_l:.3f}")
     print(f"F1-Score   : {f1_l:.3f}")
+
+    # --- 95% Confidence Intervals ---
+    # Method 1: Non-parametric bootstrap resampling (B=1000, seed=42)
+    # Why Bootstrap: Resampling paired ground-truth/prediction observations preserves the joint
+    # covariance between TP, FP, TN, and FN. Percentile intervals provide robust empirical
+    # uncertainty bounds without assuming asymptotic normality on small sample sizes (n=15),
+    # and provide a natural, unified formulation for non-linear composite metrics like F1-Score.
+    #
+    # Method 2: Wilson score interval (exact binomial proportion)
+    # Why Wilson: Recommended exact analytical interval for small-n proportions (Brown et al., 2001)
+    # where standard Wald/normal intervals fail near boundary conditions (0.0 / 1.0).
+    import random
+    import math
+    import numpy as np
+
+    def compute_wilson_ci(k, n, z=1.95996):
+        if n == 0:
+            return (0.0, 0.0)
+        p_val = k / n
+        denom = 1 + (z**2) / n
+        center = (p_val + (z**2) / (2 * n)) / denom
+        margin = (z * math.sqrt((p_val * (1 - p_val) / n) + (z**2) / (4 * n**2))) / denom
+        return (max(0.0, center - margin), min(1.0, center + margin))
+
+    # Reconstruct paired record list for bootstrap resampling
+    pair_records = []
+    for report_file in outputs_dir.glob("eval-run-*_report.json"):
+        try:
+            with open(report_file, "r", encoding="utf-8") as f:
+                d = json.load(f)
+                rep = TriageReport(**d)
+        except Exception:
+            continue
+        k = f"{rep.drug}::{rep.event}"
+        if k in ground_truth:
+            gt_e = ground_truth[k]
+            act = rep.triage.escalation.value if hasattr(rep.triage.escalation, 'value') else rep.triage.escalation
+            pair_records.append({
+                "gt_pos": gt_e["expected_escalation"] == "ESCALATE",
+                "pred_strict": act == "ESCALATE",
+                "pred_lenient": act in ("ESCALATE", "MONITOR"),
+            })
+
+    random.seed(42)
+    np.random.seed(42)
+    n_resamples = 1000
+    boot_strict = {"p": [], "r": [], "s": [], "f1": []}
+    boot_lenient = {"p": [], "r": [], "s": [], "f1": []}
+    n_rec = len(pair_records)
+
+    if n_rec > 0:
+        for _ in range(n_resamples):
+            sample = [pair_records[random.randint(0, n_rec - 1)] for _ in range(n_rec)]
+            for mode_dict, pred_k in [(boot_strict, "pred_strict"), (boot_lenient, "pred_lenient")]:
+                tp = sum(1 for r in sample if r["gt_pos"] and r[pred_k])
+                fp = sum(1 for r in sample if not r["gt_pos"] and r[pred_k])
+                tn = sum(1 for r in sample if not r["gt_pos"] and not r[pred_k])
+                fn = sum(1 for r in sample if r["gt_pos"] and not r[pred_k])
+                prec = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+                rec = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+                spec = tn / (tn + fp) if (tn + fp) > 0 else 0.0
+                f1_val = 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0.0
+                mode_dict["p"].append(prec)
+                mode_dict["r"].append(rec)
+                mode_dict["s"].append(spec)
+                mode_dict["f1"].append(f1_val)
+
+    def get_ci_bounds(vals):
+        if not vals:
+            return (0.0, 0.0)
+        return (float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5)))
+
+    w_strict_p = compute_wilson_ci(strict_metrics["TP"], strict_metrics["TP"] + strict_metrics["FP"])
+    w_strict_r = compute_wilson_ci(strict_metrics["TP"], strict_metrics["TP"] + strict_metrics["FN"])
+    w_strict_s = compute_wilson_ci(strict_metrics["TN"], strict_metrics["TN"] + strict_metrics["FP"])
+
+    w_lenient_p = compute_wilson_ci(lenient_metrics["TP"], lenient_metrics["TP"] + lenient_metrics["FP"])
+    w_lenient_r = compute_wilson_ci(lenient_metrics["TP"], lenient_metrics["TP"] + lenient_metrics["FN"])
+    w_lenient_s = compute_wilson_ci(lenient_metrics["TN"], lenient_metrics["TN"] + lenient_metrics["FP"])
+
+    b_strict_p = get_ci_bounds(boot_strict["p"])
+    b_strict_r = get_ci_bounds(boot_strict["r"])
+    b_strict_s = get_ci_bounds(boot_strict["s"])
+    b_strict_f1 = get_ci_bounds(boot_strict["f1"])
+
+    b_lenient_p = get_ci_bounds(boot_lenient["p"])
+    b_lenient_r = get_ci_bounds(boot_lenient["r"])
+    b_lenient_s = get_ci_bounds(boot_lenient["s"])
+    b_lenient_f1 = get_ci_bounds(boot_lenient["f1"])
+
+    print(f"\n--- 95% CONFIDENCE INTERVALS (Bootstrap B=1000, Seed=42 / Wilson Score) ---")
+    print(f"Strict:")
+    print(f"  Precision  : {p:.3f}  [Bootstrap 95% CI: {b_strict_p[0]:.3f} - {b_strict_p[1]:.3f}]  [Wilson Score: {w_strict_p[0]:.3f} - {w_strict_p[1]:.3f}]")
+    print(f"  Recall     : {r:.3f}  [Bootstrap 95% CI: {b_strict_r[0]:.3f} - {b_strict_r[1]:.3f}]  [Wilson Score: {w_strict_r[0]:.3f} - {w_strict_r[1]:.3f}]")
+    print(f"  Specificity: {s:.3f}  [Bootstrap 95% CI: {b_strict_s[0]:.3f} - {b_strict_s[1]:.3f}]  [Wilson Score: {w_strict_s[0]:.3f} - {w_strict_s[1]:.3f}]")
+    print(f"  F1-Score   : {f1:.3f}  [Bootstrap 95% CI: {b_strict_f1[0]:.3f} - {b_strict_f1[1]:.3f}]")
+    print(f"Lenient:")
+    print(f"  Precision  : {p_l:.3f}  [Bootstrap 95% CI: {b_lenient_p[0]:.3f} - {b_lenient_p[1]:.3f}]  [Wilson Score: {w_lenient_p[0]:.3f} - {w_lenient_p[1]:.3f}]")
+    print(f"  Recall     : {r_l:.3f}  [Bootstrap 95% CI: {b_lenient_r[0]:.3f} - {b_lenient_r[1]:.3f}]  [Wilson Score: {w_lenient_r[0]:.3f} - {w_lenient_r[1]:.3f}]")
+    print(f"  Specificity: {s_l:.3f}  [Bootstrap 95% CI: {b_lenient_s[0]:.3f} - {b_lenient_s[1]:.3f}]  [Wilson Score: {w_lenient_s[0]:.3f} - {w_lenient_s[1]:.3f}]")
+    print(f"  F1-Score   : {f1_l:.3f}  [Bootstrap 95% CI: {b_lenient_f1[0]:.3f} - {b_lenient_f1[1]:.3f}]")
     
     print(f"\n--- CATEGORY BREAKDOWN ---")
     for cat, data in category_metrics.items():
@@ -235,21 +263,6 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
         print(f"  Strict -> TP: {data['strict']['TP']}, FP: {data['strict']['FP']}, TN: {data['strict']['TN']}, FN: {data['strict']['FN']} | P: {cp:.2f}, R: {cr:.2f}, S: {cs:.2f}")
         lp, lr, ls, lf1 = calc_metrics(data['lenient'])
         print(f"  Lenient-> TP: {data['lenient']['TP']}, FP: {data['lenient']['FP']}, TN: {data['lenient']['TN']}, FN: {data['lenient']['FN']} | P: {lp:.2f}, R: {lr:.2f}, S: {ls:.2f}")
-
-    print(f"\n--- BOOTSTRAP 95% CONFIDENCE INTERVALS (n={len(evaluated_pairs)}, {BOOTSTRAP_N} iterations) ---")
-    print(f"Method: percentile bootstrap, seed={BOOTSTRAP_SEED}.")
-    print(f"Note: at n=15 the CI grid is coarse (metrics take k/15 values); CIs reflect genuine")
-    print(f"      small-sample uncertainty, not a method limitation.")
-    s_ci = bootstrap_ci(strict_obs)
-    l_ci = bootstrap_ci(lenient_obs)
-    print(f"\n  Strict  Precision  : {p:.3f}  95% CI [{s_ci['precision'][0]:.3f}, {s_ci['precision'][1]:.3f}]")
-    print(f"  Strict  Recall     : {r:.3f}  95% CI [{s_ci['recall'][0]:.3f}, {s_ci['recall'][1]:.3f}]")
-    print(f"  Strict  Specificity: {s:.3f}  95% CI [{s_ci['specificity'][0]:.3f}, {s_ci['specificity'][1]:.3f}]")
-    print(f"  Strict  F1-Score   : {f1:.3f}  95% CI [{s_ci['f1'][0]:.3f}, {s_ci['f1'][1]:.3f}]")
-    print(f"  Lenient Precision  : {p_l:.3f}  95% CI [{l_ci['precision'][0]:.3f}, {l_ci['precision'][1]:.3f}]")
-    print(f"  Lenient Recall     : {r_l:.3f}  95% CI [{l_ci['recall'][0]:.3f}, {l_ci['recall'][1]:.3f}]")
-    print(f"  Lenient Specificity: {s_l:.3f}  95% CI [{l_ci['specificity'][0]:.3f}, {l_ci['specificity'][1]:.3f}]")
-    print(f"  Lenient F1-Score   : {f1_l:.3f}  95% CI [{l_ci['f1'][0]:.3f}, {l_ci['f1'][1]:.3f}]")
 
     print(f"\n--- FAILURE MODES ---")
     oc_rate = over_caution_count / negative_control_count if negative_control_count > 0 else 0.0
