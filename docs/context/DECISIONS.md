@@ -137,7 +137,7 @@ This reasoning was constructed in the same session that had just identified mont
 
 ## 17. Supplementary Case Study — Memorization vs. Mechanistic Reasoning Probe
 **Purpose:** Probe whether LLM-derived plausibility reflects genuine pharmacological mechanism inference or memorized recall of famous headline drug-safety cases.
-**Design:** Evaluated 3 non-headline, non-litigated drug-event pairs possessing clear, citable biochemical pathways outside the 15-pair ground truth benchmark. Input MoAs in `chembl_lookup.json` were strictly event-agnostic general pharmacology.
+**Design:** Evaluated 3 non-headline, non-litigated drug-event pairs possessing clear, citable biochemical pathways outside the 15-pair ground truth benchmark. Input MoAs in `chembl_lookup.json` were strictly event-agnostic general pharmacology descriptions.
 
 ### Tested Pairs and Verbatim Rationale Findings
 
@@ -145,17 +145,31 @@ This reasoning was constructed in the same session that had just identified mont
    - **Input MoA:** *"Carbonic anhydrase II inhibitor; Carbonic anhydrase IV inhibitor; AMPA/kainate glutamate receptor antagonist; GABA-A receptor positive modulator; voltage-gated sodium channel blocker."*
    - **Verdict:** HIGH (score 1.0)
    - **Verbatim Rationale:** *"The mechanism of action includes carbonic anhydrase II and IV inhibition, which is the primary pharmacological profile of topiramate. Carbonic anhydrase inhibitors are well-documented to cause hypohidrosis (decreased sweating) and hyperthermia, particularly in pediatric populations, due to the inhibition of carbonic anhydrase in the sweat glands."*
-   - **Analysis:** The model accurately isolated the carbonic anhydrase isoenzymes from a multi-target profile and connected them to sweat gland secretion physiology.
+   - **Honest Analysis:** Notice that the text asserts prior clinical familiarity (*"Carbonic anhydrase inhibitors are well-documented to cause hypohidrosis..."*) alongside explaining the biological mechanism (sweat gland carbonic anhydrase inhibition). While it accurately isolates the CA isoenzymes from the multi-target MoA profile, the opening phrase shows parametric recall of the clinical association rather than purely blind mechanistic deduction.
 
 2. **`tamsulosin` + `intraoperative_floppy_iris_syndrome`**
    - **Input MoA:** *"Selective alpha-1A adrenergic receptor antagonist; relaxes smooth muscle in the prostate and bladder neck."*
    - **Verdict:** HIGH (score 1.0)
    - **Verbatim Rationale:** *"Intraoperative floppy iris syndrome (IFIS) is a well-documented clinical complication strongly associated with the use of alpha-1 adrenergic receptor antagonists, particularly tamsulosin, which targets the alpha-1A receptor subtype. The mechanism involves the blockade of alpha-1 receptors in the iris dilator muscle, leading to poor pupil dilation and iris instability during cataract surgery."*
-   - **Analysis:** Demonstrates dual capability: the text reflects training memory of the clinical entity ("well-documented clinical complication"), while successfully explaining the mechanistic pathway (alpha-1A blockade in iris dilator muscle causing loss of tone).
+   - **Honest Analysis:** The model opens by explicitly stating prior clinical knowledge (*"IFIS is a well-documented clinical complication strongly associated with..."*), naming tamsulosin directly even before discussing mechanism. It then correctly supplies the anatomical mechanism (alpha-1A blockade in iris dilator smooth muscle causing loss of tone), but the text unambiguously demonstrates pre-training recall of the specific drug-event association.
+   - **FAERS Diagnostic Investigation:** Direct query of the openFDA API revealed that `INTRAOPERATIVE FLOPPY IRIS SYNDROME` has 0 reports in FAERS because it is a Lowest Level Term (LLT). In the official MedDRA ontology, the Preferred Term (PT) is **`FLOPPY IRIS SYNDROME`**, which has **96 reports for tamsulosin out of 367 total in all of FAERS (PRR ≈ 71.6, a massive STRONG disproportionality signal)**. The zero-report result in the probe run was therefore a **MedDRA LLT-to-PT vocabulary normalization gap**, not an absence of FAERS reporting.
 
 3. **`terbinafine` + `ageusia`**
    - **Input MoA:** *"Squalene monooxygenase (squalene epoxidase) inhibitor; inhibits fungal ergosterol biosynthesis."*
    - **Verdict:** MODERATE (score 0.5)
    - **Verbatim Rationale:** *"Ageusia (loss of taste) is a well-documented, though relatively uncommon, side effect associated with terbinafine, a squalene monooxygenase inhibitor. While the exact mechanism is not fully understood, it is thought to be related to the drug's affinity for zinc or its accumulation in the taste buds, leading to reversible dysgeusia or ageusia in some patients."*
-   - **Analysis:** Appropriately assigned MODERATE rather than HIGH, correctly recognizing that the primary fungal enzyme target does not directly explain taste loss, while independently supplying the established off-target hypotheses (zinc affinity / taste bud accumulation).
+   - **Honest Analysis:** Again opens with an assertion of prior clinical knowledge (*"Ageusia... is a well-documented, though relatively uncommon, side effect associated with terbinafine..."*). The model appropriately assigned MODERATE rather than HIGH (recognizing that fungal squalene monooxygenase inhibition does not directly explain human taste loss), but independently retrieved the published zinc-affinity and lingual accumulation hypotheses from pre-training memory.
+
+### Core Takeaway & Inherent Methodological Finding
+
+**Memorization and mechanistic reasoning cannot be cleanly disentangled using real, literature-grounded drug-event pairs.**
+
+The probe reveals an inescapable epistemic circularity in evaluating LLMs on biomedical literature:
+1. To serve as a scientifically defensible ground-truth pair, a drug-event relationship **must have a verified, published biological mechanism**.
+2. However, any mechanism documented in peer-reviewed biomedical literature has **already been ingested into the LLM's pre-training corpus**.
+3. Consequently, whenever the LLM articulates a valid mechanistic pathway for an "obscure" pair, it invariably draws on parametric memory of that published association (as evidenced by all three rationales opening with *"well-documented"*).
+
+**Conclusion for Writeup & System Architecture:**
+Agent-derived plausibility should be characterized as **grounded pharmacological knowledge retrieval and pathway synthesis**, NOT as de novo algorithmic reasoning from first principles. This distinction does not diminish the practical utility of the tool — synthesizing complex receptor/enzyme pathways into structured triage scores remains a valuable capability — but claims of "genuine unmemorized reasoning" cannot be scientifically supported on real-world pharmacology data.
+
 
