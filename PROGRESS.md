@@ -1,4 +1,4 @@
-# PharmaGuard -- Progress and Sprint Log
+﻿# PharmaGuard -- Progress and Sprint Log
 
 **Project:** PharmaGuard -- Pharmacovigilance Signal Triage Orchestrator
 **Owner:** Krishna Sikheriya (IIT2023139) | IIIT Allahabad | B.Tech IT | 7th Semester Capstone (2026-27)
@@ -63,9 +63,14 @@ Config.yaml defaults: plausibility.source=lookup_first, output_dir=outputs.
 
 ### Final Metrics (plausibility ratings v1.0, cache schema v7, fresh cache, 15 pairs)
 
-  Strict:  TP=6  FP=0  TN=8  FN=1  Precision=1.000  Recall=0.857  Specificity=1.000  F1=0.923
-  Lenient: TP=7  FP=0  TN=8  FN=0  Precision=1.000  Recall=1.000  Specificity=1.000  F1=1.000
+  Strict:  TP=6  FP=0  TN=8  FN=1
+    Precision=1.000 [95% CI 1.000-1.000]  Recall=0.857 [95% CI 0.571-1.000]
+    Specificity=1.000 [95% CI 1.000-1.000]  F1=0.923 [95% CI 0.727-1.000]
+  Lenient: TP=7  FP=0  TN=8  FN=0
+    Precision=1.000 [95% CI 1.000-1.000]  Recall=1.000 [95% CI 1.000-1.000]
+    Specificity=1.000 [95% CI 1.000-1.000]  F1=1.000 [95% CI 1.000-1.000]
   Over-Caution Rate: 0.0%
+  (Bootstrap 95% CI, 1000 iterations, seed=42. CIs coarse at n=15 -- genuine small-sample uncertainty.)
 
 ### Single Disagreement
   montelukast::suicidal_ideation -- Expected ESCALATE, Got MONITOR.
