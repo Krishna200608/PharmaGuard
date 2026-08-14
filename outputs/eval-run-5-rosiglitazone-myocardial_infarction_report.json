@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
-  "timestamp": "2026-08-14T03:19:14.887634Z",
+  "timestamp": "2026-08-14T11:37:29.515068Z",
   "prompts_version": "v1.0",
   "drug": "rosiglitazone",
   "event": "myocardial_infarction",

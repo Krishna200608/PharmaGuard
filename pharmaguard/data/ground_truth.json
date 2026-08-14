@@ -68,11 +68,11 @@
     },
     {
       "drug_canonical": "metformin",
-      "event_meddra_pt": "hypoglycemia",
+      "event_meddra_pt": "hypoglycaemia",
       "expected_escalation": "DO_NOT_ESCALATE",
       "category": "genuine_negative_control",
       "source_url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020357s037s039,021202s021s023lbl.pdf",
-      "rationale": "Label states hypoglycemia does not occur with metformin alone; FAERS reports are confounded by concomitant antidiabetic use."
+      "rationale": "Label states hypoglycemia does not occur with metformin alone; FAERS reports (~9,300 under British MedDRA PT 'hypoglycaemia') are heavily confounded by concomitant antidiabetic use (insulin, sulfonylureas). Updated from 'hypoglycemia' to true MedDRA PT 'hypoglycaemia' to test genuine signal discounting vs. zero-count alias."
     },
     {
       "drug_canonical": "atorvastatin",

@@ -65,21 +65,20 @@ Config.yaml defaults: plausibility.source=lookup_first, output_dir=outputs.
 
 | Metric | Strict (Point [95% CI Bootstrap / Wilson]) | Lenient (Point [95% CI Bootstrap / Wilson]) |
 |---|---|---|
-| **TP / FP / TN / FN** | 6 / 0 / 8 / 1 | 7 / 0 / 8 / 0 |
-| **Precision** | 1.000 [1.000 - 1.000 / 0.610 - 1.000] | 1.000 [1.000 - 1.000 / 0.646 - 1.000] |
+| **TP / FP / TN / FN** | 6 / 0 / 8 / 1 | 7 / 1 / 7 / 0 |
+| **Precision** | 1.000 [1.000 - 1.000 / 0.610 - 1.000] | 0.875 [0.624 - 1.000 / 0.529 - 0.978] |
 | **Recall** | 0.857 [0.571 - 1.000 / 0.487 - 0.974] | 1.000 [1.000 - 1.000 / 0.646 - 1.000] |
-| **Specificity** | 1.000 [1.000 - 1.000 / 0.676 - 1.000] | 1.000 [1.000 - 1.000 / 0.676 - 1.000] |
-| **F1-Score** | 0.923 [0.727 - 1.000 / N/A] | 1.000 [1.000 - 1.000 / N/A] |
-| **Over-Caution Rate** | 0.0% (0/8) | -- |
+| **Specificity** | 1.000 [1.000 - 1.000 / 0.676 - 1.000] | 0.875 [0.600 - 1.000 / 0.529 - 0.978] |
+| **F1-Score** | 0.923 [0.727 - 1.000 / N/A] | 0.933 [0.769 - 1.000 / N/A] |
+| **Over-Caution Rate** | 12.5% (1/8) | -- |
 
-*Note on uncertainty & boundary artifact:* Non-parametric bootstrap resampling (B=1000, seed=42) and exact Wilson score intervals are both reported. At n=15, the bootstrap interval showing 1.000-1.000 for precision and specificity is a known percentile-bootstrap artifact at 0/N boundary proportions (it resamples from zero-false-positive empirical outcomes, so it structurally cannot express uncertainty) -- this is NOT evidence of proven perfect precision. The exact Wilson score interval ([0.610, 1.000] for strict precision; [0.676, 1.000] for specificity) is the far more informative and honest measure of small-sample statistical uncertainty here.
+*Note on uncertainty & boundary artifact:* Non-parametric bootstrap resampling (B=1000, seed=42) and exact Wilson score intervals are both reported. At n=15, the bootstrap interval showing 1.000-1.000 for strict precision and specificity is a known percentile-bootstrap artifact at 0/N boundary proportions (it resamples from zero-false-positive empirical outcomes, so it structurally cannot express uncertainty) -- this is NOT evidence of proven perfect precision. The exact Wilson score interval ([0.610, 1.000] for strict precision; [0.676, 1.000] for strict specificity) is the far more informative and honest measure of small-sample statistical uncertainty here.
 
-### Single Disagreement
-  montelukast::suicidal_ideation -- Expected ESCALATE, Got MONITOR.
-  Root cause: curated plausibility=LOW (no confirmed CNS mechanism for CysLT1 antagonism) dampens
-  composite confidence below the ESCALATE threshold despite MODERATE FAERS signal and Grade A PubMed
-  evidence. This is mechanistically correct behaviour -- the signal was not missed (MONITOR !=
-  DO_NOT_ESCALATE). See DECISIONS.md S14 for the dual-metric design property this validates.
+### Documented Disagreements (Strict/Lenient Dual Validation)
+1. **montelukast::suicidal_ideation** (confirmed_positive) -- Expected ESCALATE, Got MONITOR.
+   - *Mechanistic confidence gating:* Curated plausibility=LOW (no confirmed CNS mechanism for peripheral CysLT1 antagonism) dampens composite confidence (0.664) below 0.70 despite MODERATE FAERS signal and Grade A PubMed evidence. Strict metrics capture the caution (FN=1); lenient metrics confirm the signal was never dropped (TP=7).
+2. **metformin::hypoglycaemia** (genuine_negative_control) -- Expected DO_NOT_ESCALATE, Got MONITOR.
+   - *Confounded signal handling:* FAERS contains ~9,340 spontaneous reports (PRR=10.73, STRONG) due to polypharmacy with insulin/secretagogues. The agent correctly derives plausibility=LOW (0.0) and PubMed grades the evidence as Grade C (0.0), successfully de-escalating the signal from ESCALATE down to MONITOR (confidence 0.400). Strict metrics correctly show zero false alarms (FP=0), while lenient metrics record the over-monitoring (FP=1, precision 0.875).
 
 ### Reproducibility Note
 A rubric-based re-curation was attempted and then reverted (see DECISIONS.md S15). The 6/7 strict /
@@ -95,5 +94,6 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - Independent human-expert panel for biological plausibility adjudication (see DECISIONS.md S20)
 - Multi-signal pharmacovigilance integration (EudraVigilance / JADER / WHO VigiBase APIs)
 - Paper writing, documentation synthesis, and report generation
+
 
 

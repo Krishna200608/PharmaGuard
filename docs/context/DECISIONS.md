@@ -120,18 +120,22 @@ This reasoning was constructed in the same session that had just identified mont
 | Metric | Strict | Lenient |
 |---|---|---|
 | TP | 6 | 7 |
-| FP | 0 | 0 |
-| TN | 8 | 8 |
+| FP | 0 | 1 |
+| TN | 8 | 7 |
 | FN | 1 | 0 |
-| Precision | 1.000 | 1.000 |
+| Precision | 1.000 | **0.875** |
 | Recall | **0.857** | **1.000** |
-| Specificity | 1.000 | 1.000 |
-| F1 | **0.923** | **1.000** |
-| Over-Caution Rate | 0.0% | — |
+| Specificity | 1.000 | **0.875** |
+| F1 | **0.923** | **0.933** |
+| Over-Caution Rate | **12.5%** (1/8) | — |
 
-**Single disagreement:** `montelukast::suicidal_ideation` — Expected ESCALATE, Got MONITOR.
-- Root cause: curated plausibility=LOW (no confirmed CNS mechanism for CysLT1 antagonism) reduces composite confidence below the ESCALATE threshold (0.70) despite strong FAERS signal (PRR MODERATE) and PubMed Grade A evidence.
-- This is correct mechanistic behaviour, not a bug. The signal was not missed (MONITOR, not DO_NOT_ESCALATE). See §14 for the design property this validates.
+**Documented Disagreements (Strict/Lenient Dual Validation):**
+1. `montelukast::suicidal_ideation` (confirmed_positive) — Expected ESCALATE, Got MONITOR.
+   - Root cause: curated plausibility=LOW (no confirmed CNS mechanism for CysLT1 antagonism) reduces composite confidence below the ESCALATE threshold (0.664 < 0.70) despite strong FAERS signal (PRR MODERATE) and PubMed Grade A evidence.
+   - Strict metrics capture the caution (FN=1); lenient metrics confirm the signal was never missed (TP=7).
+2. `metformin::hypoglycaemia` (genuine_negative_control) — Expected DO_NOT_ESCALATE, Got MONITOR.
+   - Root cause: FAERS contains ~9,340 spontaneous reports (PRR=10.73, STRONG) due to polypharmacy with insulin/secretagogues. The agent correctly derives plausibility=LOW (0.0) and PubMed grades the evidence as Grade C (0.0), de-escalating the signal from ESCALATE down to MONITOR (confidence 0.400).
+   - Strict metrics correctly show zero false alarms (FP=0), while lenient metrics record the over-monitoring (FP=1, precision 0.875).
 
 **Sprint 3 is closed on these numbers.**
 

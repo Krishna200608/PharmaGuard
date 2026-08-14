@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-11-amoxicillin-tendon_rupture",
-  "timestamp": "2026-08-14T03:20:49.550810Z",
+  "timestamp": "2026-08-14T11:37:36.569200Z",
   "prompts_version": "v1.0",
   "drug": "amoxicillin",
   "event": "tendon_rupture",
