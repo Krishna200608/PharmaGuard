@@ -134,3 +134,28 @@ This reasoning was constructed in the same session that had just identified mont
 - This is correct mechanistic behaviour, not a bug. The signal was not missed (MONITOR, not DO_NOT_ESCALATE). See §14 for the design property this validates.
 
 **Sprint 3 is closed on these numbers.**
+
+## 17. Supplementary Case Study — Memorization vs. Mechanistic Reasoning Probe
+**Purpose:** Probe whether LLM-derived plausibility reflects genuine pharmacological mechanism inference or memorized recall of famous headline drug-safety cases.
+**Design:** Evaluated 3 non-headline, non-litigated drug-event pairs possessing clear, citable biochemical pathways outside the 15-pair ground truth benchmark. Input MoAs in `chembl_lookup.json` were strictly event-agnostic general pharmacology.
+
+### Tested Pairs and Verbatim Rationale Findings
+
+1. **`topiramate` + `hypohidrosis`**
+   - **Input MoA:** *"Carbonic anhydrase II inhibitor; Carbonic anhydrase IV inhibitor; AMPA/kainate glutamate receptor antagonist; GABA-A receptor positive modulator; voltage-gated sodium channel blocker."*
+   - **Verdict:** HIGH (score 1.0)
+   - **Verbatim Rationale:** *"The mechanism of action includes carbonic anhydrase II and IV inhibition, which is the primary pharmacological profile of topiramate. Carbonic anhydrase inhibitors are well-documented to cause hypohidrosis (decreased sweating) and hyperthermia, particularly in pediatric populations, due to the inhibition of carbonic anhydrase in the sweat glands."*
+   - **Analysis:** The model accurately isolated the carbonic anhydrase isoenzymes from a multi-target profile and connected them to sweat gland secretion physiology.
+
+2. **`tamsulosin` + `intraoperative_floppy_iris_syndrome`**
+   - **Input MoA:** *"Selective alpha-1A adrenergic receptor antagonist; relaxes smooth muscle in the prostate and bladder neck."*
+   - **Verdict:** HIGH (score 1.0)
+   - **Verbatim Rationale:** *"Intraoperative floppy iris syndrome (IFIS) is a well-documented clinical complication strongly associated with the use of alpha-1 adrenergic receptor antagonists, particularly tamsulosin, which targets the alpha-1A receptor subtype. The mechanism involves the blockade of alpha-1 receptors in the iris dilator muscle, leading to poor pupil dilation and iris instability during cataract surgery."*
+   - **Analysis:** Demonstrates dual capability: the text reflects training memory of the clinical entity ("well-documented clinical complication"), while successfully explaining the mechanistic pathway (alpha-1A blockade in iris dilator muscle causing loss of tone).
+
+3. **`terbinafine` + `ageusia`**
+   - **Input MoA:** *"Squalene monooxygenase (squalene epoxidase) inhibitor; inhibits fungal ergosterol biosynthesis."*
+   - **Verdict:** MODERATE (score 0.5)
+   - **Verbatim Rationale:** *"Ageusia (loss of taste) is a well-documented, though relatively uncommon, side effect associated with terbinafine, a squalene monooxygenase inhibitor. While the exact mechanism is not fully understood, it is thought to be related to the drug's affinity for zinc or its accumulation in the taste buds, leading to reversible dysgeusia or ageusia in some patients."*
+   - **Analysis:** Appropriately assigned MODERATE rather than HIGH, correctly recognizing that the primary fungal enzyme target does not directly explain taste loss, while independently supplying the established off-target hypotheses (zinc affinity / taste bud accumulation).
+

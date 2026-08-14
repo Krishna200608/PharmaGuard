@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.1",
+  "run_id": "probe-run-2-terbinafine-ageusia",
+  "timestamp": "2026-08-14T03:45:55.453251Z",
+  "prompts_version": "v1.0",
+  "drug": "terbinafine",
+  "event": "ageusia",
+  "signal_stats": {
+    "prr": 37.38612329117495,
+    "ror": 39.05230148196322,
+    "prr_lower_ci": 34.150092768341736,
+    "ror_lower_ci": 35.52718718185242,
+    "report_count": 457,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:45:18.839711Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Ageusia (loss of taste) is a well-documented, though relatively uncommon, side effect associated with terbinafine, a squalene monooxygenase inhibitor. While the exact mechanism is not fully understood, it is thought to be related to the drug's affinity for zinc or its accumulation in the taste buds, leading to reversible dysgeusia or ageusia in some patients.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"terbinafine\"[tiab] AND \"ageusia\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "C",
+    "escalation": "MONITOR",
+    "confidence": 0.5,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

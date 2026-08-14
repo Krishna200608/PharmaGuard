@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "run_id": "probe-run-1-tamsulosin-intraoperative_floppy_iris_syndrome",
+  "timestamp": "2026-08-14T03:45:54.899440Z",
+  "prompts_version": "v1.0",
+  "drug": "tamsulosin",
+  "event": "intraoperative_floppy_iris_syndrome",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:44:44.691054Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Intraoperative floppy iris syndrome (IFIS) is a well-documented clinical complication strongly associated with the use of alpha-1 adrenergic receptor antagonists, particularly tamsulosin, which targets the alpha-1A receptor subtype. The mechanism involves the blockade of alpha-1 receptors in the iris dilator muscle, leading to poor pupil dilation and iris instability during cataract surgery.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"tamsulosin\"[tiab] AND \"intraoperative floppy iris syndrome\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "40113119",
+      "35610768",
+      "34321822",
+      "30648549",
+      "25073735"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple mentions of 'associated with' and 'adverse reaction' regarding Tamsulosin and IFIS, which qualifies as Grade B evidence. However, none of the provided abstracts contain the specific statistical metrics (p-values, confidence intervals, or odds ratios) required to meet the criteria for Grade A."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.4,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

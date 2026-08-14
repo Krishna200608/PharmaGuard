@@ -72,7 +72,7 @@ Config.yaml defaults: plausibility.source=lookup_first, output_dir=outputs.
 | **F1-Score** | 0.923 [0.727 - 1.000 / N/A] | 1.000 [1.000 - 1.000 / N/A] |
 | **Over-Caution Rate** | 0.0% (0/8) | -- |
 
-*Note on uncertainty:* Non-parametric bootstrap resampling (B=1000, seed=42) and exact Wilson score intervals are both reported. At n=15, the wide intervals reflect honest, uninflated statistical uncertainty due to small sample size.
+*Note on uncertainty & boundary artifact:* Non-parametric bootstrap resampling (B=1000, seed=42) and exact Wilson score intervals are both reported. At n=15, the bootstrap interval showing 1.000-1.000 for precision and specificity is a known percentile-bootstrap artifact at 0/N boundary proportions (it resamples from zero-false-positive empirical outcomes, so it structurally cannot express uncertainty) -- this is NOT evidence of proven perfect precision. The exact Wilson score interval ([0.610, 1.000] for strict precision; [0.676, 1.000] for specificity) is the far more informative and honest measure of small-sample statistical uncertainty here.
 
 ### Single Disagreement
   montelukast::suicidal_ideation -- Expected ESCALATE, Got MONITOR.
@@ -95,3 +95,4 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - Rubric formalisation (Bradford Hill) -- see DECISIONS.md S15 for the correct process
 - Calibrate escalation thresholds (see DECISIONS.md S5 -- currently uncalibrated priors)
 - Multi-dataset generalization testing (e.g., EudraVigilance or JADER comparisons)
+

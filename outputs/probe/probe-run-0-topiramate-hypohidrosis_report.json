@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "run_id": "probe-run-0-topiramate-hypohidrosis",
+  "timestamp": "2026-08-14T03:45:54.371151Z",
+  "prompts_version": "v1.0",
+  "drug": "topiramate",
+  "event": "hypohidrosis",
+  "signal_stats": {
+    "prr": 46.822503184409115,
+    "ror": 46.868075486718105,
+    "prr_lower_ci": 35.04033226780992,
+    "ror_lower_ci": 35.06535936155264,
+    "report_count": 51,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:44:26.259939Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The mechanism of action includes carbonic anhydrase II and IV inhibition, which is the primary pharmacological profile of topiramate. Carbonic anhydrase inhibitors are well-documented to cause hypohidrosis (decreased sweating) and hyperthermia, particularly in pediatric populations, due to the inhibition of carbonic anhydrase in the sweat glands.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"topiramate\"[tiab] AND \"hypohidrosis\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "36829251",
+      "33946010",
+      "23773932",
+      "23427516",
+      "20236344"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The abstracts provide multiple instances of case reports and clinical descriptions linking topiramate to hypohidrosis and hyperthermia (PMIDs 23773932, 23427516, 20236344). While PMID 23427516 reports on a cohort of 173 patients, it lacks explicit statistical significance language (e.g., p-values, confidence intervals, or odds ratios) required for Grade A. Therefore, the evidence qualifies as Grade B."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

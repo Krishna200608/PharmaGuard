@@ -10,7 +10,7 @@
         "Wegovy",
         "Rybelsus"
       ],
-      "mechanism_of_action": "GLP-1 receptor agonist \u2014 stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
+      "mechanism_of_action": "GLP-1 receptor agonist — stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
       "target_name": "Glucagon-like peptide 1 receptor",
       "target_class": "Peptide hormone receptor",
       "resolved_at": "2026-08-09",
@@ -22,7 +22,7 @@
       "trade_names": [
         "Glucophage"
       ],
-      "mechanism_of_action": "AMPK activator \u2014 inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
+      "mechanism_of_action": "AMPK activator — inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
       "target_name": "AMP-activated protein kinase",
       "target_class": "Kinase",
       "resolved_at": "2026-08-09",
@@ -34,7 +34,7 @@
       "trade_names": [
         "Lipitor"
       ],
-      "mechanism_of_action": "HMG-CoA reductase inhibitor \u2014 competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
+      "mechanism_of_action": "HMG-CoA reductase inhibitor — competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
       "target_name": "3-hydroxy-3-methylglutaryl-coenzyme A reductase",
       "target_class": "Enzyme",
       "resolved_at": "2026-08-09",
@@ -159,6 +159,42 @@
       "target_class": "Unknown",
       "resolved_at": "2026-08-11",
       "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL109/"
+    },
+    "topiramate": {
+      "chembl_id": "CHEMBL220492",
+      "canonical_name": "TOPIRAMATE",
+      "trade_names": [
+        "Topamax"
+      ],
+      "mechanism_of_action": "Carbonic anhydrase II inhibitor; Carbonic anhydrase IV inhibitor; AMPA/kainate glutamate receptor antagonist; GABA-A receptor positive modulator; voltage-gated sodium channel blocker.",
+      "target_name": "Carbonic anhydrase / Ion channels",
+      "target_class": "Enzyme / Ion channel",
+      "resolved_at": "2026-08-14",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL220492/"
+    },
+    "tamsulosin": {
+      "chembl_id": "CHEMBL1200914",
+      "canonical_name": "TAMSULOSIN",
+      "trade_names": [
+        "Flomax"
+      ],
+      "mechanism_of_action": "Selective alpha-1A adrenergic receptor antagonist; relaxes smooth muscle in the prostate and bladder neck.",
+      "target_name": "Alpha-1A adrenergic receptor",
+      "target_class": "GPCR",
+      "resolved_at": "2026-08-14",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1200914/"
+    },
+    "terbinafine": {
+      "chembl_id": "CHEMBL822",
+      "canonical_name": "TERBINAFINE",
+      "trade_names": [
+        "Lamisil"
+      ],
+      "mechanism_of_action": "Squalene monooxygenase (squalene epoxidase) inhibitor; inhibits fungal ergosterol biosynthesis.",
+      "target_name": "Squalene monooxygenase",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-08-14",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL822/"
     }
   }
 }
