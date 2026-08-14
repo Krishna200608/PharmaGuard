@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-8-metformin-hypoglycaemia",
+  "timestamp": "2026-08-14T12:03:04.906418Z",
+  "prompts_version": "v1.0",
+  "drug": "metformin",
+  "event": "hypoglycaemia",
+  "signal_stats": {
+    "prr": 10.725201663728846,
+    "ror": 10.939746742197162,
+    "prr_lower_ci": 10.488913033941436,
+    "ror_lower_ci": 10.694372279946856,
+    "report_count": 9344,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T11:28:04.884260Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "While the mechanism involves inhibiting hepatic gluconeogenesis, AMPK activators like metformin do not typically cause hypoglycemia when used as monotherapy because they do not stimulate insulin secretion and the body retains compensatory mechanisms to maintain glucose levels. Hypoglycemia is generally only a risk when these agents are combined with insulin or insulin secretagogues.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"metformin\"[tiab] AND \"hypoglycaemia\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [
+      "42259339",
+      "42253408",
+      "42251856",
+      "41883295",
+      "41820921"
+    ],
+    "evidence_summary": "Final Grade: C\nExplanation: None of the provided abstracts contain language indicating a statistically significant association (Grade A) or case report/adverse event association language (Grade B) specifically linking a drug to an adverse event in the context of the rubric criteria."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "C",
+    "escalation": "MONITOR",
+    "confidence": 0.4,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

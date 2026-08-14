@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-11-amoxicillin-tendon_rupture",
+  "timestamp": "2026-08-14T12:03:12.809905Z",
+  "prompts_version": "v1.0",
+  "drug": "amoxicillin",
+  "event": "tendon_rupture",
+  "signal_stats": {
+    "prr": 1.0905040699386854,
+    "ror": 1.0905623478813888,
+    "prr_lower_ci": 0.8677730859530671,
+    "ror_lower_ci": 0.8676918655175847,
+    "report_count": 74,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:20:42.454524Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Tendon rupture is a well-documented adverse effect associated with fluoroquinolone antibiotics, which function by inhibiting bacterial DNA gyrase and topoisomerase IV. Beta-lactam antibiotics, which inhibit penicillin-binding proteins to disrupt cell wall synthesis, do not share this mechanism of action and are not clinically associated with an increased risk of tendon rupture.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"amoxicillin\"[tiab] AND \"tendon rupture\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 4,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "36065683",
+      "26582407",
+      "19419232",
+      "27519893"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple instances of 'case report', 'adverse event', and 'associated with' language (e.g., 'tendinopathies', 'tendon rupture', 'adverse side effect'). However, none of the abstracts provide statistical evidence such as p-values < 0.05, confidence intervals excluding 1.0, or hazard/odds ratios to meet the criteria for Grade A."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

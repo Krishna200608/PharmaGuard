@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-3-clozapine-agranulocytosis",
-  "timestamp": "2026-08-12T08:37:58.900764Z",
+  "timestamp": "2026-08-14T12:04:40.014359Z",
   "prompts_version": "v1.0",
   "drug": "clozapine",
   "event": "agranulocytosis",

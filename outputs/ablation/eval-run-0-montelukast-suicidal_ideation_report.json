@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-0-montelukast-suicidal_ideation",
+  "timestamp": "2026-08-14T12:02:52.319169Z",
+  "prompts_version": "v1.0",
+  "drug": "montelukast",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 3.367067907743188,
+    "ror": 3.4020764655968256,
+    "prr_lower_ci": 3.1861650211129544,
+    "ror_lower_ci": 3.2166903098398314,
+    "report_count": 1259,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:13:33.986144Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The FDA has issued a boxed warning for montelukast, a prominent leukotriene receptor antagonist, due to the risk of serious neuropsychiatric events, including suicidal ideation and behavior. While the exact mechanism remains under investigation, clinical data and post-marketing surveillance have established a recognized association between the drug class and these adverse effects.",
+    "curated_reference": "LOW",
+    "plausibility_agreement": false
+  },
+  "literature": {
+    "pubmed_query": "\"montelukast\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "41644790",
+      "40553531",
+      "40413828",
+      "36228771",
+      "34987393"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: The retrieved abstracts contain multiple instances of statistical association language meeting the Grade A criteria. Specifically, the first abstract reports reporting odds ratios (ROR) for montelukast and promethazine, and the fifth abstract provides reporting odds ratios with 95% confidence intervals (e.g., 21.5 (95% CI: 20.3-22.9)) for suicidal ideation and depression, confirming a statistically significant association."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "A",
+    "escalation": "ESCALATE",
+    "confidence": 0.764,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}

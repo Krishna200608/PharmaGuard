@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1",
-  "run_id": "eval-run-8-metformin-hypoglycemia",
-  "timestamp": "2026-08-12T08:38:04.436617Z",
+  "run_id": "eval-run-8-metformin-hypoglycaemia",
+  "timestamp": "2026-08-14T12:04:54.530875Z",
   "prompts_version": "v1.0",
   "drug": "metformin",
-  "event": "hypoglycemia",
+  "event": "hypoglycaemia",
   "signal_stats": {
     "prr": null,
     "ror": null,
@@ -45,7 +45,7 @@
     "agent_reasoning_trace": [
       "Baseline single-shot call. No tool use.",
       "LLM decision: MONITOR (confidence=0.85)",
-      "Rationale: Metformin is generally considered weight-neutral and does not typically cause hypoglycemia when used as monotherapy because it does not stimulate insulin secretion. However, it may be monitored as a potential signal when used in combination with other glucose-lowering agents like sulfonylureas or insulin."
+      "Rationale: Metformin is generally considered weight-neutral and does not typically cause hypoglycemia when used as monotherapy. However, it can potentiate the effects of other glucose-lowering agents, making it a signal that warrants monitoring in the context of polypharmacy."
     ]
   }
 }

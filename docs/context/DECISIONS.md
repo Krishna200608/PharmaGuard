@@ -46,7 +46,7 @@ Last updated: 2026-08-14 | Sprint: Sprint 3 (COMPLETED) | Updated by: Antigravit
 **Decision:** The ReAct loop enforces a strict recursion_limit (e.g. 15 iterations) and defaults to safe placeholder values (UNKNOWN/C/None) if the agent terminates early without properly fetching data from all tools.
 **Why:** Prevents runaway agent iterations draining the LLM API quota, fulfilling the robustness requirement while preserving the fallback gracefully.
 
-## 9. ReAct Architecture Tool Nodes
+## 9.1 ReAct Architecture Tool Nodes
 **Decision:** LangGraph nodes directly execute the three underlying data fetchers (FAERS, ChEMBL, PubMed), pushing the raw return objects onto the graph state before assembling the final TriageReport deterministically outside the LLM.
 **Why:** Ensures compute_prr_score, compute_confidence, and derive_escalation remain untampered by the agent's generative layer.
 

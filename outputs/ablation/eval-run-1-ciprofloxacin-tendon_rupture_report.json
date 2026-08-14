@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
+  "timestamp": "2026-08-14T12:02:57.492440Z",
+  "prompts_version": "v1.0",
+  "drug": "ciprofloxacin",
+  "event": "tendon_rupture",
+  "signal_stats": {
+    "prr": 23.669865112395954,
+    "ror": 23.96289136699855,
+    "prr_lower_ci": 22.260512997823856,
+    "ror_lower_ci": 22.519778390535862,
+    "report_count": 1108,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:13:49.143068Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Tendon rupture is a well-documented, class-specific black box warning for fluoroquinolones, which exert their antibacterial effect by inhibiting bacterial DNA gyrase and topoisomerase IV. The mechanism is linked to the disruption of collagen synthesis and the induction of oxidative stress in tenocytes.",
+    "curated_reference": "MODERATE",
+    "plausibility_agreement": false
+  },
+  "literature": {
+    "pubmed_query": "\"ciprofloxacin\"[tiab] AND \"tendon rupture\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41089142",
+      "40228628",
+      "37969850",
+      "36282576",
+      "36147351"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple mentions of adverse events (tendinopathy, tendon rupture, peripheral neuropathy) and case reports, which satisfy the criteria for Grade B. However, none of the abstracts provide statistical data such as p-values, confidence intervals, or odds ratios required to meet the threshold for Grade A."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  }
+}
