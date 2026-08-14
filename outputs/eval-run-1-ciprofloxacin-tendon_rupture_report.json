@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
-  "timestamp": "2026-08-12T09:41:45.383678Z",
+  "timestamp": "2026-08-13T15:44:20.582183Z",
   "prompts_version": "v1.0",
   "drug": "ciprofloxacin",
   "event": "tendon_rupture",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 22.519778390535862,
     "report_count": 1108,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-12T09:27:53.501714Z",
+    "data_pulled_at": "2026-08-13T15:44:11.357115Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",

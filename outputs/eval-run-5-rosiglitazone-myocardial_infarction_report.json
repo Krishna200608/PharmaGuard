@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
-  "timestamp": "2026-08-12T09:41:48.173230Z",
+  "timestamp": "2026-08-13T15:46:02.401968Z",
   "prompts_version": "v1.0",
   "drug": "rosiglitazone",
   "event": "myocardial_infarction",
@@ -12,7 +12,7 @@
     "ror_lower_ci": 27.441876671263717,
     "report_count": 929,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-12T09:28:46.495122Z",
+    "data_pulled_at": "2026-08-13T15:45:47.399599Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
