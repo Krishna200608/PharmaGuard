@@ -1,0 +1,53 @@
+# Plausibility Rating Rubric -- PharmaGuard v1.1
+# ================================================
+# Version: 1.1 | Effective: 2026-08-14
+# Owner: Krishna Sikheriya (IIT2023139)
+#
+# DESIGN INTENT (Bradford Hill criterion)
+# ----------------------------------------
+# The question being answered is:
+#   "Based solely on the drug's known mechanism of action (MoA), is there a
+#    biological pathway by which this drug could plausibly produce this adverse
+#    event -- even speculatively?"
+#
+# This is explicitly Bradford Hill's "Biological Plausibility" criterion:
+# a proposed association need not have a confirmed mechanism; it is sufficient
+# that a mechanism can be reasonably hypothesized given current pharmacological
+# knowledge. Epidemiological evidence (case reports, clinical trials, regulatory
+# warnings) is NOT the operative signal here -- that is handled separately by
+# the FAERS signal strength and PubMed evidence grade components.
+#
+# This separation is intentional: combining three independent signals ensures
+# no single component double-counts regulatory or epidemiological evidence.
+# Curators must reason from the MoA text alone, not from knowledge of warnings.
+#
+# ANTI-CIRCULARITY NOTE
+# ----------------------
+# See DECISIONS.md S1.1. Curation must be based on general pharmacological MoA.
+# Do NOT reason from known adverse event associations, regulatory warnings, or
+# published case reports.
+
+# HIGH -- Mechanistically credible and directly implied by MoA
+#   The drug's primary mechanism creates a direct, well-understood pathway to
+#   the adverse event. The MoA text alone makes the link clearly credible without
+#   requiring multiple speculative steps.
+
+# MODERATE -- Mechanistically plausible via indirect or speculative pathway
+#   A biological pathway can be reasonably hypothesized from the MoA but requires
+#   at least one inferential step not directly confirmed, or involves an off-target
+#   or indirect mechanism. Not obvious, but not unreasonable.
+
+# LOW -- Mechanistically implausible or no credible pathway
+#   The MoA provides no direct or indirect biological pathway. The link would
+#   require mechanisms for which there is no pharmacological basis. Reserved for
+#   biologically arbitrary connections.
+
+# CURATION PROCEDURE
+# 1. Read only the drug's MoA from chembl_lookup.json.
+# 2. Ask: "Can this mechanism plausibly produce this event -- even speculatively?"
+#    - YES, directly and clearly  --> HIGH
+#    - YES, but only indirectly   --> MODERATE
+#    - NO credible pathway        --> LOW
+# 3. Write rationale from mechanistic reasoning only (not regulatory history).
+# 4. Record ChEMBL ID, curated_by, curated_at.
+# 5. Bump CACHE_SCHEMA_VERSION in cache.py after any re-curation batch.

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-8-metformin-hypoglycemia",
-  "timestamp": "2026-08-13T15:46:51.627004Z",
+  "timestamp": "2026-08-14T02:59:36.052182Z",
   "prompts_version": "v1.0",
   "drug": "metformin",
   "event": "hypoglycemia",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-13T15:46:38.759079Z",
+    "data_pulled_at": "2026-08-14T02:59:28.880930Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",

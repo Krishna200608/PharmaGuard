@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
-  "timestamp": "2026-08-13T15:46:35.737570Z",
+  "timestamp": "2026-08-14T02:59:26.630505Z",
   "prompts_version": "v1.0",
   "drug": "liraglutide",
   "event": "pancreatic_cancer",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-13T15:46:26.415179Z",
+    "data_pulled_at": "2026-08-14T02:59:20.136673Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -24,7 +24,7 @@
     "biological_plausibility": "MODERATE",
     "plausibility_score": 0.5,
     "plausibility_source": "human_curated",
-    "plausibility_rationale": "GLP-1 receptor agonism stimulates pancreatic exocrine and endocrine function. While chronic hyperstimulation theoretically provides a plausible pathway to hyperplasia or neoplasia, the direct link to carcinogenesis is complex and indirect.",
+    "plausibility_rationale": "GLP-1 receptor agonism stimulates both exocrine and endocrine pancreatic function. Chronic receptor overstimulation as a speculative pathway to hyperplasia or neoplasia is pharmacologically coherent as an indirect hypothesis, though the link to carcinogenesis is not direct from the MoA text alone.",
     "curated_reference": null,
     "plausibility_agreement": null
   },

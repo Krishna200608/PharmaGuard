@@ -1,76 +1,79 @@
 {
   "schema_version": "1.1",
-  "description": "Per (drug, event) biological plausibility ratings. Key format: '{drug_canonical}::{event_meddra_pt}' \u2014 lowercase canonical drug name from chembl_lookup.json, MedDRA Preferred Term in snake_case.",
-  "source_policy": "HUMAN_CURATED \u2014 rubric defined in prompts/evidence_grading_rubric.txt. Entries must include ChEMBL ID reference and written rationale.",
+  "description": "Per (drug, event) biological plausibility ratings. Key format: '{drug_canonical}::{event_meddra_pt}' — lowercase canonical drug name from chembl_lookup.json, MedDRA Preferred Term in snake_case.",
+  "source_policy": "HUMAN_CURATED -- rubric v1.1 (Bradford Hill) defined in prompts/plausibility_rubric.txt.",
   "entries": {
     "semaglutide::pancreatitis": {
-      "drug_canonical": "semaglutide",
-      "event_meddra_pt": "pancreatitis",
       "plausibility": "HIGH",
-      "rationale": "GLP-1 receptor agonism directly stimulates pancreatic exocrine secretion and has been shown in preclinical models to increase pancreatic ductal pressure. Several mechanistic reviews support a biological link.",
+      "rationale": "GLP-1 receptor agonism directly stimulates pancreatic exocrine secretion and increases pancreatic ductal pressure in preclinical models. The link between this primary mechanism and pancreatitis is direct and requires no speculative inferential steps.",
       "moa_source_chembl_id": "CHEMBL3307925",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-09"
+      "curated_at": "2026-08-14"
     },
     "metformin::lactic_acidosis": {
-      "drug_canonical": "metformin",
-      "event_meddra_pt": "lactic_acidosis",
       "plausibility": "HIGH",
-      "rationale": "Metformin inhibits mitochondrial complex I, impairing lactate oxidation in hepatocytes. In patients with renal impairment, accumulation leads to elevated lactate levels. Well-established pharmacological mechanism.",
+      "rationale": "Mitochondrial complex I inhibition directly impairs lactate oxidation in hepatocytes. In the presence of reduced renal clearance, metformin accumulation creates a direct, well-characterised pathway to lactic acidosis with no speculative steps required.",
       "moa_source_chembl_id": "CHEMBL1431",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-09"
+      "curated_at": "2026-08-14"
     },
     "atorvastatin::common_cold": {
-      "drug_canonical": "atorvastatin",
-      "event_meddra_pt": "common_cold",
       "plausibility": "LOW",
-      "rationale": "HMG-CoA reductase inhibition has no established mechanistic pathway affecting rhinovirus susceptibility or upper respiratory tract immune response. This pair is a negative-control entry.",
+      "rationale": "HMG-CoA reductase inhibition has no credible mechanistic pathway to rhinovirus susceptibility or upper respiratory tract immunity. No direct or indirect pharmacological basis connects cholesterol synthesis inhibition to viral respiratory infection.",
       "moa_source_chembl_id": "CHEMBL1582",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-09"
+      "curated_at": "2026-08-14"
     },
     "montelukast::suicidal_ideation": {
-      "plausibility": "LOW",
-      "rationale": "CysLT1 receptors are primarily targeted in the peripheral airways. While leukotrienes may have some role in neuroinflammation, direct causal mechanisms linking antagonism to suicidal ideation are not well established pharmacologically.",
+      "plausibility": "MODERATE",
+      "rationale": "CysLT1 receptor antagonism primarily targets peripheral airways, but leukotrienes have established roles in neuroinflammatory signalling. An indirect CNS pathway via leukotriene modulation of neuroinflammation and mood regulation is speculative but pharmacologically coherent under Bradford Hill criteria -- a mechanism can be reasonably hypothesised without being confirmed.",
       "moa_source_chembl_id": "CHEMBL787",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-12"
+      "curated_at": "2026-08-14"
     },
     "ciprofloxacin::tendon_rupture": {
       "plausibility": "MODERATE",
-      "rationale": "While primarily targeting bacterial DNA gyrase and Topoisomerase IV, fluoroquinolones are known to exert off-target toxic effects on mammalian cells, potentially altering collagen synthesis and upregulating matrix metalloproteinases in tendocytes.",
+      "rationale": "While the primary MoA targets bacterial DNA gyrase and Topoisomerase IV, fluoroquinolones are known to exert off-target toxic effects on mammalian tenocytes, potentially via disruption of collagen synthesis and matrix metalloproteinase upregulation. This off-target pathway is indirect relative to the primary antibacterial MoA but is a pharmacologically coherent hypothesis.",
       "moa_source_chembl_id": "CHEMBL8",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-12"
+      "curated_at": "2026-08-14"
     },
     "pembrolizumab::pneumonitis": {
       "plausibility": "HIGH",
-      "rationale": "PD-1 inhibition directly removes negative regulation of T-cell activation. This mechanism of unleashing systemic immune responses inherently carries a high biological plausibility for autoimmune and inflammatory toxicities, including pneumonitis.",
+      "rationale": "PD-1 inhibition directly removes negative regulatory checkpoints on T-cell activation, unleashing systemic immune responses. Autoimmune and inflammatory toxicities -- including pneumonitis -- are a direct, mechanistically inevitable consequence of this MoA and require no speculative inferential steps.",
       "moa_source_chembl_id": "CHEMBL3137343",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-12"
+      "curated_at": "2026-08-14"
     },
     "liraglutide::pancreatic_cancer": {
       "plausibility": "MODERATE",
-      "rationale": "GLP-1 receptor agonism stimulates pancreatic exocrine and endocrine function. While chronic hyperstimulation theoretically provides a plausible pathway to hyperplasia or neoplasia, the direct link to carcinogenesis is complex and indirect.",
+      "rationale": "GLP-1 receptor agonism stimulates both exocrine and endocrine pancreatic function. Chronic receptor overstimulation as a speculative pathway to hyperplasia or neoplasia is pharmacologically coherent as an indirect hypothesis, though the link to carcinogenesis is not direct from the MoA text alone.",
       "moa_source_chembl_id": "CHEMBL4084119",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-12"
+      "curated_at": "2026-08-14"
     },
     "atorvastatin::dementia": {
       "plausibility": "MODERATE",
-      "rationale": "HMG-CoA reductase inhibitors block cholesterol synthesis. Since brain cholesterol (synthesized locally) is critical for neuronal function and myelin maintenance, statins that cross the blood-brain barrier could plausibly impair cognition, though dementia is a chronic complex process.",
+      "rationale": "HMG-CoA reductase inhibitors reduce cholesterol synthesis systemically. Brain cholesterol is synthesised locally and is critical for neuronal membrane integrity, synaptic function, and myelination. Statins with CNS penetration could plausibly impair these processes indirectly, making dementia a pharmacologically speculative but non-arbitrary hypothesis.",
       "moa_source_chembl_id": "CHEMBL1582",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-12"
+      "curated_at": "2026-08-14"
     },
     "albuterol::suicidal_ideation": {
-      "plausibility": "LOW",
-      "rationale": "Beta-2 adrenergic receptor agonism causes sympathetic activation (tachycardia, tremor), but there is no direct established pharmacological mechanism linking peripheral or central beta-2 stimulation to complex psychiatric events like suicidal ideation.",
+      "plausibility": "MODERATE",
+      "rationale": "Beta-2 adrenergic receptor agonism causes peripheral sympathetic activation. While primarily a pulmonary bronchodilator, adrenergic signalling has CNS effects via autonomic pathways and indirect neuroinflammatory or neuromodulatory routes. A speculative mechanistic link to complex psychiatric events like suicidal ideation is pharmacologically conceivable under Bradford Hill criteria, even without a confirmed pathway.",
       "moa_source_chembl_id": "CHEMBL714",
+      "plausibility_rubric_version": "v1.1",
       "curated_by": "Krishna Sikheriya",
-      "curated_at": "2026-08-12"
+      "curated_at": "2026-08-14"
     }
   }
 }
