@@ -97,8 +97,8 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 ## Planned: Sprint 4
 
 - Medical ontology normalization layer (MedDRA LLT-to-PT canonicalization and UK/US spelling mapping)
-- Anti-leakage prompt guardrails for agent-derived plausibility (see DECISIONS.md S19)
-- Independent human-expert panel for biological plausibility adjudication (see DECISIONS.md S20)
+- Anti-leakage prompt guardrails for agent-derived plausibility (see DECISIONS.md §19)
+- Independent human-expert panel for biological plausibility adjudication (see DECISIONS.md §20)
 - Multi-signal pharmacovigilance integration (EudraVigilance / JADER / WHO VigiBase APIs)
 - Paper writing, documentation synthesis, and report generation
 
