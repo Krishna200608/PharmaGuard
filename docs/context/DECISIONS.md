@@ -56,7 +56,7 @@ Last updated: 2026-08-14 | Sprint: Sprint 3 (COMPLETED) | Updated by: Antigravit
 
 ## 11. Sprint 3 Evaluator Hand-off & Query Normalization
 **Decision:** All external API query construction (e.g. FAERS, PubMed) must pass through a shared `normalize_term` utility to convert internal snake_case keys into natural language strings (e.g., `tendon_rupture` to `tendon rupture`).
-**Why:** Directly passing internal schema keys to external APIs (like FAERS' `patient.reaction` field) corrupted the signal strength, yielding zero results for heavily documented side effects because the endpoints expect spaces. After implementing normalization, the pipeline achieved 100% Specificity and 100% Lenient Recall on the 15-pair ground truth. (Strict Recall remains 0%, as all true positives correctly triggered `MONITOR` rather than `ESCALATE`).
+**Why:** Directly passing internal schema keys to external APIs (like FAERS' `patient.reaction` field) corrupted the signal strength, yielding zero results for heavily documented side effects because the endpoints expect spaces. Query normalization restored live FAERS retrieval across all pairs. *(Historical Note: Early mid-sprint runs before toolchain bugfixes showed 0% strict recall; finalized pipeline performance is 0.857 strict recall / 1.000 lenient recall — see §16 and §21 for final verified metrics).*
 
 ## 12. Confidence Score Comparability Caveat (Baseline vs. Pipeline)
 **Decision:** When presenting comparison tables between PharmaGuard and the single-shot baseline, any column labelled "confidence" must carry a note distinguishing the two scales.
@@ -137,6 +137,23 @@ This reasoning was constructed in the same session that had just identified mont
    - Root cause: FAERS contains ~9,340 spontaneous reports (PRR=10.73, STRONG) due to polypharmacy with insulin/secretagogues. The agent correctly derives plausibility=LOW (0.0) and PubMed grades the evidence as Grade C (0.0), de-escalating the signal from ESCALATE down to MONITOR (confidence 0.400).
    - Strict metrics correctly show zero false alarms (FP=0), while lenient metrics record the over-monitoring (FP=1, precision 0.875).
 
+### Ablation Metrics (force_agent mode, 15 pairs)
+| Metric | Strict | Lenient |
+|---|---|---|
+| TP | 7 | 7 |
+| FP | 0 | 1 |
+| TN | 8 | 7 |
+| FN | 0 | 0 |
+| Precision | 1.000 | **0.875** |
+| Recall | **1.000** | **1.000** |
+| Specificity | 1.000 | **0.875** |
+| F1 | **1.000** | **0.933** |
+| Over-Caution Rate | **12.5%** (1/8) | — |
+
+> ⚠️ **WARNING:** force_agent mode's 1.000 strict recall is NOT evidence this mode is better. It results specifically from montelukast's plausibility being upgraded via leaked regulatory knowledge (see §19 Epidemiological Leakage) rather than genuine mechanistic reasoning -- the exact failure mode documented and reverted in §15. This number must never be cited as a reason to prefer force_agent over the production lookup_first configuration.
+
+**Ablation Overlap Breakdown (7 Curated Pairs):** 3 Agreements (albuterol::suicidal_ideation, atorvastatin::common_cold, pembrolizumab::pneumonitis), 4 Disagreements (montelukast::suicidal_ideation MODERATE vs LOW; ciprofloxacin::tendon_rupture HIGH vs MODERATE; liraglutide::pancreatic_cancer LOW vs MODERATE; atorvastatin::dementia LOW vs MODERATE).
+
 **Sprint 3 is closed on these numbers.**
 
 ## 17. Supplementary Case Study — Memorization vs. Mechanistic Reasoning Probe
@@ -181,7 +198,9 @@ Agent-derived plausibility should be characterized as **grounded pharmacological
 **Status:** Formal empirical calibration (e.g., Platt scaling, isotonic regression, or ROC Youden's $J$ optimization) is explicitly **out of scope for $n=15$**. At small sample sizes, empirical threshold tuning leads to extreme overfitting to the specific validation set. These thresholds remain fixed, auditable priors for Sprint 3.
 
 ## 19. Epidemiological Leakage in LLM Plausibility Derivation — Architectural Policy
-**Decision:** We formally document the current behavior of the agent-derived plausibility module: the LLM frequently retrieves epidemiological and regulatory associations from parametric pre-training memory alongside biochemical mechanisms (as proved in §12 and §17).
+**Decision:** We formally document the current behavior of the agent-derived plausibility module: the LLM frequently retrieves epidemiological and regulatory associations from parametric pre-training memory alongside biochemical mechanisms (as proved in §12, §17, and the 4/7 ablation disagreements).
+
+> ⚠️ **WARNING:** force_agent mode's 1.000 strict recall is NOT evidence this mode is better. It results specifically from montelukast's plausibility being upgraded via leaked regulatory knowledge (FDA boxed warning cited directly in the rationale) rather than genuine mechanistic reasoning -- the exact failure mode documented and reverted in §15. This number must never be cited as a reason to prefer force_agent over the production lookup_first configuration.
 **Policy:**
 - For Sprint 3, the current prompt and scoring pipeline are retained as-is and honestly reported as "grounded pharmacological knowledge retrieval and pathway synthesis."
 - For future multi-agent architectures (Sprint 4+), we commit to developing a formal anti-leakage prompt guard or a dual-reviewer pattern (e.g., instructing an adversarial critic LLM to reject any justification that cites regulatory warnings or clinical trial names rather than molecular receptors/enzymes).
@@ -204,6 +223,7 @@ Agent-derived plausibility should be characterized as **grounded pharmacological
      - **Composite Confidence:** $0.40 \times 1.0 + 0.40 \times 0.0 + 0.20 \times 0.0 = \mathbf{0.400}$.
      - **Final Escalation:** **`MONITOR`** (confidence $0.400 \in [0.35, 0.70)$).
    - **Architectural Takeaway:** This uncovers a genuine system property: when a confounded postmarketing signal is statistically strong in FAERS ($PRR > 10$) due to polypharmacy, the $0.40 \times \text{Signal\_Score}$ term alone yields a 0.40 confidence floor, shifting the signal into `MONITOR` rather than `DO_NOT_ESCALATE`. This is a classic safety-first behavior (preferring human review over silent dropping when 9,000+ spontaneous reports exist), but it highlights that linear scoring cannot fully zero out a signal when FAERS is heavily confounded without a specialized negative-confounding discounting rule.
+
 
 
 

@@ -27,19 +27,26 @@ Four real bugs found and fixed:
 
 #### Baseline Comparison
 - Single-shot LLM baseline vs. PharmaGuard on all 15 pairs.
-- Key example: baseline escalated liraglutide::pancreatic_cancer (FDA/EMA-cleared) at confidence 0.85;
-  PharmaGuard correctly gave DO_NOT_ESCALATE via FAERS NO_SIGNAL gate.
-- Confidence scores not directly comparable (see DECISIONS.md S12).
+- Baseline metrics: Strict P/R/Sp/F1 = 0.875 / 1.000 / 0.875 / 0.933 (FP=1 on liraglutide::pancreatic_cancer);
+  Lenient P/R/Sp/F1 = 0.700 / 1.000 / 0.625 / 0.824 (FP=3 on liraglutide, metformin, atorvastatin/dementia).
+- True 25.0% (2/8) over-caution rate on negative controls vs. PharmaGuard's 12.5% (1/8).
+- Key distinction: on metformin::hypoglycaemia, both systems output the same conservative MONITOR decision
+  (baseline via ungrounded clinical caution; PharmaGuard via strong FAERS polypharmacy signal modulated by
+  Grade C PubMed and LOW plausibility). On liraglutide, baseline escalates on ungrounded prior while PharmaGuard
+  correctly yields DO_NOT_ESCALATE via FAERS NO_SIGNAL gate.
+- Confidence scores not directly comparable (see DECISIONS.md §12).
 
 #### Ablation Study
-- force_agent vs. lookup_first on 7 comparable pairs: 3 agreements, 4 disagreements.
-- Key finding: LLM overrides mechanistic reasoning with training-data recall of famous drug safety cases.
+- force_agent vs. lookup_first on 7 comparable pairs: 3 agreements, 4 disagreements across curated overlap.
+- force_agent metrics (15 pairs): Strict P/R/Sp/F1 = 1.000 / 1.000 / 1.000 / 1.000; Lenient P/R/Sp/F1 = 0.875 / 1.000 / 0.875 / 0.933.
+- **WARNING:** force_agent mode's 1.000 strict recall is NOT evidence this mode is better. It results specifically from montelukast's plausibility being upgraded via leaked regulatory knowledge (see DECISIONS.md §19) rather than genuine mechanistic reasoning -- the exact failure mode documented and reverted in DECISIONS.md §15. This number must never be cited as a reason to prefer force_agent over the production lookup_first configuration.
+- Key finding: LLM overrides mechanistic reasoning with training-data recall of famous drug safety cases (citing boxed warnings and observational trials in 4/4 disagreements).
 
 #### Plausibility Curation
 - 6 pairs curated blindly (without looking at agent outputs) to support a valid ablation comparison.
 - Total curated entries: 9 (including 3 early illustrative pairs).
 - Plausibility rubric draft created (pharmaguard/prompts/plausibility_rubric.txt). NOT applied to ratings;
-  see DECISIONS.md S15 for why the rubric-based re-curation was attempted and then reverted.
+  see DECISIONS.md §15 for why the rubric-based re-curation was attempted and then reverted.
 
 ---
 
@@ -81,7 +88,7 @@ Config.yaml defaults: plausibility.source=lookup_first, output_dir=outputs.
    - *Confounded signal handling:* FAERS contains ~9,340 spontaneous reports (PRR=10.73, STRONG) due to polypharmacy with insulin/secretagogues. The agent correctly derives plausibility=LOW (0.0) and PubMed grades the evidence as Grade C (0.0), successfully de-escalating the signal from ESCALATE down to MONITOR (confidence 0.400). Strict metrics correctly show zero false alarms (FP=0), while lenient metrics record the over-monitoring (FP=1, precision 0.875).
 
 ### Reproducibility Note
-A rubric-based re-curation was attempted and then reverted (see DECISIONS.md S15). The 6/7 strict /
+A rubric-based re-curation was attempted and then reverted (see DECISIONS.md §15). The 6/7 strict /
 7/7 lenient result above is the honest, defensible Sprint 3 final result. The 15/15 result briefly
 produced by commit e906fd3 was contingent on a biased rubric revision and is not the final result.
 
@@ -94,6 +101,7 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - Independent human-expert panel for biological plausibility adjudication (see DECISIONS.md S20)
 - Multi-signal pharmacovigilance integration (EudraVigilance / JADER / WHO VigiBase APIs)
 - Paper writing, documentation synthesis, and report generation
+
 
 
 
