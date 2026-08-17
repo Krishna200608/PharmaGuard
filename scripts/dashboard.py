@@ -91,7 +91,7 @@ button[data-testid='stTab'] p {
     font-family: 'Inter', sans-serif !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
-    color: #475569 !important; /* Clearly readable slate-600 for inactive tabs */
+    color: #475569 !important;
     transition: color 0.15s ease !important;
 }
 
@@ -100,7 +100,7 @@ button[data-testid='stTab']:hover p {
 }
 
 button[data-testid='stTab'][aria-selected='true'] p {
-    color: #0f172a !important; /* Bold high-contrast active tab text */
+    color: #0f172a !important;
     font-weight: 700 !important;
 }
 
@@ -113,7 +113,7 @@ div[data-testid='stCheckbox'] label p {
     font-family: 'Inter', sans-serif !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
-    color: #1e293b !important; /* Crisp, dark, non-pale text */
+    color: #1e293b !important;
     white-space: nowrap !important;
 }
 
@@ -486,6 +486,8 @@ def build_df(reports: list, gt: dict) -> pd.DataFrame:
             'event': event.replace('_', ' '),
             'category': entry.get('category', ''),
             'signal': r.get('signal_stats', {}).get('prr_score_label', ''),
+            'report_count': r.get('signal_stats', {}).get('report_count', 0),
+            'prr': r.get('signal_stats', {}).get('prr'),
             'grade': r.get('literature', {}).get('evidence_grade', ''),
             'plausibility': r.get('mechanism', {}).get('biological_plausibility', ''),
             'confidence': r.get('triage', {}).get('confidence'),
@@ -530,10 +532,11 @@ def grade_badge(g: str) -> str:
     cls = {'A': 'b-ga', 'B': 'b-gb', 'C': 'b-gc'}.get(g, 'b-gc')
     return f'<span class="{cls}">{g}</span>'
 
-def signal_span(s: str) -> str:
+def signal_span(s: str, report_count: int = 0) -> str:
     color = {'STRONG': '#15803d', 'MODERATE': '#334155', 'NO_SIGNAL': '#94a3b8'}.get(s, '#94a3b8')
     wt = {'STRONG': '700', 'MODERATE': '600', 'NO_SIGNAL': '500'}.get(s, '500')
-    return f'<span style="color:{color};font-weight:{wt};font-size:12px;">{s}</span>'
+    rc_str = f' ({report_count:,})' if report_count is not None else ''
+    return f'<span style="color:{color};font-weight:{wt};font-size:12px;white-space:nowrap;">{s}<span style="font-weight:400;font-size:11px;color:#64748b;">{rc_str}</span></span>'
 
 def render_conf_chart(r: dict, key: str) -> None:
     ss = r.get('signal_stats', {})
@@ -716,13 +719,14 @@ def view_per_pair(df: pd.DataFrame) -> None:
         plaus = r['plausibility']
         pc = {'HIGH': '#166534', 'MODERATE': '#334155', 'LOW': '#94a3b8'}.get(plaus, '#94a3b8')
         flag = '⚡ ' if not r['match'] else ''
+        rc = r.get('report_count', 0)
         table_rows_html.append(
             f'<tr>'
             f'<td class="pg-mono" style="color:#64748b;">{flag}{r["idx"]}</td>'
             f'<td style="font-weight:600; color:#0f172a;">{r["drug"]}</td>'
             f'<td style="color:#334155;">{r["event"]}</td>'
             f'<td>{cat_badge(r["category"])}</td>'
-            f'<td>{signal_span(r["signal"])}</td>'
+            f'<td>{signal_span(r["signal"], rc)}</td>'
             f'<td>{grade_badge(r["grade"])}</td>'
             f'<td style="color:{pc}; font-weight:600; font-size:12px;">{plaus}</td>'
             f'<td class="pg-mono">{conf_str}</td>'
@@ -740,7 +744,7 @@ def view_per_pair(df: pd.DataFrame) -> None:
                     <th>Drug</th>
                     <th>Event</th>
                     <th>Category</th>
-                    <th>FAERS Signal</th>
+                    <th>FAERS Signal (Count)</th>
                     <th>PubMed</th>
                     <th>Plausibility</th>
                     <th>Confidence</th>
@@ -789,7 +793,7 @@ def view_per_pair(df: pd.DataFrame) -> None:
         rc_val = ss.get('report_count', 0)
         st.markdown(
             f'<div class="pg-mono" style="font-size:13px; color:#0f172a; margin-bottom:12px;">'
-            f'PRR: <b>{prr_disp}</b> &nbsp;|&nbsp; Reports: <b>{rc_val:,}</b> &nbsp;|&nbsp; Strength: {signal_span(sel_row["signal"])}'
+            f'PRR: <b>{prr_disp}</b> &nbsp;|&nbsp; Reports: <b>{rc_val:,}</b> &nbsp;|&nbsp; Strength: {signal_span(sel_row["signal"], rc_val)}'
             f'</div>',
             unsafe_allow_html=True,
         )
