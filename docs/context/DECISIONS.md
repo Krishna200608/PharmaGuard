@@ -224,7 +224,16 @@ Agent-derived plausibility should be characterized as **grounded pharmacological
      - **Final Escalation:** **`MONITOR`** (confidence $0.400 \in [0.35, 0.70)$).
    - **Architectural Takeaway:** This uncovers a genuine system property: when a confounded postmarketing signal is statistically strong in FAERS ($PRR > 10$) due to polypharmacy, the $0.40 \times \text{Signal\_Score}$ term alone yields a 0.40 confidence floor, shifting the signal into `MONITOR` rather than `DO_NOT_ESCALATE`. This is a classic safety-first behavior (preferring human review over silent dropping when 9,000+ spontaneous reports exist), but it highlights that linear scoring cannot fully zero out a signal when FAERS is heavily confounded without a specialized negative-confounding discounting rule.
 
+## 22. Known Limitation & Deliberately-Deferred Gap: `liraglutide::pancreatic_cancer` Ground-Truth Categorization
+**Background:** During the MedDRA PT audit and dashboard review, a data-quality categorization gap was identified for `liraglutide::pancreatic_cancer`.
 
+### Empirical Finding:
+1. In `ground_truth.json`, `liraglutide::pancreatic_cancer` is categorized as a `genuine_negative_control` (intended to evaluate whether the pipeline appropriately discounts a heavily investigated, non-causal epidemiological controversy using literature and plausibility).
+2. However, the event term in `ground_truth.json` is literally `pancreatic_cancer`, which returns **`report_count = 0`** (and `PRR = null`) in openFDA FAERS, because MedDRA indexes clinical oncology reports under specific Preferred Terms (such as `PANCREATIC CARCINOMA` or `PANCREATIC NEOPLASM`).
+3. Consequently, in the current benchmark, this pair does not test discounted-real-signal triage. Instead, it functionally triggers the structural **zero-report `NO_SIGNAL` gating path** (identical to `zero_report_edge_case` controls like `adalimumab::frostbite`), resulting in an automatic `DO_NOT_ESCALATE` triage before literature or plausibility can be evaluated.
 
-
-
+### Decision & Policy:
+**Status:** **Deliberately Deferred to Post-Mid-Sem / Future Scope.**
+- **Policy:** Re-opening `ground_truth.json`, updating the MedDRA term to `pancreatic_carcinoma`, and re-running the full evaluation pipeline is explicitly deferred to avoid scope expansion and preserve benchmark stability prior to September 14–15 milestone prep.
+- The dashboard and evaluation artifacts accurately report the empirical output under the committed `ground_truth.json`.
+- This finding is formally recorded here so it remains documented for the next iteration of the ground-truth benchmark without silently inflating current-sprint complexity.
