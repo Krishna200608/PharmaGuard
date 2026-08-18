@@ -1,7 +1,7 @@
 # PharmaGuard: Mid-Semester Capstone Defense Slide Deck (v1.0)
 
 **Project:** PharmaGuard — Intelligent Pharmacovigilance Signal Triage Orchestrator Grounded in Multi-Source Clinical Evidence  
-**Candidate:** Krishna Sikheriya (IIT2023139) · B.Tech Information Technology, 7th Semester  
+**Team:** Krishna Sikheriya (IIT2023139, Leader) · Lokesh Bawariya (IIT2023138) · Naitik Jain (IIB2023036)  
 **Supervisor:** Dr. Nikhilanand Arya · Assistant Professor, Department of IT, IIIT Allahabad  
 **Slide Deck Artifact:** [`docs/presentation/PharmaGuard_Midsem_Defense.pptx`](PharmaGuard_Midsem_Defense.pptx) (16:9 Widescreen, 12 Slides)
 

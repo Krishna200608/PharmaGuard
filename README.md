@@ -261,10 +261,13 @@ pytest -v
 
 ## Authors & Acknowledgments
 
-- **Author:** [Krishna Sikheriya](https://github.com/Krishna200608) (IIT2023139) — *Lead Developer & AI Architect*
+- **Team:**
+  - **[Krishna Sikheriya](https://github.com/Krishna200608)** (IIT2023139) — *Leader*
+  - **Lokesh Bawariya** (IIT2023138)
+  - **Naitik Jain** (IIB2023036)
 - **Supervisor:** **Dr. Nikhilanand Arya** — *Assistant Professor, Department of Information Technology, IIIT Allahabad*
 - **Institution:** Indian Institute of Information Technology, Allahabad (IIIT-A)
-- **Academic Milestone:** 7th-Semester B.Tech IT Capstone Project (2026–2027)
+- **Academic Milestone:** 7th-Semester B.Tech Capstone Project (2026–2027)
 
 ---
 
