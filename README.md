@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/Logos/Logo_3_square.png" alt="PharmaGuard Logo" width="400" height="400"/>
+  <img src="assets/Logos/Logo_3_square.png" alt="PharmaGuard Logo" width="300" height="300"/>
   <h1>PharmaGuard</h1>
   <h3>Intelligent Pharmacovigilance Signal Triage Orchestrator Grounded in Multi-Source Clinical Evidence</h3>
   <p>
