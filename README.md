@@ -1,15 +1,21 @@
-# PharmaGuard 🛡️
-### Intelligent Pharmacovigilance Signal Triage Orchestrator Grounded in Multi-Source Clinical Evidence
+<div align="center">
+  <img src="assets/Logos/Logo_3.png" alt="PharmaGuard Logo" width="450" />
+  <h1>PharmaGuard 🛡️</h1>
+  <h3>Intelligent Pharmacovigilance Signal Triage Orchestrator Grounded in Multi-Source Clinical Evidence</h3>
+  <p>
+    <em>A Tool-Grounded, Tri-Source Evidence Fusion Agent for Postmarketing Adverse Event Triage</em><br>
+    <em>B.Tech 7th-Semester Capstone Project · Indian Institute of Information Technology, Allahabad</em>
+  </p>
 
-*A Tool-Grounded, Tri-Source Evidence Fusion Agent for Postmarketing Adverse Event Triage*  
-*B.Tech 7th-Semester Capstone Project · Indian Institute of Information Technology, Allahabad*
-
-[![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit Dashboard](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B.svg?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![openFDA FAERS](https://img.shields.io/badge/Data-openFDA%20FAERS-0A85EA.svg?style=flat)](https://open.fda.gov/)
-[![ChEMBL REST](https://img.shields.io/badge/Data-ChEMBL%20v34-009688.svg?style=flat)](https://www.ebi.ac.uk/chembl/)
-[![PubMed E-Utilities](https://img.shields.io/badge/Data-PubMed%20NCBI-336699.svg?style=flat)](https://pubmed.ncbi.nlm.nih.gov/)
-[![Benchmark Verified](https://img.shields.io/badge/Benchmark-15%20Pairs%20Verified-success.svg?style=flat)]()
+  <p>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.13-3776AB.svg?style=flat&logo=python&logoColor=white" alt="Python 3.13" /></a>
+    <a href="https://streamlit.io/"><img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B.svg?style=flat&logo=streamlit&logoColor=white" alt="Streamlit Dashboard" /></a>
+    <a href="https://open.fda.gov/"><img src="https://img.shields.io/badge/Data-openFDA%20FAERS-0A85EA.svg?style=flat" alt="openFDA FAERS" /></a>
+    <a href="https://www.ebi.ac.uk/chembl/"><img src="https://img.shields.io/badge/Data-ChEMBL%20v34-009688.svg?style=flat" alt="ChEMBL REST" /></a>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/"><img src="https://img.shields.io/badge/Data-PubMed%20NCBI-336699.svg?style=flat" alt="PubMed E-Utilities" /></a>
+    <img src="https://img.shields.io/badge/Benchmark-15%20Pairs%20Verified-success.svg?style=flat" alt="Benchmark Verified" />
+  </p>
+</div>
 
 ---
 

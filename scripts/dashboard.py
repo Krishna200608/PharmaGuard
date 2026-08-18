@@ -29,13 +29,15 @@ REPO_ROOT = _SCRIPT_DIR.parent if _SCRIPT_DIR.name == "scripts" else _SCRIPT_DIR
 OUTPUTS_DIR = REPO_ROOT / "outputs"
 BASELINE_DIR = OUTPUTS_DIR / "baseline"
 GROUND_TRUTH_PATH = REPO_ROOT / "pharmaguard" / "data" / "ground_truth.json"
+FAVICON_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_1.png"
+LOGO_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_2.png"
 
 # ---------------------------------------------------------------------------
 # Page config
 # ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="PharmaGuard | Evaluation Dashboard",
-    page_icon="🛡️",
+    page_icon=str(FAVICON_PATH) if FAVICON_PATH.exists() else "🛡️",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -589,13 +591,27 @@ def render_conf_chart(r: dict, key: str) -> None:
 # ===========================================================================
 
 def view_overview() -> None:
-    st.markdown(
-        '<div class="pg-header">'
-        '<div class="pg-title">PharmaGuard — Evaluation Overview</div>'
-        '<div class="pg-subtitle">Sprint 3 final benchmark · 15 drug–event pairs · plausibility ratings v1.0</div>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
+    if LOGO_PATH.exists():
+        c_logo, c_title = st.columns([0.07, 0.93], gap='medium')
+        with c_logo:
+            st.image(str(LOGO_PATH), width=54)
+        with c_title:
+            st.markdown(
+                '<div class="pg-header" style="margin-bottom: 0px;">'
+                '<div class="pg-title">PharmaGuard — Evaluation Overview</div>'
+                '<div class="pg-subtitle">Sprint 3 final benchmark · 15 drug–event pairs · plausibility ratings v1.0</div>'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+        st.markdown('<div style="height: 14px;"></div>', unsafe_allow_html=True)
+    else:
+        st.markdown(
+            '<div class="pg-header">'
+            '<div class="pg-title">PharmaGuard — Evaluation Overview</div>'
+            '<div class="pg-subtitle">Sprint 3 final benchmark · 15 drug–event pairs · plausibility ratings v1.0</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
     m = PROD
 
     col_hero, col_flank = st.columns([2.3, 1], gap='large')
