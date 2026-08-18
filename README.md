@@ -1,6 +1,6 @@
 <div align="center">
   <img src="assets/Logos/Logo_3.png" alt="PharmaGuard Logo" width="450" />
-  <h1>PharmaGuard 🛡️</h1>
+  <h1>PharmaGuard</h1>
   <h3>Intelligent Pharmacovigilance Signal Triage Orchestrator Grounded in Multi-Source Clinical Evidence</h3>
   <p>
     <em>A Tool-Grounded, Tri-Source Evidence Fusion Agent for Postmarketing Adverse Event Triage</em><br>
@@ -19,7 +19,7 @@
 
 ---
 
-## 📌 The Problem
+## The Problem
 
 Every year, over 2 million adverse drug events are submitted to spontaneous reporting databases such as the **FDA Adverse Event Reporting System (FAERS)**. Clinical safety teams face an acute triage bottleneck: distinguishing true emergent pharmacological safety signals from background noise, uncorroborated reports, and confounded polypharmacy associations.
 
@@ -30,7 +30,7 @@ When generative foundation models (LLMs) are applied to clinical safety triage w
 
 ---
 
-## 💡 Our Solution
+## Our Solution
 
 **PharmaGuard** is an automated pharmacovigilance triage orchestrator that evaluates drug–adverse event pairs by synthesizing evidence from three orthogonal, public biomedical data streams:
 
@@ -43,38 +43,28 @@ PharmaGuard synthesizes these signals via a **deterministic composite confidence
 - **`MONITOR`** — Genuine epidemiological signal with unconfirmed mechanism, or heavily confounded polypharmacy signal requiring clinical surveillance.
 - **`DO_NOT_ESCALATE`** — No statistical postmarketing signal or dismissed non-causal association.
 
-```
-                      ┌─────────────────────────────────────────┐
-                      │    Drug + Adverse Event Query Pair      │
-                      └────────────────────┬────────────────────┘
-                                           │
-         ┌─────────────────────────────────┼─────────────────────────────────┐
-         ▼                                 ▼                                 ▼
-┌──────────────────┐             ┌──────────────────┐             ┌──────────────────┐
-│  openFDA FAERS   │             │   ChEMBL Target  │             │  PubMed Evidence │
-│ Disproportionality│             │ Biological Plaus.│             │ Literature Grade │
-│  (PRR / ROR / a) │             │ (HIGH / MOD / LOW│             │  (Grade A/B/C)   │
-└────────┬─────────┘             └────────┬─────────┘             └────────┬─────────┘
-         │                                 │                                 │
-         │ (Weight: 0.40)                  │ (Weight: 0.20)                  │ (Weight: 0.40)
-         └─────────────────────────────────┼─────────────────────────────────┘
-                                           ▼
-                      ┌─────────────────────────────────────────┐
-                      │ Deterministic Confidence Score [0, 1]   │
-                      │  Σ = 0.40·S_FAERS + 0.40·S_Lit + 0.20·S_Mech │
-                      └────────────────────┬────────────────────┘
-                                           │
-                  ┌────────────────────────┴────────────────────────┐
-                  ▼                                                 ▼
-      [FAERS == NO_SIGNAL ?]                             [Evaluate Confidence]
-      ├── YES ──► DO_NOT_ESCALATE (Hard Gate)            ├── Conf ≥ 0.70 & Strong ──► ESCALATE
-                                                         ├── Conf ≥ 0.35 ───────────► MONITOR
-                                                         └── Conf < 0.35 ───────────► DO_NOT_ESCALATE
+```mermaid
+flowchart TD
+    QP["Drug + Adverse Event Query Pair"] --> FAERS["openFDA / FAERS<br/>Disproportionality<br/>(PRR / ROR / a ≥ 3)"]
+    QP --> CHEMBL["ChEMBL Target<br/>Biological Plausibility<br/>(HIGH / MOD / LOW)"]
+    QP --> PUBMED["PubMed Evidence<br/>Literature Grade<br/>(Grade A / B / C)"]
+
+    FAERS -->|"Weight: 0.40"| CONF["Deterministic Confidence Score [0, 1]<br/>Σ = 0.40·S_FAERS + 0.40·S_Lit + 0.20·S_Mech"]
+    CHEMBL -->|"Weight: 0.20"| CONF
+    PUBMED -->|"Weight: 0.40"| CONF
+
+    CONF --> GATE{"FAERS == NO_SIGNAL ?"}
+    GATE -->|"YES"| DNE_GATE["<b>DO_NOT_ESCALATE</b><br/>(Hard Safety Gate)"]
+    GATE -->|"NO"| EVAL{"Evaluate Confidence"}
+
+    EVAL -->|"Conf ≥ 0.70 & Strong"| ESC["<b>ESCALATE</b>"]
+    EVAL -->|"Conf ≥ 0.35"| MON["<b>MONITOR</b>"]
+    EVAL -->|"Conf < 0.35"| DNE["<b>DO_NOT_ESCALATE</b>"]
 ```
 
 ---
 
-## 🔬 Core Architectural Pillars
+## Core Architectural Pillars
 
 ### 1. Tri-Source Grounded Evidence Fusion
 PharmaGuard eliminates LLM guesswork by querying live/cached biomedical APIs:
@@ -105,7 +95,7 @@ A presentation and clinical review dashboard engineered in Streamlit and Plotly 
 
 ---
 
-## 📊 Benchmark & Evaluation Results
+## Benchmark & Evaluation Results
 
 PharmaGuard was benchmarked against a **15-pair ground truth dataset** (7 Confirmed Positives, 5 Genuine Negative Controls, 3 Zero-Report Controls) and compared directly against a **Single-Shot LLM Baseline** (Gemini Flash, zero tool access):
 
@@ -125,7 +115,7 @@ PharmaGuard was benchmarked against a **15-pair ground truth dataset** (7 Confir
 
 ---
 
-## 🔍 Documented Case Studies
+## Documented Case Studies
 
 ### 1. `montelukast` + `suicidal_ideation` (Confirmed Positive → `MONITOR`)
 - **Evidence:** FAERS MODERATE (PRR = 3.37, 1,259 reports), PubMed Grade A (ROR statistics with 95% CIs).
@@ -144,7 +134,7 @@ PharmaGuard was benchmarked against a **15-pair ground truth dataset** (7 Confir
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Core & Runtime:** Python 3.13, Pandas, NumPy, Scipy
 - **Agent Orchestration:** LangGraph, LangChain, ReAct Agent Loop
@@ -155,7 +145,7 @@ PharmaGuard was benchmarked against a **15-pair ground truth dataset** (7 Confir
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 PharmaGuard/
@@ -189,7 +179,8 @@ PharmaGuard/
 │   ├── tools/                        # OpenFDA, ChEMBL, PubMed & diskcache tools
 │   └── utils/                        # Config loaders, normalizers & metrics
 ├── scripts/
-│   ├── dashboard.py                  # Streamlit evaluation dashboard (zero live API calls)
+│   ├── dashboard.py                  # Streamlit evaluation dashboard driver
+│   ├── dashboard_modules/            # Modular dashboard package (views, components, styles)
 │   ├── run_eval.py                   # 15-pair benchmark evaluation runner
 │   ├── evaluator.py                  # Strict & Lenient metric calculator with Bootstrap/Wilson CIs
 │   ├── baseline.py                   # Single-shot LLM baseline evaluation runner
@@ -204,7 +195,7 @@ PharmaGuard/
 
 ---
 
-## 🚀 Quickstart & Reproduction
+## Quickstart & Reproduction
 
 ### 1. Installation
 
@@ -257,7 +248,7 @@ pytest -v
 
 ---
 
-## 📚 Documentation Roadmap
+## Documentation Roadmap
 
 | Document | Purpose & Description |
 | :--- | :--- |
@@ -268,7 +259,7 @@ pytest -v
 
 ---
 
-## 👥 Authors & Acknowledgments
+## Authors & Acknowledgments
 
 - **Author:** [Krishna Sikheriya](https://github.com/Krishna200608) (IIT2023139) — *Lead Developer & AI Architect*
 - **Supervisor:** **Dr. Nikhilanand Arya** — *Assistant Professor, Department of Information Technology, IIIT Allahabad*
@@ -277,6 +268,6 @@ pytest -v
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
