@@ -57,7 +57,7 @@ flowchart TD
     GATE -->|"YES"| DNE_GATE["<b>DO_NOT_ESCALATE</b><br/>(Hard Safety Gate)"]
     GATE -->|"NO"| EVAL{"Evaluate Confidence"}
 
-    EVAL -->|"Conf ≥ 0.70 & Strong"| ESC["<b>ESCALATE</b>"]
+    EVAL -->|"Conf ≥ 0.70 & FAERS ≥ MODERATE"| ESC["<b>ESCALATE</b>"]
     EVAL -->|"Conf ≥ 0.35"| MON["<b>MONITOR</b>"]
     EVAL -->|"Conf < 0.35"| DNE["<b>DO_NOT_ESCALATE</b>"]
 ```
