@@ -28,7 +28,7 @@ When generative foundation models (LLMs) are applied to clinical safety triage w
 
 **PharmaGuard** is an automated pharmacovigilance triage orchestrator that evaluates drug–adverse event pairs by synthesizing evidence from three orthogonal, public biomedical data streams:
 
-- **1. openFDA / FAERS:** Computes postmarketing disproportionality statistics ($2 \times 2$ contingency table, PRR, ROR, and 95% lower confidence bounds) with an $a \ge 3$ report count floor.
+- **1. openFDA / FAERS:** Computes postmarketing disproportionality statistics (2×2 contingency table, PRR, ROR, and 95% lower confidence bounds) with an `a >= 3` report count floor.
 - **2. ChEMBL Mechanism of Action:** Evaluates target-level pharmacological mechanisms to determine biological plausibility (`HIGH`, `MODERATE`, `LOW/UNKNOWN`) via human-curated lookup with agent-derived fallback.
 - **3. PubMed Literature Retrieval:** Analyzes biomedical abstracts via automated regex parsing to assign evidence grades (`Grade A` for statistically significant odds ratios/CIs, `Grade B` for clinical observations, `Grade C` for unconfirmed/negative literature).
 
@@ -72,21 +72,27 @@ PharmaGuard synthesizes these signals via a **deterministic composite confidence
 
 ### 1. Tri-Source Grounded Evidence Fusion
 PharmaGuard eliminates LLM guesswork by querying live/cached biomedical APIs:
-- **FAERS Statistical Engine:** Computes exact Proportional Reporting Ratios (PRR) and Reporting Odds Ratios (ROR) from openFDA records. Signals with lower $95\%$ CI $< 1.0$ are automatically downgraded to prevent small-sample false alarms.
+- **FAERS Statistical Engine:** Computes exact Proportional Reporting Ratios (PRR) and Reporting Odds Ratios (ROR) from openFDA records. Signals with lower 95% CI < 1.0 are automatically downgraded to prevent small-sample false alarms.
 - **ChEMBL Plausibility Layer:** Routes through curated lookup (`plausibility_ratings.json`) with agent-derived biochemical fallback.
-- **PubMed Grading Pipeline:** Extracts statistical markers ($p < 0.05$, odds ratios, 95% CIs) to grade supporting peer-reviewed literature.
+- **PubMed Grading Pipeline:** Extracts statistical markers (p < 0.05, odds ratios, 95% CIs) to grade supporting peer-reviewed literature.
 
 ### 2. Deterministic Scoring & Hard Safety Gating
+
 $$\text{Confidence} = 0.40 \cdot S_{\text{FAERS}} + 0.40 \cdot S_{\text{PubMed}} + 0.20 \cdot S_{\text{Plausibility}}$$
-- **Hard Safety Gate:** If $\text{FAERS} == \text{NO\_SIGNAL}$, the pipeline immediately outputs **`DO_NOT_ESCALATE`** regardless of confidence score. This prevents theoretical literature or biological speculation from triggering false alerts on drugs with zero real-world patient reports (`DECISIONS.md §5`).
+
+- **Hard Safety Gate:** If `FAERS == NO_SIGNAL`, the pipeline immediately outputs **`DO_NOT_ESCALATE`** regardless of confidence score. This prevents theoretical literature or biological speculation from triggering false alerts on drugs with zero real-world patient reports (`DECISIONS.md §5`).
+- **Decision Boundaries:**
+  - `Confidence >= 0.70` and `FAERS >= MODERATE` $\implies$ **`ESCALATE`**
+  - `Confidence >= 0.35` $\implies$ **`MONITOR`**
+  - Otherwise $\implies$ **`DO_NOT_ESCALATE`**
 
 ### 3. Dual-Metric Benchmark Framework (Strict vs. Lenient)
 Evaluating signal triage requires capturing both unhesitating escalation and safety-critical surveillance:
-- **Strict Metrics:** Treats only `ESCALATE` as True Positive. Captures epistemic caution when biological mechanism is unconfirmed (e.g. `montelukast::suicidal_ideation` $\to$ `MONITOR`, strictly recorded as $\text{FN}=1$).
-- **Lenient Metrics:** Treats `ESCALATE` and `MONITOR` as True Positive. Confirms that no safety-critical signal is dropped ($\text{Recall} = 1.000$).
+- **Strict Metrics:** Treats only `ESCALATE` as True Positive. Captures epistemic caution when biological mechanism is unconfirmed (e.g. `montelukast::suicidal_ideation` $\to$ `MONITOR`, strictly recorded as `FN = 1`).
+- **Lenient Metrics:** Treats `ESCALATE` and `MONITOR` as True Positive. Confirms that no safety-critical signal is dropped (`Recall = 1.000`).
 
 ### 4. Anti-Leakage & Memorization Probe Discipline
-Empirical probing revealed that unconstrained LLM plausibility derivation (`force_agent` mode) produced an artificial $1.000$ Strict Recall by leaking regulatory memory (citing FDA Boxed Warnings) rather than performing biochemical reasoning (`DECISIONS.md §19`). PharmaGuard maintains a `lookup_first` configuration and treats agent-derived plausibility as **grounded pharmacological knowledge retrieval and pathway synthesis**, not de novo reasoning (`DECISIONS.md §17`).
+Empirical probing revealed that unconstrained LLM plausibility derivation (`force_agent` mode) produced an artificial 1.000 Strict Recall by leaking regulatory memory (citing FDA Boxed Warnings) rather than performing biochemical reasoning (`DECISIONS.md §19`). PharmaGuard maintains a `lookup_first` configuration and treats agent-derived plausibility as **grounded pharmacological knowledge retrieval and pathway synthesis**, not de novo reasoning (`DECISIONS.md §17`).
 
 ### 5. High-Density Streamlit Dashboard (Zero Live API Calls)
 A presentation and clinical review dashboard engineered in Streamlit and Plotly with **zero live API dependencies at runtime**, reading exclusively from pre-committed evaluation reports with full confidence decomposition bar charts, inline report counts (`FAERS Signal (Count)`), and dynamic category filters.
@@ -116,15 +122,15 @@ PharmaGuard was benchmarked against a **15-pair ground truth dataset** (7 Confir
 ## 🔍 Documented Case Studies
 
 ### 1. `montelukast` + `suicidal_ideation` (Confirmed Positive → `MONITOR`)
-- **Evidence:** FAERS MODERATE ($PRR=3.37, 1,259$ reports), PubMed Grade A (ROR statistics with 95% CIs).
+- **Evidence:** FAERS MODERATE (PRR = 3.37, 1,259 reports), PubMed Grade A (ROR statistics with 95% CIs).
 - **Mechanism:** CysLT1 receptors are primarily peripheral; no direct CNS pathway is pharmacologically confirmed (`plausibility=LOW`).
-- **Triage Result:** Composite confidence drops to $0.664$ ($< 0.70$), yielding `MONITOR`.
+- **Triage Result:** Composite confidence drops to 0.664 (< 0.70), yielding `MONITOR`.
 - **Clinical Significance:** Pharmacovigilance-correct outcome: signals real-world co-occurrence while flagging unresolved mechanistic uncertainty.
 
 ### 2. `metformin` + `hypoglycaemia` (Negative Control → `MONITOR`)
-- **Evidence:** FAERS STRONG ($PRR=10.73, 9,344$ reports) due to widespread polypharmacy with insulin/sulfonylureas.
+- **Evidence:** FAERS STRONG (PRR = 10.73, 9,344 reports) due to widespread polypharmacy with insulin/sulfonylureas.
 - **Mechanism:** Metformin inhibits hepatic gluconeogenesis without stimulating insulin secretion (`plausibility=LOW`, PubMed Grade C).
-- **Triage Result:** The $0.40 \cdot S_{\text{FAERS}}$ term establishes a $0.400$ confidence floor ($\ge 0.35$), yielding `MONITOR`.
+- **Triage Result:** The `0.40 * S_FAERS` term establishes a 0.400 confidence floor (>= 0.35), yielding `MONITOR`.
 - **Clinical Significance:** Safety-first triage: discounts the confounded signal from `ESCALATE` down to `MONITOR`, preventing silent dropping when 9,000+ reports exist.
 
 ### 3. `liraglutide` + `pancreatic_cancer` (Negative Control → `DO_NOT_ESCALATE`)
