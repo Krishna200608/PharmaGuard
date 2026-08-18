@@ -8,7 +8,7 @@ Owner: Krishna Sikheriya (IIT2023139)
 
 import pytest
 from pathlib import Path
-from pharmaguard.tools.cache import ToolCache
+from pharmaguard.tools.cache import ToolCache, CACHE_SCHEMA_VERSION
 
 
 @pytest.fixture
@@ -36,7 +36,7 @@ def test_cache_invalidate(tmp_cache):
 
 def test_faers_key_format(tmp_cache):
     key = ToolCache.faers_key("Ozempic", "Pancreatitis")
-    assert key == "faers::ozempic::pancreatitis::v6"
+    assert key == f"faers::ozempic::pancreatitis::{CACHE_SCHEMA_VERSION}"
 
 
 def test_pubmed_key_is_deterministic():
