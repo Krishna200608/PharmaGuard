@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/Logos/Logo_3.png" alt="PharmaGuard Logo" width="450" />
+  <img src="assets/Logos/Logo_3_square.png" alt="PharmaGuard Logo" width="450" />
   <h1>PharmaGuard</h1>
   <h3>Intelligent Pharmacovigilance Signal Triage Orchestrator Grounded in Multi-Source Clinical Evidence</h3>
   <p>
@@ -21,7 +21,7 @@
 
 ## The Problem
 
-Every year, over 2 million adverse drug events are submitted to spontaneous reporting databases such as the **FDA Adverse Event Reporting System (FAERS)**. Clinical safety teams face an acute triage bottleneck: distinguishing true emergent pharmacological safety signals from background noise, uncorroborated reports, and confounded polypharmacy associations.
+Every year, millions of spontaneous adverse drug event reports are submitted to postmarketing safety databases such as the **FDA Adverse Event Reporting System (FAERS)**. Clinical safety teams face an acute triage bottleneck: distinguishing true emergent pharmacological safety signals from background noise, uncorroborated reports, and confounded polypharmacy associations.
 
 When generative foundation models (LLMs) are applied to clinical safety triage without strict tool grounding, they exhibit three fundamental failure modes:
 1. **Hallucinated Clinical Confidence:** LLMs produce high, uncalibrated self-confidence scores without empirical statistical grounding.
@@ -34,9 +34,9 @@ When generative foundation models (LLMs) are applied to clinical safety triage w
 
 **PharmaGuard** is an automated pharmacovigilance triage orchestrator that evaluates drug–adverse event pairs by synthesizing evidence from three orthogonal, public biomedical data streams:
 
-- **1. openFDA / FAERS:** Computes postmarketing disproportionality statistics (2×2 contingency table, PRR, ROR, and 95% lower confidence bounds) with an `a >= 3` report count floor.
+- **1. openFDA / FAERS:** Computes postmarketing disproportionality statistics (2×2 contingency table, PRR, ROR, and Woolf 95% lower confidence bounds) with automatic down-weighting for wide confidence intervals.
 - **2. ChEMBL Mechanism of Action:** Evaluates target-level pharmacological mechanisms to determine biological plausibility (`HIGH`, `MODERATE`, `LOW/UNKNOWN`) via human-curated lookup with agent-derived fallback.
-- **3. PubMed Literature Retrieval:** Analyzes biomedical abstracts via automated regex parsing to assign evidence grades (`Grade A` for statistically significant odds ratios/CIs, `Grade B` for clinical observations, `Grade C` for unconfirmed/negative literature).
+- **3. PubMed Literature Retrieval:** Analyzes peer-reviewed abstracts using structured LLM grading against a versioned clinical rubric (`Grade A` for statistically significant odds ratios/CIs, `Grade B` for clinical observations, `Grade C` for unconfirmed/negative literature).
 
 PharmaGuard synthesizes these signals via a **deterministic composite confidence formula** and applies a strict safety gate to output auditable decisions:
 - **`ESCALATE`** — Statistically significant signal corroborated by high biological plausibility or Grade A literature.
@@ -45,7 +45,7 @@ PharmaGuard synthesizes these signals via a **deterministic composite confidence
 
 ```mermaid
 flowchart TD
-    QP["Drug + Adverse Event Query Pair"] --> FAERS["openFDA / FAERS<br/>Disproportionality<br/>(PRR / ROR / a ≥ 3)"]
+    QP["Drug + Adverse Event Query Pair"] --> FAERS["openFDA / FAERS<br/>Disproportionality<br/>(PRR / ROR / Woolf 95% CI)"]
     QP --> CHEMBL["ChEMBL Target<br/>Biological Plausibility<br/>(HIGH / MOD / LOW)"]
     QP --> PUBMED["PubMed Evidence<br/>Literature Grade<br/>(Grade A / B / C)"]
 
