@@ -237,3 +237,36 @@ Agent-derived plausibility should be characterized as **grounded pharmacological
 - **Policy:** Re-opening `ground_truth.json`, updating the MedDRA term to `pancreatic_carcinoma`, and re-running the full evaluation pipeline is explicitly deferred to avoid scope expansion and preserve benchmark stability prior to September 14–15 milestone prep.
 - The dashboard and evaluation artifacts accurately report the empirical output under the committed `ground_truth.json`.
 - This finding is formally recorded here so it remains documented for the next iteration of the ground-truth benchmark without silently inflating current-sprint complexity.
+
+## 23. Related Work & Literature Positioning
+**Context:** Positioning PharmaGuard against foundational architectures, empirical benchmarks, and adjacent agentic clinical systems.
+
+### Base Papers (Dual Framing):
+1. **Yao et al., "ReAct: Synergizing Reasoning and Acting in Language Models," ICLR 2023**
+   - *Description:* Foundational framework establishing the interleaving of reasoning traces ("thought") with task-specific external tool execution ("action" and "observation").
+   - *Gap Addressed by PharmaGuard:* ReAct provides a domain-agnostic agentic loop, but lacks domain-specific multi-source evidence weighting, continuous confidence calibration, and deterministic clinical safety gates (e.g. `NO_SIGNAL` hard overrides) necessary for high-stakes regulatory triage.
+
+2. **"PSEBench: A Controllable and Verifiable Benchmark for Evaluating LLMs in Patient Safety Event Triage," arXiv:2606.05463, 2026**
+   - *Description:* Closest empirical analog in clinical AI—a large-scale (5,074 cases), agentic, evidence-grounded benchmark evaluating LLMs on multi-tier escalation triage for hospital patient safety events.
+   - *Gap Addressed by PharmaGuard:* Evaluates acute hospital incident reporting rather than postmarketing pharmacovigilance; prior to PharmaGuard, no public benchmark or open-source system existed that evaluates tri-source statistical (FAERS), mechanistic (ChEMBL), and literature (PubMed) fusion for adverse drug event triage.
+
+### Related Papers:
+3. **Omar et al., "Multi-model assurance analysis showing LLMs are highly vulnerable to adversarial hallucination attacks during clinical decision support," *Communications Medicine*, 2025**
+   - *Description:* Empirical evaluation across six leading LLMs demonstrating that foundation models elaborate on planted false clinical details in up to 83% of decision support cases without tool verification.
+   - *Gap Addressed by PharmaGuard:* Provides the foundational evidentiary basis for PharmaGuard's core architectural design: eliminating ungrounded generative LLM clinical scoring in favor of deterministic formulas grounded in empirical postmarketing APIs.
+
+4. **Venugopal, "LLM-powered agentic AI design and implementation in pharmacovigilance -- a narrative review," *J. Med. AI*, Jan 2026**
+   - *Description:* Comprehensive narrative review mapping the conceptual application of autonomous LLM agents (signal detection, case intake, triage, narrative generation) across the pharmacovigilance lifecycle.
+   - *Gap Addressed by PharmaGuard:* Purely conceptual and speculative survey lacking an implemented, benchmarked, and reproducible open-source software architecture; PharmaGuard serves as a concrete, reproducible instantiation of the signal triage agent theorized in this work.
+
+5. **"DruGagent: Multi-Agent LLM-Based Reasoning for Drug-Target Interaction Prediction," 2025/2026**
+   - *Description:* Multi-agent LLM framework combining ReAct orchestration with biomedical literature grounding and per-component ablation studies isolating tool contributions.
+   - *Gap Addressed by PharmaGuard:* Employs similar methodological rigor and ablation discipline, but addresses pre-clinical drug-target discovery rather than postmarketing adverse-event signal surveillance and regulatory escalation.
+
+6. **Kim et al., "MDAgents: An Adaptive Multi-Agent Collaboration Framework for Complex Clinical Decision-Making," 2024**
+   - *Description:* Adaptive multi-agent clinical framework featuring dynamic role assignment and multi-agent collaboration scaled to problem complexity.
+   - *Gap Addressed by PharmaGuard:* Dynamic multi-agent routing introduces orchestration overhead and non-deterministic execution paths; PharmaGuard adopts a deterministic, fixed-order pipeline with explicit tool boundaries to satisfy strict auditability and reproducibility requirements in pharmacovigilance.
+
+7. **Mishra, Arvan, Zalake, "TeamMedAgents: Multi-Agent Clinical Collaboration Driven by Team Science Protocols," 2025**
+   - *Description:* Multi-agent clinical framework implementing structured teamwork protocols derived from human medical team science for collaborative clinical decision-making.
+   - *Gap Addressed by PharmaGuard:* Targets conversational multi-agent consultation across broad medical domains; PharmaGuard demonstrates that a streamlined, single-agent-per-tool-role architecture with a deterministic composite formula is simpler, faster, and more easily verified for pharmacovigilance triage than complex multi-agent conversational protocols.

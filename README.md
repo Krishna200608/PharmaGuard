@@ -253,9 +253,10 @@ pytest -v
 | Document | Purpose & Description |
 | :--- | :--- |
 | **[`docs/context/UNDERSTAND.md`](docs/context/UNDERSTAND.md)** | **Start here.** Plain-language guide covering system mechanics, data streams, and the dual-metric philosophy. |
-| **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 22-section chronological record of all architectural decisions, MedDRA PT audits, and memorization probe findings. |
+| **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 23-section chronological record of all architectural decisions, MedDRA PT audits, and memorization probe findings. |
 | **[`docs/context/PROGRESS.md`](docs/context/PROGRESS.md)** | Sprint changelog, exact Wilson/Bootstrap confidence interval tables, and clean reproduction verification. |
 | **[`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md)** | Formal technical architecture, component interactions, scoring equations, and JSON schemas. |
+| **[`docs/proposals/PharmaGuard_Proposal_2026-08-18.md`](docs/proposals/PharmaGuard_Proposal_2026-08-18.md)** | Formal Capstone Project Proposal (18 August 2026) submitted to Dr. Nikhilanand Arya. |
 
 ---
 
