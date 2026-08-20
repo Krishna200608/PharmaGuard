@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-2-isotretinoin-teratogenicity",
+  "timestamp": "2026-08-20T12:57:19.243919Z",
+  "prompts_version": "v1.0",
+  "drug": "isotretinoin",
+  "event": "teratogenicity",
+  "signal_stats": {
+    "prr": 48.97625335894664,
+    "ror": 49.00911789917259,
+    "prr_lower_ci": 26.827577726159994,
+    "ror_lower_ci": 26.83491082391524,
+    "report_count": 11,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:14:22.830525Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Retinoic acid receptor (RAR) agonists, such as isotretinoin, are well-established human teratogens. They disrupt the highly regulated signaling pathways involving retinoic acid that are critical for embryonic development, particularly craniofacial, cardiac, and central nervous system morphogenesis. The mechanism of altering gene transcription in developing tissues leads to severe congenital malformations, a phenomenon known as retinoic acid embryopathy.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"isotretinoin\"[tiab] AND \"teratogenicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41914642",
+      "41103707",
+      "40648641",
+      "40429495",
+      "37998335"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: Two abstracts (PMID 41103707 and 37998335) contain language associated with adverse events (e.g., 'adverse events', 'risk of', 'adverse effects'). However, none of the abstracts provide statistical significance metrics (e.g., p-values, confidence intervals, or odds ratios) required for Grade A. Therefore, the evidence is classified as Grade B."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"isotretinoin\",\n  \"event\": \"teratogenicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for isotretinoin-induced teratogenicity is extremely strong, supported by a high PRR (48.98) and ROR (49.01) in FAERS data. The biological plausibility is established as 'HIGH' due to the well-documented mechanism of retinoic acid receptor (RAR) agonism disrupting embryonic development. PubMed evidence is graded as 'B', confirming the established clinical knowledge of this severe adverse effect. Given the severity of the outcome (teratogenicity), this is a well-known, high-priority safety signal that warrants continued regulatory monitoring and strict risk management protocols.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 48.9762533589466,\n    \"faers_ror\": 49.0091178991726,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"isotretinoin\",\n  \"event\": \"teratogenicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The association between isotretinoin and teratogenicity is a well-established, high-priority safety signal. FAERS data shows a very high disproportionality (PRR 48.98, ROR 49.01), indicating a strong statistical signal. The biological mechanism is well-characterized as retinoic acid receptor (RAR) agonism, which disrupts critical embryonic signaling pathways, leading to severe congenital malformations (retinoic acid embryopathy). PubMed evidence consistently supports this clinical reality. Given the severity of the outcome, this signal is classified as a high-priority risk requiring stringent regulatory oversight and risk management.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 48.9762533589466,\n    \"faers_ror\": 49.0091178991726,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```"
+    ]
+  }
+}

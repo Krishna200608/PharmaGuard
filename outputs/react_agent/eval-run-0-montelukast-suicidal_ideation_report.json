@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-0-montelukast-suicidal_ideation",
+  "timestamp": "2026-08-20T12:56:38.516762Z",
+  "prompts_version": "v1.0",
+  "drug": "montelukast",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 3.367067907743188,
+    "ror": 3.4020764655968256,
+    "prr_lower_ci": 3.1861650211129544,
+    "ror_lower_ci": 3.2166903098398314,
+    "report_count": 1259,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:13:33.986144Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "CysLT1 receptors are primarily targeted in the peripheral airways. While leukotrienes may have some role in neuroinflammation, direct causal mechanisms linking antagonism to suicidal ideation are not well established pharmacologically.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"montelukast\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "41644790",
+      "40553531",
+      "40413828",
+      "36228771",
+      "34987393"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: The retrieved abstracts contain multiple instances of statistical association language meeting the Grade A criteria. Specifically, the first abstract reports reporting odds ratios (ROR) for montelukast and promethazine, and the fifth abstract provides reporting odds ratios with 95% confidence intervals (e.g., 21.5 (95% CI: 20.3-22.9)) for suicidal ideation and depression, confirming a statistically significant association."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "A",
+    "escalation": "MONITOR",
+    "confidence": 0.664,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"montelukast\",\n  \"event\": \"suicidal_ideation\",\n  \"faers_data\": {\n    \"prr\": 3.36706790774319,\n    \"ror\": 3.40207646559683,\n    \"report_count\": 1259\n  },\n  \"biological_plausibility\": {\n    \"score\": 0,\n    \"rationale\": \"CysLT1 receptors are primarily targeted in the peripheral airways. While leukotrienes may have some role in neuroinflammation, direct causal mechanisms linking antagonism to suicidal ideation are not well established pharmacologically.\"\n  },\n  \"literature_evidence\": {\n    \"grade\": \"A\",\n    \"summary\": \"The retrieved abstracts contain multiple instances of statistical association language meeting the Grade A criteria. Specifically, the first abstract reports reporting odds ratios (ROR) for montelukast and promethazine, and the fifth abstract provides reporting odds ratios with 95% confidence intervals (e.g., 21.5 (95% CI: 20.3-22.9)) for suicidal ideation and depression, confirming a statistically significant association.\"\n  },\n  \"triage_recommendation\": {\n    \"status\": \"ESCALATE\",\n    \"rationale\": \"The signal for montelukast and suicidal ideation is strong, supported by a high PRR/ROR in FAERS and Grade A literature evidence. Despite the lack of a clear established pharmacological mechanism, the consistency of the reporting data and clinical literature warrants regulatory attention and continued monitoring.\"\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"montelukast\",\n  \"event\": \"suicidal_ideation\",\n  \"synthesis\": {\n    \"faers_analysis\": \"The FAERS data indicates a strong statistical signal with a PRR of 3.37 and an ROR of 3.40, based on 1,259 reports. The lower bounds of the 95% confidence intervals for both metrics are well above 1, indicating a robust statistical association between montelukast and reports of suicidal ideation.\",\n    \"biological_plausibility\": \"The pharmacological mechanism remains unclear. While CysLT1 receptors are the primary target in the airways, their role in the central nervous system regarding mood regulation is not well-defined, resulting in a low biological plausibility score.\",\n    \"literature_evidence\": \"The literature evidence is graded as 'A', reflecting consistent findings across multiple studies that confirm a statistically significant association between montelukast use and neuropsychiatric adverse events, including suicidal ideation and depression.\",\n    \"triage_recommendation\": \"ESCALATE\"\n  },\n  \"final_recommendation\": {\n    \"status\": \"ESCALATE\",\n    \"rationale\": \"The combination of a strong, consistent statistical signal in FAERS (PRR/ROR > 3) and high-grade (Grade A) literature evidence necessitates escalation. Although the direct biological mechanism is not fully elucidated, the clinical significance and the volume of reports warrant formal regulatory review and continued pharmacovigilance monitoring.\"\n  }\n}\n```"
+    ]
+  }
+}

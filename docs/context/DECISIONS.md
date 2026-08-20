@@ -238,6 +238,9 @@ Agent-derived plausibility should be characterized as **grounded pharmacological
 - The dashboard and evaluation artifacts accurately report the empirical output under the committed `ground_truth.json`.
 - This finding is formally recorded here so it remains documented for the next iteration of the ground-truth benchmark without silently inflating current-sprint complexity.
 
+### Explicit Limitation Disclosure (C2 Audit Finding):
+`liraglutide::pancreatic_cancer` is nominally categorized as `genuine_negative_control` in `ground_truth.json`, but functionally behaves as a `zero_report_edge_case`: its actual `report_count` is 0, because the query term was never corrected the way `metformin::hypoglycemia`'s was (see §21 MedDRA audit). This means only 4 of the 5 nominal genuine negative controls are actually testing real, discounted background signal -- the fifth is functioning as a trivial zero-report case despite its category label. This is a disclosed, known limitation of the current ground truth composition, not a resolved issue.
+
 ## 23. Related Work & Literature Positioning
 **Context:** Positioning PharmaGuard against foundational architectures, empirical benchmarks, and adjacent agentic clinical systems.
 

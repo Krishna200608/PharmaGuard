@@ -256,6 +256,7 @@ pytest -v
 | **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 23-section chronological record of all architectural decisions, MedDRA PT audits, and memorization probe findings. |
 | **[`docs/context/PROGRESS.md`](docs/context/PROGRESS.md)** | Sprint changelog, exact Wilson/Bootstrap confidence interval tables, and clean reproduction verification. |
 | **[`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md)** | Formal technical architecture, component interactions, scoring equations, and JSON schemas. |
+| **[`docs/context/CONTRIBUTION.md`](docs/context/CONTRIBUTION.md)** | Grounded claims of project contributions, empirical findings, and architectural comparisons. |
 | **[`docs/proposals/PharmaGuard_Proposal_2026-08-18.md`](docs/proposals/PharmaGuard_Proposal_2026-08-18.md)** | Formal Capstone Project Proposal (18 August 2026) submitted to Dr. Nikhilanand Arya. |
 
 ---

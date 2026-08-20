@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
+  "timestamp": "2026-08-20T12:58:51.200466Z",
+  "prompts_version": "v1.0",
+  "drug": "liraglutide",
+  "event": "pancreatic_cancer",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:19:39.465661Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "GLP-1 receptor agonism stimulates pancreatic exocrine and endocrine function. While chronic hyperstimulation theoretically provides a plausible pathway to hyperplasia or neoplasia, the direct link to carcinogenesis is complex and indirect.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"liraglutide\"[tiab] AND \"pancreatic cancer\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "40196933",
+      "39777709",
+      "37531876",
+      "37252522",
+      "35266164"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple instances of association language (e.g., 'side effects', 'adverse effects', 'associated with', 'case report'), but they do not meet the Grade A criteria of having two or more abstracts that provide statistical evidence (such as p-values < 0.05, confidence intervals excluding 1.0, or specific hazard ratios) for a direct drug-adverse event association. Abstract 2 discusses survival outcomes related to gene expression rather than drug-induced adverse events, and the other abstracts provide qualitative reports or reviews of side effects without the required statistical rigor for Grade A."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.3,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"liraglutide\",\n  \"event\": \"pancreatic_cancer\",\n  \"triage_recommendation\": {\n    \"status\": \"MONITOR\",\n    \"priority\": \"LOW\",\n    \"rationale\": \"While there is a theoretical biological plausibility (GLP-1 receptor agonism) and Grade B literature evidence suggesting a potential link, the FAERS database currently shows zero co-occurrences. The lack of disproportionality signals in the FDA database suggests that this is not an immediate safety crisis, but the mechanism of action warrants continued pharmacovigilance monitoring.\"\n  },\n  \"tool_observations\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"null_reason\": \"Zero co-occurrences found in FAERS.\"\n    },\n    \"chembl_moa\": {\n      \"score\": 0.5,\n      \"level\": \"MODERATE\",\n      \"rationale\": \"GLP-1 receptor agonism stimulates pancreatic exocrine and endocrine function. While chronic hyperstimulation theoretically provides a plausible pathway to hyperplasia or neoplasia, the direct link to carcinogenesis is complex and indirect.\"\n    },\n    \"pubmed_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"The retrieved abstracts contain multiple instances of association language (e.g., 'side effects', 'adverse effects', 'associated with', 'case report'), but they do not meet the Grade A criteria of having two or more abstracts that provide statistical evidence (such as p-values < 0.05, confidence intervals excluding 1.0, or specific hazard ratios) for a direct drug-adverse event association. Abstract 2 discusses survival outcomes related to gene expression rather than drug-induced adverse events, and the other abstracts provide qualitative reports or reviews of side effects without the required statistical rigor for Grade A.\"\n    }\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"liraglutide\",\n  \"event\": \"pancreatic_cancer\",\n  \"triage_recommendation\": {\n    \"status\": \"MONITOR\",\n    \"priority\": \"LOW\",\n    \"rationale\": \"The evaluation of liraglutide and pancreatic cancer yields a 'MONITOR' status with 'LOW' priority. While there is theoretical biological plausibility due to GLP-1 receptor agonism potentially stimulating pancreatic tissue, the current evidence does not support a definitive causal link. FAERS data shows zero co-occurrences, and PubMed evidence is limited to qualitative reports and reviews (Grade B) lacking the statistical rigor required to establish a direct association. Given the lack of disproportionality signals and the absence of robust clinical evidence, the current safety profile does not warrant immediate escalation, but continued pharmacovigilance is appropriate.\"\n  },\n  \"confidence_score\": 0.75,\n  \"escalation_required\": false\n}\n```"
+    ]
+  }
+}

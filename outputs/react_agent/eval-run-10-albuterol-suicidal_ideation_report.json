@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-10-albuterol-suicidal_ideation",
+  "timestamp": "2026-08-20T13:00:39.726781Z",
+  "prompts_version": "v1.0",
+  "drug": "albuterol",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 1.266092794401247,
+    "ror": 1.267569028184496,
+    "prr_lower_ci": 1.1997346412673344,
+    "ror_lower_ci": 1.2007759370823157,
+    "report_count": 1338,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-08-14T03:20:31.182672Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "Beta-2 adrenergic receptor agonism causes sympathetic activation (tachycardia, tremor), but there is no direct established pharmacological mechanism linking peripheral or central beta-2 stimulation to complex psychiatric events like suicidal ideation.",
+    "curated_reference": null,
+    "plausibility_agreement": null
+  },
+  "literature": {
+    "pubmed_query": "\"albuterol\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.0",
+    "agent_reasoning_trace": [
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"albuterol\",\n  \"event\": \"suicidal_ideation\",\n  \"triage_recommendation\": \"Monitor/No Escalation\",\n  \"analysis\": {\n    \"faers_signal\": {\n      \"prr\": 1.266,\n      \"ror\": 1.268,\n      \"report_count\": 1338,\n      \"interpretation\": \"Weak disproportionality signal detected.\"\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"level\": \"LOW\",\n      \"rationale\": \"Albuterol is a beta-2 adrenergic agonist primarily acting on the respiratory system. There is no established pharmacological mechanism linking it to suicidal ideation.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"summary\": \"No specific literature found linking albuterol to suicidal ideation.\"\n    }\n  },\n  \"final_assessment\": \"While there is a weak statistical signal in FAERS, the lack of biological plausibility and supporting clinical literature suggests the signal may be due to confounding factors (e.g., underlying asthma severity or comorbid psychiatric conditions). No regulatory escalation is warranted at this time.\"\n}\n```",
+      "```json\n{\n  \"drug\": \"albuterol\",\n  \"event\": \"suicidal_ideation\",\n  \"triage_recommendation\": \"Monitor/No Escalation\",\n  \"confidence_score\": \"Medium\",\n  \"rationale\": \"The analysis identified a weak statistical signal (PRR 1.27, ROR 1.27) in the FAERS database. However, this is countered by a lack of biological plausibility, as albuterol's mechanism as a beta-2 adrenergic agonist does not directly correlate with psychiatric adverse events, and a search of PubMed yielded no clinical literature supporting a causal link. The statistical signal is likely confounded by the high prevalence of comorbid anxiety and depression in patients with chronic respiratory conditions like asthma. Given the absence of mechanistic or clinical evidence, no regulatory escalation is required, but continued monitoring is appropriate.\",\n  \"escalation_status\": \"None\"\n}\n```"
+    ]
+  }
+}
