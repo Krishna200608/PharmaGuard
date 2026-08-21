@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-13-imatinib-tooth_eruption",
-  "timestamp": "2026-08-20T13:01:28.942499Z",
+  "timestamp": "2026-08-21T03:49:15.202715Z",
   "prompts_version": "v1.0",
   "drug": "imatinib",
   "event": "tooth_eruption",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:20:55.282440Z",
+    "data_pulled_at": "2026-08-21T03:48:53.295595Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -43,8 +43,8 @@
     "confidence": 0.0,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"imatinib\",\n  \"event\": \"tooth_eruption\",\n  \"triage_recommendation\": \"DISMISS\",\n  \"rationale\": \"The signal assessment for imatinib and tooth eruption yielded no evidence of a safety concern. FAERS data shows zero co-occurrences, there is no established biological plausibility linking imatinib's mechanism of action (BCR-Abl, c-Kit, PDGF-R inhibition) to tooth eruption, and a literature search returned no supporting evidence. The signal is considered non-existent.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"prr\": null,\n      \"ror\": null\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"rationale\": \"No established mechanistic link between imatinib's kinase targets and tooth eruption.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"supporting_pmids\": []\n    }\n  }\n}\n```",
-      "{\n  \"drug\": \"imatinib\",\n  \"event\": \"tooth_eruption\",\n  \"triage_recommendation\": \"DISMISS\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The evaluation of imatinib and tooth eruption consistently shows no evidence of a safety signal. FAERS database queries returned zero reports, indicating no historical association in pharmacovigilance data. Mechanistic analysis via ChEMBL confirms that while imatinib affects kinase pathways (BCR-Abl, c-Kit, PDGF-R), there is no established biological pathway linking these targets to the physiological process of tooth eruption. Furthermore, a comprehensive search of PubMed yielded no clinical or preclinical literature supporting this association. Given the lack of data across all three domains, the signal is classified as non-existent.\",\n  \"escalation_required\": false\n}"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"imatinib\",\n  \"event\": \"tooth_eruption\",\n  \"triage_recommendation\": \"Dismiss\",\n  \"rationale\": \"The assessment of the (imatinib, tooth_eruption) pair yielded no evidence of a safety signal. FAERS data shows zero co-occurrences, there is no established biological plausibility linking imatinib's mechanism of action (tyrosine kinase inhibition) to tooth eruption, and a search of PubMed yielded no supporting literature. The signal is considered non-existent.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"status\": \"No signal detected\"\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"rationale\": \"No established mechanistic link between BCR-Abl/c-Kit/PDGF-R inhibition and tooth eruption.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"summary\": \"No relevant literature found.\"\n    }\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"imatinib\",\n  \"event\": \"tooth_eruption\",\n  \"triage_recommendation\": \"Dismiss\",\n  \"confidence_score\": \"High\",\n  \"rationale\": \"The evaluation of the association between imatinib and tooth eruption consistently shows no evidence of a safety signal. FAERS data reports zero co-occurrences, and there is no established biological mechanism linking tyrosine kinase inhibition (the primary action of imatinib) to the physiological process of tooth eruption. Furthermore, a comprehensive search of PubMed yielded no literature supporting this association. Given the lack of clinical reports, mechanistic plausibility, and published evidence, this event is considered unrelated to imatinib therapy.\",\n  \"escalation_required\": false\n}\n```"
     ]
   }
 }

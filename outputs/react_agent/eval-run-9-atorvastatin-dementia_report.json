@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-9-atorvastatin-dementia",
-  "timestamp": "2026-08-20T13:00:02.221780Z",
+  "timestamp": "2026-08-21T03:46:51.219589Z",
   "prompts_version": "v1.0",
   "drug": "atorvastatin",
   "event": "dementia",
   "signal_stats": {
-    "prr": 1.7189960827713182,
-    "ror": 1.7213220281988486,
-    "prr_lower_ci": 1.6195216772667191,
-    "ror_lower_ci": 1.6214040318298104,
+    "prr": 1.719020787032248,
+    "ror": 1.7213467852377649,
+    "prr_lower_ci": 1.6195449143656575,
+    "ror_lower_ci": 1.621427317817622,
     "report_count": 1109,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:20:11.857758Z",
+    "data_pulled_at": "2026-08-21T03:46:19.068528Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -49,8 +49,8 @@
     "confidence": 0.5,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"atorvastatin\",\n  \"event\": \"dementia\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for atorvastatin-associated dementia is supported by a positive disproportionality signal in FAERS (PRR 1.72, 95% CI 1.62-1.82), moderate biological plausibility related to cholesterol synthesis inhibition in the CNS, and Grade A evidence from PubMed, including studies reporting statistically significant hazard ratios. Given the clinical significance of dementia and the widespread use of atorvastatin, this warrants formal regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 1.71899608277132,\n      \"ror\": 1.72132202819885,\n      \"report_count\": 1109\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"rationale\": \"HMG-CoA reductase inhibitors block cholesterol synthesis. Since brain cholesterol (synthesized locally) is critical for neuronal function and myelin maintenance, statins that cross the blood-brain barrier could plausibly impair cognition, though dementia is a chronic complex process.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"A\",\n      \"summary\": \"Two abstracts (PMID 37597795 and 37375800) contain statistical language regarding the association between statins and dementia. PMID 37597795 reports an odds ratio and confidence interval (though not significant), and PMID 37375800 reports hazard ratios and 95% confidence intervals that exclude 1.0, indicating a statistically significant association.\"\n    }\n  }\n}\n```",
-      "```json\n{\n  \"drug\": \"atorvastatin\",\n  \"event\": \"dementia\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The evaluation of atorvastatin and dementia yields a high-confidence signal for escalation. The FAERS data shows a clear disproportionality signal (PRR 1.72, 95% CI 1.62-1.82) with a substantial number of reports (1,109). This is supported by moderate biological plausibility, as atorvastatin's inhibition of cholesterol synthesis in the CNS may impact neuronal and myelin integrity. Furthermore, the literature evidence is graded 'A', with recent studies providing statistically significant hazard ratios linking statin use to dementia outcomes. Given the clinical severity of the event and the high volume of exposure to this drug, formal regulatory review is warranted.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 1.71899608277132,\n      \"ror\": 1.72132202819885,\n      \"report_count\": 1109\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"rationale\": \"HMG-CoA reductase inhibitors block cholesterol synthesis. Since brain cholesterol (synthesized locally) is critical for neuronal function and myelin maintenance, statins that cross the blood-brain barrier could plausibly impair cognition, though dementia is a chronic complex process.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"A\",\n      \"summary\": \"Two abstracts (PMID 37597795 and 37375800) contain statistical language regarding the association between statins and dementia. PMID 37597795 reports an odds ratio and confidence interval (though not significant), and PMID 37375800 reports hazard ratios and 95% confidence intervals that exclude 1.0, indicating a statistically significant association.\"\n    }\n  }\n}\n```"
+      "{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"atorvastatin\",\n  \"event\": \"dementia\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for atorvastatin-associated dementia is supported by a disproportionality signal in FAERS (PRR 1.72, 95% CI 1.62-1.82), moderate biological plausibility related to cholesterol synthesis inhibition in the CNS, and Grade A evidence from PubMed, including studies reporting statistically significant hazard ratios. Given the public health implications of cognitive impairment, this warrants formal regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 1.719,\n      \"ror\": 1.721,\n      \"report_count\": 1109\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"level\": \"MODERATE\",\n      \"rationale\": \"HMG-CoA reductase inhibitors block cholesterol synthesis. Since brain cholesterol (synthesized locally) is critical for neuronal function and myelin maintenance, statins that cross the blood-brain barrier could plausibly impair cognition, though dementia is a chronic complex process.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"A\",\n      \"summary\": \"Two abstracts (PMID 37597795 and 37375800) contain statistical language regarding the association between statins and dementia. PMID 37597795 reports an odds ratio and confidence interval (though not significant), and PMID 37375800 reports hazard ratios and 95% confidence intervals that exclude 1.0, indicating a statistically significant association.\"\n    }\n  }\n}",
+      "{\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_level\": \"HIGH\",\n  \"summary\": \"The evaluation of atorvastatin and the risk of dementia indicates a significant safety signal. FAERS data shows a clear disproportionality (PRR 1.72, 95% CI 1.62-1.82) with over 1,100 reports. This is supported by moderate biological plausibility, as atorvastatin's inhibition of cholesterol synthesis may impact neuronal function and myelin maintenance in the CNS. Furthermore, Grade A literature evidence includes studies reporting statistically significant hazard ratios linking statin use to dementia. Given the consistency across pharmacovigilance data, biological mechanisms, and clinical literature, this signal meets the criteria for formal regulatory review and escalation.\",\n  \"rationale\": \"The combination of a strong, statistically significant FAERS signal (PRR > 1.5), moderate biological plausibility, and Grade A clinical evidence (including studies with significant hazard ratios) necessitates an 'ESCALATE' recommendation under the established safety monitoring protocols.\"\n}"
     ]
   }
 }

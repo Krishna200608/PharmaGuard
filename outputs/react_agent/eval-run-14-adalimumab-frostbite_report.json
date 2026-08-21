@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-14-adalimumab-frostbite",
-  "timestamp": "2026-08-20T13:01:50.672964Z",
+  "timestamp": "2026-08-21T03:50:07.317074Z",
   "prompts_version": "v1.0",
   "drug": "adalimumab",
   "event": "frostbite",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:21:00.820783Z",
+    "data_pulled_at": "2026-08-21T03:49:19.914388Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -43,8 +43,8 @@
     "confidence": 0.0,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"adalimumab\",\n  \"event\": \"frostbite\",\n  \"triage_recommendation\": \"Dismiss\",\n  \"rationale\": \"The signal assessment for adalimumab and frostbite yielded no evidence of a causal link. FAERS data shows zero co-occurrences, there is no biological plausibility for a TNF-alpha inhibitor causing environmental cold injury, and a literature search returned no supporting evidence. The event is likely coincidental or unrelated to the drug therapy.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"prr\": null,\n      \"ror\": null\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"rationale\": \"No established pharmacological mechanism links TNF-alpha inhibitors to frostbite.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"pmids\": []\n    }\n  }\n}",
-      "{\n  \"drug\": \"adalimumab\",\n  \"event\": \"frostbite\",\n  \"triage_recommendation\": \"Dismiss\",\n  \"confidence_score\": \"High\",\n  \"rationale\": \"The evaluation of the association between adalimumab and frostbite indicates no evidence of a causal relationship. FAERS data shows zero reported cases, there is no known pharmacological mechanism by which a TNF-alpha inhibitor would predispose a patient to environmental cold injury, and a comprehensive literature search yielded no relevant findings. The event is considered unrelated to the drug therapy.\",\n  \"escalation_required\": false\n}"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"adalimumab\",\n  \"event\": \"frostbite\",\n  \"triage_recommendation\": \"DISMISS\",\n  \"rationale\": \"The signal assessment for adalimumab and frostbite is negative. FAERS data shows zero co-occurrences, there is no established biological plausibility linking TNF-alpha inhibition to the environmental injury of frostbite, and a literature search yielded no supporting evidence. The event is likely coincidental or unrelated to the drug therapy.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"prr\": null,\n      \"ror\": null,\n      \"status\": \"No signal detected\"\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"rationale\": \"No pharmacological mechanism links TNF-alpha inhibitors to frostbite.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"summary\": \"No relevant literature found.\"\n    }\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"adalimumab\",\n  \"event\": \"frostbite\",\n  \"triage_recommendation\": \"DISMISS\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The evaluation of the association between adalimumab and frostbite yielded no evidence of a causal link. FAERS data shows zero reported cases, there is no known pharmacological mechanism by which a TNF-alpha inhibitor would predispose a patient to environmental cold injury, and a comprehensive literature search returned no relevant findings. The event is considered unrelated to the drug therapy.\",\n  \"escalation_required\": false,\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"status\": \"No signal detected\"\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"rationale\": \"TNF-alpha inhibitors are immunosuppressive and do not have a mechanism that increases susceptibility to environmental freezing injuries.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"summary\": \"No clinical or case report evidence exists linking adalimumab to frostbite.\"\n    }\n  }\n}\n```"
     ]
   }
 }

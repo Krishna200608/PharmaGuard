@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-12-atorvastatin-common_cold",
-  "timestamp": "2026-08-20T13:01:09.462313Z",
+  "timestamp": "2026-08-21T03:48:42.259152Z",
   "prompts_version": "v1.0",
   "drug": "atorvastatin",
   "event": "common_cold",
@@ -12,7 +12,7 @@
     "ror_lower_ci": null,
     "report_count": 0,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:20:51.564853Z",
+    "data_pulled_at": "2026-08-21T03:48:27.736830Z",
     "null_reason": "Zero co-occurrences found in FAERS.",
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -43,8 +43,8 @@
     "confidence": 0.0,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"atorvastatin\",\n  \"event\": \"common_cold\",\n  \"faers_signal\": {\n    \"report_count\": 0,\n    \"prr\": null,\n    \"ror\": null,\n    \"status\": \"No signal detected\"\n  },\n  \"biological_plausibility\": {\n    \"score\": 0,\n    \"rationale\": \"HMG-CoA reductase inhibition has no established mechanistic pathway affecting rhinovirus susceptibility or upper respiratory tract immune response. This pair is a negative-control entry.\"\n  },\n  \"literature_evidence\": {\n    \"grade\": \"C\",\n    \"summary\": \"No abstracts retrieved from PubMed for this query.\",\n    \"supporting_pmids\": []\n  },\n  \"triage_recommendation\": {\n    \"action\": \"DISMISS\",\n    \"rationale\": \"There is no evidence of a causal association between atorvastatin and the common cold. FAERS data shows zero reports, there is no biological plausibility, and no supporting literature exists. This is likely a background event unrelated to the drug.\"\n  }\n}",
-      "{\n  \"drug\": \"atorvastatin\",\n  \"event\": \"common_cold\",\n  \"synthesis\": \"The evaluation of atorvastatin in relation to the common cold yielded no evidence of a causal association. FAERS data contains zero reports for this specific drug-event pair. Furthermore, there is no established biological mechanism linking HMG-CoA reductase inhibition to increased susceptibility to the common cold or altered upper respiratory immune responses. A literature search returned no relevant studies or case reports. Given the lack of clinical, pharmacological, and epidemiological evidence, this event is considered a background occurrence unrelated to atorvastatin therapy.\",\n  \"confidence_score\": \"High\",\n  \"triage_recommendation\": \"DISMISS\",\n  \"rationale\": \"The combination of zero FAERS reports, lack of biological plausibility, and absence of supporting literature confirms that this is not a safety signal. The event is classified as a negative-control entry with no clinical significance.\"\n}"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"atorvastatin\",\n  \"event\": \"common_cold\",\n  \"triage_recommendation\": \"DISCARD\",\n  \"rationale\": \"The drug-event pair shows no evidence of a safety signal. FAERS data indicates zero co-occurrences, there is no biological plausibility linking HMG-CoA reductase inhibition to the common cold, and a literature search yielded no supporting evidence.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"disproportionality_score\": null,\n      \"status\": \"No signal detected\"\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"level\": \"LOW\",\n      \"summary\": \"HMG-CoA reductase inhibition has no established mechanistic pathway affecting rhinovirus susceptibility or upper respiratory tract immune response.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"pmids\": [],\n      \"summary\": \"No abstracts retrieved from PubMed for this query.\"\n    }\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"atorvastatin\",\n  \"event\": \"common_cold\",\n  \"triage_recommendation\": \"DISCARD\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The evaluation of atorvastatin and common cold yielded no evidence of a safety signal. FAERS data shows zero co-occurrences, there is no established biological mechanism linking HMG-CoA reductase inhibitors to increased susceptibility to the common cold, and a comprehensive literature search returned no relevant studies. Based on the deterministic rules, the absence of signal across all three domains supports a 'DISCARD' recommendation.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"report_count\": 0,\n      \"status\": \"No signal detected\"\n    },\n    \"biological_plausibility\": {\n      \"score\": 0,\n      \"level\": \"LOW\",\n      \"summary\": \"HMG-CoA reductase inhibition has no established mechanistic pathway affecting rhinovirus susceptibility or upper respiratory tract immune response.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"C\",\n      \"pmids\": [],\n      \"summary\": \"No abstracts retrieved from PubMed for this query.\"\n    }\n  }\n}\n```"
     ]
   }
 }

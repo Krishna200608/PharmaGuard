@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
-  "timestamp": "2026-08-20T12:57:06.528813Z",
+  "timestamp": "2026-08-21T03:41:35.609527Z",
   "prompts_version": "v1.0",
   "drug": "ciprofloxacin",
   "event": "tendon_rupture",
   "signal_stats": {
-    "prr": 23.669865112395954,
-    "ror": 23.96289136699855,
-    "prr_lower_ci": 22.260512997823856,
-    "ror_lower_ci": 22.519778390535862,
+    "prr": 23.666913448608973,
+    "ror": 23.959891297040066,
+    "prr_lower_ci": 22.257742447743347,
+    "ror_lower_ci": 22.5169649194352,
     "report_count": 1108,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:13:49.143068Z",
+    "data_pulled_at": "2026-08-21T03:41:08.424756Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -49,8 +49,8 @@
     "confidence": 0.7,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"ciprofloxacin\",\n  \"event\": \"tendon_rupture\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for ciprofloxacin-induced tendon rupture is strong and well-documented. FAERS data shows a significant disproportionality (PRR 23.67, ROR 23.96), indicating a high reporting frequency compared to other drugs. Biological plausibility is supported by evidence of off-target effects on mammalian collagen synthesis and matrix metalloproteinase activity. PubMed evidence is graded as B, with multiple case reports and literature reviews confirming the association. Given the severity of the event and the strength of the signal, regulatory escalation is warranted.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 23.669865112396,\n      \"ror\": 23.9628913669986,\n      \"report_count\": 1108\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"level\": \"MODERATE\",\n      \"rationale\": \"Fluoroquinolones are known to exert off-target toxic effects on mammalian cells, potentially altering collagen synthesis and upregulating matrix metalloproteinases in tendocytes.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Multiple case reports and literature reviews confirm the association between fluoroquinolones and tendon rupture.\"\n    }\n  }\n}\n```",
-      "```json\n{\n  \"drug\": \"ciprofloxacin\",\n  \"event\": \"tendon_rupture\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The association between ciprofloxacin and tendon rupture is supported by a strong, statistically significant signal in FAERS (PRR 23.67, ROR 23.96) and consistent literature evidence (Grade B). The biological mechanism, involving off-target effects on mammalian collagen synthesis and matrix metalloproteinase activity, provides a plausible explanation for the clinical observations. Given the severity of the adverse event and the strength of the combined evidence, this finding meets the criteria for escalation to regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 23.669865112396,\n      \"ror\": 23.9628913669986,\n      \"report_count\": 1108\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"level\": \"MODERATE\",\n      \"rationale\": \"Fluoroquinolones are known to exert off-target toxic effects on mammalian cells, potentially altering collagen synthesis and upregulating matrix metalloproteinases in tendocytes.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Multiple case reports and literature reviews confirm the association between fluoroquinolones and tendon rupture.\"\n    }\n  }\n}\n```"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"ciprofloxacin\",\n  \"event\": \"tendon_rupture\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"signal_assessment\": {\n    \"faers_data\": {\n      \"prr\": 23.666913448609,\n      \"ror\": 23.9598912970401,\n      \"report_count\": 1108\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"rationale\": \"While primarily targeting bacterial DNA gyrase and Topoisomerase IV, fluoroquinolones are known to exert off-target toxic effects on mammalian cells, potentially altering collagen synthesis and upregulating matrix metalloproteinases in tendocytes.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"The retrieved abstracts contain multiple mentions of adverse events (tendinopathy, tendon rupture, peripheral neuropathy) and case reports, which satisfy the criteria for Grade B. However, none of the abstracts provide statistical data such as p-values, confidence intervals, or odds ratios required to meet the threshold for Grade A.\"\n    }\n  },\n  \"rationale\": \"The signal shows a very high disproportionality (PRR > 20) with a significant number of reports (1108). There is established biological plausibility regarding the impact of fluoroquinolones on collagen synthesis in tendocytes, and the literature consistently supports this association (Grade B). Given the severity of the event and the strength of the signal, immediate regulatory escalation is warranted.\"\n}\n```",
+      "```json\n{\n  \"drug\": \"ciprofloxacin\",\n  \"event\": \"tendon_rupture\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"summary\": \"The association between ciprofloxacin and tendon rupture is supported by a strong safety signal in FAERS (PRR: 23.67, ROR: 23.96, n=1108), indicating a high level of disproportionality. Biological plausibility is established, with evidence suggesting that fluoroquinolones negatively impact collagen synthesis and upregulate matrix metalloproteinases in mammalian tendocytes. Literature evidence (Grade B) consistently corroborates this risk through numerous case reports and clinical observations. Given the high statistical signal, established mechanism of toxicity, and clinical severity, this finding warrants immediate escalation for regulatory review and potential safety labeling updates.\"\n}\n```"
     ]
   }
 }

@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-11-amoxicillin-tendon_rupture",
-  "timestamp": "2026-08-20T13:00:54.711737Z",
+  "timestamp": "2026-08-21T03:48:22.567201Z",
   "prompts_version": "v1.0",
   "drug": "amoxicillin",
   "event": "tendon_rupture",
   "signal_stats": {
-    "prr": 1.0905040699386854,
-    "ror": 1.0905623478813888,
-    "prr_lower_ci": 0.8677730859530671,
-    "ror_lower_ci": 0.8676918655175847,
+    "prr": 1.0904142721727155,
+    "ror": 1.0904724922922837,
+    "prr_lower_ci": 0.8677016784828857,
+    "ror_lower_ci": 0.8676204225110077,
     "report_count": 74,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:20:42.454524Z",
+    "data_pulled_at": "2026-08-21T03:47:40.642465Z",
     "null_reason": null,
     "prr_score": 0.0,
     "prr_score_label": "NO_SIGNAL",
@@ -48,8 +48,8 @@
     "confidence": 0.2,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"amoxicillin\",\n  \"event\": \"tendon_rupture\",\n  \"faers_data\": {\n    \"prr\": 1.09050406993869,\n    \"ror\": 1.09056234788139,\n    \"report_count\": 74\n  },\n  \"biological_plausibility\": {\n    \"score\": 0,\n    \"rationale\": \"Tendon rupture is a well-documented adverse effect associated with fluoroquinolone antibiotics, which function by inhibiting bacterial DNA gyrase and topoisomerase IV. Beta-lactam antibiotics, which inhibit penicillin-binding proteins to disrupt cell wall synthesis, do not share this mechanism of action and are not clinically associated with an increased risk of tendon rupture.\"\n  },\n  \"literature_evidence\": {\n    \"grade\": \"B\",\n    \"summary\": \"The retrieved abstracts contain multiple instances of 'case report', 'adverse event', and 'associated with' language (e.g., 'tendinopathies', 'tendon rupture', 'adverse side effect'). However, none of the abstracts provide statistical evidence such as p-values < 0.05, confidence intervals excluding 1.0, or hazard/odds ratios to meet the criteria for Grade A.\"\n  },\n  \"triage_recommendation\": {\n    \"status\": \"REJECTED\",\n    \"rationale\": \"The signal for amoxicillin-associated tendon rupture is weak. FAERS data shows a PRR/ROR near 1.0, indicating no significant disproportionality. Furthermore, there is no established biological plausibility for beta-lactams causing tendon rupture, unlike the well-known association with fluoroquinolones. While some case reports exist (Grade B evidence), they do not provide sufficient evidence to support a causal link.\"\n  }\n}",
-      "{\n  \"final_triage_recommendation\": {\n    \"status\": \"REJECTED\",\n    \"confidence_level\": \"HIGH\",\n    \"rationale\": \"The evaluation of the association between amoxicillin and tendon rupture yields no evidence of a causal link. FAERS data shows a PRR/ROR of approximately 1.09, which does not indicate a significant signal of disproportionality. There is no established biological mechanism for beta-lactam antibiotics to cause tendon damage, contrasting sharply with the well-documented risk associated with fluoroquinolones. While isolated case reports exist in the literature (Grade B), they lack the statistical rigor required to establish causality. Given the lack of biological plausibility and the absence of a significant statistical signal, this event is not considered a safety concern for amoxicillin.\"\n  }\n}"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"amoxicillin\",\n  \"event\": \"tendon_rupture\",\n  \"triage_recommendation\": \"NO_ESCALATION\",\n  \"rationale\": \"The FAERS signal analysis shows a PRR of 1.09 with a lower confidence interval of 0.87, indicating no statistically significant disproportionality. The mechanism of action analysis confirms that tendon rupture is not biologically plausible for beta-lactam antibiotics like amoxicillin, as this adverse effect is specifically associated with fluoroquinolones. While PubMed literature (Grade B) contains isolated case reports, there is no robust clinical evidence linking amoxicillin to tendon rupture. The signal is likely due to reporting noise or confounding factors.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 1.09,\n    \"faers_ror\": 1.09,\n    \"biological_plausibility\": \"LOW\",\n    \"literature_grade\": \"B\"\n  }\n}\n```",
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"amoxicillin\",\n  \"event\": \"tendon_rupture\",\n  \"triage_recommendation\": \"NO_ESCALATION\",\n  \"rationale\": \"The evaluation of amoxicillin and tendon rupture indicates no significant safety signal. FAERS data shows a PRR of 1.09 with a lower confidence interval of 0.87, which does not meet the threshold for statistical significance. Mechanistically, tendon rupture is a well-established class effect of fluoroquinolones, not beta-lactams like amoxicillin, resulting in low biological plausibility. While isolated case reports exist in the literature (Grade B), they lack the robust statistical evidence required to establish a causal link. Therefore, the findings do not support further escalation.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 1.09,\n    \"faers_ror\": 1.09,\n    \"biological_plausibility\": \"LOW\",\n    \"literature_grade\": \"B\"\n  }\n}\n```"
     ]
   }
 }

@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-3-clozapine-agranulocytosis",
-  "timestamp": "2026-08-20T12:57:43.832437Z",
+  "timestamp": "2026-08-21T03:42:42.621803Z",
   "prompts_version": "v1.0",
   "drug": "clozapine",
   "event": "agranulocytosis",
   "signal_stats": {
-    "prr": 28.5827387654575,
-    "ror": 29.22456814533548,
-    "prr_lower_ci": 27.256002349774736,
-    "ror_lower_ci": 27.84028637270163,
-    "report_count": 1854,
+    "prr": 28.6002518517275,
+    "ror": 29.242851284226866,
+    "prr_lower_ci": 27.273019107560064,
+    "ror_lower_ci": 27.858019712403426,
+    "report_count": 1855,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:18:24.569365Z",
+    "data_pulled_at": "2026-08-21T03:42:24.471658Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -49,8 +49,8 @@
     "confidence": 0.8,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"clozapine\",\n  \"event\": \"agranulocytosis\",\n  \"faers_data\": {\n    \"report_count\": 1854,\n    \"prr\": 28.5827387654575,\n    \"ror\": 29.2245681453355\n  },\n  \"biological_plausibility\": {\n    \"score\": 1,\n    \"rationale\": \"The mechanism of action described corresponds to clozapine, which is the prototypical atypical antipsychotic known for a well-documented, idiosyncratic risk of agranulocytosis. This side effect is a classic, clinically significant warning associated with this specific pharmacological profile, necessitating mandatory hematological monitoring.\"\n  },\n  \"literature_evidence\": {\n    \"grade\": \"B\",\n    \"summary\": \"The retrieved abstracts contain multiple mentions of adverse events (e.g., 'adverse effects', 'side effect', 'associated with') and one case report, but they do not meet the threshold of two or more abstracts providing statistical evidence of an association as required for Grade A.\"\n  },\n  \"triage_recommendation\": {\n    \"status\": \"ESCALATED\",\n    \"rationale\": \"Clozapine-induced agranulocytosis is a well-established, high-risk adverse drug event with strong disproportionality signals in FAERS and high biological plausibility. While the literature grade is B based on the specific search parameters, the clinical consensus and regulatory history confirm this as a known, critical safety signal requiring ongoing monitoring.\"\n  }\n}\n```",
-      "```json\n{\n  \"triage_recommendation\": {\n    \"status\": \"ESCALATED\",\n    \"confidence_level\": \"HIGH\",\n    \"rationale\": \"The association between clozapine and agranulocytosis is a well-established, clinically significant safety signal. The FAERS data shows a very strong disproportionality signal (ROR 29.22, PRR 28.58), which is supported by high biological plausibility (ChEMBL score 1). Although the automated PubMed search yielded a Grade B, this is a known, classic adverse drug reaction that is extensively documented in medical literature and regulatory guidelines, necessitating mandatory hematological monitoring. The combination of strong statistical signals and established clinical consensus warrants an ESCALATED status.\"\n  }\n}\n```"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"clozapine\",\n  \"event\": \"agranulocytosis\",\n  \"triage_recommendation\": {\n    \"status\": \"ESCALATE\",\n    \"priority\": \"CRITICAL\",\n    \"rationale\": \"The drug-event pair shows a very strong disproportionality signal (PRR 28.6, ROR 29.2) in FAERS. Biological plausibility is high, as clozapine is well-established in clinical literature as a causative agent for agranulocytosis, necessitating mandatory monitoring protocols. PubMed evidence confirms this association (Grade B). Given the severity of the event and the strength of the signal, this is a known, high-risk safety profile that requires continued vigilance and regulatory oversight.\"\n  },\n  \"tool_observations\": {\n    \"faers_signal\": {\n      \"prr\": 28.6002518517275,\n      \"ror\": 29.2428512842269,\n      \"report_count\": 1855\n    },\n    \"chembl_moa\": {\n      \"plausibility_score\": 1,\n      \"plausibility_level\": \"HIGH\",\n      \"rationale\": \"The mechanism of action described corresponds to clozapine, which is the prototypical atypical antipsychotic known for a well-documented, idiosyncratic risk of agranulocytosis. This side effect is a classic, clinically significant warning associated with this specific pharmacological profile, necessitating mandatory hematological monitoring.\"\n    },\n    \"pubmed_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"The retrieved abstracts contain multiple mentions of adverse events (e.g., 'adverse effects', 'side effect', 'associated with') and one case report, but they do not meet the threshold of two or more abstracts providing statistical evidence of an association as required for Grade A.\"\n    }\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"clozapine\",\n  \"event\": \"agranulocytosis\",\n  \"triage_recommendation\": {\n    \"status\": \"ESCALATE\",\n    \"priority\": \"CRITICAL\",\n    \"rationale\": \"The association between clozapine and agranulocytosis is a well-established, high-risk clinical reality. The FAERS data shows a very strong disproportionality signal (PRR 28.6, ROR 29.2) based on 1,855 reports. The biological plausibility is rated as 'HIGH' due to the well-documented, idiosyncratic nature of this adverse effect, which is so significant that it mandates strict hematological monitoring protocols. PubMed evidence (Grade B) supports this clinical association. Given the severity of the event (agranulocytosis is life-threatening) and the strength of the signal, this pair represents a critical safety concern that requires ongoing regulatory oversight and clinical vigilance.\"\n  },\n  \"confidence_score\": 1.0,\n  \"evidence_summary\": {\n    \"faers_signal_strength\": \"Very Strong\",\n    \"biological_plausibility\": \"High\",\n    \"clinical_literature_grade\": \"B\"\n  }\n}\n```"
     ]
   }
 }

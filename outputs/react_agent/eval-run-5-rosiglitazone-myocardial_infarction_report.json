@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
-  "timestamp": "2026-08-20T12:58:23.659337Z",
+  "timestamp": "2026-08-21T03:44:05.026060Z",
   "prompts_version": "v1.0",
   "drug": "rosiglitazone",
   "event": "myocardial_infarction",
   "signal_stats": {
-    "prr": 23.107285739637007,
-    "ror": 29.52530713092537,
-    "prr_lower_ci": 21.83186123650885,
-    "ror_lower_ci": 27.441876671263717,
+    "prr": 23.10226305791144,
+    "ror": 29.516821752319352,
+    "prr_lower_ci": 21.827072393498717,
+    "ror_lower_ci": 27.434060269778314,
     "report_count": 929,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:19:07.129063Z",
+    "data_pulled_at": "2026-08-21T03:43:38.076223Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -49,8 +49,8 @@
     "confidence": 0.7,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"rosiglitazone\",\n  \"event\": \"myocardial_infarction\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for rosiglitazone and myocardial infarction is strong and well-documented. FAERS data shows a high PRR (23.11) and ROR (29.53) with a significant number of reports (929). Biological plausibility is supported by the PPAR-gamma agonist mechanism, which is linked to fluid retention and lipid profile changes. PubMed evidence is graded B, reflecting consistent clinical findings and meta-analyses that have historically led to regulatory scrutiny and restrictions. Given the high disproportionality and established clinical concern, this warrants formal regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 23.107285739637,\n    \"faers_ror\": 29.5253071309254,\n    \"chembl_plausibility_score\": 0.5,\n    \"pubmed_evidence_grade\": \"B\"\n  }\n}\n```",
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"rosiglitazone\",\n  \"event\": \"myocardial_infarction\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The evaluation of rosiglitazone and myocardial infarction reveals a strong, well-documented safety signal. FAERS data indicates a high disproportionality (PRR 23.11, ROR 29.53) based on 929 reports. The mechanism of action (PPAR-gamma agonism) provides biological plausibility, as these agents are known to influence fluid retention and lipid profiles, which are risk factors for cardiovascular events. PubMed evidence (Grade B) consistently supports this association through clinical trials and meta-analyses. Given the high statistical signal and established clinical concern that has historically prompted regulatory action, this finding is classified as a high-priority safety signal requiring formal regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 23.107285739637,\n    \"faers_ror\": 29.5253071309254,\n    \"chembl_plausibility_score\": 0.5,\n    \"pubmed_evidence_grade\": \"B\"\n  }\n}\n```"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"rosiglitazone\",\n  \"event\": \"myocardial_infarction\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for rosiglitazone and myocardial infarction is strong and well-documented. FAERS data shows a high PRR (23.10) and ROR (29.52) with a significant number of reports (929). Biological plausibility is supported by the PPAR-gamma agonist mechanism, which is linked to fluid retention and lipid profile changes that may contribute to cardiovascular risk. PubMed evidence is graded B, reflecting a consistent body of literature identifying this risk, which historically led to significant regulatory scrutiny and restrictions for rosiglitazone.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 23.1022630579114,\n      \"ror\": 29.5168217523194,\n      \"report_count\": 929\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"rationale\": \"PPAR-gamma agonists are associated with fluid retention and lipid profile changes, which are known risk factors for myocardial infarction.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Multiple studies and meta-analyses have identified an increased risk of ischemic cardiovascular events, including myocardial infarction, associated with rosiglitazone use.\"\n    }\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"rosiglitazone\",\n  \"event\": \"myocardial_infarction\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The association between rosiglitazone and myocardial infarction is supported by a strong, statistically significant signal in FAERS (PRR 23.10, ROR 29.52, 929 reports), consistent biological plausibility related to the PPAR-gamma agonist class (fluid retention, lipid profile changes), and a robust body of literature (Grade B) that historically prompted major regulatory interventions. The convergence of these data sources confirms a well-established safety signal requiring escalation for further clinical review.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 23.10,\n      \"ror\": 29.52,\n      \"report_count\": 929\n    },\n    \"biological_plausibility\": {\n      \"score\": 0.5,\n      \"rationale\": \"PPAR-gamma agonists are associated with fluid retention and lipid profile changes, which are known risk factors for myocardial infarction.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Multiple studies and meta-analyses have identified an increased risk of ischemic cardiovascular events, including myocardial infarction, associated with rosiglitazone use.\"\n    }\n  }\n}\n```"
     ]
   }
 }

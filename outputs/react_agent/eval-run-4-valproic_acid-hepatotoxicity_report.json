@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
-  "timestamp": "2026-08-20T12:58:08.451527Z",
+  "timestamp": "2026-08-21T03:43:24.019899Z",
   "prompts_version": "v1.0",
   "drug": "valproic_acid",
   "event": "hepatotoxicity",
   "signal_stats": {
-    "prr": 5.4782574839101965,
-    "ror": 5.504156831047864,
-    "prr_lower_ci": 4.749348531951588,
-    "ror_lower_ci": 4.7678910815949305,
+    "prr": 5.4785913734155365,
+    "ror": 5.504494236796878,
+    "prr_lower_ci": 4.749638114118157,
+    "ror_lower_ci": 4.768183234681879,
     "report_count": 189,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:18:43.890266Z",
+    "data_pulled_at": "2026-08-21T03:42:55.281754Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -49,8 +49,8 @@
     "confidence": 0.8,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"valproic_acid\",\n  \"event\": \"hepatotoxicity\",\n  \"triage_recommendation\": {\n    \"status\": \"ESCALATE\",\n    \"priority\": \"HIGH\",\n    \"rationale\": \"The signal for valproic acid-induced hepatotoxicity is robust. FAERS data shows a significant disproportionality (PRR 5.48, ROR 5.50), indicating a strong statistical association. Biological plausibility is high, with well-documented mechanisms including mitochondrial toxicity and metabolic pathways leading to hepatic injury. PubMed evidence is graded as B, confirming the clinical recognition of this adverse event. Given the severity of potential hepatic failure, this signal warrants immediate regulatory review and monitoring.\"\n  },\n  \"tool_observations\": {\n    \"faers\": {\n      \"prr\": 5.4782574839102,\n      \"ror\": 5.50415683104786,\n      \"report_count\": 189\n    },\n    \"chembl\": {\n      \"plausibility_score\": 1,\n      \"plausibility_level\": \"HIGH\"\n    },\n    \"pubmed\": {\n      \"evidence_grade\": \"B\",\n      \"supporting_pmids\": [\n        \"42548750\",\n        \"42001774\",\n        \"30000370\",\n        \"30000333\",\n        \"41939835\"\n      ]\n    }\n  }\n}\n```",
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"valproic_acid\",\n  \"event\": \"hepatotoxicity\",\n  \"triage_recommendation\": {\n    \"status\": \"ESCALATE\",\n    \"priority\": \"HIGH\",\n    \"rationale\": \"The evaluation of valproic acid for hepatotoxicity reveals a strong, well-established safety signal. FAERS data demonstrates significant disproportionality (PRR 5.48, ROR 5.50), indicating a robust statistical association. This is supported by high biological plausibility (ChEMBL score 1), as valproic acid is known to cause idiosyncratic hepatotoxicity through mechanisms such as mitochondrial dysfunction and microvesicular steatosis. PubMed evidence (Grade B) consistently corroborates the clinical risk of severe hepatic injury. Given the potential for fatal outcomes, this signal is classified as high priority and requires immediate regulatory attention and clinical monitoring.\"\n  },\n  \"tool_observations\": {\n    \"faers\": {\n      \"prr\": 5.4782574839102,\n      \"ror\": 5.50415683104786,\n      \"report_count\": 189\n    },\n    \"chembl\": {\n      \"plausibility_score\": 1,\n      \"plausibility_level\": \"HIGH\"\n    },\n    \"pubmed\": {\n      \"evidence_grade\": \"B\",\n      \"supporting_pmids\": [\n        \"42548750\",\n        \"42001774\",\n        \"30000370\",\n        \"30000333\",\n        \"41939835\"\n      ]\n    }\n  }\n}\n```"
+      "{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"valproic_acid\",\n  \"event\": \"hepatotoxicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for valproic acid-induced hepatotoxicity is robust. FAERS data shows a significant disproportionality (PRR 5.48, ROR 5.50), indicating a strong statistical association. The biological plausibility is high, with well-documented mechanisms involving metabolic pathways that lead to hepatic injury. PubMed evidence is graded as B, confirming the clinical recognition of this adverse event. Given the severity of potential hepatic failure, this signal warrants immediate regulatory attention and clinical monitoring.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 5.47859137341554,\n    \"faers_ror\": 5.50449423679688,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}",
+      "{\n  \"drug\": \"valproic_acid\",\n  \"event\": \"hepatotoxicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The evaluation of valproic acid for hepatotoxicity reveals a strong, consistent signal across all data sources. FAERS data demonstrates a significant statistical association (PRR 5.48, ROR 5.50), well above the threshold for signal detection. ChEMBL analysis confirms high biological plausibility, noting that valproic acid is well-documented to cause severe, potentially fatal hepatic injury, including microvesicular steatosis. PubMed evidence (Grade B) corroborates the clinical recognition of this adverse event. Given the severity of the potential outcome (hepatic failure) and the strength of the combined evidence, this signal meets the criteria for immediate escalation.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 5.47859137341554,\n    \"faers_ror\": 5.50449423679688,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}"
     ]
   }
 }

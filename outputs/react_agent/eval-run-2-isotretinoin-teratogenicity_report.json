@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-2-isotretinoin-teratogenicity",
-  "timestamp": "2026-08-20T12:57:19.243919Z",
+  "timestamp": "2026-08-21T03:42:02.587698Z",
   "prompts_version": "v1.0",
   "drug": "isotretinoin",
   "event": "teratogenicity",
   "signal_stats": {
-    "prr": 48.97625335894664,
-    "ror": 49.00911789917259,
-    "prr_lower_ci": 26.827577726159994,
-    "ror_lower_ci": 26.83491082391524,
+    "prr": 49.146309794220755,
+    "ror": 49.17929082596421,
+    "prr_lower_ci": 26.919696921977728,
+    "ror_lower_ci": 26.927057183364184,
     "report_count": 11,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:14:22.830525Z",
+    "data_pulled_at": "2026-08-21T03:41:47.095568Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -49,8 +49,8 @@
     "confidence": 0.8,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"isotretinoin\",\n  \"event\": \"teratogenicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for isotretinoin-induced teratogenicity is extremely strong, supported by a high PRR (48.98) and ROR (49.01) in FAERS data. The biological plausibility is established as 'HIGH' due to the well-documented mechanism of retinoic acid receptor (RAR) agonism disrupting embryonic development. PubMed evidence is graded as 'B', confirming the established clinical knowledge of this severe adverse effect. Given the severity of the outcome (teratogenicity), this is a well-known, high-priority safety signal that warrants continued regulatory monitoring and strict risk management protocols.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 48.9762533589466,\n    \"faers_ror\": 49.0091178991726,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```",
-      "```json\n{\n  \"drug\": \"isotretinoin\",\n  \"event\": \"teratogenicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The association between isotretinoin and teratogenicity is a well-established, high-priority safety signal. FAERS data shows a very high disproportionality (PRR 48.98, ROR 49.01), indicating a strong statistical signal. The biological mechanism is well-characterized as retinoic acid receptor (RAR) agonism, which disrupts critical embryonic signaling pathways, leading to severe congenital malformations (retinoic acid embryopathy). PubMed evidence consistently supports this clinical reality. Given the severity of the outcome, this signal is classified as a high-priority risk requiring stringent regulatory oversight and risk management.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 48.9762533589466,\n    \"faers_ror\": 49.0091178991726,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"isotretinoin\",\n  \"event\": \"teratogenicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for isotretinoin-induced teratogenicity is extremely strong. FAERS data shows a high PRR (49.15) and ROR (49.18), indicating a significant disproportionality in reporting. The biological plausibility is classified as HIGH, as isotretinoin is a well-established retinoic acid receptor agonist known to cause retinoic acid embryopathy. PubMed evidence is graded as B, reflecting extensive clinical documentation of this known risk. Given the severity of the outcome and the established causal link, this is a confirmed safety signal that warrants continued regulatory monitoring and strict adherence to existing risk management programs (e.g., iPLEDGE).\",\n  \"evidence_summary\": {\n    \"faers_prr\": 49.15,\n    \"faers_ror\": 49.18,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```",
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"isotretinoin\",\n  \"event\": \"teratogenicity\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The association between isotretinoin and teratogenicity is a well-established, high-confidence safety signal. FAERS data demonstrates a significant disproportionality (PRR 49.15, ROR 49.18), and the biological mechanism is well-characterized as retinoic acid receptor (RAR) agonism, which disrupts critical embryonic development pathways. PubMed evidence consistently supports this clinical reality. Given the severity of the potential outcome (retinoic acid embryopathy), this signal is classified as a confirmed, high-priority safety concern requiring rigorous adherence to established risk management protocols.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 49.15,\n    \"faers_ror\": 49.18,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```"
     ]
   }
 }

@@ -1,18 +1,18 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-6-pembrolizumab-pneumonitis",
-  "timestamp": "2026-08-20T12:58:35.807037Z",
+  "timestamp": "2026-08-21T03:44:40.977066Z",
   "prompts_version": "v1.0",
   "drug": "pembrolizumab",
   "event": "pneumonitis",
   "signal_stats": {
-    "prr": 24.16658175646418,
-    "ror": 25.01427079351662,
-    "prr_lower_ci": 22.864801920125803,
-    "ror_lower_ci": 23.6207992790713,
+    "prr": 24.16898479740781,
+    "ror": 25.016761764198225,
+    "prr_lower_ci": 22.867072902463324,
+    "ror_lower_ci": 23.62314887624949,
     "report_count": 1261,
     "source_endpoint": "openfda_legacy",
-    "data_pulled_at": "2026-08-14T03:19:30.623844Z",
+    "data_pulled_at": "2026-08-21T03:44:27.224899Z",
     "null_reason": null,
     "prr_score": 1.0,
     "prr_score_label": "STRONG",
@@ -49,8 +49,8 @@
     "confidence": 0.8,
     "prompts_version": "v1.0",
     "agent_reasoning_trace": [
-      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"pembrolizumab\",\n  \"event\": \"pneumonitis\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for pembrolizumab-induced pneumonitis is robust. FAERS data shows a high disproportionality (PRR 24.17, ROR 25.01) with a significant number of reports (1,261). The biological plausibility is high, as PD-1 inhibition is known to cause immune-related adverse events (irAEs) due to systemic T-cell activation. PubMed evidence is graded as B, confirming clinical recognition of this association in the literature. Given the severity of pneumonitis and the strength of the signal, immediate regulatory review is warranted.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 24.1665817564642,\n      \"ror\": 25.0142707935166,\n      \"report_count\": 1261\n    },\n    \"biological_plausibility\": {\n      \"score\": 1,\n      \"level\": \"HIGH\",\n      \"rationale\": \"PD-1 inhibition directly removes negative regulation of T-cell activation. This mechanism of unleashing systemic immune responses inherently carries a high biological plausibility for autoimmune and inflammatory toxicities, including pneumonitis.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Only one abstract (PMID 42373597) contains statistical association language (p-values < 0.05). The other abstracts mention 'adverse events' or 'irAEs' in a clinical context but do not provide statistical evidence of association. Since Grade A requires two or more abstracts with statistical association, the evidence is classified as Grade B.\"\n    }\n  }\n}\n```",
-      "```json\n{\n  \"drug\": \"pembrolizumab\",\n  \"event\": \"pneumonitis\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The evaluation of pembrolizumab-induced pneumonitis demonstrates a strong, consistent signal across all evaluated domains. The FAERS data shows a high disproportionality (PRR 24.17, ROR 25.01) with 1,261 reports, indicating a significant statistical association. The biological plausibility is classified as 'HIGH' because the mechanism of action (PD-1 inhibition) inherently promotes systemic T-cell activation, which is a well-documented driver of immune-related adverse events (irAEs) like pneumonitis. PubMed evidence (Grade B) confirms that this is a recognized clinical concern in the literature. Given the high statistical signal, strong biological mechanism, and the clinical severity of the event, the recommendation is to escalate for further regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_signal\": {\n      \"prr\": 24.1665817564642,\n      \"ror\": 25.0142707935166,\n      \"report_count\": 1261\n    },\n    \"biological_plausibility\": {\n      \"level\": \"HIGH\",\n      \"rationale\": \"PD-1 inhibition directly removes negative regulation of T-cell activation. This mechanism of unleashing systemic immune responses inherently carries a high biological plausibility for autoimmune and inflammatory toxicities, including pneumonitis.\"\n    },\n    \"literature_evidence\": {\n      \"grade\": \"B\",\n      \"summary\": \"Clinical literature consistently identifies pneumonitis as a known immune-related adverse event associated with pembrolizumab therapy.\"\n    }\n  }\n}\n```"
+      "```json\n{\n  \"schema_version\": \"1.1\",\n  \"drug\": \"pembrolizumab\",\n  \"event\": \"pneumonitis\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"rationale\": \"The signal for pembrolizumab-induced pneumonitis is robust. FAERS data shows a high PRR (24.17) and ROR (25.02) with a significant number of reports (1261). The biological plausibility is high, as PD-1 inhibition is known to cause immune-related adverse events (irAEs) due to T-cell activation. PubMed evidence is graded as B, confirming clinical recognition of this toxicity. Given the severity of pneumonitis and the strength of the disproportionality signal, this warrants immediate regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 24.1689847974078,\n    \"faers_ror\": 25.0167617641982,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```",
+      "```json\n{\n  \"drug\": \"pembrolizumab\",\n  \"event\": \"pneumonitis\",\n  \"triage_recommendation\": \"ESCALATE\",\n  \"confidence_score\": \"HIGH\",\n  \"rationale\": \"The evaluation of pembrolizumab-induced pneumonitis demonstrates a strong, consistent signal across all evaluated domains. The FAERS data reveals a highly significant disproportionality (PRR 24.17, ROR 25.02) based on 1,261 reports, far exceeding the threshold for potential safety signals. The biological mechanism is well-established, with ChEMBL confirming that PD-1 inhibition inherently risks systemic immune-related adverse events (irAEs) like pneumonitis. PubMed evidence (Grade B) corroborates the clinical recognition of this toxicity. Given the severity of pneumonitis and the high statistical and biological evidence, this finding is classified as a high-confidence signal requiring immediate escalation for regulatory review.\",\n  \"evidence_summary\": {\n    \"faers_prr\": 24.1689847974078,\n    \"faers_ror\": 25.0167617641982,\n    \"biological_plausibility\": \"HIGH\",\n    \"pubmed_grade\": \"B\"\n  }\n}\n```"
     ]
   }
 }
