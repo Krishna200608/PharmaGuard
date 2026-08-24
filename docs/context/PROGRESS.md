@@ -109,3 +109,11 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - **ReAct Freeform Recommendation vs. Deterministic Escalation:** External audit flagged that `outputs/react_agent/*.json` escalation fields match `fixed_pipeline` by construction (shared deterministic scoring formula). Added `scripts/verify_react_agreement.py` to independently extract and normalize the agent's raw freeform synthesized recommendations (`triage.agent_reasoning_trace[0]`).
 - **Audit Findings:** Found 11/15 (73.3%) agreement; the 4 divergence cases (`montelukast`, `liraglutide`, `atorvastatin::dementia`, `albuterol`) highlight where unconstrained generative reasoning departs from deterministic safety gating. Documented in `DECISIONS.md §24` and reflected in `CONTRIBUTION.md`.
 
+---
+
+## Full Technical & Novelty Audit — Cleared for Paper Writing Prerequisite (2026-08-24)
+
+- **Technical Completeness Audit:** External full-repo review confirmed no stubs/TODOs/incomplete code across pharmaguard/ and scripts/; independently re-derived the PRR/ROR/CI formula by hand against raw FAERS counts and matched test_faers_legacy_calculates_prr_ror exactly; confirmed react_agent.py's reported escalation is genuinely computed via the same deterministic formula as fixed_pipeline.py (consistent with §24); spot-verified a ground_truth.json FDA source citation against the live FDA site; confirmed requirements.txt fully covers actual third-party imports.
+- **Novelty/Publishability Audit:** Literature search identified Harvard's ToolUniverse (arXiv:2509.23426) as a relevant prior system; DECISIONS.md §23 updated accordingly (see below) to narrow the novelty claim to PharmaGuard's dedicated benchmarking/evaluation/disclosure methodology, which remains undupplicated as of this audit.
+- **Status:** Codebase and novelty positioning are verified sound. This clears the technical-verification prerequisite for paper writing. Per DECISIONS.md §48 (#17), paper writing itself remains gated on a separate explicit go-ahead from Krishna and has NOT been started.
+

@@ -314,3 +314,19 @@ A post-hoc automated extraction and normalization audit across all 15 ReAct repo
 ### Methodological Conclusion
 This 26.7% divergence directly demonstrates why unconstrained generative LLM recommendations cannot be trusted for postmarketing triage without deterministic gating, and explicitly disclosing this measurement reinforces the project's empirical rigor and honesty methodology.
 
+## 25. Full Technical & Novelty Audit — Paper-Writing Prerequisite Cleared
+**Context:** Formal record of the comprehensive technical verification and novelty audit completed on 2026-08-24 ahead of paper preparation.
+
+### Technical Audit Findings:
+- **Codebase Completeness:** A full repository inspection verified zero unresolved stubs, placeholder `TODO` comments, or `NotImplementedError` occurrences across `pharmaguard/` and `scripts/`.
+- **Disproportionality Formula Hand-Verification:** The 2x2 contingency table calculations for PRR, ROR, and log-transformed confidence intervals ($95\%\text{ CI}$) in `FaersLegacySource` were independently re-derived and hand-calculated against raw FAERS event/drug counts, verifying exact arithmetic agreement with `tests/test_signal_source.py::test_faers_legacy_calculates_prr_ror`.
+- **ReAct Orchestrator Escalation Verification:** Verified that `react_agent.py` computes reported triage escalation, confidence, and evidence grades strictly via the deterministic weighted formula and safety gating on retrieved evidence, rather than adopting the generative LLM free-text recommendation (as detailed in §24).
+- **Ground Truth Citation Verification:** Spot-audited `ground_truth.json` FDA safety communication and warning URLs directly against live FDA regulatory documentation, verifying citation accuracy and ground-truth label grounding.
+- **Dependency Coverage:** Cross-referenced all third-party package imports across the entire source tree against `requirements.txt`, confirming complete environment specification with no missing dependencies.
+
+### Novelty & Literature Positioning:
+The literature audit identified Harvard's ToolUniverse (arXiv:2509.23426), which provides a `tooluniverse-pharmacovigilance` workflow template within a general 211-tool platform. As documented in §23 (item 8) and §23 (item 2), PharmaGuard's novelty is precisely grounded in its evaluation-first methodology: dedicated ground-truth escalation benchmarking, deterministic multi-source composite scoring, dual-metric (strict/lenient) statistical evaluation with bootstrap and Wilson confidence intervals, ablation analysis, and documented failure-mode disclosure.
+
+### Paper-Writing Gate Standing Instruction:
+This section documents completion of the technical-verification prerequisite only. It does not constitute, authorize, or imply approval to begin paper writing. Per standing instructions, paper writing remains strictly gated on an explicit, separate go-ahead from Krishna.
+
