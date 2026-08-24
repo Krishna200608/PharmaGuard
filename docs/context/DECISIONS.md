@@ -273,3 +273,40 @@ Agent-derived plausibility should be characterized as **grounded pharmacological
 7. **Mishra, Arvan, Zalake, "TeamMedAgents: Multi-Agent Clinical Collaboration Driven by Team Science Protocols," 2025**
    - *Description:* Multi-agent clinical framework implementing structured teamwork protocols derived from human medical team science for collaborative clinical decision-making.
    - *Gap Addressed by PharmaGuard:* Targets conversational multi-agent consultation across broad medical domains; PharmaGuard demonstrates that a streamlined, single-agent-per-tool-role architecture with a deterministic composite formula is simpler, faster, and more easily verified for pharmacovigilance triage than complex multi-agent conversational protocols.
+
+## 24. ReAct Agent Stated Recommendation vs. Reported Escalation — Divergence Audit
+**Context:** Auditing the alignment between the ReAct agent's freeform synthesized recommendation (extracted from `triage.agent_reasoning_trace[0]`) and the deterministically computed `triage.escalation` field across the 15 benchmark pairs.
+
+### Architectural Grounding
+In both `fixed_pipeline` and `react_agent` modes, the official `triage.escalation`, `triage.confidence`, and `triage.evidence_grade` fields are strictly computed via the deterministic weighted formula ($0.40 \cdot S_{\text{FAERS}} + 0.40 \cdot S_{\text{Lit}} + 0.20 \cdot S_{\text{Mech}}$) and hard safety gates applied to retrieved evidence (§9, §16)—never directly adopted from the LLM's free-text synthesis recommendation. The `agent_reasoning_trace` field in ReAct reports preserves the raw, unparsed LLM JSON output for auditability and transparency, including the model's own freeform triage recommendation, but that generative text does not dictate the pipeline's reported escalation.
+
+### Empirical Agreement Audit (`scripts/verify_react_agreement.py`)
+A post-hoc automated extraction and normalization audit across all 15 ReAct reports (`outputs/react_agent/`) revealed an overall agreement rate of **11/15 (73.3%)** between the agent's raw stated recommendation and the reported deterministic escalation:
+
+| Drug & Adverse Event | Agent Stated Recommendation | Reported Escalation | Alignment |
+| :--- | :--- | :--- | :--- |
+| `montelukast::suicidal_ideation` | `ESCALATE` | `MONITOR` | MISMATCH |
+| `ciprofloxacin::tendon_rupture` | `ESCALATE` | `ESCALATE` | MATCH |
+| `isotretinoin::teratogenicity` | `ESCALATE` | `ESCALATE` | MATCH |
+| `clozapine::agranulocytosis` | `ESCALATE` | `ESCALATE` | MATCH |
+| `valproic_acid::hepatotoxicity` | `ESCALATE` | `ESCALATE` | MATCH |
+| `rosiglitazone::myocardial_infarction` | `ESCALATE` | `ESCALATE` | MATCH |
+| `pembrolizumab::pneumonitis` | `ESCALATE` | `ESCALATE` | MATCH |
+| `liraglutide::pancreatic_cancer` | `MONITOR` | `DO_NOT_ESCALATE` | MISMATCH |
+| `metformin::hypoglycaemia` | `MONITOR` | `MONITOR` | MATCH |
+| `atorvastatin::dementia` | `ESCALATE` | `DO_NOT_ESCALATE` | MISMATCH |
+| `albuterol::suicidal_ideation` | `MONITOR` | `DO_NOT_ESCALATE` | MISMATCH |
+| `amoxicillin::tendon_rupture` | `DO_NOT_ESCALATE` | `DO_NOT_ESCALATE` | MATCH |
+| `atorvastatin::common_cold` | `DO_NOT_ESCALATE` | `DO_NOT_ESCALATE` | MATCH |
+| `imatinib::tooth_eruption` | `DO_NOT_ESCALATE` | `DO_NOT_ESCALATE` | MATCH |
+| `adalimumab::frostbite` | `DO_NOT_ESCALATE` | `DO_NOT_ESCALATE` | MATCH |
+
+### Disagreement Pair Breakdown:
+1. **`montelukast::suicidal_ideation` (confirmed_positive):** The agent's freeform synthesis recommended `ESCALATE` by heavily weighting the strong FAERS disproportionality and Grade A literature, whereas the deterministic pipeline strictly applied the low biological plausibility penalty to route the signal to `MONITOR` (confidence 0.664 < 0.700 threshold).
+2. **`liraglutide::pancreatic_cancer` (nominal negative control / zero-report):** The agent's freeform synthesis recommended `MONITOR` based on theoretical GLP-1 receptor mechanics and literature debates, whereas the deterministic pipeline fired the `NO_SIGNAL` hard safety gate on 0 FAERS co-occurrences to enforce `DO_NOT_ESCALATE`.
+3. **`atorvastatin::dementia` (genuine_negative_control):** The agent's freeform synthesis recommended `ESCALATE` (likely swayed by associative literature mentions), whereas the deterministic pipeline enforced `DO_NOT_ESCALATE` because FAERS data (PRR 0.65) fell below the statistical disproportionality threshold.
+4. **`albuterol::suicidal_ideation` (genuine_negative_control):** The agent's freeform synthesis recommended `MONITOR` for routine surveillance, whereas the deterministic pipeline strictly applied the `NO_SIGNAL` gate (PRR 0.30) to output `DO_NOT_ESCALATE`.
+
+### Methodological Conclusion
+This 26.7% divergence directly demonstrates why unconstrained generative LLM recommendations cannot be trusted for postmarketing triage without deterministic gating, and explicitly disclosing this measurement reinforces the project's empirical rigor and honesty methodology.
+

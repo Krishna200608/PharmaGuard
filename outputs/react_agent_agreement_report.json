@@ -1,0 +1,193 @@
+{
+  "metadata": {
+    "description": "Post-hoc audit comparing ReAct agent raw stated recommendations against deterministically reported escalations",
+    "total_pairs": 15,
+    "matches": 11,
+    "mismatches": 4,
+    "parse_fails": 0,
+    "unmapped": 0,
+    "agreement_rate_pct": 73.33
+  },
+  "pairs": [
+    {
+      "pair_index": 1,
+      "drug": "montelukast",
+      "event": "suicidal_ideation",
+      "drug_event": "montelukast::suicidal_ideation",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "MONITOR",
+      "fixed_pipeline_escalation": "MONITOR",
+      "agreement": "MISMATCH",
+      "error": null
+    },
+    {
+      "pair_index": 2,
+      "drug": "ciprofloxacin",
+      "event": "tendon_rupture",
+      "drug_event": "ciprofloxacin::tendon_rupture",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "ESCALATE",
+      "fixed_pipeline_escalation": "ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 3,
+      "drug": "isotretinoin",
+      "event": "teratogenicity",
+      "drug_event": "isotretinoin::teratogenicity",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "ESCALATE",
+      "fixed_pipeline_escalation": "ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 4,
+      "drug": "clozapine",
+      "event": "agranulocytosis",
+      "drug_event": "clozapine::agranulocytosis",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "ESCALATE",
+      "fixed_pipeline_escalation": "ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 5,
+      "drug": "valproic_acid",
+      "event": "hepatotoxicity",
+      "drug_event": "valproic_acid::hepatotoxicity",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "ESCALATE",
+      "fixed_pipeline_escalation": "ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 6,
+      "drug": "rosiglitazone",
+      "event": "myocardial_infarction",
+      "drug_event": "rosiglitazone::myocardial_infarction",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "ESCALATE",
+      "fixed_pipeline_escalation": "ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 7,
+      "drug": "pembrolizumab",
+      "event": "pneumonitis",
+      "drug_event": "pembrolizumab::pneumonitis",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "ESCALATE",
+      "fixed_pipeline_escalation": "ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 8,
+      "drug": "liraglutide",
+      "event": "pancreatic_cancer",
+      "drug_event": "liraglutide::pancreatic_cancer",
+      "agent_stated_raw": "MONITOR",
+      "agent_stated_normalized": "MONITOR",
+      "reported_escalation": "DO_NOT_ESCALATE",
+      "fixed_pipeline_escalation": "DO_NOT_ESCALATE",
+      "agreement": "MISMATCH",
+      "error": null
+    },
+    {
+      "pair_index": 9,
+      "drug": "metformin",
+      "event": "hypoglycaemia",
+      "drug_event": "metformin::hypoglycaemia",
+      "agent_stated_raw": "MONITOR",
+      "agent_stated_normalized": "MONITOR",
+      "reported_escalation": "MONITOR",
+      "fixed_pipeline_escalation": "MONITOR",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 10,
+      "drug": "atorvastatin",
+      "event": "dementia",
+      "drug_event": "atorvastatin::dementia",
+      "agent_stated_raw": "ESCALATE",
+      "agent_stated_normalized": "ESCALATE",
+      "reported_escalation": "DO_NOT_ESCALATE",
+      "fixed_pipeline_escalation": "DO_NOT_ESCALATE",
+      "agreement": "MISMATCH",
+      "error": null
+    },
+    {
+      "pair_index": 11,
+      "drug": "albuterol",
+      "event": "suicidal_ideation",
+      "drug_event": "albuterol::suicidal_ideation",
+      "agent_stated_raw": "Monitor",
+      "agent_stated_normalized": "MONITOR",
+      "reported_escalation": "DO_NOT_ESCALATE",
+      "fixed_pipeline_escalation": "DO_NOT_ESCALATE",
+      "agreement": "MISMATCH",
+      "error": null
+    },
+    {
+      "pair_index": 12,
+      "drug": "amoxicillin",
+      "event": "tendon_rupture",
+      "drug_event": "amoxicillin::tendon_rupture",
+      "agent_stated_raw": "NO_ESCALATION",
+      "agent_stated_normalized": "DO_NOT_ESCALATE",
+      "reported_escalation": "DO_NOT_ESCALATE",
+      "fixed_pipeline_escalation": "DO_NOT_ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 13,
+      "drug": "atorvastatin",
+      "event": "common_cold",
+      "drug_event": "atorvastatin::common_cold",
+      "agent_stated_raw": "DISCARD",
+      "agent_stated_normalized": "DO_NOT_ESCALATE",
+      "reported_escalation": "DO_NOT_ESCALATE",
+      "fixed_pipeline_escalation": "DO_NOT_ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 14,
+      "drug": "imatinib",
+      "event": "tooth_eruption",
+      "drug_event": "imatinib::tooth_eruption",
+      "agent_stated_raw": "Dismiss",
+      "agent_stated_normalized": "DO_NOT_ESCALATE",
+      "reported_escalation": "DO_NOT_ESCALATE",
+      "fixed_pipeline_escalation": "DO_NOT_ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    },
+    {
+      "pair_index": 15,
+      "drug": "adalimumab",
+      "event": "frostbite",
+      "drug_event": "adalimumab::frostbite",
+      "agent_stated_raw": "DISMISS",
+      "agent_stated_normalized": "DO_NOT_ESCALATE",
+      "reported_escalation": "DO_NOT_ESCALATE",
+      "fixed_pipeline_escalation": "DO_NOT_ESCALATE",
+      "agreement": "MATCH",
+      "error": null
+    }
+  ]
+}

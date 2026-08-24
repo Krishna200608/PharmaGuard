@@ -102,6 +102,10 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - Multi-signal pharmacovigilance integration (EudraVigilance / JADER / WHO VigiBase APIs)
 - Paper writing, documentation synthesis, and report generation
 
+---
 
+## Post-Sprint 3 Audit (2026-08-24)
 
+- **ReAct Freeform Recommendation vs. Deterministic Escalation:** External audit flagged that `outputs/react_agent/*.json` escalation fields match `fixed_pipeline` by construction (shared deterministic scoring formula). Added `scripts/verify_react_agreement.py` to independently extract and normalize the agent's raw freeform synthesized recommendations (`triage.agent_reasoning_trace[0]`).
+- **Audit Findings:** Found 11/15 (73.3%) agreement; the 4 divergence cases (`montelukast`, `liraglutide`, `atorvastatin::dementia`, `albuterol`) highlight where unconstrained generative reasoning departs from deterministic safety gating. Documented in `DECISIONS.md §24` and reflected in `CONTRIBUTION.md`.
 
