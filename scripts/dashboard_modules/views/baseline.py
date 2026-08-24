@@ -2,6 +2,7 @@
 View 4: Baseline Comparison
 ===========================
 Tool-grounded PharmaGuard vs. Single-Shot LLM Baseline and Liraglutide case study.
+Card-based comparative layout with dual-theme compatibility.
 """
 from __future__ import annotations
 
@@ -10,7 +11,7 @@ from ..components import esc_badge
 from ..data_loader import BASE_METRICS, PROD_METRICS
 
 
-def view_baseline(prod_reports: list, base_reports: list) -> None:
+def view_baseline(prod_reports: list, base_reports: list, theme: str = "light") -> None:
     """Render the Baseline Comparison tab."""
     st.markdown(
         '<div class="pg-header">'
@@ -24,10 +25,11 @@ def view_baseline(prod_reports: list, base_reports: list) -> None:
 
     def _table(d: dict, is_prod: bool) -> str:
         title = 'PharmaGuard · Tool-Grounded' if is_prod else 'Single-Shot LLM Baseline · No Tools'
+        tag_color = 'var(--pg-accent)' if is_prod else 'var(--pg-text-dim)'
         return (
-            f'<div style="margin-bottom:8px;">'
-            f'<div style="font-size:13.5px; font-weight:700; color:#0f172a; margin-bottom:10px;">{title}</div>'
-            f'<div class="pg-table-container">'
+            f'<div class="pg-card" style="margin-bottom:8px;">'
+            f'<div style="font-size:15px; font-weight:700; color:{tag_color}; margin-bottom:12px;">{title}</div>'
+            f'<div class="pg-table-container" style="margin-bottom:0px;">'
             f'<table class="pg-cmp-table">'
             f'<thead><tr><th>Metric</th><th style="text-align:right">Strict</th><th style="text-align:right">Lenient</th></tr></thead>'
             f'<tbody>'
@@ -50,7 +52,7 @@ def view_baseline(prod_reports: list, base_reports: list) -> None:
 
     st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
     st.markdown(
-        '<div class="pg-title" style="font-size:17px; margin-bottom:3px;">Key Illustration: liraglutide + pancreatic cancer</div>'
+        '<div class="pg-title" style="font-size:18px; margin-bottom:4px;">Key Illustration: liraglutide + pancreatic cancer</div>'
         '<div class="pg-subtitle" style="margin-bottom:18px;">Clearest single example of what tool-grounded triage adds over ungrounded LLM recall</div>',
         unsafe_allow_html=True,
     )
@@ -63,45 +65,41 @@ def view_baseline(prod_reports: list, base_reports: list) -> None:
 
     lc1, lc2 = st.columns(2, gap='large')
 
-    def _case_col(col, title, rpt, expected, notes):
+    def _case_col(col, title, rpt, expected, notes, is_prod=True):
         triage = rpt.get('triage', {})
         esc = triage.get('escalation', '—')
         conf = triage.get('confidence')
         trace = triage.get('agent_reasoning_trace', [])
         conf_d = f'{conf:.3f}' if conf is not None else '—'
+        tag_color = 'var(--pg-accent)' if is_prod else 'var(--pg-text-dim)'
         with col:
             st.markdown(
-                f'<div style="font-size:13.5px; font-weight:700; color:#0f172a; margin-bottom:8px;">{title}</div>'
-                f'<div style="display:flex; gap:10px; align-items:center; margin-bottom:4px;">'
+                f'<div class="pg-card">'
+                f'<div style="font-size:15px; font-weight:700; color:{tag_color}; margin-bottom:10px;">{title}</div>'
+                f'<div style="display:flex; gap:10px; align-items:center; margin-bottom:6px;">'
                 f'{esc_badge(esc)}'
-                f'<span style="font-size:12px; color:#64748b;">expected: {expected}</span>'
+                f'<span style="font-size:13px; color:var(--pg-text-dim);">expected: {expected}</span>'
                 f'</div>'
-                f'<div class="pg-mono" style="font-size:12px; color:#64748b; margin-bottom:10px;">confidence = <b>{conf_d}</b></div>',
+                f'<div class="pg-mono" style="font-size:13px; color:var(--pg-text-dim); margin-bottom:12px;">confidence = <b>{conf_d}</b></div>'
+                + (f'<div class="pg-quote-box" style="font-size:13px; margin-bottom:12px;">{"<br>".join(trace)}</div>' if trace else '')
+                + (f'<ul style="font-size:13.5px; color:var(--pg-text-secondary); margin:10px 0 0; padding-left:20px; line-height:1.65;">{"".join(f"<li style='margin-bottom:5px;'>{n}</li>" for n in notes)}</ul>' if notes else '')
+                + '</div>',
                 unsafe_allow_html=True,
             )
-            if trace:
-                st.markdown(
-                    f'<div class="pg-quote-box" style="font-size:12.5px;">{"<br>".join(trace)}</div>',
-                    unsafe_allow_html=True,
-                )
-            if notes:
-                items = ''.join(f"<li style='margin-bottom:4px;'>{n}</li>" for n in notes)
-                st.markdown(
-                    f'<ul style="font-size:12.5px; color:#475569; margin:10px 0 0; padding-left:18px; line-height:1.6;">{items}</ul>',
-                    unsafe_allow_html=True,
-                )
 
     _case_col(lc1, 'PharmaGuard · Tool-Grounded', prod_lira, 'DO_NOT_ESCALATE',
               ['FAERS: 0 co-occurrences → NO_SIGNAL gate → DO_NOT_ESCALATE',
                'Confidence 0.300 = 0.40×0 + 0.40×0.5 + 0.20×0.5',
                'FAERS disproportionality overrides literature plausibility',
-               'FDA/EMA 2014 joint review: no causal link established'])
+               'FDA/EMA 2014 joint review: no causal link established'],
+              is_prod=True)
 
     _case_col(lc2, 'Single-Shot LLM Baseline · No Tools', base_lira, 'DO_NOT_ESCALATE',
               ['No FAERS query — no signal check performed',
                'Confidence 0.85 is raw LLM self-report, not formula-grounded',
                'Recalls historical regulatory concern, not its resolution',
-               "Confuses 'this was investigated' with 'this was confirmed'"])
+               "Confuses 'this was investigated' with 'this was confirmed'"],
+              is_prod=False)
 
     st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
     st.markdown(

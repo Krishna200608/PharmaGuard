@@ -2,6 +2,7 @@
 View 3: Disagreement Spotlight
 ==============================
 Evidence and mechanistic deep-dives for Montelukast and Metformin.
+High visual fidelity cards, theme-adaptive Plotly charts, and clear failure-mode disclosures.
 """
 from __future__ import annotations
 
@@ -12,7 +13,7 @@ import streamlit as st
 from ..components import cat_badge, esc_badge, render_conf_chart
 
 
-def view_disagreements(reports: list, outputs_dir: Path | None = None) -> None:
+def view_disagreements(reports: list, outputs_dir: Path | None = None, theme: str = "light") -> None:
     """Render the Disagreement Spotlight tab."""
     st.markdown(
         '<div class="pg-header">'
@@ -98,17 +99,19 @@ def view_disagreements(reports: list, outputs_dir: Path | None = None) -> None:
         plaus_r = mech.get('plausibility_rationale', '')
 
         st.markdown(
-            f'<div style="margin-bottom:14px;">'
-            f'<div style="display:flex; align-items:baseline; gap:12px;">'
-            f'<span style="font-size:20px; font-weight:700; color:#0f172a;">{case["drug"]}</span>'
-            f'<span style="font-size:15px; color:#64748b;">+ {case["event"]}</span>'
+            f'<div class="pg-hero-card" style="margin-bottom:16px; border-top: 3.5px solid var(--pg-accent);">'
+            f'<div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">'
+            f'<div>'
+            f'<span style="font-size:22px; font-weight:700; color:var(--pg-text-primary);">{case["drug"]}</span> '
+            f'<span style="font-size:17px; color:var(--pg-text-dim);">+ {case["event"]}</span>'
             f'</div>'
-            f'<div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">'
-            f'{cat_badge(case["category"])}'
-            f'<span style="font-size:12px;color:#64748b;">Expected:</span> {esc_badge(case["expected"])}'
-            f'<span style="font-size:12px;color:#64748b;">→ Got:</span> {esc_badge(case["got"])}'
-            f'<span style="font-size:12px;color:#64748b;margin-left:8px;">'
-            f'Signal: {signal} &nbsp;|&nbsp; Grade: {grade} &nbsp;|&nbsp; Plausibility: {plaus} &nbsp;|&nbsp; '
+            f'<div>{cat_badge(case["category"])}</div>'
+            f'</div>'
+            f'<div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">'
+            f'<span style="font-size:13px;color:var(--pg-text-dim);">Expected:</span> {esc_badge(case["expected"])}'
+            f'<span style="font-size:13px;color:var(--pg-text-dim);">→ Got:</span> {esc_badge(case["got"])}'
+            f'<span style="font-size:13px;color:var(--pg-text-secondary);margin-left:8px;">'
+            f'Signal: <b>{signal}</b> &nbsp;|&nbsp; Grade: <b>{grade}</b> &nbsp;|&nbsp; Plausibility: <b>{plaus}</b> &nbsp;|&nbsp; '
             f'Confidence: <span class="pg-mono"><b>{conf_d}</b></span>'
             f'</span>'
             f'</div>'
@@ -118,21 +121,36 @@ def view_disagreements(reports: list, outputs_dir: Path | None = None) -> None:
 
         col_a, col_b = st.columns([1.1, 1], gap='large')
         with col_a:
-            st.markdown('<div class="pg-stat-label">Epidemiological Evidence</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="pg-quote-box">{case["epidemiology"]}</div>', unsafe_allow_html=True)
-
-            st.markdown('<div class="pg-stat-label" style="margin-top:12px;">PubMed Evidence Summary (Actual Output)</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="pg-quote-box">{ev_sum}</div>', unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="pg-card" style="margin-bottom:14px;">'
+                f'<div class="pg-stat-label">Epidemiological Evidence</div>'
+                f'<div class="pg-quote-box">{case["epidemiology"]}</div>'
+                f'<div style="height:10px;"></div>'
+                f'<div class="pg-stat-label">PubMed Evidence Summary (Actual Output)</div>'
+                f'<div class="pg-quote-box">{ev_sum}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
         with col_b:
-            st.markdown('<div class="pg-stat-label">Mechanistic Plausibility (Actual Rationale)</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="pg-quote-box">{plaus_r}</div>', unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="pg-card" style="margin-bottom:14px;">'
+                f'<div class="pg-stat-label">Mechanistic Plausibility (Actual Rationale)</div>'
+                f'<div class="pg-quote-box">{plaus_r}</div>'
+                f'<div style="height:10px;"></div>'
+                f'<div class="pg-stat-label">Why MONITOR Is Correct Here</div>'
+                f'<div class="pg-conclusion-box">{case["conclusion"]}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
-            st.markdown('<div class="pg-stat-label" style="margin-top:12px;">Why MONITOR Is Correct Here</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="pg-conclusion-box">{case["conclusion"]}</div>', unsafe_allow_html=True)
-
-        st.markdown('<div class="pg-stat-label" style="margin-top:16px;">Confidence Formula Decomposition</div>', unsafe_allow_html=True)
-        render_conf_chart(rpt, key=f'spotlight_{case["drug"]}')
+        st.markdown(
+            f'<div class="pg-card">'
+            f'<div class="pg-stat-label" style="margin-bottom:10px;">Confidence Formula Decomposition</div>',
+            unsafe_allow_html=True,
+        )
+        render_conf_chart(rpt, key=f'spotlight_{case["drug"]}', theme=theme)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
     st.markdown(

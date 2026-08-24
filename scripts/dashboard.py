@@ -40,11 +40,25 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-inject_dashboard_styles()
-
 
 def main() -> None:
     """Load data and render tabbed evaluation views."""
+    # Top theme switcher bar
+    c_nav, c_theme = st.columns([0.68, 0.32])
+    with c_theme:
+        theme_sel = st.segmented_control(
+            "Theme",
+            options=["☀️ Light", "🌙 Dark", "🖥️ System"],
+            default="☀️ Light",
+            key="ui_theme_mode",
+            label_visibility="collapsed",
+        )
+
+    theme_map = {"☀️ Light": "light", "🌙 Dark": "dark", "🖥️ System": "system"}
+    active_theme = theme_map.get(theme_sel or "☀️ Light", "light")
+
+    inject_dashboard_styles(theme=active_theme)
+
     gt = load_ground_truth(GROUND_TRUTH_PATH)
     prod_reports = load_reports(OUTPUTS_DIR)
     base_reports = load_reports(BASELINE_DIR)
@@ -66,11 +80,11 @@ def main() -> None:
     with tab1:
         view_overview(LOGO_PATH)
     with tab2:
-        view_per_pair(df)
+        view_per_pair(df, theme=active_theme)
     with tab3:
-        view_disagreements(prod_reports, OUTPUTS_DIR)
+        view_disagreements(prod_reports, OUTPUTS_DIR, theme=active_theme)
     with tab4:
-        view_baseline(prod_reports, base_reports)
+        view_baseline(prod_reports, base_reports, theme=active_theme)
 
 
 if __name__ == "__main__":
