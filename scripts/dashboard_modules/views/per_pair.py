@@ -54,7 +54,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
         conf_str = f"{r['confidence']:.3f}" if r['confidence'] is not None else '—'
         plaus = r['plausibility']
         pc = plaus_colors.get(plaus, '#94a3b8')
-        flag = '⚡ ' if not r['match'] else ''
+        flag = '<span style="color:#f59e0b;font-weight:700;margin-right:2px;" title="Disagreement">!</span> ' if not r['match'] else ''
         rc = r.get('report_count', 0)
         table_rows_html.append(
             f'<tr>'

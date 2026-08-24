@@ -3,6 +3,7 @@ PharmaGuard Dashboard Styles & Theme System
 ===========================================
 High-contrast, dual-theme CSS design system for the Streamlit evaluation dashboard.
 Supports Light, Dark, and System modes with Linear/Vercel-inspired typography and micro-depth cues.
+Includes complete overrides for Streamlit widgets, popovers, selectboxes, and Material Symbols.
 """
 from __future__ import annotations
 
@@ -48,6 +49,13 @@ def get_theme_css(theme: str = "light") -> str:
         --pg-input-bg: #111827;
         --pg-input-border: #334155;
         --pg-input-text: #f8fafc;
+        --pg-popover-bg: #111827;
+        --pg-popover-border: #334155;
+        --pg-option-hover: #1e293b;
+        --pg-option-selected: #1e293b;
+        --pg-code-bg: rgba(99, 102, 241, 0.15);
+        --pg-code-text: #a5b4fc;
+        --pg-code-border: rgba(99, 102, 241, 0.35);
         """
     else:
         root_vars = """
@@ -82,6 +90,13 @@ def get_theme_css(theme: str = "light") -> str:
         --pg-input-bg: #ffffff;
         --pg-input-border: #cbd5e1;
         --pg-input-text: #0f172a;
+        --pg-popover-bg: #ffffff;
+        --pg-popover-border: #e2e8f0;
+        --pg-option-hover: #f1f5f9;
+        --pg-option-selected: #f8fafc;
+        --pg-code-bg: #f1f5f9;
+        --pg-code-text: #334155;
+        --pg-code-border: #e2e8f0;
         """
 
     system_media_query = ""
@@ -120,6 +135,13 @@ def get_theme_css(theme: str = "light") -> str:
                 --pg-input-bg: #111827;
                 --pg-input-border: #334155;
                 --pg-input-text: #f8fafc;
+                --pg-popover-bg: #111827;
+                --pg-popover-border: #334155;
+                --pg-option-hover: #1e293b;
+                --pg-option-selected: #1e293b;
+                --pg-code-bg: rgba(99, 102, 241, 0.15);
+                --pg-code-text: #a5b4fc;
+                --pg-code-border: rgba(99, 102, 241, 0.35);
             }
             .stApp {
                 background-color: var(--pg-bg) !important;
@@ -211,14 +233,19 @@ div[data-testid='stSegmentedControl'] label p {{
     color: var(--pg-text-secondary) !important;
 }}
 
+/* Active Selectbox display container */
 div[data-testid='stSelectbox'] > div > div {{
-    background-color: var(--pg-card-bg) !important;
+    background-color: var(--pg-input-bg) !important;
     color: var(--pg-text-primary) !important;
-    border: 1px solid var(--pg-card-border) !important;
+    border: 1px solid var(--pg-input-border) !important;
     border-radius: 7px !important;
     font-size: 14px !important;
     font-weight: 500 !important;
     transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}}
+
+div[data-testid='stSelectbox'] [data-baseweb='select'] * {{
+    color: var(--pg-text-primary) !important;
 }}
 
 div[data-testid='stSelectbox'] > div > div:hover {{
@@ -227,6 +254,35 @@ div[data-testid='stSelectbox'] > div > div:hover {{
 
 div[data-testid='stSelectbox'] svg {{
     fill: var(--pg-text-dim) !important;
+}}
+
+/* Selectbox Dropdown Menu / Popover Styling */
+div[data-baseweb='popover'],
+div[data-baseweb='popover'] > div,
+ul[role='listbox'] {{
+    background-color: var(--pg-popover-bg) !important;
+    border: 1px solid var(--pg-popover-border) !important;
+    border-radius: 8px !important;
+    box-shadow: var(--pg-shadow) !important;
+}}
+
+li[role='option'] {{
+    background-color: var(--pg-popover-bg) !important;
+    color: var(--pg-text-primary) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
+    padding: 8px 14px !important;
+    transition: background-color 0.12s ease !important;
+}}
+
+li[role='option']:hover {{
+    background-color: var(--pg-option-hover) !important;
+    color: var(--pg-text-primary) !important;
+}}
+
+li[role='option'][aria-selected='true'] {{
+    background-color: var(--pg-option-selected) !important;
+    font-weight: 600 !important;
 }}
 
 div[data-testid='stCheckbox'] {{
@@ -241,7 +297,7 @@ div[data-testid='stCheckbox'] label p {{
     white-space: nowrap !important;
 }}
 
-/* Streamlit segmented control container - full interactivity */
+/* Streamlit segmented control container with Material Symbols */
 div[data-testid='stSegmentedControl'] {{
     background-color: var(--pg-card-bg) !important;
     border: 1px solid var(--pg-card-border) !important;
@@ -257,6 +313,24 @@ div[data-testid='stSegmentedControl'] button {{
     font-weight: 600 !important;
     cursor: pointer !important;
     pointer-events: auto !important;
+}}
+
+div[data-testid='stSegmentedControl'] [data-testid='stIconMaterial'],
+div[data-testid='stSegmentedControl'] .material-symbols-rounded {{
+    font-size: 18px !important;
+    vertical-align: -4px !important;
+    margin-right: 4px !important;
+}}
+
+/* ── Inline Code Elements ── */
+code, .pg-card code, .pg-callout code, .pg-quote-box code {{
+    background-color: var(--pg-code-bg) !important;
+    color: var(--pg-code-text) !important;
+    border: 1px solid var(--pg-code-border) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+    font-size: 12.5px !important;
 }}
 
 /* ── Navigation Tabs ── */

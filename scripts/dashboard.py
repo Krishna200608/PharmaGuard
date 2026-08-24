@@ -43,19 +43,23 @@ st.set_page_config(
 
 def main() -> None:
     """Load data and render tabbed evaluation views."""
-    # Top theme switcher bar
-    c_nav, c_theme = st.columns([0.68, 0.32])
+    # Top theme switcher bar with native Google Material Symbols
+    c_nav, c_theme = st.columns([0.65, 0.35])
     with c_theme:
         theme_sel = st.segmented_control(
             "Theme",
-            options=["☀️ Light", "🌙 Dark", "🖥️ System"],
-            default="☀️ Light",
+            options=[":material/light_mode: Light", ":material/dark_mode: Dark", ":material/desktop_windows: System"],
+            default=":material/light_mode: Light",
             key="ui_theme_mode",
             label_visibility="collapsed",
         )
 
-    theme_map = {"☀️ Light": "light", "🌙 Dark": "dark", "🖥️ System": "system"}
-    active_theme = theme_map.get(theme_sel or "☀️ Light", "light")
+    theme_map = {
+        ":material/light_mode: Light": "light",
+        ":material/dark_mode: Dark": "dark",
+        ":material/desktop_windows: System": "system",
+    }
+    active_theme = theme_map.get(theme_sel or ":material/light_mode: Light", "light")
 
     inject_dashboard_styles(theme=active_theme)
 
