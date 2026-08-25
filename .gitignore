@@ -41,3 +41,6 @@ htmlcov/
 # Operating System
 .DS_Store
 Thumbs.db
+
+# Scratch / temporary development scripts
+scratch/

@@ -61,14 +61,14 @@ scripts/
 
 tests/                        # pytest unit tests (51 tests, all passing)
 docs/
-├── NOTES.md                  # Design constraints, escalation thresholds
 └── context/
     ├── ARCHITECTURE.md       # This file
     ├── CONVENTIONS.md        # Coding and data-curation conventions
     ├── DECISIONS.md          # Design decision log with rationale
+    ├── GROUND_TRUTH_CANDIDATES.md  # Ground truth sourcing + FAERS evidence
+    ├── NOTES.md              # Design constraints, escalation thresholds
     ├── PROGRESS.md           # Sprint progress and bug log
-    ├── PROJECT_OVERVIEW.md   # High-level project description
-    └── GROUND_TRUTH_CANDIDATES.md  # Ground truth sourcing + FAERS evidence
+    └── PROJECT_OVERVIEW.md   # High-level project description
 
 outputs/
 ├── eval-run-*_report.json    # TriageReport JSONs from the main pipeline
@@ -172,7 +172,7 @@ Sub-score ranges:
 > The NO_SIGNAL gate is intentional: a zero-report pair can theoretically reach
 > confidence=0.60 from grade-A literature + HIGH plausibility alone. Without the
 > hard gate, such pairs would receive MONITOR despite no FAERS disproportionality
-> evidence. Thresholds 0.70 and 0.35 are uncalibrated priors — see `docs/NOTES.md`.
+> evidence. Thresholds 0.70 and 0.35 are uncalibrated priors — see `docs/context/NOTES.md`.
 
 ---
 

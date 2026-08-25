@@ -154,16 +154,26 @@ PharmaGuard/
 │   ├── pharmacovigilance-evaluation/ # Codified statistical evaluation protocols
 │   ├── academic-paper-writer/        # Academic manuscript drafting scaffold
 │   └── presentation-deck-builder/    # 16:9 defense slide deck scaffold
+├── .streamlit/
+│   └── config.toml                   # Streamlit server and theme configuration
+├── assets/
+│   ├── Logos/                        # Vector and raster brand identity assets
+│   └── Screenshots/                  # High-resolution dashboard verification captures
+│       ├── Light/                    # Light mode UI captures across all 4 views
+│       └── Dark/                     # Dark mode UI captures across all 4 views
 ├── configs/
 │   └── config.yaml                   # Central pipeline & cache configuration
 ├── docs/
 │   ├── context/
 │   │   ├── UNDERSTAND.md             # Canonical plain-language project overview
-│   │   ├── DECISIONS.md              # 22-section chronological record of architectural decisions
+│   │   ├── DECISIONS.md              # 25-section chronological record of architectural decisions
 │   │   ├── PROGRESS.md               # Sprint log, verified metrics & reproduction steps
 │   │   ├── ARCHITECTURE.md           # Technical system & schema specifications
-│   │   └── CONVENTIONS.md            # Coding standards & git workflow
-│   └── screenshots/dashboard/        # High-resolution dashboard verification captures
+│   │   ├── CONVENTIONS.md            # Coding standards & git workflow
+│   │   ├── GROUND_TRUTH_CANDIDATES.md# Ground truth sourcing & FAERS evidence
+│   │   └── NOTES.md                  # Design constraints & escalation thresholds
+│   └── proposals/                    # Project proposals & institutional briefs
+│       └── archive/pre-pivot-oncoswarm/ # Archived pre-pivot tumor-board proposal files
 ├── outputs/
 │   ├── eval-run-*_report.json        # 15 production pipeline evaluation JSON reports
 │   ├── evaluation_summary.txt        # Production benchmark summary with 95% CIs
@@ -174,7 +184,8 @@ PharmaGuard/
 │   ├── agent/                        # ReAct & Fixed Pipeline agents
 │   ├── data/
 │   │   ├── ground_truth.json         # 15 curated benchmark evaluation pairs
-│   │   └── plausibility_ratings.json # Human-curated plausibility ratings (v1.0)
+│   │   ├── plausibility_ratings.json # Human-curated plausibility ratings (v1.0)
+│   │   └── chembl_lookup.json        # Pre-resolved ChEMBL compound registry
 │   ├── prompts/                      # Versioned system prompts & grading rubrics
 │   ├── tools/                        # OpenFDA, ChEMBL, PubMed & diskcache tools
 │   └── utils/                        # Config loaders, normalizers & metrics
@@ -186,8 +197,10 @@ PharmaGuard/
 │   ├── baseline.py                   # Single-shot LLM baseline evaluation runner
 │   ├── run_probe.py                  # Memorization probe runner
 │   ├── check_albuterol.py            # FAERS verification diagnostic
-│   └── verify_reports.py             # Output schema & UTF-8 integrity diagnostic
+│   ├── verify_reports.py             # Output schema & UTF-8 integrity diagnostic
+│   └── dev/                          # Historical diagnostic & curation developer utilities
 ├── tests/                            # 51 pytest unit & regression tests
+├── streamlit_app.py                  # Streamlit Community Cloud root entrypoint
 ├── requirements.txt                  # Pinned project dependencies
 ├── README.md                         # Project entry point & overview
 └── UNDERSTAND.md                     # Root pointer to docs/context/UNDERSTAND.md

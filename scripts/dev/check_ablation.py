@@ -1,3 +1,4 @@
+﻿# Historical diagnostic script for checking ablation study agreement against curated references (not part of the maintained pipeline).
 import json, os, glob
 
 files = glob.glob('outputs/ablation/*.json')

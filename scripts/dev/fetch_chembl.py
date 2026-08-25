@@ -1,3 +1,4 @@
+﻿# Developer utility for querying ChEMBL API to populate chembl_lookup.json from ground truth pairs (not part of the maintained pipeline).
 import json
 import requests
 import time
