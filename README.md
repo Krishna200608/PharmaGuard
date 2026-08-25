@@ -200,7 +200,6 @@ PharmaGuard/
 │   ├── verify_reports.py             # Output schema & UTF-8 integrity diagnostic
 │   └── dev/                          # Historical diagnostic & curation developer utilities
 ├── tests/                            # 51 pytest unit & regression tests
-├── streamlit_app.py                  # Streamlit Community Cloud root entrypoint
 ├── requirements.txt                  # Pinned project dependencies
 ├── README.md                         # Project entry point & overview
 └── UNDERSTAND.md                     # Root pointer to docs/context/UNDERSTAND.md
