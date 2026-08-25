@@ -1,4 +1,4 @@
-# ruff: noqa: E501
+﻿# ruff: noqa: E501
 """
 PharmaGuard Evaluation Dashboard
 =================================
@@ -11,17 +11,36 @@ Run:
 """
 from __future__ import annotations
 
+import importlib
 from pathlib import Path
 import streamlit as st
 
-from dashboard_modules.data_loader import build_df, load_ground_truth, load_reports
+import dashboard_modules.styles as _styles_mod
+importlib.reload(_styles_mod)
 from dashboard_modules.styles import inject_dashboard_styles
-from dashboard_modules.views import (
-    view_baseline,
-    view_disagreements,
-    view_overview,
-    view_per_pair,
-)
+
+import dashboard_modules.components as _comp_mod
+importlib.reload(_comp_mod)
+
+import dashboard_modules.data_loader as _data_mod
+importlib.reload(_data_mod)
+from dashboard_modules.data_loader import build_df, load_ground_truth, load_reports
+
+import dashboard_modules.views.overview as _v_overview
+importlib.reload(_v_overview)
+from dashboard_modules.views.overview import view_overview
+
+import dashboard_modules.views.per_pair as _v_per_pair
+importlib.reload(_v_per_pair)
+from dashboard_modules.views.per_pair import view_per_pair
+
+import dashboard_modules.views.disagreements as _v_disagreements
+importlib.reload(_v_disagreements)
+from dashboard_modules.views.disagreements import view_disagreements
+
+import dashboard_modules.views.baseline as _v_baseline
+importlib.reload(_v_baseline)
+from dashboard_modules.views.baseline import view_baseline
 
 # ---------------------------------------------------------------------------
 # Paths & Page Configuration
@@ -40,29 +59,50 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+THEME_OPTIONS = [
+    ":material/light_mode: Light",
+    ":material/dark_mode: Dark",
+    ":material/desktop_windows: System",
+]
+
+THEME_MAP = {
+    ":material/light_mode: Light": "light",
+    ":material/dark_mode: Dark": "dark",
+    ":material/desktop_windows: System": "light",
+}
+
 
 def main() -> None:
     """Load data and render tabbed evaluation views."""
-    # Top theme switcher bar with native Google Material Symbols
-    c_nav, c_theme = st.columns([0.65, 0.35])
+    # ── Persistent theme state ──
+    if "theme_choice" not in st.session_state:
+        st.session_state["theme_choice"] = ":material/light_mode: Light"
+
+    if st.session_state.get("theme_widget") is None:
+        st.session_state["theme_widget"] = st.session_state["theme_choice"]
+
+    # ── Top bar with theme switcher ──
+    _, c_theme = st.columns([0.65, 0.35])
     with c_theme:
         theme_sel = st.segmented_control(
             "Theme",
-            options=[":material/light_mode: Light", ":material/dark_mode: Dark", ":material/desktop_windows: System"],
-            default=":material/light_mode: Light",
-            key="ui_theme_mode",
+            options=THEME_OPTIONS,
+            key="theme_widget",
             label_visibility="collapsed",
         )
 
-    theme_map = {
-        ":material/light_mode: Light": "light",
-        ":material/dark_mode: Dark": "dark",
-        ":material/desktop_windows: System": "system",
-    }
-    active_theme = theme_map.get(theme_sel or ":material/light_mode: Light", "light")
+    # Protect against None deselect state
+    if theme_sel in THEME_OPTIONS:
+        st.session_state["theme_choice"] = theme_sel
+    else:
+        theme_sel = st.session_state["theme_choice"]
 
+    active_theme = THEME_MAP.get(theme_sel, "light")
+
+    # ── Inject themed CSS ──
     inject_dashboard_styles(theme=active_theme)
 
+    # ── Load evaluation dataset ──
     gt = load_ground_truth(GROUND_TRUTH_PATH)
     prod_reports = load_reports(OUTPUTS_DIR)
     base_reports = load_reports(BASELINE_DIR)
@@ -75,6 +115,7 @@ def main() -> None:
         )
         st.stop()
 
+    # ── Tabs & Views ──
     tab1, tab2, tab3, tab4 = st.tabs([
         "Overview",
         "Per-Pair Table",

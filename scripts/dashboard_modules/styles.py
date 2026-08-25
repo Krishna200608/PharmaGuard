@@ -1,762 +1,504 @@
-"""
-PharmaGuard Dashboard Styles & Theme System
-===========================================
-High-contrast, dual-theme CSS design system for the Streamlit evaluation dashboard.
-Supports Light, Dark, and System modes with Linear/Vercel-inspired typography and micro-depth cues.
-Includes complete overrides for Streamlit widgets, popovers, selectboxes, and Material Symbols.
+﻿"""
+PharmaGuard Dashboard Styles & Design System
+============================================
+Centralized dual-theme CSS with Python token injection.
+Styles both Streamlit native widgets (segmented control / button groups, selectboxes,
+dropdowns, tabs, checkboxes) and custom PharmaGuard UI elements (cards, badges, tables, metrics).
 """
 from __future__ import annotations
-
 import streamlit as st
 
 
 def get_theme_css(theme: str = "light") -> str:
-    """Generate scoped CSS variables and rules based on active theme."""
+    """Return complete themed CSS string for either 'light' or 'dark' mode."""
     is_dark = (theme == "dark")
-    is_system = (theme == "system")
 
-    # Semantic design tokens
     if is_dark:
-        root_vars = """
-        --pg-bg: #090d16;
-        --pg-app-bg: #090d16;
-        --pg-card-bg: #111827;
-        --pg-card-bg-subtle: #1a2234;
-        --pg-card-border: rgba(51, 65, 85, 0.7);
-        --pg-card-border-hover: rgba(99, 102, 241, 0.5);
-        --pg-text-primary: #f8fafc;
-        --pg-text-secondary: #cbd5e1;
-        --pg-text-muted: #818cf8;
-        --pg-text-dim: #94a3b8;
-        --pg-accent: #6366f1;
-        --pg-accent-glow: rgba(99, 102, 241, 0.18);
-        --pg-accent-border: rgba(99, 102, 241, 0.4);
-        --pg-divider: #1e293b;
-        --pg-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-        --pg-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-        --pg-quote-bg: rgba(26, 34, 52, 0.6);
-        --pg-quote-border: #475569;
-        --pg-quote-text: #e2e8f0;
-        --pg-conclusion-bg: rgba(20, 83, 45, 0.2);
-        --pg-conclusion-border: #22c55e;
-        --pg-conclusion-text: #bbf7d0;
-        --pg-callout-bg: rgba(30, 41, 59, 0.6);
-        --pg-callout-border: #6366f1;
-        --pg-table-header-bg: #151d2e;
-        --pg-table-header-text: #94a3b8;
-        --pg-table-row-hover: #172033;
-        --pg-table-row-alt: #0e1422;
-        --pg-input-bg: #111827;
-        --pg-input-border: #334155;
-        --pg-input-text: #f8fafc;
-        --pg-popover-bg: #111827;
-        --pg-popover-border: #334155;
-        --pg-option-hover: #1e293b;
-        --pg-option-selected: #1e293b;
-        --pg-code-bg: rgba(99, 102, 241, 0.15);
-        --pg-code-text: #a5b4fc;
-        --pg-code-border: rgba(99, 102, 241, 0.35);
-        """
+        bg             = "#080D16"
+        surface        = "#101824"
+        surface2       = "#121B29"
+        border         = "#263245"
+        border_hover   = "#3B4D66"
+        divider        = "#182230"
+        text           = "#F3F6FA"
+        text_sec       = "#A8B3C3"
+        text_muted     = "#738096"
+        primary        = "#818CF8"
+        shadow         = "0 4px 16px rgba(0,0,0,0.4)"
+        shadow_sm      = "0 1px 4px rgba(0,0,0,0.3)"
+        quote_bg       = "rgba(18,27,41,0.8)"
+        quote_bd       = "#263245"
+        quote_txt      = "#D5DBE5"
+        callout_bg     = "rgba(21,31,46,0.7)"
+        callout_bd     = "#818CF8"
+        th_bg          = "#121B29"
+        th_txt         = "#A8B3C3"
+        row_hover      = "#151F2E"
+        input_bg       = "#101824"
+        input_bd       = "#263245"
+        popover_bg     = "#101824"
+        popover_bd     = "#263245"
+        opt_hover      = "#182335"
+        opt_sel_bg     = "rgba(102, 114, 255, 0.22)"
+        opt_sel_txt    = "#FFFFFF"
+        code_bg        = "rgba(129,140,248,0.12)"
+        code_txt       = "#A5B4FC"
+        code_bd        = "rgba(129,140,248,0.28)"
+        # Toggle / Button Group
+        toggle_tray       = "#101824"
+        toggle_tray_bd    = "#263245"
+        btn_inactive_bg   = "transparent"
+        btn_inactive_txt  = "#C8D3E0"
+        btn_active_bg     = "rgba(102,114,255,0.25)"
+        btn_active_bd     = "rgba(102,114,255,0.65)"
+        btn_active_txt    = "#818CF8"
+        btn_hover_bg      = "#182335"
+        btn_hover_txt     = "#F3F6FA"
+        # Tabs
+        tab_inactive   = "#C8D3E0"
+        tab_hover      = "#F3F6FA"
+        tab_active     = "#818CF8"
+        # Badges
+        success_bg = "rgba(34,199,122,0.12)";  success_bd = "rgba(34,199,122,0.3)";  success_txt = "#6ee7b7"
+        warning_bg = "rgba(242,184,75,0.12)";  warning_bd = "rgba(242,184,75,0.3)";  warning_txt = "#fcd34d"
+        danger_bg  = "rgba(255,77,77,0.12)";   danger_bd  = "rgba(255,77,77,0.3)";   danger_txt  = "#fca5a5"
+        info_bg    = "rgba(78,161,255,0.12)";  info_bd    = "rgba(78,161,255,0.3)";  info_txt    = "#93c5fd"
+        mon_bg = "rgba(168,179,195,0.12)"; mon_txt = "#A8B3C3"; mon_bd = "rgba(168,179,195,0.3)"
+        dne_bg = "rgba(115,128,150,0.15)"; dne_txt = "#738096"; dne_bd = "rgba(115,128,150,0.3)"
+        neg_bg = "rgba(168,179,195,0.1)";  neg_txt = "#A8B3C3"; neg_bd = "rgba(168,179,195,0.25)"
+        gb_bg  = "rgba(168,179,195,0.12)"; gb_txt  = "#A8B3C3"; gb_bd  = "rgba(168,179,195,0.3)"
+        gc_bg  = "rgba(115,128,150,0.15)"; gc_txt  = "#738096"; gc_bd  = "rgba(115,128,150,0.25)"
     else:
-        root_vars = """
-        --pg-bg: #f8fafc;
-        --pg-app-bg: #ffffff;
-        --pg-card-bg: #ffffff;
-        --pg-card-bg-subtle: #f8fafc;
-        --pg-card-border: #e2e8f0;
-        --pg-card-border-hover: rgba(79, 70, 229, 0.4);
-        --pg-text-primary: #0f172a;
-        --pg-text-secondary: #334155;
-        --pg-text-muted: #4f46e5;
-        --pg-text-dim: #64748b;
-        --pg-accent: #4f46e5;
-        --pg-accent-glow: rgba(79, 70, 229, 0.08);
-        --pg-accent-border: rgba(79, 70, 229, 0.25);
-        --pg-divider: #e2e8f0;
-        --pg-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-        --pg-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
-        --pg-quote-bg: #f8fafc;
-        --pg-quote-border: #cbd5e1;
-        --pg-quote-text: #334155;
-        --pg-conclusion-bg: #f0fdf4;
-        --pg-conclusion-border: #16a34a;
-        --pg-conclusion-text: #14532d;
-        --pg-callout-bg: #f8fafc;
-        --pg-callout-border: #4f46e5;
-        --pg-table-header-bg: #f8fafc;
-        --pg-table-header-text: #475569;
-        --pg-table-row-hover: #f1f5f9;
-        --pg-table-row-alt: #ffffff;
-        --pg-input-bg: #ffffff;
-        --pg-input-border: #cbd5e1;
-        --pg-input-text: #0f172a;
-        --pg-popover-bg: #ffffff;
-        --pg-popover-border: #e2e8f0;
-        --pg-option-hover: #f1f5f9;
-        --pg-option-selected: #f8fafc;
-        --pg-code-bg: #f1f5f9;
-        --pg-code-text: #334155;
-        --pg-code-border: #e2e8f0;
-        """
-
-    system_media_query = ""
-    if is_system:
-        system_media_query = """
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --pg-bg: #090d16;
-                --pg-app-bg: #090d16;
-                --pg-card-bg: #111827;
-                --pg-card-bg-subtle: #1a2234;
-                --pg-card-border: rgba(51, 65, 85, 0.7);
-                --pg-card-border-hover: rgba(99, 102, 241, 0.5);
-                --pg-text-primary: #f8fafc;
-                --pg-text-secondary: #cbd5e1;
-                --pg-text-muted: #818cf8;
-                --pg-text-dim: #94a3b8;
-                --pg-accent: #6366f1;
-                --pg-accent-glow: rgba(99, 102, 241, 0.18);
-                --pg-accent-border: rgba(99, 102, 241, 0.4);
-                --pg-divider: #1e293b;
-                --pg-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-                --pg-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-                --pg-quote-bg: rgba(26, 34, 52, 0.6);
-                --pg-quote-border: #475569;
-                --pg-quote-text: #e2e8f0;
-                --pg-conclusion-bg: rgba(20, 83, 45, 0.2);
-                --pg-conclusion-border: #22c55e;
-                --pg-conclusion-text: #bbf7d0;
-                --pg-callout-bg: rgba(30, 41, 59, 0.6);
-                --pg-callout-border: #6366f1;
-                --pg-table-header-bg: #151d2e;
-                --pg-table-header-text: #94a3b8;
-                --pg-table-row-hover: #172033;
-                --pg-table-row-alt: #0e1422;
-                --pg-input-bg: #111827;
-                --pg-input-border: #334155;
-                --pg-input-text: #f8fafc;
-                --pg-popover-bg: #111827;
-                --pg-popover-border: #334155;
-                --pg-option-hover: #1e293b;
-                --pg-option-selected: #1e293b;
-                --pg-code-bg: rgba(99, 102, 241, 0.15);
-                --pg-code-text: #a5b4fc;
-                --pg-code-border: rgba(99, 102, 241, 0.35);
-            }
-            .stApp {
-                background-color: var(--pg-bg) !important;
-            }
-            body, [class*='css'] {
-                color: var(--pg-text-primary) !important;
-            }
-        }
-        """
-
-    badge_esc_bg = 'rgba(34, 197, 94, 0.15)' if is_dark else '#f0fdf4'
-    badge_esc_txt = '#4ade80' if is_dark else '#166534'
-    badge_esc_bd = 'rgba(74, 222, 128, 0.35)' if is_dark else '#bbf7d0'
-
-    badge_mon_bg = 'rgba(148, 163, 184, 0.15)' if is_dark else '#f8fafc'
-    badge_mon_txt = '#cbd5e1' if is_dark else '#475569'
-    badge_mon_bd = 'rgba(148, 163, 184, 0.35)' if is_dark else '#cbd5e1'
-
-    badge_dne_bg = 'rgba(71, 85, 105, 0.2)' if is_dark else '#f8fafc'
-    badge_dne_txt = '#94a3b8' if is_dark else '#94a3b8'
-    badge_dne_bd = 'rgba(71, 85, 105, 0.4)' if is_dark else '#e2e8f0'
-
-    badge_pos_bg = 'rgba(59, 130, 246, 0.15)' if is_dark else '#eff6ff'
-    badge_pos_txt = '#60a5fa' if is_dark else '#1e40af'
-    badge_pos_bd = 'rgba(96, 165, 250, 0.35)' if is_dark else '#bfdbfe'
-
-    badge_neg_bg = 'rgba(148, 163, 184, 0.12)' if is_dark else '#f8fafc'
-    badge_neg_txt = '#cbd5e1' if is_dark else '#475569'
-    badge_neg_bd = 'rgba(148, 163, 184, 0.3)' if is_dark else '#e2e8f0'
-
-    badge_zero_bg = 'rgba(249, 115, 22, 0.15)' if is_dark else '#fff7ed'
-    badge_zero_txt = '#fb923c' if is_dark else '#9a3412'
-    badge_zero_bd = 'rgba(251, 146, 60, 0.35)' if is_dark else '#fed7aa'
-
-    badge_ga_bg = 'rgba(59, 130, 246, 0.2)' if is_dark else '#eff6ff'
-    badge_ga_txt = '#93c5fd' if is_dark else '#1d4ed8'
-    badge_ga_bd = 'rgba(147, 197, 253, 0.4)' if is_dark else '#bfdbfe'
-
-    badge_gb_bg = 'rgba(148, 163, 184, 0.15)' if is_dark else '#f8fafc'
-    badge_gb_txt = '#cbd5e1' if is_dark else '#475569'
-    badge_gb_bd = 'rgba(148, 163, 184, 0.3)' if is_dark else '#cbd5e1'
-
-    badge_gc_bg = 'rgba(71, 85, 105, 0.2)' if is_dark else '#f8fafc'
-    badge_gc_txt = '#94a3b8' if is_dark else '#94a3b8'
-    badge_gc_bd = 'rgba(71, 85, 105, 0.3)' if is_dark else '#e2e8f0'
+        bg             = "#F7F9FC"
+        surface        = "#FFFFFF"
+        surface2       = "#F2F5F9"
+        border         = "#D9E1EA"
+        border_hover   = "#B8C6D6"
+        divider        = "#E4E9F0"
+        text           = "#172033"
+        text_sec       = "#53657D"
+        text_muted     = "#7C8A9D"
+        primary        = "#4F46E5"
+        shadow         = "0 4px 14px rgba(15,23,42,0.06)"
+        shadow_sm      = "0 1px 3px rgba(15,23,42,0.05)"
+        quote_bg       = "#F2F5F9"
+        quote_bd       = "#D9E1EA"
+        quote_txt      = "#334155"
+        callout_bg     = "#F8FAFC"
+        callout_bd     = "#4F46E5"
+        th_bg          = "#F2F5F9"
+        th_txt         = "#53657D"
+        row_hover      = "#F8FAFC"
+        input_bg       = "#FFFFFF"
+        input_bd       = "#D9E1EA"
+        popover_bg     = "#FFFFFF"
+        popover_bd     = "#D9E1EA"
+        opt_hover      = "#F2F5F9"
+        opt_sel_bg     = "#EEF2FF"
+        opt_sel_txt    = "#4F46E5"
+        code_bg        = "#F2F5F9"
+        code_txt       = "#334155"
+        code_bd        = "#D9E1EA"
+        # Toggle / Button Group
+        toggle_tray       = "#EAEFF5"
+        toggle_tray_bd    = "#D9E1EA"
+        btn_inactive_bg   = "transparent"
+        btn_inactive_txt  = "#53657D"
+        btn_active_bg     = "#FFFFFF"
+        btn_active_bd     = "#C7D2E0"
+        btn_active_txt    = "#4F46E5"
+        btn_hover_bg      = "#F2F5F9"
+        btn_hover_txt     = "#172033"
+        # Tabs
+        tab_inactive   = "#53657D"
+        tab_hover      = "#172033"
+        tab_active     = "#4F46E5"
+        # Badges
+        success_bg = "#F0FDF4"; success_bd = "#BBF7D0"; success_txt = "#166534"
+        warning_bg = "#FFFBEB"; warning_bd = "#FDE68A"; warning_txt = "#92400E"
+        danger_bg  = "#FEF2F2"; danger_bd  = "#FECACA"; danger_txt  = "#991B1B"
+        info_bg    = "#EFF6FF"; info_bd    = "#BFDBFE"; info_txt    = "#1E40AF"
+        mon_bg = "#F2F5F9"; mon_txt = "#53657D"; mon_bd = "#D9E1EA"
+        dne_bg = "#F2F5F9"; dne_txt = "#7C8A9D"; dne_bd = "#D9E1EA"
+        neg_bg = "#F2F5F9"; neg_txt = "#53657D"; neg_bd = "#D9E1EA"
+        gb_bg  = "#F2F5F9"; gb_txt  = "#53657D"; gb_bd  = "#D9E1EA"
+        gc_bg  = "#F2F5F9"; gc_txt  = "#7C8A9D"; gc_bd  = "#D9E1EA"
 
     css = f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-:root {{
-    {root_vars}
+/* ── Base Reset & App Background ── */
+html, body {{
+    background-color: {bg} !important;
+    color: {text} !important;
 }}
-
-{system_media_query}
-
-/* ── Base Setup ── */
-html, body, [class*='css'] {{
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 15px;
-    color: var(--pg-text-primary);
-    background-color: var(--pg-bg);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
+.stApp {{
+    background-color: {bg} !important;
 }}
-
-/* Completely disable header overlay interception */
+.stApp, .stApp p, .stApp span, .stApp div, .stApp label, .stApp h1, .stApp h2, .stApp h3 {{
+    color: {text};
+}}
+.block-container {{
+    padding-top: 1.5rem !important;
+    padding-bottom: 3.5rem !important;
+    max-width: 1260px !important;
+    margin: 0 auto !important;
+}}
 #MainMenu, footer, .stDeployButton, div[data-testid='stToolbar'], header[data-testid='stHeader'] {{
     display: none !important;
 }}
 
-.stApp {{
-    background-color: var(--pg-bg) !important;
-    transition: background-color 0.2s ease, color 0.2s ease;
+/* ═══════════════════════════════════════════════════════════════════
+   STREAMLIT NATIVE WIDGET STYLING
+   Comprehensive selectors covering both stSegmentedControl & stButtonGroup
+   and all popup elements across Streamlit versions
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Segmented Control / Button Group (Theme Switcher) ── */
+div[data-testid='stSegmentedControl'],
+div[data-testid='stButtonGroup'],
+div[data-baseweb='button-group'],
+html body div[data-testid='stSegmentedControl'],
+html body div[data-testid='stButtonGroup'] {{
+    background: {toggle_tray} !important;
+    background-color: {toggle_tray} !important;
+    border: 1px solid {toggle_tray_bd} !important;
+    border-radius: 10px !important;
+    padding: 3px !important;
+    box-shadow: none !important;
 }}
 
-.block-container {{
-    padding-top: 1.5rem !important;
-    padding-bottom: 3.5rem !important;
-    max-width: 1240px !important;
+div[data-testid='stSegmentedControl'] > div,
+div[data-testid='stButtonGroup'] > div,
+div[data-baseweb='button-group'] > div {{
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }}
 
-/* ── Streamlit Form Control Styling (Theme Consistent) ── */
-div[data-testid='stSelectbox'] label p,
-div[data-testid='stSegmentedControl'] label p {{
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13.5px !important;
-    font-weight: 600 !important;
-    color: var(--pg-text-secondary) !important;
-}}
-
-/* Active Selectbox display container */
-div[data-testid='stSelectbox'] > div > div {{
-    background-color: var(--pg-input-bg) !important;
-    color: var(--pg-text-primary) !important;
-    border: 1px solid var(--pg-input-border) !important;
+/* Inactive buttons (all buttons by default) */
+div[data-testid='stSegmentedControl'] button,
+div[data-testid='stButtonGroup'] button,
+html body div[data-testid='stSegmentedControl'] button,
+html body div[data-testid='stButtonGroup'] button,
+button[role='radio'] {{
+    background: {btn_inactive_bg} !important;
+    background-color: {btn_inactive_bg} !important;
+    border: 1px solid transparent !important;
     border-radius: 7px !important;
-    font-size: 14px !important;
+    padding: 5px 14px !important;
+    box-shadow: none !important;
+    color: {btn_inactive_txt} !important;
+    font-size: 13px !important;
     font-weight: 500 !important;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
 }}
 
-div[data-testid='stSelectbox'] [data-baseweb='select'] * {{
-    color: var(--pg-text-primary) !important;
+div[data-testid='stSegmentedControl'] button *,
+div[data-testid='stButtonGroup'] button *,
+button[role='radio'] *,
+button[role='radio'] p,
+button[role='radio'] span,
+button[role='radio'] div {{
+    background: transparent !important;
+    background-color: transparent !important;
+    color: {btn_inactive_txt} !important;
+    box-shadow: none !important;
 }}
 
-div[data-testid='stSelectbox'] > div > div:hover {{
-    border-color: var(--pg-accent) !important;
+/* Inactive button Hover */
+div[data-testid='stSegmentedControl'] button:hover,
+div[data-testid='stButtonGroup'] button:hover,
+button[role='radio']:hover {{
+    background: {btn_hover_bg} !important;
+    background-color: {btn_hover_bg} !important;
+    color: {btn_hover_txt} !important;
+}}
+div[data-testid='stSegmentedControl'] button:hover *,
+div[data-testid='stButtonGroup'] button:hover *,
+button[role='radio']:hover * {{
+    color: {btn_hover_txt} !important;
 }}
 
-div[data-testid='stSelectbox'] svg {{
-    fill: var(--pg-text-dim) !important;
+/* Active button */
+div[data-testid='stSegmentedControl'] button[aria-checked='true'],
+div[data-testid='stButtonGroup'] button[aria-checked='true'],
+div[data-testid='stSegmentedControl'] button[aria-pressed='true'],
+div[data-testid='stButtonGroup'] button[aria-pressed='true'],
+button[role='radio'][aria-checked='true'],
+html body div[data-testid='stSegmentedControl'] button[aria-checked='true'],
+html body div[data-testid='stButtonGroup'] button[aria-checked='true'] {{
+    background: {btn_active_bg} !important;
+    background-color: {btn_active_bg} !important;
+    border: 1px solid {btn_active_bd} !important;
+    color: {btn_active_txt} !important;
+    font-weight: 700 !important;
+    box-shadow: {shadow_sm} !important;
 }}
 
-/* Selectbox Dropdown Menu / Popover Styling */
+div[data-testid='stSegmentedControl'] button[aria-checked='true'] *,
+div[data-testid='stButtonGroup'] button[aria-checked='true'] *,
+button[role='radio'][aria-checked='true'] *,
+button[role='radio'][aria-checked='true'] span,
+button[role='radio'][aria-checked='true'] p,
+button[role='radio'][aria-checked='true'] div {{
+    background: transparent !important;
+    background-color: transparent !important;
+    color: {btn_active_txt} !important;
+    font-weight: 700 !important;
+}}
+
+/* ── Selectbox (Closed and Open Input Field) ── */
+div[data-testid='stSelectbox'],
+div[data-baseweb='select'] {{
+    color: {text} !important;
+}}
+
+div[data-testid='stSelectbox'] > div > div,
+div[data-baseweb='select'] > div,
+html body div[data-baseweb='select'] > div {{
+    background: {input_bg} !important;
+    background-color: {input_bg} !important;
+    border: 1px solid {input_bd} !important;
+    border-radius: 8px !important;
+    color: {text} !important;
+}}
+
+/* All text, values, placeholders, and inputs inside the selectbox trigger */
+div[data-testid='stSelectbox'] *,
+div[data-baseweb='select'] *,
+div[data-baseweb='select'] div,
+div[data-baseweb='select'] span,
+div[data-baseweb='select'] p,
+div[data-baseweb='select'] input,
+html body div[data-baseweb='select'] *,
+html body div[data-baseweb='select'] input {{
+    color: {text} !important;
+    -webkit-text-fill-color: {text} !important;
+}}
+
+div[data-baseweb='select'] input {{
+    background: transparent !important;
+    background-color: transparent !important;
+}}
+
+div[data-baseweb='select'] svg {{
+    fill: {text_sec} !important;
+    color: {text_sec} !important;
+}}
+
+/* ── Selectbox Dropdown Menu & Popover (Mounted to body) ── */
 div[data-baseweb='popover'],
 div[data-baseweb='popover'] > div,
-ul[role='listbox'] {{
-    background-color: var(--pg-popover-bg) !important;
-    border: 1px solid var(--pg-popover-border) !important;
+div[data-baseweb='popover'] > div > div,
+div[data-baseweb='menu'],
+div[data-baseweb='menu'] > div,
+ul[role='listbox'],
+div[role='listbox'],
+html body div[data-baseweb='popover'],
+html body div[data-baseweb='menu'],
+html body ul[role='listbox'],
+html body div[role='listbox'] {{
+    background: {popover_bg} !important;
+    background-color: {popover_bg} !important;
+    border: 1px solid {popover_bd} !important;
     border-radius: 8px !important;
-    box-shadow: var(--pg-shadow) !important;
+    box-shadow: {shadow} !important;
+    padding: 4px 0 !important;
+    color: {text} !important;
 }}
 
-li[role='option'] {{
-    background-color: var(--pg-popover-bg) !important;
-    color: var(--pg-text-primary) !important;
-    font-family: 'Inter', sans-serif !important;
+/* Options (both div[role='option'] and li[role='option']) */
+[role='option'],
+li[role='option'],
+div[role='option'],
+html body [role='option'],
+html body li[role='option'],
+html body div[role='option'] {{
+    background: {popover_bg} !important;
+    background-color: {popover_bg} !important;
+    color: {text} !important;
     font-size: 13.5px !important;
-    padding: 8px 14px !important;
-    transition: background-color 0.12s ease !important;
-}}
-
-li[role='option']:hover {{
-    background-color: var(--pg-option-hover) !important;
-    color: var(--pg-text-primary) !important;
-}}
-
-li[role='option'][aria-selected='true'] {{
-    background-color: var(--pg-option-selected) !important;
-    font-weight: 600 !important;
-}}
-
-div[data-testid='stCheckbox'] {{
-    margin-top: 4px !important;
-}}
-
-div[data-testid='stCheckbox'] label p {{
-    font-family: 'Inter', sans-serif !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    color: var(--pg-text-secondary) !important;
-    white-space: nowrap !important;
-}}
-
-/* Streamlit segmented control container with Material Symbols */
-div[data-testid='stSegmentedControl'] {{
-    background-color: var(--pg-card-bg) !important;
-    border: 1px solid var(--pg-card-border) !important;
-    border-radius: 8px !important;
-    padding: 3px !important;
-    position: relative !important;
-    z-index: 100 !important;
-}}
-
-div[data-testid='stSegmentedControl'] button {{
-    border-radius: 6px !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
+    padding: 9px 14px !important;
+    border: none !important;
     cursor: pointer !important;
-    pointer-events: auto !important;
+    transition: background 0.1s ease !important;
 }}
 
-div[data-testid='stSegmentedControl'] [data-testid='stIconMaterial'],
-div[data-testid='stSegmentedControl'] .material-symbols-rounded {{
-    font-size: 18px !important;
-    vertical-align: -4px !important;
-    margin-right: 4px !important;
+[role='option'] *,
+[role='option'] > div,
+[role='option'] > div > div,
+[role='option'] > span,
+[role='option'] > p,
+html body [role='option'] * {{
+    background: transparent !important;
+    background-color: transparent !important;
+    color: {text} !important;
+    -webkit-text-fill-color: {text} !important;
 }}
 
-/* ── Inline Code Elements ── */
-code, .pg-card code, .pg-callout code, .pg-quote-box code {{
-    background-color: var(--pg-code-bg) !important;
-    color: var(--pg-code-text) !important;
-    border: 1px solid var(--pg-code-border) !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
-    font-family: 'JetBrains Mono', 'Courier New', monospace !important;
-    font-size: 12.5px !important;
+/* Option Hover */
+[role='option']:hover,
+li[role='option']:hover,
+div[role='option']:hover,
+html body [role='option']:hover {{
+    background: {opt_hover} !important;
+    background-color: {opt_hover} !important;
+}}
+[role='option']:hover *,
+html body [role='option']:hover * {{
+    background: transparent !important;
+    color: {text} !important;
+    -webkit-text-fill-color: {text} !important;
+}}
+
+/* Option Selected in dropdown list */
+[role='option'][aria-selected='true'],
+li[role='option'][aria-selected='true'],
+div[role='option'][aria-selected='true'],
+html body [role='option'][aria-selected='true'] {{
+    background: {opt_sel_bg} !important;
+    background-color: {opt_sel_bg} !important;
+    color: {opt_sel_txt} !important;
+    font-weight: 700 !important;
+}}
+
+[role='option'][aria-selected='true'] *,
+[role='option'][aria-selected='true'] span,
+[role='option'][aria-selected='true'] p,
+[role='option'][aria-selected='true'] div,
+html body [role='option'][aria-selected='true'] *,
+html body [role='option'][aria-selected='true'] span,
+html body [role='option'][aria-selected='true'] p,
+html body [role='option'][aria-selected='true'] div {{
+    background: transparent !important;
+    background-color: transparent !important;
+    color: {opt_sel_txt} !important;
+    -webkit-text-fill-color: {opt_sel_txt} !important;
+    font-weight: 700 !important;
+}}
+
+/* ── Checkbox ── */
+div[data-testid='stCheckbox'] {{
+    margin-top: 6px !important;
+}}
+div[data-testid='stCheckbox'] label,
+div[data-testid='stCheckbox'] label p,
+div[data-testid='stCheckbox'] label span {{
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: {text_sec} !important;
 }}
 
 /* ── Navigation Tabs ── */
 div[data-testid='stTabs'] {{
-    border-bottom: 1.5px solid var(--pg-divider) !important;
+    border-bottom: 1.5px solid {divider} !important;
     margin-bottom: 24px !important;
 }}
-
-div[data-baseweb="tab-highlight"] {{
-    background-color: var(--pg-accent) !important;
-    pointer-events: none !important;
+[data-baseweb='tab-highlight'] {{
+    background: {primary} !important;
+    background-color: {primary} !important;
+    height: 2.5px !important;
 }}
-
+[data-baseweb='tab-border'] {{
+    background-color: {divider} !important;
+}}
 button[data-testid='stTab'] {{
-    font-family: 'Inter', sans-serif !important;
-    font-size: 14.5px !important;
-    padding: 10px 20px !important;
-    border: none !important;
     background: transparent !important;
+    border: none !important;
+    padding: 10px 18px !important;
     opacity: 1 !important;
-    border-bottom: 2px solid transparent !important;
-    margin-bottom: -1.5px !important;
     cursor: pointer !important;
-    transition: all 0.15s ease !important;
 }}
-
-button[data-testid='stTab'] p {{
-    font-family: 'Inter', sans-serif !important;
-    font-size: 14.5px !important;
+button[data-testid='stTab'] p,
+button[data-testid='stTab'] span,
+button[data-testid='stTab'] div {{
+    font-size: 14px !important;
     font-weight: 500 !important;
-    color: var(--pg-text-dim) !important;
+    color: {tab_inactive} !important;
     transition: color 0.15s ease !important;
 }}
-
-button[data-testid='stTab']:hover p {{
-    color: var(--pg-text-primary) !important;
+button[data-testid='stTab']:hover p,
+button[data-testid='stTab']:hover span,
+button[data-testid='stTab']:hover div {{
+    color: {tab_hover} !important;
 }}
-
-button[data-testid='stTab'][aria-selected='true'] p {{
-    color: var(--pg-text-primary) !important;
+button[data-testid='stTab'][aria-selected='true'] p,
+button[data-testid='stTab'][aria-selected='true'] span,
+button[data-testid='stTab'][aria-selected='true'] div {{
+    color: {tab_active} !important;
     font-weight: 700 !important;
 }}
 
-/* ── Typography & Header ── */
-.pg-header {{
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--pg-divider);
-}}
+/* ═══════════════════════════════════════════════════════════════════
+   CUSTOM PHARMAGUARD ELEMENTS
+   ═══════════════════════════════════════════════════════════════════ */
 
-.pg-title {{
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    color: var(--pg-text-primary);
-    margin: 0 0 4px 0;
-}}
+/* ── Typography ── */
+.pg-header {{ margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid {divider}; }}
+.pg-title {{ font-size: 26px; font-weight: 700; letter-spacing: -0.025em; color: {text}; margin: 0 0 4px 0; }}
+.pg-subtitle {{ font-size: 14.5px; color: {text_sec}; margin: 0; line-height: 1.45; }}
+.pg-section-label {{ font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: {primary}; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }}
+.pg-divider {{ border: none; border-top: 1px solid {divider}; margin: 26px 0; }}
 
-.pg-subtitle {{
-    font-size: 14.5px;
-    color: var(--pg-text-dim);
-    margin: 0;
-    line-height: 1.45;
-}}
+/* ── Cards ── */
+.pg-card {{ background: {surface}; border: 1px solid {border}; border-radius: 11px; padding: 20px 22px; box-shadow: {shadow_sm}; transition: border-color 0.15s ease; height: 100%; }}
+.pg-card:hover {{ border-color: {border_hover}; }}
+.pg-hero-card {{ background: {surface}; border: 1px solid {border}; border-top: 3.5px solid {primary}; border-radius: 11px; padding: 24px 26px; box-shadow: {shadow}; height: 100%; }}
+.pg-stat-card {{ background: {surface}; border: 1px solid {border}; border-radius: 10px; padding: 16px 18px; box-shadow: {shadow_sm}; height: 100%; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color 0.15s ease; }}
+.pg-stat-card:hover {{ border-color: {border_hover}; }}
 
-/* ── Section Dividers & Labels ── */
-.pg-section-label {{
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--pg-text-muted);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}}
-
-.pg-divider {{
-    border: none;
-    border-top: 1px solid var(--pg-divider);
-    margin: 28px 0;
-}}
-
-/* ── Modern Card Containers (Visual Depth) ── */
-.pg-card {{
-    background: var(--pg-card-bg);
-    border: 1px solid var(--pg-card-border);
-    border-radius: 10px;
-    padding: 20px 22px;
-    box-shadow: var(--pg-shadow-sm);
-    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-}}
-
-.pg-card:hover {{
-    border-color: var(--pg-card-border-hover);
-}}
-
-.pg-hero-card {{
-    background: var(--pg-card-bg);
-    border: 1px solid var(--pg-card-border);
-    border-top: 3.5px solid var(--pg-accent);
-    border-radius: 10px;
-    padding: 24px 26px;
-    box-shadow: var(--pg-shadow);
-    height: 100%;
-}}
-
-.pg-stat-card {{
-    background: var(--pg-card-bg);
-    border: 1px solid var(--pg-card-border);
-    border-radius: 9px;
-    padding: 16px 18px;
-    box-shadow: var(--pg-shadow-sm);
-    height: 100%;
-    transition: border-color 0.15s ease;
-}}
-
-.pg-stat-card:hover {{
-    border-color: var(--pg-card-border-hover);
-}}
-
-/* ── Metric Display ── */
-.pg-stat-label {{
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--pg-text-dim);
-    margin-bottom: 6px;
-}}
-
-.pg-stat-value {{
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--pg-text-primary);
-    line-height: 1.1;
-    font-variant-numeric: tabular-nums;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: -0.02em;
-}}
-
-.pg-stat-sub {{
-    font-size: 13.5px;
-    color: var(--pg-text-secondary);
-    margin-top: 5px;
-    line-height: 1.4;
-}}
-
-.pg-stat-note {{
-    font-size: 12px;
-    color: var(--pg-text-dim);
-    margin-top: 4px;
-    line-height: 1.35;
-}}
-
-/* Hero primary metric */
-.pg-hero-value {{
-    font-size: 64px;
-    font-weight: 800;
-    letter-spacing: -0.035em;
-    color: var(--pg-text-primary);
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-    font-family: 'Inter', sans-serif;
-}}
-
-.pg-hero-sub {{
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--pg-text-secondary);
-    margin-top: 10px;
-}}
-
-.pg-hero-note {{
-    font-size: 14px;
-    color: var(--pg-text-dim);
-    margin-top: 8px;
-    line-height: 1.55;
-}}
+/* ── Metrics ── */
+.pg-stat-label {{ font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {text_muted}; margin-bottom: 4px; }}
+.pg-stat-value {{ font-size: 30px; font-weight: 800; color: {text}; line-height: 1.1; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }}
+.pg-stat-sub {{ font-size: 13.5px; color: {text_sec}; margin-top: 4px; line-height: 1.4; }}
+.pg-stat-note {{ font-size: 12px; color: {text_muted}; margin-top: 4px; line-height: 1.35; }}
+.pg-hero-value {{ font-size: 58px; font-weight: 800; letter-spacing: -0.035em; color: {text}; line-height: 1; font-variant-numeric: tabular-nums; margin: 8px 0; }}
+.pg-hero-sub {{ font-size: 15.5px; font-weight: 600; color: {text_sec}; margin-top: 6px; }}
+.pg-hero-note {{ font-size: 13.5px; color: {text_muted}; margin-top: 8px; line-height: 1.5; }}
 
 /* ── Badges ── */
-.b-esc {{
-    background: {badge_esc_bg};
-    color: {badge_esc_txt};
-    border: 1px solid {badge_esc_bd};
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-}}
+.b-esc  {{ background: {success_bg}; color: {success_txt}; border: 1px solid {success_bd}; font-weight: 600; padding: 3px 8px; border-radius: 5px; font-size: 12px; white-space: nowrap; }}
+.b-mon  {{ background: {mon_bg}; color: {mon_txt}; border: 1px solid {mon_bd}; font-weight: 600; padding: 3px 8px; border-radius: 5px; font-size: 12px; white-space: nowrap; }}
+.b-dne  {{ background: {dne_bg}; color: {dne_txt}; border: 1px solid {dne_bd}; font-weight: 500; padding: 3px 8px; border-radius: 5px; font-size: 12px; white-space: nowrap; }}
+.b-pos  {{ background: {info_bg}; color: {info_txt}; border: 1px solid {info_bd}; font-weight: 500; padding: 3px 8px; border-radius: 5px; font-size: 12px; white-space: nowrap; }}
+.b-neg  {{ background: {neg_bg}; color: {neg_txt}; border: 1px solid {neg_bd}; font-weight: 500; padding: 3px 8px; border-radius: 5px; font-size: 12px; white-space: nowrap; }}
+.b-zero {{ background: {warning_bg}; color: {warning_txt}; border: 1px solid {warning_bd}; font-weight: 500; padding: 3px 8px; border-radius: 5px; font-size: 12px; white-space: nowrap; }}
+.b-ga   {{ background: {info_bg}; color: {info_txt}; border: 1px solid {info_bd}; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-size: 12px; }}
+.b-gb   {{ background: {gb_bg}; color: {gb_txt}; border: 1px solid {gb_bd}; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-size: 12px; }}
+.b-gc   {{ background: {gc_bg}; color: {gc_txt}; border: 1px solid {gc_bd}; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-size: 12px; }}
 
-.b-mon {{
-    background: {badge_mon_bg};
-    color: {badge_mon_txt};
-    border: 1px solid {badge_mon_bd};
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-}}
+/* ── Data Table ── */
+.pg-table-container {{ width: 100%; border: 1px solid {border}; border-radius: 9px; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 18px; background: {surface}; box-shadow: {shadow_sm}; }}
+.pg-data-table {{ width: 100%; min-width: 980px; border-collapse: collapse; font-size: 13.5px; text-align: left; }}
+.pg-data-table th {{ background: {th_bg}; color: {th_txt}; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 12px; border-bottom: 1px solid {border}; white-space: nowrap; }}
+.pg-data-table td {{ padding: 9px 12px; border-bottom: 1px solid {divider}; color: {text_sec}; vertical-align: middle; }}
+.pg-data-table tr:hover td {{ background-color: {row_hover}; }}
+.pg-data-table tr:last-child td {{ border-bottom: none; }}
+.pg-mono {{ font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {text}; font-variant-numeric: tabular-nums; }}
 
-.b-dne {{
-    background: {badge_dne_bg};
-    color: {badge_dne_txt};
-    border: 1px solid {badge_dne_bd};
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-}}
+/* ── Callouts ── */
+.pg-quote-box {{ background: {quote_bg}; border-left: 3.5px solid {quote_bd}; padding: 13px 16px; font-size: 13.5px; line-height: 1.6; color: {quote_txt}; border-radius: 0 6px 6px 0; margin: 8px 0; border-top: 1px solid {border}; border-right: 1px solid {border}; border-bottom: 1px solid {border}; }}
+.pg-conclusion-box {{ background: {success_bg}; border-left: 3.5px solid {success_bd}; padding: 13px 16px; font-size: 13.5px; line-height: 1.6; color: {success_txt}; border-radius: 0 6px 6px 0; margin-top: 8px; border-top: 1px solid {success_bd}; border-right: 1px solid {success_bd}; border-bottom: 1px solid {success_bd}; }}
+.pg-callout {{ background: {callout_bg}; border-left: 3.5px solid {callout_bd}; padding: 15px 18px; font-size: 13.5px; color: {text_sec}; line-height: 1.6; border-radius: 0 8px 8px 0; margin-top: 16px; border-top: 1px solid {border}; border-right: 1px solid {border}; border-bottom: 1px solid {border}; }}
 
-.b-pos {{
-    background: {badge_pos_bg};
-    color: {badge_pos_txt};
-    border: 1px solid {badge_pos_bd};
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-    white-space: nowrap;
-}}
+/* ── Comparison Table ── */
+.pg-cmp-table {{ width: 100%; border-collapse: collapse; font-size: 13.5px; }}
+.pg-cmp-table th {{ text-align: left; padding: 9px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: {th_txt}; border-bottom: 1px solid {border}; background: {th_bg}; }}
+.pg-cmp-table td {{ padding: 9px 12px; border-bottom: 1px solid {divider}; color: {text_sec}; }}
+.pg-cmp-table td.num {{ text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 600; color: {text}; }}
+.pg-cmp-table tr:last-child td {{ border-bottom: none; }}
 
-.b-neg {{
-    background: {badge_neg_bg};
-    color: {badge_neg_txt};
-    border: 1px solid {badge_neg_bd};
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-    white-space: nowrap;
-}}
-
-.b-zero {{
-    background: {badge_zero_bg};
-    color: {badge_zero_txt};
-    border: 1px solid {badge_zero_bd};
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-    white-space: nowrap;
-}}
-
-.b-ga {{
-    background: {badge_ga_bg};
-    color: {badge_ga_txt};
-    border: 1px solid {badge_ga_bd};
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 12px;
-}}
-
-.b-gb {{
-    background: {badge_gb_bg};
-    color: {badge_gb_txt};
-    border: 1px solid {badge_gb_bd};
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 12px;
-}}
-
-.b-gc {{
-    background: {badge_gc_bg};
-    color: {badge_gc_txt};
-    border: 1px solid {badge_gc_bd};
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 12px;
-}}
-
-/* ── Dense Aligned Data Table ── */
-.pg-table-container {{
-    width: 100%;
-    border: 1px solid var(--pg-card-border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    background: var(--pg-card-bg);
-    box-shadow: var(--pg-shadow-sm);
-}}
-
-.pg-data-table {{
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-    text-align: left;
-}}
-
-.pg-data-table th {{
-    background: var(--pg-table-header-bg);
-    color: var(--pg-table-header-text);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 11px 14px;
-    border-bottom: 1px solid var(--pg-card-border);
-    white-space: nowrap;
-}}
-
-.pg-data-table td {{
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--pg-divider);
-    color: var(--pg-text-secondary);
-    vertical-align: middle;
-}}
-
-.pg-data-table tr:hover td {{
-    background-color: var(--pg-table-row-hover);
-}}
-
-.pg-data-table tr:last-child td {{
-    border-bottom: none;
-}}
-
-.pg-mono {{
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 13px;
-    color: var(--pg-text-primary);
-}}
-
-/* ── Detail Pane / Callouts ── */
-.pg-detail-box {{
-    background: var(--pg-quote-bg);
-    border: 1px solid var(--pg-card-border);
-    border-radius: 8px;
-    padding: 18px 22px;
-    margin-top: 12px;
-}}
-
-.pg-quote-box {{
-    background: var(--pg-quote-bg);
-    border-left: 3.5px solid var(--pg-quote-border);
-    padding: 13px 18px;
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: var(--pg-quote-text);
-    border-radius: 0 6px 6px 0;
-    margin: 8px 0;
-    border-top: 1px solid var(--pg-card-border);
-    border-right: 1px solid var(--pg-card-border);
-    border-bottom: 1px solid var(--pg-card-border);
-}}
-
-.pg-conclusion-box {{
-    background: var(--pg-conclusion-bg);
-    border-left: 3.5px solid var(--pg-conclusion-border);
-    padding: 13px 18px;
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: var(--pg-conclusion-text);
-    border-radius: 0 6px 6px 0;
-    margin-top: 8px;
-    border-top: 1px solid rgba(34, 197, 94, 0.2);
-    border-right: 1px solid rgba(34, 197, 94, 0.2);
-    border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-}}
-
-.pg-callout {{
-    background: var(--pg-callout-bg);
-    border-left: 3.5px solid var(--pg-accent);
-    padding: 16px 20px;
-    font-size: 13.5px;
-    color: var(--pg-text-secondary);
-    line-height: 1.65;
-    border-radius: 0 8px 8px 0;
-    margin-top: 18px;
-    border-top: 1px solid var(--pg-card-border);
-    border-right: 1px solid var(--pg-card-border);
-    border-bottom: 1px solid var(--pg-card-border);
-}}
-
-/* ── Baseline Comparison Table ── */
-.pg-cmp-table {{
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}}
-
-.pg-cmp-table th {{
-    text-align: left;
-    padding: 9px 12px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--pg-table-header-text);
-    border-bottom: 1px solid var(--pg-card-border);
-    background: var(--pg-table-header-bg);
-}}
-
-.pg-cmp-table td {{
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--pg-divider);
-    color: var(--pg-text-secondary);
-}}
-
-.pg-cmp-table td.num {{
-    text-align: right;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    color: var(--pg-text-primary);
-}}
-
-.pg-cmp-table tr:last-child td {{
-    border-bottom: none;
-}}
+/* ── Inline code ── */
+code {{ background-color: {code_bg} !important; color: {code_txt} !important; border: 1px solid {code_bd} !important; padding: 2px 6px !important; border-radius: 4px !important; font-family: 'JetBrains Mono', monospace !important; font-size: 12.5px !important; }}
 </style>
 """
     return css
 
 
 def inject_dashboard_styles(theme: str = "light") -> None:
-    """Inject customized high-contrast CSS styling into Streamlit DOM."""
+    """Inject customized CSS styling into Streamlit DOM."""
     st.markdown(get_theme_css(theme), unsafe_allow_html=True)

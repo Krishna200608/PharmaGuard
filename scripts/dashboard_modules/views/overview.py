@@ -16,7 +16,7 @@ def view_overview(logo_path: Path | None = None) -> None:
     if logo_path and logo_path.exists():
         c_logo, c_title = st.columns([0.06, 0.94], gap='medium')
         with c_logo:
-            st.image(str(logo_path), width=58)
+            st.image(str(logo_path), width=54)
         with c_title:
             st.markdown(
                 '<div class="pg-header" style="margin-bottom: 0px; border-bottom: none; padding-bottom: 0px;">'
@@ -25,7 +25,7 @@ def view_overview(logo_path: Path | None = None) -> None:
                 '</div>',
                 unsafe_allow_html=True,
             )
-        st.markdown('<div style="height: 18px;"></div>', unsafe_allow_html=True)
+        st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
     else:
         st.markdown(
             '<div class="pg-header">'
@@ -45,7 +45,7 @@ def view_overview(logo_path: Path | None = None) -> None:
             f'<div class="pg-hero-value">{m["s_rec"]:.3f}</div>'
             f'<div class="pg-hero-sub">6 of 7 confirmed positives correctly escalated</div>'
             f'<div class="pg-hero-note">'
-            f'Lenient Recall: <strong style="color:var(--pg-text-primary);">1.000</strong> (7/7) — '
+            f'Lenient Recall: <strong style="color:var(--text);">1.000</strong> (7/7) — '
             f'signal is never missed; confidence is modulated under mechanistic uncertainty.'
             f'</div>'
             f'</div>',
@@ -58,7 +58,7 @@ def view_overview(logo_path: Path | None = None) -> None:
             f'<div class="pg-stat-label">Over-Caution Rate</div>'
             f'<div class="pg-stat-value">12.5%</div>'
             f'<div class="pg-stat-sub">1 of 8 negative controls → MONITOR</div>'
-            f'<div style="height: 16px; border-bottom: 1px solid var(--pg-divider); margin-bottom: 14px;"></div>'
+            f'<div style="height: 14px; border-bottom: 1px solid var(--divider); margin-bottom: 12px;"></div>'
             f'<div class="pg-stat-label">Spurious False Alarms</div>'
             f'<div class="pg-stat-value">FP = 0</div>'
             f'<div class="pg-stat-sub">Strict Wilson 95% CI: 0.610–1.000</div>'
@@ -66,7 +66,7 @@ def view_overview(logo_path: Path | None = None) -> None:
             unsafe_allow_html=True,
         )
 
-    st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
+    st.markdown('<div style="height: 14px;"></div>', unsafe_allow_html=True)
     st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
 
     st.markdown('<div class="pg-section-label">Strict Evaluation Metrics</div>', unsafe_allow_html=True)
@@ -83,15 +83,19 @@ def view_overview(logo_path: Path | None = None) -> None:
         with col:
             st.markdown(
                 f'<div class="pg-stat-card">'
+                f'<div>'
                 f'<div class="pg-stat-label">{label}</div>'
                 f'<div class="pg-stat-value">{val}</div>'
+                f'</div>'
+                f'<div>'
                 f'<div class="pg-stat-sub">{sub}</div>'
                 f'<div class="pg-stat-note">{note}</div>'
+                f'</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
 
-    st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
+    st.markdown('<div style="height: 14px;"></div>', unsafe_allow_html=True)
     st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
 
     st.markdown('<div class="pg-section-label">Lenient Evaluation Metrics (MONITOR counts as True Positive)</div>', unsafe_allow_html=True)
@@ -106,10 +110,14 @@ def view_overview(logo_path: Path | None = None) -> None:
         with col:
             st.markdown(
                 f'<div class="pg-stat-card">'
+                f'<div>'
                 f'<div class="pg-stat-label">{label}</div>'
                 f'<div class="pg-stat-value">{val}</div>'
+                f'</div>'
+                f'<div>'
                 f'<div class="pg-stat-sub">{sub}</div>'
                 f'<div class="pg-stat-note">{note}</div>'
+                f'</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )

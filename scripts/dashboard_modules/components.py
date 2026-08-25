@@ -3,7 +3,7 @@ PharmaGuard Dashboard UI Components
 ===================================
 HTML badge formatters, signal tags, and Plotly confidence breakdown charts.
 Clean one-way dependency: components.py does NOT import from any view modules.
-Fully theme-aware for Light, Dark, and System modes.
+Fully theme-aware for Light, Dark, and System modes with centralized tokens.
 """
 from __future__ import annotations
 
@@ -38,11 +38,11 @@ def signal_span(s: str, report_count: int | None = 0, theme: str = "light") -> s
     """Render colored FAERS signal strength with inline report count."""
     is_dark = (theme == "dark")
     if is_dark:
-        color = {'STRONG': '#4ade80', 'MODERATE': '#cbd5e1', 'NO_SIGNAL': '#94a3b8'}.get(s, '#94a3b8')
-        count_color = '#94a3b8'
+        color = {'STRONG': '#22C77A', 'MODERATE': '#A8B3C3', 'NO_SIGNAL': '#738096'}.get(s, '#738096')
+        count_color = '#738096'
     else:
-        color = {'STRONG': '#15803d', 'MODERATE': '#334155', 'NO_SIGNAL': '#94a3b8'}.get(s, '#94a3b8')
-        count_color = '#64748b'
+        color = {'STRONG': '#168A55', 'MODERATE': '#53657D', 'NO_SIGNAL': '#7C8A9D'}.get(s, '#7C8A9D')
+        count_color = '#7C8A9D'
 
     wt = {'STRONG': '700', 'MODERATE': '600', 'NO_SIGNAL': '500'}.get(s, '500')
     rc_str = f' ({report_count:,})' if report_count is not None else ''
@@ -72,19 +72,19 @@ def render_conf_chart(r: dict, key: str, theme: str = "light") -> None:
     raws = [prr_raw, grade_raw, plaus_raw]
 
     if is_dark:
-        colors = ['#3b82f6', '#14b8a6', '#818cf8']
-        text_color = '#f8fafc'
-        tick_x_color = '#94a3b8'
-        tick_y_color = '#f8fafc'
+        colors = ['#4EA1FF', '#22C77A', '#6672FF']
+        text_color = '#F3F6FA'
+        tick_x_color = '#A8B3C3'
+        tick_y_color = '#F3F6FA'
         grid_color = 'rgba(255, 255, 255, 0.08)'
-        dash_color = '#f8fafc'
+        dash_color = '#F3F6FA'
     else:
-        colors = ['#2563eb', '#0d9488', '#6366f1']
-        text_color = '#0f172a'
-        tick_x_color = '#334155'
-        tick_y_color = '#0f172a'
+        colors = ['#1769AA', '#168A55', '#4F46E5']
+        text_color = '#172033'
+        tick_x_color = '#53657D'
+        tick_y_color = '#172033'
         grid_color = 'rgba(15, 23, 42, 0.08)'
-        dash_color = '#0f172a'
+        dash_color = '#172033'
 
     fig = go.Figure()
     for lbl, val, raw, col in zip(labels, vals, raws, colors):
@@ -110,7 +110,7 @@ def render_conf_chart(r: dict, key: str, theme: str = "light") -> None:
     fig.update_layout(
         barmode='overlay',
         xaxis=dict(
-            range=[0, 1.22], title=None,
+            range=[0, 1.25], title=None,
             tickfont=dict(size=12, family='JetBrains Mono', color=tick_x_color),
             gridcolor=grid_color, showgrid=True
         ),
@@ -118,7 +118,7 @@ def render_conf_chart(r: dict, key: str, theme: str = "light") -> None:
             title=None,
             tickfont=dict(size=13, family='Inter', color=tick_y_color)
         ),
-        height=200, margin=dict(l=6, r=120, t=38, b=8),
+        height=200, margin=dict(l=6, r=130, t=38, b=8),
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
         showlegend=False, font=dict(family='Inter'),
     )

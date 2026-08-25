@@ -2,7 +2,7 @@
 View 2: Per-Pair Table & Evidence Inspector
 ===========================================
 Dense aligned data table with category/escalation filters and full inspector.
-Theme-aware typography and interactive confidence decomposition charts.
+Theme-aware typography, controlled horizontal scrolling, and interactive confidence decomposition charts.
 """
 from __future__ import annotations
 
@@ -44,28 +44,28 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
 
     is_dark = (theme == "dark")
     plaus_colors = {
-        'HIGH': '#4ade80' if is_dark else '#166534',
-        'MODERATE': '#cbd5e1' if is_dark else '#334155',
-        'LOW': '#94a3b8',
+        'HIGH': '#22C77A' if is_dark else '#168A55',
+        'MODERATE': '#A8B3C3' if is_dark else '#53657D',
+        'LOW': '#738096' if is_dark else '#7C8A9D',
     }
 
     table_rows_html = []
     for _, r in fdf.iterrows():
         conf_str = f"{r['confidence']:.3f}" if r['confidence'] is not None else '—'
         plaus = r['plausibility']
-        pc = plaus_colors.get(plaus, '#94a3b8')
-        flag = '<span style="color:#f59e0b;font-weight:700;margin-right:2px;" title="Disagreement">!</span> ' if not r['match'] else ''
+        pc = plaus_colors.get(plaus, '#738096')
+        flag = '<span style="color:#F2B84B;font-weight:700;margin-right:2px;" title="Disagreement">!</span> ' if not r['match'] else ''
         rc = r.get('report_count', 0)
         table_rows_html.append(
             f'<tr>'
-            f'<td class="pg-mono" style="color:var(--pg-text-dim);">{flag}{r["idx"]}</td>'
-            f'<td style="font-weight:600; color:var(--pg-text-primary);">{r["drug"]}</td>'
-            f'<td style="color:var(--pg-text-secondary);">{r["event"]}</td>'
+            f'<td class="pg-mono" style="color:var(--text-dim); text-align:center;">{flag}{r["idx"]}</td>'
+            f'<td style="font-weight:600; color:var(--text);">{r["drug"]}</td>'
+            f'<td style="color:var(--text-secondary);">{r["event"]}</td>'
             f'<td>{cat_badge(r["category"])}</td>'
             f'<td>{signal_span(r["signal"], rc, theme=theme)}</td>'
-            f'<td>{grade_badge(r["grade"])}</td>'
+            f'<td style="text-align:center;">{grade_badge(r["grade"])}</td>'
             f'<td style="color:{pc}; font-weight:600; font-size:13px;">{plaus}</td>'
-            f'<td class="pg-mono">{conf_str}</td>'
+            f'<td class="pg-mono" style="text-align:right;">{conf_str}</td>'
             f'<td>{esc_badge(r["escalation"])}</td>'
             f'<td>{esc_badge(r["expected"])}</td>'
             f'</tr>'
@@ -76,16 +76,16 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
         <table class="pg-data-table">
             <thead>
                 <tr>
-                    <th style="width:40px;">#</th>
-                    <th>Drug</th>
-                    <th>Event</th>
-                    <th>Category</th>
-                    <th>FAERS Signal (Count)</th>
-                    <th>PubMed</th>
-                    <th>Plausibility</th>
-                    <th>Confidence</th>
-                    <th>Escalation</th>
-                    <th>Expected</th>
+                    <th style="width:44px; min-width:44px; text-align:center;">#</th>
+                    <th style="min-width:140px;">Drug</th>
+                    <th style="min-width:160px;">Event</th>
+                    <th style="min-width:145px;">Category</th>
+                    <th style="min-width:170px;">FAERS Signal (Count)</th>
+                    <th style="width:80px; min-width:80px; text-align:center;">PubMed</th>
+                    <th style="min-width:110px;">Plausibility</th>
+                    <th style="width:100px; min-width:100px; text-align:right;">Confidence</th>
+                    <th style="min-width:130px;">Escalation</th>
+                    <th style="min-width:130px;">Expected</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,7 +95,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
     </div>
     """
     st.markdown(table_html, unsafe_allow_html=True)
-    st.markdown(f'<p style="font-size:13px;color:var(--pg-text-dim);margin:-10px 0 20px 0;">Showing {len(fdf)} of {len(df)} pairs</p>', unsafe_allow_html=True)
+    st.markdown(f'<p style="font-size:13px;color:var(--text-dim);margin:-10px 0 20px 0;">Showing {len(fdf)} of {len(df)} pairs</p>', unsafe_allow_html=True)
 
     st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
     st.markdown('<div class="pg-section-label">Evidence & Confidence Breakdown Inspector</div>', unsafe_allow_html=True)
@@ -130,7 +130,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
         st.markdown(
             f'<div class="pg-card" style="margin-bottom:14px;">'
             f'<div class="pg-stat-label">FAERS Signal Statistics</div>'
-            f'<div class="pg-mono" style="font-size:14px; color:var(--pg-text-primary); margin:8px 0 14px 0;">'
+            f'<div class="pg-mono" style="font-size:13.5px; color:var(--text); margin:8px 0 14px 0;">'
             f'PRR: <b>{prr_formatted}</b> &nbsp;|&nbsp; Reports: <b>{rc_val:,}</b> &nbsp;|&nbsp; Strength: {signal_span(sel_row["signal"], rc_val, theme=theme)}'
             f'</div>'
             f'<div class="pg-stat-label">PubMed Evidence Summary</div>'
@@ -146,7 +146,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
             f'<div class="pg-card" style="margin-bottom:14px;">'
             f'<div class="pg-stat-label">Mechanistic Plausibility</div>'
             f'<div class="pg-quote-box">{plaus_rat}</div>'
-            f'<div style="font-size:12px;color:var(--pg-text-dim);margin-top:2px;margin-bottom:12px;">source: <code>{plaus_src}</code></div>'
+            f'<div style="font-size:12px;color:var(--text-dim);margin-top:2px;margin-bottom:12px;">source: <code>{plaus_src}</code></div>'
             f'<div class="pg-stat-label" style="margin-top:14px;">Confidence Formula Decomposition</div>',
             unsafe_allow_html=True,
         )

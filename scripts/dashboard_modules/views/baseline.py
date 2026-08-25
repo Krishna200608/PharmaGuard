@@ -2,7 +2,7 @@
 View 4: Baseline Comparison
 ===========================
 Tool-grounded PharmaGuard vs. Single-Shot LLM Baseline and Liraglutide case study.
-Card-based comparative layout with dual-theme compatibility.
+Card-based comparative layout with dual-theme compatibility and aligned tabular metrics.
 """
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ def view_baseline(prod_reports: list, base_reports: list, theme: str = "light") 
 
     def _table(d: dict, is_prod: bool) -> str:
         title = 'PharmaGuard · Tool-Grounded' if is_prod else 'Single-Shot LLM Baseline · No Tools'
-        tag_color = 'var(--pg-accent)' if is_prod else 'var(--pg-text-dim)'
+        tag_color = 'var(--primary)' if is_prod else 'var(--text-secondary)'
         return (
             f'<div class="pg-card" style="margin-bottom:8px;">'
             f'<div style="font-size:15px; font-weight:700; color:{tag_color}; margin-bottom:12px;">{title}</div>'
@@ -71,18 +71,18 @@ def view_baseline(prod_reports: list, base_reports: list, theme: str = "light") 
         conf = triage.get('confidence')
         trace = triage.get('agent_reasoning_trace', [])
         conf_d = f'{conf:.3f}' if conf is not None else '—'
-        tag_color = 'var(--pg-accent)' if is_prod else 'var(--pg-text-dim)'
+        tag_color = 'var(--primary)' if is_prod else 'var(--text-secondary)'
         with col:
             st.markdown(
                 f'<div class="pg-card">'
                 f'<div style="font-size:15px; font-weight:700; color:{tag_color}; margin-bottom:10px;">{title}</div>'
                 f'<div style="display:flex; gap:10px; align-items:center; margin-bottom:6px;">'
                 f'{esc_badge(esc)}'
-                f'<span style="font-size:13px; color:var(--pg-text-dim);">expected: {expected}</span>'
+                f'<span style="font-size:13px; color:var(--text-dim);">expected: {expected}</span>'
                 f'</div>'
-                f'<div class="pg-mono" style="font-size:13px; color:var(--pg-text-dim); margin-bottom:12px;">confidence = <b>{conf_d}</b></div>'
+                f'<div class="pg-mono" style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">confidence = <b>{conf_d}</b></div>'
                 + (f'<div class="pg-quote-box" style="font-size:13px; margin-bottom:12px;">{"<br>".join(trace)}</div>' if trace else '')
-                + (f'<ul style="font-size:13.5px; color:var(--pg-text-secondary); margin:10px 0 0; padding-left:20px; line-height:1.65;">{"".join(f"<li style='margin-bottom:5px;'>{n}</li>" for n in notes)}</ul>' if notes else '')
+                + (f'<ul style="font-size:13.5px; color:var(--text-secondary); margin:10px 0 0; padding-left:20px; line-height:1.65;">{"".join(f"<li style='margin-bottom:5px;'>{n}</li>" for n in notes)}</ul>' if notes else '')
                 + '</div>',
                 unsafe_allow_html=True,
             )
