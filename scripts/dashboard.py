@@ -1,4 +1,4 @@
-﻿# ruff: noqa: E501
+# ruff: noqa: E501
 """
 PharmaGuard Evaluation Dashboard
 =================================
@@ -13,7 +13,16 @@ from __future__ import annotations
 
 import importlib
 from pathlib import Path
+import sys
 import streamlit as st
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SCRIPTS_DIR = Path(__file__).resolve().parent
+
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
 
 import dashboard_modules.styles as _styles_mod
 importlib.reload(_styles_mod)
@@ -42,19 +51,23 @@ import dashboard_modules.views.baseline as _v_baseline
 importlib.reload(_v_baseline)
 from dashboard_modules.views.baseline import view_baseline
 
+import dashboard_modules.views.probes as _v_probes
+importlib.reload(_v_probes)
+from dashboard_modules.views.probes import view_probes
+
 # ---------------------------------------------------------------------------
 # Paths & Page Configuration
 # ---------------------------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parent.parent
 OUTPUTS_DIR = REPO_ROOT / "outputs"
 BASELINE_DIR = OUTPUTS_DIR / "baseline"
+STABILITY_PATH = OUTPUTS_DIR / "stability" / "loo_analysis.json"
 GROUND_TRUTH_PATH = REPO_ROOT / "pharmaguard" / "data" / "ground_truth.json"
 FAVICON_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_1.png"
 LOGO_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_2.png"
 
 st.set_page_config(
     page_title="PharmaGuard | Evaluation Dashboard",
-    page_icon=str(FAVICON_PATH) if FAVICON_PATH.exists() else "🛡️",
+    page_icon=str(FAVICON_PATH) if FAVICON_PATH.exists() else ":material/shield:",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -116,20 +129,23 @@ def main() -> None:
         st.stop()
 
     # ── Tabs & Views ──
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "Overview",
         "Per-Pair Table",
         "Disagreement Spotlight",
         "Baseline Comparison",
+        "Methodology Probes",
     ])
     with tab1:
-        view_overview(LOGO_PATH)
+        view_overview(LOGO_PATH, STABILITY_PATH)
     with tab2:
         view_per_pair(df, theme=active_theme)
     with tab3:
         view_disagreements(prod_reports, OUTPUTS_DIR, theme=active_theme)
     with tab4:
         view_baseline(prod_reports, base_reports, theme=active_theme)
+    with tab5:
+        view_probes(OUTPUTS_DIR, theme=active_theme)
 
 
 if __name__ == "__main__":

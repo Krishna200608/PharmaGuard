@@ -3,16 +3,18 @@ View 1: Overview
 ================
 High-level benchmark metrics (Strict & Lenient Recall, Precision, Wilson CIs).
 Structured card layouts with subtle depth hierarchy and theme adaptability.
+Includes Leave-One-Out (LOO) stability analysis block.
 """
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import streamlit as st
 from ..data_loader import PROD_METRICS
 
 
-def view_overview(logo_path: Path | None = None) -> None:
-    """Render the Overview tab."""
+def view_overview(logo_path: Path | None = None, stability_path: Path | None = None) -> None:
+    """Render the Overview tab with benchmark cards and LOO stability block."""
     if logo_path and logo_path.exists():
         c_logo, c_title = st.columns([0.06, 0.94], gap='medium')
         with c_logo:
@@ -121,6 +123,80 @@ def view_overview(logo_path: Path | None = None) -> None:
                 f'</div>',
                 unsafe_allow_html=True,
             )
+
+    # ── LEAVE-ONE-OUT STABILITY BLOCK ──
+    st.markdown('<div style="height: 14px;"></div>', unsafe_allow_html=True)
+    st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
+    st.markdown('<div class="pg-section-label">Leave-One-Out (LOO) Stability Analysis (15 Iterations)</div>', unsafe_allow_html=True)
+
+    if stability_path is None:
+        stability_path = Path(__file__).resolve().parents[3] / "outputs" / "stability" / "loo_analysis.json"
+
+    stability_data = None
+    if stability_path and stability_path.exists():
+        try:
+            with open(stability_path, "r", encoding="utf-8") as f:
+                stability_data = json.load(f)
+        except Exception:
+            stability_data = None
+
+    if stability_data and "summary" in stability_data:
+        summ = stability_data["summary"]
+        brittle = stability_data.get("brittle_pairs", {})
+        s_f1 = summ.get("strict", {}).get("f1", {})
+        l_f1 = summ.get("lenient", {}).get("f1", {})
+
+        s_f1_mean = s_f1.get("mean", 0.0)
+        s_f1_sd = s_f1.get("sd", 0.0)
+        s_f1_min = s_f1.get("min", 0.0)
+        s_f1_max = s_f1.get("max", 0.0)
+
+        l_f1_mean = l_f1.get("mean", 0.0)
+        l_f1_sd = l_f1.get("sd", 0.0)
+        l_f1_min = l_f1.get("min", 0.0)
+        l_f1_max = l_f1.get("max", 0.0)
+
+        s_brittle_list = brittle.get("strict_brittle_pairs", ["None"])
+        s_brittle_str = s_brittle_list[0] if s_brittle_list else "None"
+        s_swing = brittle.get("max_strict_f1_swing", 0.0)
+
+        l_brittle_list = brittle.get("lenient_brittle_pairs", ["None"])
+        l_brittle_str = l_brittle_list[0] if l_brittle_list else "None"
+        l_swing = brittle.get("max_lenient_f1_swing", 0.0)
+
+        b1, b2, b3, b4 = st.columns(4, gap='medium')
+        loo_cards = [
+            ('Strict F1 (Mean ± SD)', f"{s_f1_mean:.3f} ± {s_f1_sd:.3f}",
+             f"Range: {s_f1_min:.3f}–{s_f1_max:.3f} (15 folds)", 'Consistent across single-pair exclusions'),
+            ('Strict Most Brittle Pair', s_brittle_str,
+             f"Max swing: ΔF1 = +{s_swing:.3f} (to 1.000)", 'Removing single strict FN eliminates FN penalty'),
+            ('Lenient F1 (Mean ± SD)', f"{l_f1_mean:.3f} ± {l_f1_sd:.3f}",
+             f"Range: {l_f1_min:.3f}–{l_f1_max:.3f} (15 folds)", 'Robust ceiling under lenient modulation'),
+            ('Lenient Most Brittle Pair', l_brittle_str,
+             f"Max swing: ΔF1 = +{l_swing:.3f} (to 1.000)", 'Removing single lenient FP eliminates FP penalty'),
+        ]
+        for col, (label, val, sub, note) in zip([b1, b2, b3, b4], loo_cards):
+            with col:
+                st.markdown(
+                    f'<div class="pg-stat-card">'
+                    f'<div>'
+                    f'<div class="pg-stat-label">{label}</div>'
+                    f'<div class="pg-stat-value" style="font-size:15px;word-break:break-all;">{val}</div>'
+                    f'</div>'
+                    f'<div>'
+                    f'<div class="pg-stat-sub">{sub}</div>'
+                    f'<div class="pg-stat-note">{note}</div>'
+                    f'</div>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+    else:
+        st.markdown(
+            '<div style="font-family:\'JetBrains Mono\', monospace; font-size:12px; color:var(--text-dim); padding: 12px 0;">'
+            'LOO stability analysis not yet generated — run <code>python scripts/stability_analysis.py</code>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
 
     st.markdown(
         '<div class="pg-callout">'

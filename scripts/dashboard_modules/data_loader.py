@@ -7,10 +7,17 @@ HARD INVARIANT: ZERO network calls at runtime.
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
+import re
+import sys
 import pandas as pd
 import streamlit as st
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
+from pharmaguard.agent.output_schema import compute_source_agreement
 
 # Verified benchmark values from DECISIONS.md §16
 PROD_METRICS = {
@@ -70,6 +77,12 @@ def build_df(reports: list, gt: dict) -> pd.DataFrame:
         entry = gt.get(f'{drug}::{event}', {})
         expected = entry.get('expected_escalation', '')
         actual = r.get('triage', {}).get('escalation', '')
+
+        prr_s = r.get('signal_stats', {}).get('prr_score', 0.0) or 0.0
+        grade_s = r.get('literature', {}).get('grade_score', 0.0) or 0.0
+        plaus_s = r.get('mechanism', {}).get('plausibility_score', 0.0) or 0.0
+        agr = r.get('triage', {}).get('source_agreement') or compute_source_agreement(prr_s, grade_s, plaus_s)
+
         rows.append({
             'idx': run_idx(r.get('_src', '')),
             'drug': drug,
@@ -80,6 +93,7 @@ def build_df(reports: list, gt: dict) -> pd.DataFrame:
             'prr': r.get('signal_stats', {}).get('prr'),
             'grade': r.get('literature', {}).get('evidence_grade', ''),
             'plausibility': r.get('mechanism', {}).get('biological_plausibility', ''),
+            'source_agreement': agr,
             'confidence': r.get('triage', {}).get('confidence'),
             'escalation': actual,
             'expected': expected,

@@ -1,7 +1,8 @@
 """
 PharmaGuard Dashboard UI Components
 ===================================
-HTML badge formatters, signal tags, and Plotly confidence breakdown charts.
+HTML badge formatters, signal tags, Plotly confidence breakdown charts,
+and Google Material Icons SVG formatters.
 Clean one-way dependency: components.py does NOT import from any view modules.
 Fully theme-aware for Light, Dark, and System modes with centralized tokens.
 """
@@ -32,6 +33,30 @@ def grade_badge(g: str) -> str:
     """Render colored badge for PubMed evidence grade A/B/C."""
     cls = {'A': 'b-ga', 'B': 'b-gb', 'C': 'b-gc'}.get(g, 'b-gc')
     return f'<span class="{cls}">{g}</span>'
+
+
+def agreement_badge(agr: str) -> str:
+    """Render colored badge for CONCORDANT / DISCORDANT evidence profiles."""
+    cls = 'b-zero' if agr == 'DISCORDANT' else 'b-neg'
+    return f'<span class="{cls}" style="font-weight:600;font-size:11px;letter-spacing:0.02em;">{agr}</span>'
+
+
+def material_icon(name: str, size: int = 18, color: str = "currentColor", extra_style: str = "") -> str:
+    """Render authentic Google Material Icon via inline SVG for instant, font-independent rendering."""
+    paths = {
+        "warning": "m40-120 440-760 440 760H40Zm138-80h604L480-720 178-200Zm302-40q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Z",
+        "star": "m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z",
+        "cancel": "m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z",
+        "check_circle": "m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z",
+        "shield": "m480-80-360-160v-320q0-185 150-310.5T480-920q120 0 270 125.5T900-560v320L480-80Zm0-84q134-58 227-167t93-229v-264L480-804 160-664v264q0 120 93 229t227 167Zm0-396Z",
+    }
+    path_d = paths.get(name, "")
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" height="{size}px" viewBox="0 -960 960 960" width="{size}px" '
+        f'fill="{color}" style="vertical-align:-3px; margin-right:4px; display:inline-block; {extra_style}">'
+        f'<path d="{path_d}"/>'
+        f'</svg>'
+    )
 
 
 def signal_span(s: str, report_count: int | None = 0, theme: str = "light") -> str:

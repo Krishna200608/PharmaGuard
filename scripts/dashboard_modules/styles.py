@@ -1,4 +1,4 @@
-﻿"""
+"""
 PharmaGuard Dashboard Styles & Design System
 ============================================
 Centralized dual-theme CSS with Python token injection.
@@ -126,7 +126,23 @@ def get_theme_css(theme: str = "light") -> str:
 
     css = f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+
+.material-symbols-outlined {{
+    font-family: 'Material Symbols Outlined' !important;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    vertical-align: -3px;
+    -webkit-font-smoothing: antialiased;
+}}
 
 /* ── Base Reset & App Background ── */
 html, body {{

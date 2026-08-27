@@ -10,7 +10,7 @@ import re
 import pandas as pd
 import streamlit as st
 
-from ..components import cat_badge, esc_badge, grade_badge, render_conf_chart, signal_span
+from ..components import cat_badge, esc_badge, grade_badge, render_conf_chart, signal_span, agreement_badge
 
 
 def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
@@ -65,6 +65,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
             f'<td>{signal_span(r["signal"], rc, theme=theme)}</td>'
             f'<td style="text-align:center;">{grade_badge(r["grade"])}</td>'
             f'<td style="color:{pc}; font-weight:600; font-size:13px;">{plaus}</td>'
+            f'<td style="text-align:center;">{agreement_badge(r.get("source_agreement", "CONCORDANT"))}</td>'
             f'<td class="pg-mono" style="text-align:right;">{conf_str}</td>'
             f'<td>{esc_badge(r["escalation"])}</td>'
             f'<td>{esc_badge(r["expected"])}</td>'
@@ -82,8 +83,9 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
                     <th style="min-width:145px;">Category</th>
                     <th style="min-width:170px;">FAERS Signal (Count)</th>
                     <th style="width:80px; min-width:80px; text-align:center;">PubMed</th>
-                    <th style="min-width:110px;">Plausibility</th>
-                    <th style="width:100px; min-width:100px; text-align:right;">Confidence</th>
+                    <th style="min-width:100px;">Plausibility</th>
+                    <th style="min-width:115px; text-align:center;">Agreement</th>
+                    <th style="width:90px; min-width:90px; text-align:right;">Confidence</th>
                     <th style="min-width:130px;">Escalation</th>
                     <th style="min-width:130px;">Expected</th>
                 </tr>
