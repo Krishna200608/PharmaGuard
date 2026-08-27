@@ -110,19 +110,24 @@ def generate_waterfall_chart(
     ax.axvline(0.35, color="#F59E0B", linestyle=":", linewidth=1.2, zorder=2, label="Monitor Threshold (0.35)")
     ax.axvline(0.70, color="#EF4444", linestyle="--", linewidth=1.2, zorder=2, label="Escalate Threshold (0.70)")
 
-    # Total Confidence vertical line
+    # Total Confidence vertical line & value badge
     ax.axvline(total_conf, color="#0F172A", linestyle="-", linewidth=2.0, zorder=4)
+    ax.set_ylim(-0.6, 2.65)
     ax.text(
         total_conf,
-        2.6,
+        2.38,
         f"Total Σ = {total_conf:.3f}",
         ha="center",
         va="bottom",
-        fontsize=11,
-        fontweight="heavy",
+        fontsize=10,
+        fontweight="bold",
         color="#0F172A",
         bbox=dict(boxstyle="round,pad=0.25", facecolor="#F1F5F9", edgecolor="#CBD5E1", lw=1),
+        zorder=5,
     )
+
+    # Clean single-line header above axes
+    fig.suptitle(pair_name, x=0.25, y=0.96, ha="left", fontsize=11.5, fontweight="bold", color="#0F172A")
 
     # Gate & threshold status annotation
     gate_status = "BLOCKED (Hard Gate)" if sig_strength == "NO_SIGNAL" else "PASS"
@@ -135,28 +140,29 @@ def generate_waterfall_chart(
 
     gate_str = f"Safety Gate: signal_strength={sig_strength} ({gate_status})  |  Decision Logic: {thresh_info}"
     if discount_applied:
-        gate_str = f"[Polypharmacy Discount Factor = {ss.get('discount_factor', 0.2):.2f}]  |  " + gate_str
+        df_val = ss.get('discount_factor', 0.2)
+        gate_str = f"[Polypharmacy Discount Factor = {df_val:.2f}]  |  " + gate_str
 
     fig.text(
-        0.12,
-        0.04,
+        0.10,
+        0.05,
         gate_str,
-        fontsize=9,
+        fontsize=8.5,
         fontfamily="monospace",
         color="#475569",
         va="bottom",
     )
-
-    # Title & Axes formatting
-    subtitle = "Deterministic Evidence Attribution & Threshold Gating"
-    ax.set_title(
-        f"{pair_name}\n{subtitle}",
-        loc="left",
-        fontsize=12,
-        fontweight="bold",
-        pad=18,
-        color="#0F172A",
+    fig.text(
+        0.10,
+        0.015,
+        "Multi-Source Evidence Attribution & Gating (Traceability per FDA/EMA Jan 2026 AI Guiding Principles)",
+        fontsize=7.5,
+        color="#94A3B8",
+        style="italic",
+        va="bottom",
     )
+
+    # Axes formatting
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels, fontsize=10, fontweight="medium", color="#1E293B")
     ax.set_xlim(0, 1.25)
@@ -168,7 +174,7 @@ def generate_waterfall_chart(
     ax.spines["left"].set_color("#CBD5E1")
     ax.spines["bottom"].set_color("#CBD5E1")
 
-    plt.subplots_adjust(left=0.28, right=0.92, top=0.82, bottom=0.24)
+    plt.subplots_adjust(left=0.25, right=0.93, top=0.82, bottom=0.22)
 
     # Export PNG & PDF
     png_path = output_dir / f"{output_prefix}.png"
