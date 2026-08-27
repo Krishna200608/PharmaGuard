@@ -1,0 +1,391 @@
+{
+  "baseline_metrics": {
+    "n_pairs": 15,
+    "strict": {
+      "TP": 6,
+      "FP": 0,
+      "TN": 8,
+      "FN": 1,
+      "precision": 1.0,
+      "recall": 0.8571,
+      "specificity": 1.0,
+      "f1": 0.9231
+    },
+    "lenient": {
+      "TP": 7,
+      "FP": 1,
+      "TN": 7,
+      "FN": 0,
+      "precision": 0.875,
+      "recall": 1.0,
+      "specificity": 0.875,
+      "f1": 0.9333
+    }
+  },
+  "summary": {
+    "strict": {
+      "precision": {
+        "mean": 1.0,
+        "sd": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "recall": {
+        "mean": 0.8571,
+        "sd": 0.0412,
+        "min": 0.8333,
+        "max": 1.0
+      },
+      "specificity": {
+        "mean": 1.0,
+        "sd": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "f1": {
+        "mean": 0.9226,
+        "sd": 0.0225,
+        "min": 0.9091,
+        "max": 1.0
+      }
+    },
+    "lenient": {
+      "precision": {
+        "mean": 0.875,
+        "sd": 0.0357,
+        "min": 0.8571,
+        "max": 1.0
+      },
+      "recall": {
+        "mean": 1.0,
+        "sd": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "specificity": {
+        "mean": 0.875,
+        "sd": 0.0357,
+        "min": 0.8571,
+        "max": 1.0
+      },
+      "f1": {
+        "mean": 0.933,
+        "sd": 0.0192,
+        "min": 0.9231,
+        "max": 1.0
+      }
+    }
+  },
+  "brittle_pairs": {
+    "max_strict_f1_swing": 0.0769,
+    "strict_brittle_pairs": [
+      "montelukast::suicidal_ideation"
+    ],
+    "max_lenient_f1_swing": 0.0667,
+    "lenient_brittle_pairs": [
+      "metformin::hypoglycaemia"
+    ]
+  },
+  "loo_iterations": [
+    {
+      "dropped_pair": "montelukast::suicidal_ideation",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "strict": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "delta_f1": 0.0769
+      },
+      "lenient": {
+        "precision": 0.8571,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9231,
+        "delta_f1": -0.0103
+      }
+    },
+    {
+      "dropped_pair": "ciprofloxacin::tendon_rupture",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8333,
+        "specificity": 1.0,
+        "f1": 0.9091,
+        "delta_f1": -0.014
+      },
+      "lenient": {
+        "precision": 0.8571,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9231,
+        "delta_f1": -0.0103
+      }
+    },
+    {
+      "dropped_pair": "albuterol::suicidal_ideation",
+      "category": "genuine_negative_control",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.8571,
+        "f1": 0.9333,
+        "delta_f1": 0.0
+      }
+    },
+    {
+      "dropped_pair": "amoxicillin::tendon_rupture",
+      "category": "genuine_negative_control",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.8571,
+        "f1": 0.9333,
+        "delta_f1": 0.0
+      }
+    },
+    {
+      "dropped_pair": "atorvastatin::common_cold",
+      "category": "zero_report_edge_case",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.8571,
+        "f1": 0.9333,
+        "delta_f1": 0.0
+      }
+    },
+    {
+      "dropped_pair": "imatinib::tooth_eruption",
+      "category": "zero_report_edge_case",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.8571,
+        "f1": 0.9333,
+        "delta_f1": 0.0
+      }
+    },
+    {
+      "dropped_pair": "adalimumab::frostbite",
+      "category": "zero_report_edge_case",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.8571,
+        "f1": 0.9333,
+        "delta_f1": 0.0
+      }
+    },
+    {
+      "dropped_pair": "isotretinoin::teratogenicity",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8333,
+        "specificity": 1.0,
+        "f1": 0.9091,
+        "delta_f1": -0.014
+      },
+      "lenient": {
+        "precision": 0.8571,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9231,
+        "delta_f1": -0.0103
+      }
+    },
+    {
+      "dropped_pair": "clozapine::agranulocytosis",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8333,
+        "specificity": 1.0,
+        "f1": 0.9091,
+        "delta_f1": -0.014
+      },
+      "lenient": {
+        "precision": 0.8571,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9231,
+        "delta_f1": -0.0103
+      }
+    },
+    {
+      "dropped_pair": "valproic_acid::hepatotoxicity",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8333,
+        "specificity": 1.0,
+        "f1": 0.9091,
+        "delta_f1": -0.014
+      },
+      "lenient": {
+        "precision": 0.8571,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9231,
+        "delta_f1": -0.0103
+      }
+    },
+    {
+      "dropped_pair": "rosiglitazone::myocardial_infarction",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8333,
+        "specificity": 1.0,
+        "f1": 0.9091,
+        "delta_f1": -0.014
+      },
+      "lenient": {
+        "precision": 0.8571,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9231,
+        "delta_f1": -0.0103
+      }
+    },
+    {
+      "dropped_pair": "pembrolizumab::pneumonitis",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8333,
+        "specificity": 1.0,
+        "f1": 0.9091,
+        "delta_f1": -0.014
+      },
+      "lenient": {
+        "precision": 0.8571,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9231,
+        "delta_f1": -0.0103
+      }
+    },
+    {
+      "dropped_pair": "liraglutide::pancreatic_cancer",
+      "category": "genuine_negative_control",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.8571,
+        "f1": 0.9333,
+        "delta_f1": 0.0
+      }
+    },
+    {
+      "dropped_pair": "metformin::hypoglycaemia",
+      "category": "genuine_negative_control",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "MONITOR",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "delta_f1": 0.0667
+      }
+    },
+    {
+      "dropped_pair": "atorvastatin::dementia",
+      "category": "genuine_negative_control",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "strict": {
+        "precision": 1.0,
+        "recall": 0.8571,
+        "specificity": 1.0,
+        "f1": 0.9231,
+        "delta_f1": 0.0
+      },
+      "lenient": {
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.8571,
+        "f1": 0.9333,
+        "delta_f1": 0.0
+      }
+    }
+  ]
+}

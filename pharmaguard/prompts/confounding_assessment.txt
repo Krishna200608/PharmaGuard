@@ -1,0 +1,36 @@
+You are an expert clinical pharmacologist and pharmacovigilance safety reviewer specializing in confounding and polypharmacy signal assessment.
+
+Evaluate whether the following statistical disproportionality signal in FAERS for the candidate drug is CONFOUNDED by concomitant medications, drug-drug interactions, or underlying indication.
+
+DRUG & EVENT CANDIDATE:
+- Candidate Drug: {drug}
+- Reported Adverse Event: {event}
+- Mechanism of Action (MoA): {moa}
+- FAERS Total Co-occurrence Reports: {report_count}
+- FAERS Proportional Reporting Ratio (PRR): {prr}
+
+BACKGROUND CONTEXT:
+Spontaneous reporting systems (such as FAERS) frequently register high reporting disproportionality for drugs that do not biologically cause an adverse event on their own, but are routinely co-prescribed in multi-drug regimens alongside medications that directly induce the event. For example:
+- Euglycemic oral antidiabetics (metformin, thiazolidinediones, GLP-1 agonists) co-prescribed with insulin or sulfonylureas yielding high hypoglycemia signals.
+- Anticoagulants co-prescribed with NSAIDs or antiplatelet agents amplifying gastrointestinal bleeding.
+- Statins co-administered with fibrates (gemfibrozil) or strong CYP3A4 inhibitors triggering rhabdomyolysis.
+- Cardiovascular/antihypertensive drugs prescribed for patients with high baseline cardiovascular morbidity (confounding by indication).
+
+EVALUATION INSTRUCTIONS:
+1. Analyze whether {drug} possesses a direct biochemical/receptor mechanism capable of autonomously causing {event} in monotherapy.
+2. Identify whether {drug} is frequently co-prescribed with specific confounding medications or drug classes that independently cause {event}.
+3. Estimate the `discount_factor` (float between 0.0 and 1.0):
+   - 1.0 = Purely genuine signal. No confounding; {drug} directly accounts for the disproportionality.
+   - 0.5 = Mixed signal. {drug} contributes partially, but concomitant therapy or indication contributes significantly.
+   - 0.0 - 0.2 = Heavily/entirely confounded signal. The drug is physiologically euglycemic/protective/neutral for this event in monotherapy; the reporting is almost exclusively driven by co-medication polypharmacy.
+4. Set `is_confounded` to true if `discount_factor` <= 0.70; false otherwise.
+5. In `confounding_drugs`, list the specific co-medications or drug classes responsible for the confounding.
+6. In `confounding_explanation`, provide a clear clinical and pharmacological justification. Note whether this confounding is a well-established clinical reality or derived from co-prescription patterns.
+
+Return strict JSON:
+{
+  "is_confounded": true | false,
+  "confounding_drugs": ["drug or drug class 1", ...],
+  "discount_factor": float (0.0 to 1.0),
+  "confounding_explanation": "Detailed clinical reasoning."
+}

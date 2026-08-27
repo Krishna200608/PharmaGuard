@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Optional
 
 from pharmaguard.tools.cache import ToolCache
+from pharmaguard.agent.output_schema import LeakageCritique
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +78,8 @@ class PlausibilityResult:
     plausibility_source: str          # "human_curated" | "agent_derived" | "unknown"
     curated_reference: Optional[PlausibilityLevel] = None   # populated only in force_agent mode
     agreement: Optional[bool] = None                        # populated only in force_agent mode
+    leak_detected: Optional[bool] = None                    # populated when critic runs
+    leak_phrases: Optional[list[str]] = None                # populated when critic runs
 
 
 class ChemblTool:
@@ -96,11 +99,17 @@ class ChemblTool:
         prompts_version: str,
         force_agent_derivation: bool = False,
         llm_inference_fn=None,         # callable(moa: str, event: str) -> tuple[PlausibilityLevel, str]
+        leakage_critic_enabled: bool = False,
+        leakage_critic_action: str = "flag",
+        critic_llm_fn=None,            # callable(rationale: str) -> LeakageCritique
     ):
         self._cache = cache
         self._prompts_version = prompts_version
         self._force_agent = force_agent_derivation
         self._llm_fn = llm_inference_fn
+        self._leakage_critic_enabled = leakage_critic_enabled
+        self._leakage_critic_action = leakage_critic_action
+        self._critic_llm_fn = critic_llm_fn
 
         self._chembl_lookup = self._load_json(_CHEMBL_LOOKUP_PATH).get("drugs", {})
         self._plausibility_ratings = self._load_json(_PLAUSIBILITY_RATINGS_PATH).get("entries", {})
@@ -161,6 +170,19 @@ class ChemblTool:
         )
         return self._derive_plausibility(drug_canonical, event_meddra_pt)
 
+    def _critique_plausibility_leakage(self, rationale: str) -> Optional[LeakageCritique]:
+        """
+        Adversarial evaluation of an agent-derived plausibility rationale
+        for regulatory, epidemiological, or memorized knowledge leakage.
+        """
+        if not self._leakage_critic_enabled or not self._critic_llm_fn or not rationale:
+            return None
+        try:
+            return self._critic_llm_fn(rationale)
+        except Exception as e:
+            logger.warning("Leakage critic evaluation failed: %s", e)
+            return None
+
     def _derive_plausibility(
         self, drug_canonical: str, event_meddra_pt: str
     ) -> PlausibilityResult:
@@ -186,6 +208,20 @@ class ChemblTool:
             return result
 
         level, explanation = self._llm_fn(entry.mechanism_of_action, event_meddra_pt)
+
+        leak_detected = None
+        leak_phrases = None
+        if self._leakage_critic_enabled:
+            critique = self._critique_plausibility_leakage(explanation)
+            if critique:
+                leak_detected = critique.leaked
+                leak_phrases = critique.leak_phrases
+                if critique.leaked:
+                    logger.info(
+                        "Leakage critic flagged rationale for '%s::%s'. Phrases: %s (action=%s)",
+                        drug_canonical, event_meddra_pt, critique.leak_phrases, self._leakage_critic_action
+                    )
+
         result_data = {
             "level": level.value,
             "score": PLAUSIBILITY_SCORE_MAP[level],
@@ -194,6 +230,8 @@ class ChemblTool:
             # memorization rather than genuine step-by-step pharmacological inference
             # — both are valid capabilities but are distinct claims (see DECISIONS.md #1.1).
             "rationale": explanation,
+            "leak_detected": leak_detected,
+            "leak_phrases": leak_phrases,
         }
         self._cache.set(cache_key, result_data)
         return PlausibilityResult(**result_data, plausibility_source="agent_derived")

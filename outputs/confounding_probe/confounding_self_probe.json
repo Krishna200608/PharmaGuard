@@ -1,0 +1,78 @@
+{
+  "probe_cases": [
+    {
+      "drug": "metformin",
+      "event": "hypoglycaemia",
+      "context": "Documented \u00a721 failure case (T2D first-line biguanide)",
+      "report_count": 9345,
+      "prr": 10.7263,
+      "moa": "AMPK activator \u2014 inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
+      "assessment": {
+        "is_confounded": true,
+        "confounding_drugs": [
+          "insulin",
+          "sulfonylureas",
+          "meglitinides"
+        ],
+        "discount_factor": 0.1,
+        "confounding_explanation": "Metformin is pharmacologically classified as an antihyperglycemic agent rather than a hypoglycemic agent because it does not stimulate insulin secretion. In monotherapy, it carries a negligible risk of hypoglycemia. The high PRR observed in FAERS is almost entirely driven by the common clinical practice of prescribing metformin in combination with insulin or insulin secretagogues (sulfonylureas/meglitinides), which are the primary drivers of hypoglycemia in patients with type 2 diabetes. The signal is a classic example of confounding by co-medication."
+      }
+    },
+    {
+      "drug": "semaglutide",
+      "event": "hypoglycaemia",
+      "context": "GLP-1 agonist with glucose-dependent insulin secretion (not in 15-pair benchmark)",
+      "report_count": 217,
+      "prr": 11.8677,
+      "moa": "GLP-1 receptor agonist \u2014 stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
+      "assessment": {
+        "is_confounded": true,
+        "confounding_drugs": [
+          "insulin",
+          "sulfonylureas",
+          "meglitinides"
+        ],
+        "discount_factor": 0.3,
+        "confounding_explanation": "Semaglutide is a GLP-1 receptor agonist that acts in a glucose-dependent manner, meaning it stimulates insulin secretion primarily when blood glucose levels are elevated, making it inherently low-risk for hypoglycemia in monotherapy. The high PRR observed in FAERS is largely driven by the common clinical practice of adding semaglutide to existing regimens of insulin or insulin secretagogues (sulfonylureas/meglitinides). These co-medications are potent, glucose-independent drivers of hypoglycemia. The signal is heavily confounded by the underlying polypharmacy required for intensive glycemic control in patients with advanced type 2 diabetes."
+      }
+    },
+    {
+      "drug": "rosiglitazone",
+      "event": "hypoglycaemia",
+      "context": "PPAR-gamma agonist (euglycemic monotherapy; not in 15-pair benchmark for this event)",
+      "report_count": 102,
+      "prr": 10.2213,
+      "moa": "Peroxisome proliferator-activated receptor gamma (PPAR-gamma) agonist.",
+      "assessment": {
+        "is_confounded": true,
+        "confounding_drugs": [
+          "insulin",
+          "sulfonylureas",
+          "meglitinides"
+        ],
+        "discount_factor": 0.1,
+        "confounding_explanation": "Rosiglitazone is a thiazolidinedione that acts as an insulin sensitizer and is considered euglycemic in monotherapy, as it does not stimulate insulin secretion. The observed signal for hypoglycemia in FAERS is almost entirely driven by the common clinical practice of co-prescribing rosiglitazone with insulin secretagogues (such as sulfonylureas) or exogenous insulin in patients with type 2 diabetes. The hypoglycemia is pharmacologically attributable to the concomitant insulin or insulin secretagogues, not the rosiglitazone itself."
+      }
+    },
+    {
+      "drug": "warfarin",
+      "event": "gastrointestinal_haemorrhage",
+      "context": "Vitamin K antagonist confounded/amplified by concurrent NSAID/antiplatelet use",
+      "report_count": 4613,
+      "prr": 6.9441,
+      "moa": "Vitamin K epoxide reductase (VKOR) inhibitor; inhibits gamma-carboxylation of clotting factors II, VII, IX, X.",
+      "assessment": {
+        "is_confounded": true,
+        "confounding_drugs": [
+          "NSAIDs",
+          "aspirin",
+          "P2Y12 inhibitors",
+          "SSRIs",
+          "corticosteroids"
+        ],
+        "discount_factor": 0.6,
+        "confounding_explanation": "Warfarin is a vitamin K antagonist that inherently increases the risk of bleeding, including gastrointestinal hemorrhage, due to its mechanism of action. However, the high PRR in FAERS is significantly inflated by the frequent co-prescription of antiplatelet agents (aspirin, clopidogrel) and NSAIDs, which are well-established independent risk factors for GI mucosal injury and bleeding. While warfarin is a primary contributor, the signal is heavily confounded by these concomitant medications that act synergistically to increase bleeding risk, necessitating a discount factor to account for the polypharmacy-driven reporting bias."
+      }
+    }
+  ]
+}

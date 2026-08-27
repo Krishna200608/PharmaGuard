@@ -18,8 +18,14 @@ class AgentConfig(BaseModel):
     llm_model: str
 
 
+class LeakageCriticConfig(BaseModel):
+    enabled: bool = False
+    action: str = Field(default="flag", pattern="^(flag|downgrade)$")
+
+
 class PlausibilityConfig(BaseModel):
     source: str = Field(pattern="^(lookup_first|force_agent)$")
+    leakage_critic: LeakageCriticConfig = Field(default_factory=LeakageCriticConfig)
 
 
 class ConfidenceWeightsConfig(BaseModel):
@@ -51,9 +57,14 @@ class PathsConfig(BaseModel):
     output_dir: str
 
 
+class ConfoundingConfig(BaseModel):
+    enabled: bool = False
+
+
 class AppConfig(BaseModel):
     agent: AgentConfig
     plausibility: PlausibilityConfig
+    confounding: ConfoundingConfig = Field(default_factory=ConfoundingConfig)
     confidence_weights: ConfidenceWeightsConfig
     cache: CacheConfig
     apis: ApisConfig

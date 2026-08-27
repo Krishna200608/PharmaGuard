@@ -25,6 +25,51 @@ def load_ground_truth(gt_path: Path) -> dict:
     # Return as dict keyed by canonical drug/event pair
     return {f"{pair['drug_canonical']}::{pair['event_meddra_pt']}": pair for pair in data.get("pairs", [])}
 
+def calc_metrics(m: dict) -> tuple[float, float, float, float]:
+    """Calculate (precision, recall, specificity, f1) from a confusion matrix dict."""
+    tp, fp, tn, fn = m["TP"], m["FP"], m["TN"], m["FN"]
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+    specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
+    f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+    return precision, recall, specificity, f1
+
+def compute_confusion_matrix(evaluated_records: list[dict]) -> tuple[dict, dict]:
+    """
+    Compute strict and lenient confusion matrices from evaluated records.
+    Each record must have:
+      is_gt_positive: bool
+      actual: str ("ESCALATE" | "MONITOR" | "DO_NOT_ESCALATE")
+    Returns (strict_metrics, lenient_metrics).
+    """
+    strict_metrics = {"TP": 0, "FP": 0, "TN": 0, "FN": 0}
+    lenient_metrics = {"TP": 0, "FP": 0, "TN": 0, "FN": 0}
+    for r in evaluated_records:
+        is_gt_pos = r["is_gt_positive"]
+        act = r["actual"]
+        is_s_pos = act == "ESCALATE"
+        is_l_pos = act in ("ESCALATE", "MONITOR")
+        
+        if is_gt_pos:
+            if is_s_pos:
+                strict_metrics["TP"] += 1
+            else:
+                strict_metrics["FN"] += 1
+            if is_l_pos:
+                lenient_metrics["TP"] += 1
+            else:
+                lenient_metrics["FN"] += 1
+        else:
+            if is_s_pos:
+                strict_metrics["FP"] += 1
+            else:
+                strict_metrics["TN"] += 1
+            if is_l_pos:
+                lenient_metrics["FP"] += 1
+            else:
+                lenient_metrics["TN"] += 1
+    return strict_metrics, lenient_metrics
+
 def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
     project_root = Path(__file__).resolve().parents[1]
     gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"

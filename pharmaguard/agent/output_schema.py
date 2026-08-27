@@ -17,7 +17,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional
+from typing import Optional, Literal
 
 from pydantic import BaseModel, Field, computed_field
 
@@ -178,6 +178,24 @@ def derive_escalation(confidence: float, signal_strength: SignalStrength) -> Esc
     return EscalationDecision.DO_NOT_ESCALATE
 
 
+def compute_source_agreement(
+    prr_score: float, grade_score: float, plausibility_score: float
+) -> Literal["CONCORDANT", "DISCORDANT"]:
+    """
+    Classify cross-source evidence agreement deterministically across the three
+    evidence sub-scores (FAERS, PubMed, ChEMBL).
+
+    Heuristic definition:
+      DISCORDANT if max(scores) >= 0.66 AND min(scores) <= 0.33
+      CONCORDANT otherwise
+    """
+    max_score = max(prr_score, grade_score, plausibility_score)
+    min_score = min(prr_score, grade_score, plausibility_score)
+    if max_score >= 0.66 and min_score <= 0.33:
+        return "DISCORDANT"
+    return "CONCORDANT"
+
+
 # ------------------------------------------------------------------
 # Pydantic output schema
 # ------------------------------------------------------------------
@@ -194,6 +212,22 @@ class SignalStatsOutput(BaseModel):
     prr_score: float
     prr_score_label: SignalStrength
     ci_downgraded: bool = False
+    # Populated when confounding assessment is active
+    discount_factor: Optional[float] = None
+    is_confounded: Optional[bool] = None
+    confounding_drugs: Optional[list[str]] = None
+    confounding_explanation: Optional[str] = None
+
+
+class LeakageCritique(BaseModel):
+    """
+    Adversarial evaluation of an agent-derived plausibility rationale
+    to detect regulatory, epidemiological, or parametric memorization leakage.
+    """
+    leaked: bool = Field(description="True if non-mechanistic knowledge or clinical/regulatory leakage is detected.")
+    leak_phrases: list[str] = Field(default_factory=list, description="Verbatim substrings from the rationale indicating leakage.")
+    mechanistic_only_score: Literal["HIGH", "MODERATE", "LOW"] = Field(description="Plausibility level considering solely molecular/biochemical mechanisms.")
+    rationale_critique: Optional[str] = Field(default="", description="Brief evaluation summary from the critic.")
 
 
 class MechanismOutput(BaseModel):
@@ -206,6 +240,9 @@ class MechanismOutput(BaseModel):
     # Populated only in force_agent ablation mode
     curated_reference: Optional[PlausibilityLevel] = None
     plausibility_agreement: Optional[bool] = None
+    # Populated when leakage critic is active
+    leak_detected: Optional[bool] = None
+    leak_phrases: Optional[list[str]] = None
 
 
 class LiteratureOutput(BaseModel):
@@ -243,6 +280,15 @@ class TriageReport(BaseModel):
 
     # Final triage
     triage: TriageOutput
+
+    @computed_field
+    @property
+    def source_agreement(self) -> Literal["CONCORDANT", "DISCORDANT"]:
+        return compute_source_agreement(
+            self.signal_stats.prr_score,
+            self.literature.grade_score,
+            self.mechanism.plausibility_score,
+        )
 
     def to_json(self, indent: int = 2) -> str:
         return self.model_dump_json(indent=indent)

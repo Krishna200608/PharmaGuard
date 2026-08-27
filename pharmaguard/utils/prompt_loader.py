@@ -40,6 +40,8 @@ class PromptLoader:
         "evidence_grading_rubric": "evidence_grading_rubric.txt",
         "synthesis": "synthesis_prompt.txt",
         "baseline_single_shot": "baseline_single_shot.txt",
+        "leakage_critic": "leakage_critic.txt",
+        "confounding_assessment": "confounding_assessment.txt",
     }
 
     def __init__(self):

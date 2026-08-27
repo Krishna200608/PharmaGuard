@@ -1,0 +1,69 @@
+{
+  "probe_cases": [
+    {
+      "drug": "topiramate",
+      "event": "hypohidrosis",
+      "reference_section": "DECISIONS.md \u00a717 (Probe Case 1)",
+      "original_plausibility": "HIGH",
+      "original_rationale": "The mechanism of action includes carbonic anhydrase II and IV inhibition, which is the primary pharmacological profile of topiramate. Carbonic anhydrase inhibitors are well-documented to cause hypohidrosis (decreased sweating) and hyperthermia, particularly in pediatric populations, due to the inhibition of carbonic anhydrase in the sweat glands.",
+      "critic_evaluation": {
+        "leaked": true,
+        "leak_phrases": [
+          "well-documented to cause hypohidrosis (decreased sweating) and hyperthermia",
+          "particularly in pediatric populations"
+        ],
+        "mechanistic_only_score": "HIGH",
+        "rationale_critique": "The rationale provides a sound mechanistic basis involving carbonic anhydrase inhibition in sweat glands, but it incorporates memorized clinical associations and epidemiological population-specific data."
+      }
+    },
+    {
+      "drug": "tamsulosin",
+      "event": "intraoperative_floppy_iris_syndrome",
+      "reference_section": "DECISIONS.md \u00a717 (Probe Case 2)",
+      "original_plausibility": "HIGH",
+      "original_rationale": "Intraoperative floppy iris syndrome (IFIS) is a well-documented clinical complication strongly associated with the use of alpha-1 adrenergic receptor antagonists, particularly tamsulosin, which targets the alpha-1A receptor subtype. The mechanism involves the blockade of alpha-1 receptors in the iris dilator muscle, leading to poor pupil dilation and iris instability during cataract surgery.",
+      "critic_evaluation": {
+        "leaked": true,
+        "leak_phrases": [
+          "well-documented clinical complication",
+          "strongly associated with the use of alpha-1 adrenergic receptor antagonists"
+        ],
+        "mechanistic_only_score": "HIGH",
+        "rationale_critique": "The rationale provides a sound mechanistic explanation involving alpha-1A receptor blockade in the iris dilator muscle, but it relies on clinical association language to frame the argument."
+      }
+    },
+    {
+      "drug": "terbinafine",
+      "event": "ageusia",
+      "reference_section": "DECISIONS.md \u00a717 (Probe Case 3)",
+      "original_plausibility": "MODERATE",
+      "original_rationale": "Ageusia (loss of taste) is a well-documented, though relatively uncommon, side effect associated with terbinafine, a squalene monooxygenase inhibitor. While the exact mechanism is not fully understood, it is thought to be related to the drug's affinity for zinc or its accumulation in the taste buds, leading to reversible dysgeusia or ageusia in some patients.",
+      "critic_evaluation": {
+        "leaked": true,
+        "leak_phrases": [
+          "well-documented",
+          "side effect associated with terbinafine"
+        ],
+        "mechanistic_only_score": "MODERATE",
+        "rationale_critique": "The rationale relies on established clinical associations rather than purely mechanistic deduction, though it correctly identifies the potential role of zinc chelation and tissue accumulation as a plausible biochemical mechanism."
+      }
+    },
+    {
+      "drug": "montelukast",
+      "event": "suicidal_ideation",
+      "reference_section": "DECISIONS.md \u00a719 & Ablation Report eval-run-0",
+      "original_plausibility": "MODERATE",
+      "original_rationale": "The FDA has issued a boxed warning for montelukast, a prominent leukotriene receptor antagonist, due to the risk of serious neuropsychiatric events, including suicidal ideation and behavior. While the exact mechanism remains under investigation, clinical data and post-marketing surveillance have established a recognized association between the drug class and these adverse effects.",
+      "critic_evaluation": {
+        "leaked": true,
+        "leak_phrases": [
+          "FDA has issued a boxed warning",
+          "clinical data and post-marketing surveillance",
+          "established a recognized association"
+        ],
+        "mechanistic_only_score": "LOW",
+        "rationale_critique": "The rationale relies entirely on regulatory and epidemiological citations rather than providing a molecular or biochemical mechanism for the observed adverse effects."
+      }
+    }
+  ]
+}

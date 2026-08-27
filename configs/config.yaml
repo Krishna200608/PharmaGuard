@@ -16,6 +16,13 @@ plausibility:
                           # lookup_first = human-curated entries used; agent-derived only on lookup miss (production default)
                           # force_agent  = agent-derived for ALL pairs; used ONLY for ablation evaluation runs
                           #                curated_reference and plausibility_agreement fields populated in TriageReport
+  leakage_critic:
+    enabled: false        # Gate for adversarial critic (Proposal #1, DECISIONS.md §19)
+    action: "flag"        # "flag" (default) | "downgrade" (future scope)
+
+# --- Confounding assessment ---
+confounding:
+  enabled: false          # Gate for polypharmacy confounding discounting (Proposal #2, DECISIONS.md §21)
 
 # --- Confidence formula weights ---
 # MUST sum to 1.0. Mirrored in agent/output_schema.py PRR_SCORE_WEIGHTS.

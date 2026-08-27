@@ -24,7 +24,8 @@ from pharmaguard.tools.cache import ToolCache
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
     SignalStrength, EscalationDecision, PlausibilityLevel,
-    compute_prr_score, compute_confidence, derive_escalation, EvidenceGrade, PlausibilitySource
+    compute_prr_score, compute_confidence, derive_escalation, EvidenceGrade, PlausibilitySource,
+    LeakageCritique
 )
 from pharmaguard.utils.config_loader import load_config
 
@@ -86,11 +87,24 @@ class PharmaGuardAgent:
             return level, result.explanation
 
         self.faers = FaersLegacySource(cache=self.cache)
+
+        critic_cfg = getattr(self.config.plausibility, "leakage_critic", None)
+        critic_enabled = getattr(critic_cfg, "enabled", False) if critic_cfg else False
+        critic_action = getattr(critic_cfg, "action", "flag") if critic_cfg else "flag"
+
+        def critic_llm_fn(rationale: str):
+            critic_prompt = self.prompt_loader.get("leakage_critic").replace("{rationale}", rationale)
+            structured_llm = self.llm.with_structured_output(LeakageCritique)
+            return structured_llm.invoke([HumanMessage(content=critic_prompt)])
+
         self.chembl = ChemblTool(
             cache=self.cache,
             prompts_version=self.prompt_loader.version,
             force_agent_derivation=(self.config.plausibility.source == "force_agent"),
-            llm_inference_fn=chembl_llm_fn
+            llm_inference_fn=chembl_llm_fn,
+            leakage_critic_enabled=critic_enabled,
+            leakage_critic_action=critic_action,
+            critic_llm_fn=critic_llm_fn if critic_enabled else None,
         )
         self.pubmed = PubMedTool(
             cache=self.cache,
@@ -132,7 +146,9 @@ class PharmaGuardAgent:
                 "level": getattr(plaus.level, "value", plaus.level),
                 "score": plaus.score,
                 "source": plaus.plausibility_source,
-                "rationale": plaus.rationale
+                "rationale": plaus.rationale,
+                "leak_detected": getattr(plaus, "leak_detected", None),
+                "leak_phrases": getattr(plaus, "leak_phrases", None),
             }
             if plaus.curated_reference:
                 d["curated_reference"] = getattr(plaus.curated_reference, "value", plaus.curated_reference)
@@ -246,10 +262,18 @@ class PharmaGuardAgent:
         prr_lci = ss_dict.get("prr_lower_ci")
         prr_score, ss_label, ci_downgraded = compute_prr_score(rc, prr, prr_lci)
         
-        # Default missing values gracefully if LLM didn't fetch
-        if "data_pulled_at" not in ss_dict:
-            ss_dict["data_pulled_at"] = datetime.now(timezone.utc).isoformat()
-        
+        # Confounding assessment & discounting (if enabled)
+        discount_factor = 1.0
+        confounding_res = None
+        confounding_cfg = getattr(self.config, "confounding", None)
+        if confounding_cfg and confounding_cfg.enabled and prr_score > 0:
+            from pharmaguard.tools.confounding import ConfoundingTool
+            c_tool = ConfoundingTool(llm=self.llm, prompt_loader=self.prompt_loader)
+            confounding_res = c_tool.assess(state["drug"], state["event"], m_dict.get("moa") or "", rc, prr)
+            discount_factor = confounding_res.discount_factor
+
+        adjusted_prr_score = round(prr_score * discount_factor, 4)
+
         s_out = SignalStatsOutput(
             prr=prr,
             ror=ss_dict.get("ror"),
@@ -259,9 +283,13 @@ class PharmaGuardAgent:
             source_endpoint=ss_dict.get("source_endpoint", "unknown"),
             data_pulled_at=datetime.fromisoformat(ss_dict["data_pulled_at"]),
             null_reason=ss_dict.get("null_reason"),
-            prr_score=prr_score,
+            prr_score=adjusted_prr_score,
             prr_score_label=ss_label,
-            ci_downgraded=ci_downgraded
+            ci_downgraded=ci_downgraded,
+            discount_factor=discount_factor if (confounding_cfg and confounding_cfg.enabled) else None,
+            is_confounded=confounding_res.is_confounded if confounding_res else None,
+            confounding_drugs=confounding_res.confounding_drugs if confounding_res else None,
+            confounding_explanation=confounding_res.confounding_explanation if confounding_res else None,
         )
         
         # 2. Parse Chembl
@@ -275,7 +303,9 @@ class PharmaGuardAgent:
             plausibility_source=PlausibilitySource(m_dict.get("source", "unknown")),
             plausibility_rationale=m_dict.get("rationale", ""),
             curated_reference=PlausibilityLevel(m_dict["curated_reference"]) if m_dict.get("curated_reference") else None,
-            plausibility_agreement=m_dict.get("agreement")
+            plausibility_agreement=m_dict.get("agreement"),
+            leak_detected=m_dict.get("leak_detected"),
+            leak_phrases=m_dict.get("leak_phrases"),
         )
         
         # 3. Parse PubMed
@@ -291,7 +321,7 @@ class PharmaGuardAgent:
         )
         
         # 4. Triage Final
-        conf = compute_confidence(prr_score, eg_str, plaus)
+        conf = compute_confidence(adjusted_prr_score, eg_str, plaus)
         esc = derive_escalation(conf, ss_label)
         
         t_out = TriageOutput(
