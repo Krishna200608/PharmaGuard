@@ -72,30 +72,35 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
             f'</tr>'
         )
 
-    table_html = f"""
-    <div class="pg-table-container">
-        <table class="pg-data-table">
-            <thead>
-                <tr>
-                    <th style="width:44px; min-width:44px; text-align:center;">#</th>
-                    <th style="min-width:140px;">Drug</th>
-                    <th style="min-width:160px;">Event</th>
-                    <th style="min-width:145px;">Category</th>
-                    <th style="min-width:170px;">FAERS Signal (Count)</th>
-                    <th style="width:80px; min-width:80px; text-align:center;">PubMed</th>
-                    <th style="min-width:100px;">Plausibility</th>
-                    <th style="min-width:115px; text-align:center;">Agreement</th>
-                    <th style="width:90px; min-width:90px; text-align:right;">Confidence</th>
-                    <th style="min-width:130px;">Escalation</th>
-                    <th style="min-width:130px;">Expected</th>
-                </tr>
-            </thead>
-            <tbody>
-                {''.join(table_rows_html)}
-            </tbody>
-        </table>
-    </div>
-    """
+    if table_rows_html:
+        tbody_html = "".join(table_rows_html)
+    else:
+        tbody_html = (
+            '<tr><td colspan="11" style="text-align:center; padding:32px 16px; '
+            'color:var(--text-dim); font-size:13.5px; font-style:italic;">'
+            'No drug–event pairs match the current filter selection.</td></tr>'
+        )
+
+    table_html = (
+        '<div class="pg-table-container">'
+        '<table class="pg-data-table">'
+        '<thead><tr>'
+        '<th style="width:44px; min-width:44px; text-align:center;">#</th>'
+        '<th style="min-width:140px;">Drug</th>'
+        '<th style="min-width:160px;">Event</th>'
+        '<th style="min-width:145px;">Category</th>'
+        '<th style="min-width:170px;">FAERS Signal (Count)</th>'
+        '<th style="width:80px; min-width:80px; text-align:center;">PubMed</th>'
+        '<th style="min-width:100px;">Plausibility</th>'
+        '<th style="min-width:115px; text-align:center;">Agreement</th>'
+        '<th style="width:90px; min-width:90px; text-align:right;">Confidence</th>'
+        '<th style="min-width:130px;">Escalation</th>'
+        '<th style="min-width:130px;">Expected</th>'
+        '</tr></thead>'
+        f'<tbody>{tbody_html}</tbody>'
+        '</table>'
+        '</div>'
+    )
     st.markdown(table_html, unsafe_allow_html=True)
     st.markdown(f'<p style="font-size:13px;color:var(--text-dim);margin:-10px 0 20px 0;">Showing {len(fdf)} of {len(df)} pairs</p>', unsafe_allow_html=True)
 
