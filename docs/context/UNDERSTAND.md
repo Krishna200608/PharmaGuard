@@ -80,7 +80,7 @@ This divergence directly demonstrates why postmarketing safety triage cannot rel
 
 ## 3. The real results — including the imperfect parts, on purpose
 
-### Primary benchmark metrics (with statistical confidence intervals, DECISIONS.md §22)
+### Primary benchmark metrics (with statistical confidence intervals)
 
 Evaluated on the frozen 15-pair evaluation set (reproduced from a clean clone, empty cache — see `PROGRESS.md`):
 
@@ -93,7 +93,7 @@ Evaluated on the frozen 15-pair evaluation set (reproduced from a clean clone, e
 | **Over-caution rate** | — | — | **12.5%** | 1 of 8 negative controls $\to$ MONITOR |
 | **Spurious false alarms** | **0** | Strict Wilson: [0.610, 1.000] | — | — |
 
-### Leave-One-Out (LOO) stability analysis (DECISIONS.md §22)
+### Leave-One-Out (LOO) stability analysis (DECISIONS.md §29)
 
 To verify that these results do not hinge on a single fragile pair, a 15-fold Leave-One-Out cross-validation was performed:
 - **Strict F1:** $0.923 \pm 0.023$ (range: $0.889$ to $1.000$). The most brittle pair is `montelukast::suicidal_ideation` (excluding this single strict false negative swings F1 by $+0.077$ to $1.000$).

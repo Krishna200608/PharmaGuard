@@ -434,7 +434,39 @@ Following the self-probe documentation, the confounding-enabled pipeline was exe
 
 **Conclusion:** The confounding discount successfully drops confidence from $0.4000$ below the $0.35$ monitoring threshold to $0.0800$, eliminating the sole lenient false positive documented in §21 without altering scoring weights or thresholds.
 
+## 29. Leave-One-Out (LOO) Stability Analysis
+**Context:** Verification of benchmark robustness and metric sensitivity under single-pair data perturbations across the frozen 15-pair evaluation dataset (`scripts/stability_analysis.py`, output saved to `outputs/stability/loo_analysis.json`).
 
+### Methodology
+To verify that the reported production metrics (Strict $F_1 = 0.9231$, Lenient $F_1 = 0.9333$) do not depend fragilely on any single drug–event pair, a systematic Leave-One-Out (LOO) cross-validation is performed across all $N = 15$ pairs:
+1. **Zero Pipeline Re-execution:** The analysis reads the 15 frozen production evaluation reports (`outputs/eval-run-*_report.json`) and evaluates $N = 15$ subsets of size $N - 1 = 14$. No LLM calls or API fetches are re-executed, ensuring byte-level consistency with production results.
+2. **Reuse of Evaluation Logic:** Metrics for each fold are calculated by directly reusing `calc_metrics()` and `compute_confusion_matrix()` from `scripts/evaluator.py` without reimplementing or altering threshold or scoring definitions.
+3. **Summary Statistics:** Across all 15 folds, sample mean, sample standard deviation ($SD = \sqrt{\frac{1}{N-1}\sum (x - \bar{x})^2}$), minimum, and maximum are computed for Precision, Recall, Specificity, and $F_1$ under both Strict and Lenient gating. Brittle pairs are identified by maximum absolute swing in $F_1$ ($\Delta F_1 = F_{1,\text{fold}} - F_{1,\text{baseline}}$).
 
+### Empirical Results (outputs/stability/loo_analysis.json)
 
+#### 1. Baseline Full-Set Metrics ($N = 15$):
+- **Strict:** $\text{TP}=6, \text{FP}=0, \text{TN}=8, \text{FN}=1 \implies \text{Precision} = 1.0, \text{Recall} = 0.8571, \text{Specificity} = 1.0, F_1 = 0.9231$
+- **Lenient:** $\text{TP}=7, \text{FP}=1, \text{TN}=7, \text{FN}=0 \implies \text{Precision} = 0.875, \text{Recall} = 1.0, \text{Specificity} = 0.875, F_1 = 0.9333$
 
+#### 2. Cross-Validation Summary (15 Iterations):
+- **Strict Evaluation:**
+  - Precision: $\text{mean} = 1.0, \text{sd} = 0.0, \text{min} = 1.0, \text{max} = 1.0$
+  - Recall: $\text{mean} = 0.8571, \text{sd} = 0.0412, \text{min} = 0.8333, \text{max} = 1.0$
+  - Specificity: $\text{mean} = 1.0, \text{sd} = 0.0, \text{min} = 1.0, \text{max} = 1.0$
+  - $F_1$ Score: $\text{mean} = 0.9226, \text{sd} = 0.0225, \text{min} = 0.9091, \text{max} = 1.0$
+- **Lenient Evaluation:**
+  - Precision: $\text{mean} = 0.875, \text{sd} = 0.0357, \text{min} = 0.8571, \text{max} = 1.0$
+  - Recall: $\text{mean} = 1.0, \text{sd} = 0.0, \text{min} = 1.0, \text{max} = 1.0$
+  - Specificity: $\text{mean} = 0.875, \text{sd} = 0.0357, \text{min} = 0.8571, \text{max} = 1.0$
+  - $F_1$ Score: $\text{mean} = 0.933, \text{sd} = 0.0192, \text{min} = 0.9231, \text{max} = 1.0$
+
+#### 3. Brittle Pair Identification:
+- **Strict Most Brittle Pair:** `montelukast::suicidal_ideation` ($\text{max\_strict\_f1\_swing} = 0.0769$).
+  - *Effect:* When this single strict false negative (MONITOR on confirmed positive) is excluded, strict recall reaches $1.0$ and strict $F_1$ reaches $1.0$ ($\Delta F_1 = +0.0769$).
+- **Lenient Most Brittle Pair:** `metformin::hypoglycaemia` ($\text{max\_lenient\_f1\_swing} = 0.0667$).
+  - *Effect:* When this single lenient false positive (MONITOR on negative control) is excluded, lenient precision reaches $1.0$ and lenient $F_1$ reaches $1.0$ ($\Delta F_1 = +0.0667$).
+- **Other Folds:** Excluding any of the remaining 6 true positives lowers strict $F_1$ marginally from $0.9231$ to $0.9091$ ($\Delta F_1 = -0.0140$), while excluding true negatives produces $\Delta F_1 = 0.0$.
+
+### Methodological Conclusion
+The narrow standard deviations ($\text{SD} = 0.0225$ for strict $F_1$, $\text{SD} = 0.0192$ for lenient $F_1$) confirm that PharmaGuard's benchmark performance is statistically stable across single-pair exclusions, and that the single strict false negative (`montelukast`) and single lenient false positive (`metformin`) completely account for all non-perfect metric deviations.
