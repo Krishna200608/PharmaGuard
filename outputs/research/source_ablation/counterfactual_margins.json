@@ -1,0 +1,499 @@
+{
+  "experiment_id": "48e29d84-ad6c-4e35-a041-6ac031009d4f",
+  "git_commit_hash": "24b634ac6fdf8fc0ac45ce456d1a3f01e4e378f9",
+  "timestamp": "2026-08-29T15:13:50.329450+00:00",
+  "model_name": "gemini-3.1-flash-lite",
+  "prompts_version": "v1.1",
+  "cache_schema_version": "v7",
+  "config_snapshot": {
+    "agent_mode": "fixed_pipeline",
+    "plausibility_source": "lookup_first",
+    "leakage_critic_enabled": false,
+    "confounding_enabled": false
+  },
+  "counterfactual_margins": {
+    "adalimumab::frostbite": {
+      "current_escalation": "DO_NOT_ESCALATE",
+      "current_confidence": 0.0,
+      "current_signal_strength": "NO_SIGNAL",
+      "is_blocked_by_no_signal_gate": true,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score_and_signal_strength",
+        "from": "0.0 (NO_SIGNAL)",
+        "to": "1.0 (STRONG)",
+        "delta_subscore": 1.0,
+        "resulting_confidence": 0.4,
+        "target_decision": "MONITOR",
+        "gate_unblocked": true
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "1.0 (STRONG)",
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.4,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        }
+      ]
+    },
+    "albuterol::suicidal_ideation": {
+      "current_escalation": "DO_NOT_ESCALATE",
+      "current_confidence": 0.0,
+      "current_signal_strength": "NO_SIGNAL",
+      "is_blocked_by_no_signal_gate": true,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score_and_signal_strength",
+        "from": "0.0 (NO_SIGNAL)",
+        "to": "1.0 (STRONG)",
+        "delta_subscore": 1.0,
+        "resulting_confidence": 0.4,
+        "target_decision": "MONITOR",
+        "gate_unblocked": true
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "1.0 (STRONG)",
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.4,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        }
+      ]
+    },
+    "amoxicillin::tendon_rupture": {
+      "current_escalation": "DO_NOT_ESCALATE",
+      "current_confidence": 0.2,
+      "current_signal_strength": "NO_SIGNAL",
+      "is_blocked_by_no_signal_gate": true,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score_and_signal_strength",
+        "from": "0.0 (NO_SIGNAL)",
+        "to": "0.66 (MODERATE)",
+        "delta_subscore": 0.66,
+        "resulting_confidence": 0.464,
+        "target_decision": "MONITOR",
+        "gate_unblocked": true
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "0.66 (MODERATE)",
+          "delta_subscore": 0.66,
+          "resulting_confidence": 0.464,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        },
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "1.0 (STRONG)",
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        }
+      ]
+    },
+    "atorvastatin::common_cold": {
+      "current_escalation": "DO_NOT_ESCALATE",
+      "current_confidence": 0.0,
+      "current_signal_strength": "NO_SIGNAL",
+      "is_blocked_by_no_signal_gate": true,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score_and_signal_strength",
+        "from": "0.0 (NO_SIGNAL)",
+        "to": "1.0 (STRONG)",
+        "delta_subscore": 1.0,
+        "resulting_confidence": 0.4,
+        "target_decision": "MONITOR",
+        "gate_unblocked": true
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "1.0 (STRONG)",
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.4,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        }
+      ]
+    },
+    "atorvastatin::dementia": {
+      "current_escalation": "DO_NOT_ESCALATE",
+      "current_confidence": 0.5,
+      "current_signal_strength": "NO_SIGNAL",
+      "is_blocked_by_no_signal_gate": true,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score_and_signal_strength",
+        "from": "0.0 (NO_SIGNAL)",
+        "to": "0.33 (WEAK)",
+        "delta_subscore": 0.33,
+        "resulting_confidence": 0.632,
+        "target_decision": "MONITOR",
+        "gate_unblocked": true
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "0.33 (WEAK)",
+          "delta_subscore": 0.33,
+          "resulting_confidence": 0.632,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        },
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "0.66 (MODERATE)",
+          "delta_subscore": 0.66,
+          "resulting_confidence": 0.764,
+          "target_decision": "ESCALATE",
+          "gate_unblocked": true
+        },
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "1.0 (STRONG)",
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.9,
+          "target_decision": "ESCALATE",
+          "gate_unblocked": true
+        }
+      ]
+    },
+    "ciprofloxacin::tendon_rupture": {
+      "current_escalation": "ESCALATE",
+      "current_confidence": 0.7,
+      "current_signal_strength": "STRONG",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "plausibility_score (downward)",
+        "from": 0.5,
+        "to": 0.0,
+        "delta_subscore": -0.5,
+        "resulting_confidence": 0.6,
+        "target_decision": "MONITOR"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "plausibility_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        },
+        {
+          "source": "grade_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.5,
+          "target_decision": "MONITOR"
+        }
+      ]
+    },
+    "clozapine::agranulocytosis": {
+      "current_escalation": "ESCALATE",
+      "current_confidence": 0.8,
+      "current_signal_strength": "STRONG",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "grade_score (downward)",
+        "from": 0.5,
+        "to": 0.0,
+        "delta_subscore": -0.5,
+        "resulting_confidence": 0.6,
+        "target_decision": "MONITOR"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "plausibility_score (downward)",
+          "from": 1.0,
+          "to": 0.0,
+          "delta_subscore": -1.0,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        },
+        {
+          "source": "grade_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        }
+      ]
+    },
+    "imatinib::tooth_eruption": {
+      "current_escalation": "DO_NOT_ESCALATE",
+      "current_confidence": 0.0,
+      "current_signal_strength": "NO_SIGNAL",
+      "is_blocked_by_no_signal_gate": true,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score_and_signal_strength",
+        "from": "0.0 (NO_SIGNAL)",
+        "to": "1.0 (STRONG)",
+        "delta_subscore": 1.0,
+        "resulting_confidence": 0.4,
+        "target_decision": "MONITOR",
+        "gate_unblocked": true
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "1.0 (STRONG)",
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.4,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        }
+      ]
+    },
+    "isotretinoin::teratogenicity": {
+      "current_escalation": "ESCALATE",
+      "current_confidence": 0.8,
+      "current_signal_strength": "STRONG",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "grade_score (downward)",
+        "from": 0.5,
+        "to": 0.0,
+        "delta_subscore": -0.5,
+        "resulting_confidence": 0.6,
+        "target_decision": "MONITOR"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "plausibility_score (downward)",
+          "from": 1.0,
+          "to": 0.0,
+          "delta_subscore": -1.0,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        },
+        {
+          "source": "grade_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        }
+      ]
+    },
+    "liraglutide::pancreatic_cancer": {
+      "current_escalation": "DO_NOT_ESCALATE",
+      "current_confidence": 0.3,
+      "current_signal_strength": "NO_SIGNAL",
+      "is_blocked_by_no_signal_gate": true,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score_and_signal_strength",
+        "from": "0.0 (NO_SIGNAL)",
+        "to": "0.33 (WEAK)",
+        "delta_subscore": 0.33,
+        "resulting_confidence": 0.432,
+        "target_decision": "MONITOR",
+        "gate_unblocked": true
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "0.33 (WEAK)",
+          "delta_subscore": 0.33,
+          "resulting_confidence": 0.432,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        },
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "0.66 (MODERATE)",
+          "delta_subscore": 0.66,
+          "resulting_confidence": 0.564,
+          "target_decision": "MONITOR",
+          "gate_unblocked": true
+        },
+        {
+          "source": "prr_score_and_signal_strength",
+          "from": "0.0 (NO_SIGNAL)",
+          "to": "1.0 (STRONG)",
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.7,
+          "target_decision": "ESCALATE",
+          "gate_unblocked": true
+        }
+      ]
+    },
+    "metformin::hypoglycaemia": {
+      "current_escalation": "MONITOR",
+      "current_confidence": 0.4,
+      "current_signal_strength": "STRONG",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "grade_score",
+        "from": 0.0,
+        "to": 1.0,
+        "delta_subscore": 1.0,
+        "resulting_confidence": 0.8,
+        "target_decision": "ESCALATE"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "grade_score",
+          "from": 0.0,
+          "to": 1.0,
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.8,
+          "target_decision": "ESCALATE"
+        }
+      ]
+    },
+    "montelukast::suicidal_ideation": {
+      "current_escalation": "MONITOR",
+      "current_confidence": 0.664,
+      "current_signal_strength": "MODERATE",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "prr_score",
+        "from": 0.66,
+        "to": 1.0,
+        "delta_subscore": 0.34,
+        "resulting_confidence": 0.8,
+        "target_decision": "ESCALATE"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "plausibility_score",
+          "from": 0.0,
+          "to": 0.5,
+          "delta_subscore": 0.5,
+          "resulting_confidence": 0.764,
+          "target_decision": "ESCALATE"
+        },
+        {
+          "source": "plausibility_score",
+          "from": 0.0,
+          "to": 1.0,
+          "delta_subscore": 1.0,
+          "resulting_confidence": 0.864,
+          "target_decision": "ESCALATE"
+        },
+        {
+          "source": "prr_score",
+          "from": 0.66,
+          "to": 1.0,
+          "delta_subscore": 0.34,
+          "resulting_confidence": 0.8,
+          "target_decision": "ESCALATE"
+        }
+      ]
+    },
+    "pembrolizumab::pneumonitis": {
+      "current_escalation": "ESCALATE",
+      "current_confidence": 0.8,
+      "current_signal_strength": "STRONG",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "grade_score (downward)",
+        "from": 0.5,
+        "to": 0.0,
+        "delta_subscore": -0.5,
+        "resulting_confidence": 0.6,
+        "target_decision": "MONITOR"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "plausibility_score (downward)",
+          "from": 1.0,
+          "to": 0.0,
+          "delta_subscore": -1.0,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        },
+        {
+          "source": "grade_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        }
+      ]
+    },
+    "rosiglitazone::myocardial_infarction": {
+      "current_escalation": "ESCALATE",
+      "current_confidence": 0.7,
+      "current_signal_strength": "STRONG",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "plausibility_score (downward)",
+        "from": 0.5,
+        "to": 0.0,
+        "delta_subscore": -0.5,
+        "resulting_confidence": 0.6,
+        "target_decision": "MONITOR"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "plausibility_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        },
+        {
+          "source": "grade_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.5,
+          "target_decision": "MONITOR"
+        }
+      ]
+    },
+    "valproic_acid::hepatotoxicity": {
+      "current_escalation": "ESCALATE",
+      "current_confidence": 0.8,
+      "current_signal_strength": "STRONG",
+      "is_blocked_by_no_signal_gate": false,
+      "smallest_perturbation_to_flip": {
+        "source": "grade_score (downward)",
+        "from": 0.5,
+        "to": 0.0,
+        "delta_subscore": -0.5,
+        "resulting_confidence": 0.6,
+        "target_decision": "MONITOR"
+      },
+      "all_single_subscore_flips": [
+        {
+          "source": "plausibility_score (downward)",
+          "from": 1.0,
+          "to": 0.0,
+          "delta_subscore": -1.0,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        },
+        {
+          "source": "grade_score (downward)",
+          "from": 0.5,
+          "to": 0.0,
+          "delta_subscore": -0.5,
+          "resulting_confidence": 0.6,
+          "target_decision": "MONITOR"
+        }
+      ]
+    }
+  }
+}

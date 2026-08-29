@@ -1,0 +1,1038 @@
+{
+  "experiment_id": "48e29d84-ad6c-4e35-a041-6ac031009d4f",
+  "git_commit_hash": "24b634ac6fdf8fc0ac45ce456d1a3f01e4e378f9",
+  "timestamp": "2026-08-29T15:13:50.329450+00:00",
+  "model_name": "gemini-3.1-flash-lite",
+  "prompts_version": "v1.1",
+  "cache_schema_version": "v7",
+  "config_snapshot": {
+    "agent_mode": "fixed_pipeline",
+    "plausibility_source": "lookup_first",
+    "leakage_critic_enabled": false,
+    "confounding_enabled": false
+  },
+  "per_pair_ablation": {
+    "adalimumab::frostbite": {
+      "original": {
+        "prr_score": 0.0,
+        "signal_strength": "NO_SIGNAL",
+        "grade_score": 0.0,
+        "evidence_grade": "C",
+        "plausibility_score": 0.0,
+        "biological_plausibility": "LOW",
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true,
+        "is_gate_artifact": false
+      },
+      "pubmed_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      },
+      "chembl_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      }
+    },
+    "albuterol::suicidal_ideation": {
+      "original": {
+        "prr_score": 0.0,
+        "signal_strength": "NO_SIGNAL",
+        "grade_score": 0.0,
+        "evidence_grade": "C",
+        "plausibility_score": 0.0,
+        "biological_plausibility": "LOW",
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true,
+        "is_gate_artifact": false
+      },
+      "pubmed_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      },
+      "chembl_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      }
+    },
+    "amoxicillin::tendon_rupture": {
+      "original": {
+        "prr_score": 0.0,
+        "signal_strength": "NO_SIGNAL",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 0.0,
+        "biological_plausibility": "LOW",
+        "confidence": 0.2,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.2,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.2,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true,
+        "is_gate_artifact": false
+      },
+      "pubmed_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.2,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      },
+      "chembl_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      }
+    },
+    "atorvastatin::common_cold": {
+      "original": {
+        "prr_score": 0.0,
+        "signal_strength": "NO_SIGNAL",
+        "grade_score": 0.0,
+        "evidence_grade": "C",
+        "plausibility_score": 0.0,
+        "biological_plausibility": "LOW",
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true,
+        "is_gate_artifact": false
+      },
+      "pubmed_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      },
+      "chembl_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      }
+    },
+    "atorvastatin::dementia": {
+      "original": {
+        "prr_score": 0.0,
+        "signal_strength": "NO_SIGNAL",
+        "grade_score": 1.0,
+        "evidence_grade": "A",
+        "plausibility_score": 0.5,
+        "biological_plausibility": "MODERATE",
+        "confidence": 0.5,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.5,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.5,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true,
+        "is_gate_artifact": false
+      },
+      "pubmed_removed": {
+        "confidence": 0.1,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.4,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.4,
+        "gate_bypassed_escalation": "MONITOR",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": true
+      },
+      "chembl_only": {
+        "confidence": 0.1,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      }
+    },
+    "ciprofloxacin::tendon_rupture": {
+      "original": {
+        "prr_score": 1.0,
+        "signal_strength": "STRONG",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 0.5,
+        "biological_plausibility": "MODERATE",
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.3,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.3,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.5,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "chembl_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_only": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.1,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    },
+    "clozapine::agranulocytosis": {
+      "original": {
+        "prr_score": 1.0,
+        "signal_strength": "STRONG",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 1.0,
+        "biological_plausibility": "HIGH",
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.4,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "chembl_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_only": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    },
+    "imatinib::tooth_eruption": {
+      "original": {
+        "prr_score": 0.0,
+        "signal_strength": "NO_SIGNAL",
+        "grade_score": 0.0,
+        "evidence_grade": "C",
+        "plausibility_score": 0.0,
+        "biological_plausibility": "LOW",
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true,
+        "is_gate_artifact": false
+      },
+      "pubmed_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      },
+      "chembl_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      }
+    },
+    "isotretinoin::teratogenicity": {
+      "original": {
+        "prr_score": 1.0,
+        "signal_strength": "STRONG",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 1.0,
+        "biological_plausibility": "HIGH",
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.4,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "chembl_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_only": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    },
+    "liraglutide::pancreatic_cancer": {
+      "original": {
+        "prr_score": 0.0,
+        "signal_strength": "NO_SIGNAL",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 0.5,
+        "biological_plausibility": "MODERATE",
+        "confidence": 0.3,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.3,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.3,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true,
+        "is_gate_artifact": false
+      },
+      "pubmed_removed": {
+        "confidence": 0.1,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.2,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      },
+      "chembl_only": {
+        "confidence": 0.1,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": true
+      }
+    },
+    "metformin::hypoglycaemia": {
+      "original": {
+        "prr_score": 1.0,
+        "signal_strength": "STRONG",
+        "grade_score": 0.0,
+        "evidence_grade": "C",
+        "plausibility_score": 0.0,
+        "biological_plausibility": "LOW",
+        "confidence": 0.4,
+        "escalation": "MONITOR"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.0,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": true
+      },
+      "chembl_removed": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": true
+      },
+      "pubmed_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    },
+    "montelukast::suicidal_ideation": {
+      "original": {
+        "prr_score": 0.66,
+        "signal_strength": "MODERATE",
+        "grade_score": 1.0,
+        "evidence_grade": "A",
+        "plausibility_score": 0.0,
+        "biological_plausibility": "LOW",
+        "confidence": 0.664,
+        "escalation": "MONITOR"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": true
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.4,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.264,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false
+      },
+      "chembl_removed": {
+        "confidence": 0.664,
+        "escalation": "MONITOR",
+        "matches_real": true
+      },
+      "faers_only": {
+        "confidence": 0.264,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false
+      },
+      "pubmed_only": {
+        "confidence": 0.4,
+        "gate_bypassed_escalation": "MONITOR",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": true,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.0,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    },
+    "pembrolizumab::pneumonitis": {
+      "original": {
+        "prr_score": 1.0,
+        "signal_strength": "STRONG",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 1.0,
+        "biological_plausibility": "HIGH",
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.4,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "chembl_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_only": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    },
+    "rosiglitazone::myocardial_infarction": {
+      "original": {
+        "prr_score": 1.0,
+        "signal_strength": "STRONG",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 0.5,
+        "biological_plausibility": "MODERATE",
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.3,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.3,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.5,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "chembl_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_only": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.1,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    },
+    "valproic_acid::hepatotoxicity": {
+      "original": {
+        "prr_score": 1.0,
+        "signal_strength": "STRONG",
+        "grade_score": 0.5,
+        "evidence_grade": "B",
+        "plausibility_score": 1.0,
+        "biological_plausibility": "HIGH",
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      "faers_removed_gate_bypassed": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_removed_gate_applied": {
+        "confidence": 0.4,
+        "escalation": "DO_NOT_ESCALATE",
+        "matches_real": false,
+        "is_gate_artifact": true
+      },
+      "pubmed_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "chembl_removed": {
+        "confidence": 0.6,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "faers_only": {
+        "confidence": 0.4,
+        "escalation": "MONITOR",
+        "matches_real": false
+      },
+      "pubmed_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      },
+      "chembl_only": {
+        "confidence": 0.2,
+        "gate_bypassed_escalation": "DO_NOT_ESCALATE",
+        "gate_applied_escalation": "DO_NOT_ESCALATE",
+        "matches_real_bypassed": false,
+        "matches_real_applied": false
+      }
+    }
+  },
+  "decision_flip_counts": {
+    "faers_removed_gate_bypassed": 8,
+    "faers_removed_gate_applied": 8,
+    "pubmed_removed": 7,
+    "chembl_removed": 6,
+    "faers_only": 7,
+    "pubmed_only_gate_bypassed": 8,
+    "pubmed_only_gate_applied": 8,
+    "chembl_only_gate_bypassed": 8,
+    "chembl_only_gate_applied": 8
+  },
+  "gate_artifact_counts": {
+    "faers_removed": 8,
+    "pubmed_only": 8,
+    "chembl_only": 8
+  },
+  "condition_performance": {
+    "faers_removed_gate_bypassed": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 5,
+        "FP": 1,
+        "TN": 7,
+        "FN": 2,
+        "precision": 0.8333,
+        "recall": 0.7143,
+        "specificity": 0.875,
+        "f1": 0.7692
+      }
+    },
+    "faers_removed_gate_applied": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      }
+    },
+    "pubmed_removed": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 6,
+        "FP": 1,
+        "TN": 7,
+        "FN": 1,
+        "precision": 0.8571,
+        "recall": 0.8571,
+        "specificity": 0.875,
+        "f1": 0.8571
+      }
+    },
+    "chembl_removed": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 7,
+        "FP": 1,
+        "TN": 7,
+        "FN": 0,
+        "precision": 0.875,
+        "recall": 1.0,
+        "specificity": 0.875,
+        "f1": 0.9333
+      }
+    },
+    "faers_only": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 6,
+        "FP": 1,
+        "TN": 7,
+        "FN": 1,
+        "precision": 0.8571,
+        "recall": 0.8571,
+        "specificity": 0.875,
+        "f1": 0.8571
+      }
+    },
+    "pubmed_only_gate_bypassed": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 1,
+        "TN": 7,
+        "FN": 6,
+        "precision": 0.5,
+        "recall": 0.1429,
+        "specificity": 0.875,
+        "f1": 0.2222
+      }
+    },
+    "pubmed_only_gate_applied": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      }
+    },
+    "chembl_only_gate_bypassed": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      }
+    },
+    "chembl_only_gate_applied": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 8,
+        "FN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0
+      }
+    }
+  },
+  "paired_bootstrap_vs_baseline": {
+    "n_resamples": 1000,
+    "seed": 42,
+    "strict": {
+      "mean_pg_f1": 0.9114,
+      "mean_base_f1": 0.9268,
+      "mean_diff_f1": -0.0154,
+      "diff_f1_95_ci": [
+        -0.2568,
+        0.2
+      ],
+      "crosses_zero": true,
+      "interpretation": "Inconclusive difference at n=15 (95% CI crosses zero); cannot claim parity or superiority."
+    },
+    "lenient": {
+      "mean_pg_f1": 0.9219,
+      "mean_base_f1": 0.8084,
+      "mean_diff_f1": 0.1135,
+      "diff_f1_95_ci": [
+        0.0,
+        0.2943
+      ],
+      "crosses_zero": true,
+      "interpretation": "Inconclusive difference at n=15 (95% CI crosses zero); cannot claim parity or superiority."
+    }
+  }
+}
