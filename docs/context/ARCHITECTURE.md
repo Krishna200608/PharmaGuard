@@ -265,7 +265,7 @@ Encapsulates ChEMBL target pharmacology, plausibility derivation, and critic aud
 | `leak_phrases` | `Optional[list[str]] = None`| Verbatim leak substrings isolated by the critic |
 
 #### Adversarial Mechanistic Critic (`LeakageCritique`):
-Pydantic model produced by the blinded maker-checker critic agent (`pharmaguard/agents/leakage_critic.py`, MARCH pattern) to audit rationales for non-mechanistic knowledge leakage (`DECISIONS.md §27`):
+Pydantic model produced by the blinded maker-checker critic agent (`pharmaguard/tools/chembl_tool.py's _critique_plausibility_leakage() method (LeakageCritique model in pharmaguard/agent/output_schema.py)`, MARCH pattern) to audit rationales for non-mechanistic knowledge leakage (`DECISIONS.md §27`):
 
 | Field | Type | Description |
 |---|---|---|
