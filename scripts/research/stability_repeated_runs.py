@@ -63,6 +63,8 @@ logger = logging.getLogger("stability_repeated_runs")
 # Default scratch cache directory — NEVER points to production cache
 SCRATCH_CACHE_DIR = REPO_ROOT / ".cache" / "pharmaguard_research_scratch"
 DEFAULT_OUTPUT_FILE = REPO_ROOT / "outputs" / "research" / "stability" / "repeated_run_variance.json"
+SCRATCH_CONFOUNDING_CACHE_DIR = REPO_ROOT / ".cache" / "pharmaguard_research_confounding_scratch"
+DEFAULT_CONFOUNDING_OUTPUT_FILE = REPO_ROOT / "outputs" / "research" / "stability" / "repeated_run_variance_confounding.json"
 GROUND_TRUTH_FILE = REPO_ROOT / "pharmaguard" / "data" / "ground_truth.json"
 
 
@@ -208,12 +210,14 @@ def run_repeated_stability_experiment(
     repeats: int = 10,
     pairs_limit: Optional[int] = None,
     inter_call_delay: float = 4.2,
-    scratch_dir: Path = SCRATCH_CACHE_DIR,
-    output_file: Path = DEFAULT_OUTPUT_FILE,
+    scratch_dir: Optional[Path] = None,
+    output_file: Optional[Path] = None,
     gt_file: Path = GROUND_TRUTH_FILE,
+    enable_confounding: bool = False,
+    only_confounding_eligible: bool = False,
 ) -> dict:
     """
-    Execute Experiment 1: Repeated-Run Stability.
+    Execute Experiment 1: Repeated-Run Stability (supports confounding-enabled scoped runs).
     """
     t_start = datetime.now(timezone.utc)
     experiment_id = str(uuid.uuid4())
@@ -222,12 +226,29 @@ def run_repeated_stability_experiment(
     # Load config and ground truth
     config = load_config()
     prompt_loader = PromptLoader()
+
+    if enable_confounding:
+        if not hasattr(config, "confounding") or config.confounding is None:
+            from pydantic import BaseModel
+            class ConfoundingConfig(BaseModel):
+                enabled: bool = True
+            config.confounding = ConfoundingConfig(enabled=True)
+        else:
+            config.confounding.enabled = True
+
+        if scratch_dir is None:
+            scratch_dir = SCRATCH_CONFOUNDING_CACHE_DIR
+        if output_file is None:
+            output_file = DEFAULT_CONFOUNDING_OUTPUT_FILE
+    else:
+        if scratch_dir is None:
+            scratch_dir = SCRATCH_CACHE_DIR
+        if output_file is None:
+            output_file = DEFAULT_OUTPUT_FILE
     
     with open(gt_file, "r", encoding="utf-8") as f:
         gt_data = json.load(f)
     all_pairs = gt_data.get("pairs", [])
-    if pairs_limit is not None:
-        all_pairs = all_pairs[:pairs_limit]
 
     logger.info("Initializing separate scratch cache at %s", scratch_dir)
     scratch_cache = ToolCache(cache_dir=scratch_dir)
@@ -275,6 +296,29 @@ def run_repeated_stability_experiment(
     if getattr(config, "confounding", None) and config.confounding.enabled:
         from pharmaguard.tools.confounding import ConfoundingTool
         confounding_tool = ConfoundingTool(llm=llm, prompt_loader=prompt_loader)
+
+    # Seed raw FAERS and PubMed abstracts (and rep_grade for exact parity) from previous scratch cache
+    if SCRATCH_CACHE_DIR.exists() and scratch_dir != SCRATCH_CACHE_DIR:
+        orig_cache = ToolCache(cache_dir=SCRATCH_CACHE_DIR)
+        for k in orig_cache._cache.iterkeys():
+            if any(s in str(k) for s in ("research_abstracts_raw", "faers", "openfda", "rep_grade")):
+                if k not in scratch_cache._cache:
+                    scratch_cache.set(k, orig_cache.get(k))
+        orig_cache.close()
+
+    if only_confounding_eligible:
+        eligible_keys = set()
+        for rf in sorted((REPO_ROOT / "outputs").glob("eval-run-*_report.json")):
+            with open(rf, "r", encoding="utf-8") as f:
+                d = json.load(f)
+            if d.get("signal_stats", {}).get("prr_score", 0.0) > 0:
+                eligible_keys.add(f"{d['drug']}::{d['event']}")
+        filtered = [p for p in all_pairs if f"{p['drug_canonical']}::{p['event_meddra_pt']}" in eligible_keys]
+        logger.info("Filtered to %d confounding-eligible pairs (prr_score > 0): %s", len(filtered), [f"{p['drug_canonical']}::{p['event_meddra_pt']}" for p in filtered])
+        all_pairs = filtered
+
+    if pairs_limit is not None:
+        all_pairs = all_pairs[:pairs_limit]
 
     logger.info(
         "Starting Repeated Stability Experiment [ID: %s] on %d pairs x %d repeats",
@@ -348,7 +392,24 @@ def run_repeated_stability_experiment(
                 if cached_conf:
                     discount_factor = cached_conf["discount_factor"]
                 else:
-                    conf_res = confounding_tool.assess(drug, event, getattr(plaus, "moa", "") or "", rc, prr)
+                    max_retries = 5
+                    backoff = 2.0
+                    conf_res = None
+                    for attempt in range(1, max_retries + 1):
+                        conf_res = confounding_tool.assess(drug, event, getattr(plaus, "moa", "") or "", rc, prr)
+                        if (
+                            conf_res.confounding_explanation
+                            and conf_res.confounding_explanation.startswith("Assessment failed with error:")
+                            and attempt < max_retries
+                        ):
+                            logger.warning(
+                                "Transient error in confounding assessment for %s::%s (attempt %d/%d). Retrying in %.1fs...",
+                                drug, event, attempt, max_retries, backoff
+                            )
+                            time.sleep(backoff)
+                            backoff *= 2.0
+                            continue
+                        break
                     discount_factor = conf_res.discount_factor
                     scratch_cache.set(conf_key, {"discount_factor": discount_factor})
                     if inter_call_delay > 0:
@@ -424,10 +485,17 @@ def run_repeated_stability_experiment(
     grade_cvs = [s["grade_score"]["cv"] for s in per_pair_summary_statistics.values() if s["grade_score"]["cv"] is not None]
     plaus_cvs = [s["plausibility_score"]["cv"] for s in per_pair_summary_statistics.values() if s["plausibility_score"]["cv"] is not None]
 
+    disc_cvs = [
+        s["discount_factor"]["cv"]
+        for s in per_pair_summary_statistics.values()
+        if "discount_factor" in s and s["discount_factor"]["cv"] is not None
+    ]
+
     cross_pair_summary = {
         "confidence_cv_range": [min(conf_cvs), max(conf_cvs)] if conf_cvs else [0.0, 0.0],
         "grade_score_cv_range": [min(grade_cvs), max(grade_cvs)] if grade_cvs else [0.0, 0.0],
         "plausibility_score_cv_range": [min(plaus_cvs), max(plaus_cvs)] if plaus_cvs else [0.0, 0.0],
+        "discount_factor_cv_range": [min(disc_cvs), max(disc_cvs)] if disc_cvs else None,
         "total_pairs_evaluated": len(pair_keys),
         "total_unstable_pairs": len(unstable_pairs),
     }
@@ -494,19 +562,35 @@ def print_summary_report(results: dict):
         print(f"WARNING:             {results['duration_warning']}")
     print(f"Rank Stability:      Mean Spearman Rho = {results['cross_run_rank_stability']['mean_spearman_rho']:.4f} (across {results['cross_run_rank_stability']['num_run_pairs_compared']} run-pairs)")
     print("-" * 90)
-    print(f"{'Drug :: Event':<35} | {'Grade Mean±SD':<15} | {'Conf Mean±SD':<15} | {'Mode Decision':<15} | {'Mode %':<8}")
-    print("-" * 90)
 
-    for pk, stats in results["per_pair_summary_statistics"].items():
-        g_s = stats["grade_score"]
-        c_s = stats["confidence"]
-        e_s = stats["escalation"]
-        g_str = f"{g_s['mean']:.2f}±{g_s['std']:.2f}"
-        c_str = f"{c_s['mean']:.4f}±{c_s['std']:.4f}"
-        m_str = f"{e_s['mode']} ({e_s['mode_count']}/{stats['confidence']['n']})"
-        pct_str = f"{e_s['percent_agreement']:.1f}%"
-        flag = " [UNSTABLE]" if not e_s["is_100_percent_stable"] else ""
-        print(f"{pk:<35} | {g_str:<15} | {c_str:<15} | {m_str:<15} | {pct_str:<8}{flag}")
+    has_confounding = any("discount_factor" in s for s in results["per_pair_summary_statistics"].values())
+    if has_confounding:
+        print(f"{'Drug :: Event':<35} | {'Grade Mean±SD':<13} | {'Disc Mean±SD (CV)':<18} | {'Conf Mean±SD':<15} | {'Mode Decision':<15} | {'Mode %':<8}")
+        print("-" * 110)
+        for pk, stats in results["per_pair_summary_statistics"].items():
+            g_s = stats["grade_score"]
+            c_s = stats["confidence"]
+            e_s = stats["escalation"]
+            g_str = f"{g_s['mean']:.2f}±{g_s['std']:.2f}"
+            c_str = f"{c_s['mean']:.4f}±{c_s['std']:.4f}"
+            m_str = f"{e_s['mode']} ({e_s['mode_count']}/{stats['confidence']['n']})"
+            pct_str = f"{e_s['percent_agreement']:.1f}%"
+            d_s = stats.get("discount_factor")
+            d_cv_str = f"{d_s['cv']:.3f}" if (d_s and d_s['cv'] is not None) else "0.000"
+            d_str = f"{d_s['mean']:.2f}±{d_s['std']:.2f} ({d_cv_str})" if d_s else "N/A"
+            flag = " [UNSTABLE]" if not e_s["is_100_percent_stable"] else ""
+            print(f"{pk:<35} | {g_str:<13} | {d_str:<18} | {c_str:<15} | {m_str:<15} | {pct_str:<8}{flag}")
+    else:
+        for pk, stats in results["per_pair_summary_statistics"].items():
+            g_s = stats["grade_score"]
+            c_s = stats["confidence"]
+            e_s = stats["escalation"]
+            g_str = f"{g_s['mean']:.2f}±{g_s['std']:.2f}"
+            c_str = f"{c_s['mean']:.4f}±{c_s['std']:.4f}"
+            m_str = f"{e_s['mode']} ({e_s['mode_count']}/{stats['confidence']['n']})"
+            pct_str = f"{e_s['percent_agreement']:.1f}%"
+            flag = " [UNSTABLE]" if not e_s["is_100_percent_stable"] else ""
+            print(f"{pk:<35} | {g_str:<15} | {c_str:<15} | {m_str:<15} | {pct_str:<8}{flag}")
 
     print("-" * 90)
     unstable = results["unstable_pairs"]
@@ -516,6 +600,8 @@ def print_summary_report(results: dict):
         print("Unstable Pairs (<100% agreement): NONE (100% categorical agreement across all pairs)")
     print(f"Confidence CV Range:      {results['cross_pair_summary']['confidence_cv_range']}")
     print(f"Grade Score CV Range:     {results['cross_pair_summary']['grade_score_cv_range']}")
+    if results["cross_pair_summary"].get("discount_factor_cv_range"):
+        print(f"Discount Factor CV Range: {results['cross_pair_summary']['discount_factor_cv_range']}")
     print("=" * 90 + "\n")
 
 
@@ -525,7 +611,10 @@ def main():
     parser.add_argument("--repeats", type=int, default=10, help="Number of repetitions per pair (default: 10)")
     parser.add_argument("--pairs-limit", type=int, default=None, help="Limit number of pairs evaluated")
     parser.add_argument("--delay", type=float, default=4.2, help="Inter-call delay in seconds for API pacing (default: 4.2)")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_FILE, help="Path for JSON artifact")
+    parser.add_argument("--output", type=Path, default=None, help="Path for JSON artifact")
+    parser.add_argument("--scratch-dir", type=Path, default=None, help="Path for scratch cache directory")
+    parser.add_argument("--enable-confounding", action="store_true", help="Enable ConfoundingTool assessment and discounting")
+    parser.add_argument("--only-confounding-eligible", action="store_true", help="Scope experiment to pairs where prr_score > 0")
     args = parser.parse_args()
 
     if args.smoke_test:
@@ -534,14 +623,20 @@ def main():
             repeats=3,
             pairs_limit=3,
             inter_call_delay=args.delay,
+            scratch_dir=args.scratch_dir,
             output_file=args.output,
+            enable_confounding=args.enable_confounding,
+            only_confounding_eligible=args.only_confounding_eligible,
         )
     else:
         results = run_repeated_stability_experiment(
             repeats=args.repeats,
             pairs_limit=args.pairs_limit,
             inter_call_delay=args.delay,
+            scratch_dir=args.scratch_dir,
             output_file=args.output,
+            enable_confounding=args.enable_confounding,
+            only_confounding_eligible=args.only_confounding_eligible,
         )
 
     print_summary_report(results)
