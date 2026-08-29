@@ -1,4 +1,4 @@
-Last updated: 2026-08-12 | Sprint: Sprint 3 (COMPLETED) | Updated by: Antigravity
+Last updated: 2026-08-29 | Sprint: Completed Capstone Benchmark | Updated by: Antigravity
 
 # CONVENTIONS
 
@@ -13,7 +13,7 @@ Last updated: 2026-08-12 | Sprint: Sprint 3 (COMPLETED) | Updated by: Antigravit
 
 ## Cache Invalidation & Schema Versioning
 
-- **CACHE_SCHEMA_VERSION**: Set in `pharmaguard/tools/cache.py` (currently `v6`).
+- **CACHE_SCHEMA_VERSION**: Set in `pharmaguard/tools/cache.py` (currently `v7`).
 - **When to bump**: You MUST bump this version string whenever you change:
   1. The underlying Pydantic output schemas (`TriageReport`, `SignalStatsOutput`, etc.)
   2. Data parsing or extraction logic (e.g., how the PRR score is calculated)

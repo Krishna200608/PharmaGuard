@@ -159,16 +159,17 @@ PharmaGuard/
 ├── assets/
 │   ├── Logos/                        # Vector and raster brand identity assets
 │   └── Screenshots/                  # High-resolution dashboard verification captures
-│       ├── Light/                    # Light mode UI captures across all 4 views
-│       └── Dark/                     # Dark mode UI captures across all 4 views
+│       ├── Light/                    # Light mode UI captures across all 5 views
+│       └── Dark/                     # Dark mode UI captures across all 5 views
 ├── configs/
 │   └── config.yaml                   # Central pipeline & cache configuration
 ├── docs/
 │   ├── context/
 │   │   ├── UNDERSTAND.md             # Canonical plain-language project overview
-│   │   ├── DECISIONS.md              # 25-section chronological record of architectural decisions
+│   │   ├── DECISIONS.md              # 29-section chronological record of architectural decisions
 │   │   ├── PROGRESS.md               # Sprint log, verified metrics & reproduction steps
-│   │   ├── ARCHITECTURE.md           # Technical system & schema specifications
+│   │   ├── ARCHITECTURE.md           # Technical system & Pydantic schema specifications
+│   │   ├── CONTRIBUTION.md           # Grounded project contribution claims (9 verified findings)
 │   │   ├── CONVENTIONS.md            # Coding standards & git workflow
 │   │   ├── GROUND_TRUTH_CANDIDATES.md# Ground truth sourcing & FAERS evidence
 │   │   └── NOTES.md                  # Design constraints & escalation thresholds
@@ -179,6 +180,11 @@ PharmaGuard/
 │   ├── evaluation_summary.txt        # Production benchmark summary with 95% CIs
 │   ├── baseline/                     # Single-shot LLM baseline reports & summary
 │   ├── ablation/                     # force_agent mode ablation reports & comparison
+│   ├── react_agent/                  # ReAct LangGraph agent evaluation reports
+│   ├── stability/                    # Leave-One-Out cross-validation outputs (loo_analysis.json)
+│   ├── critic_probe/                 # Adversarial leakage critic probe audit results
+│   ├── confounding_probe/            # Confounding self-probe & Metformin discount reports
+│   ├── paper_figures/                # High-resolution publication-ready figures & vector assets
 │   └── probe/                        # Obscure-pair memorization probe reports
 ├── pharmaguard/
 │   ├── agent/                        # ReAct & Fixed Pipeline agents
@@ -187,14 +193,24 @@ PharmaGuard/
 │   │   ├── plausibility_ratings.json # Human-curated plausibility ratings (v1.0)
 │   │   └── chembl_lookup.json        # Pre-resolved ChEMBL compound registry
 │   ├── prompts/                      # Versioned system prompts & grading rubrics
+│   │   ├── confounding_assessment.txt# Polypharmacy confounding evaluator prompt
+│   │   └── leakage_critic.txt        # Adversarial maker-checker critic prompt
 │   ├── tools/                        # OpenFDA, ChEMBL, PubMed & diskcache tools
+│   │   └── confounding.py            # Polypharmacy ConfoundingTool & ConfoundingAssessment
 │   └── utils/                        # Config loaders, normalizers & metrics
 ├── scripts/
-│   ├── dashboard.py                  # Streamlit evaluation dashboard driver
+│   ├── dashboard.py                  # Streamlit evaluation dashboard driver (5 views)
 │   ├── dashboard_modules/            # Modular dashboard package (views, components, styles)
+│   │   └── views/probes.py           # Methodology Probes tab (critic, confounding, waterfalls)
 │   ├── run_eval.py                   # 15-pair benchmark evaluation runner
 │   ├── evaluator.py                  # Strict & Lenient metric calculator with Bootstrap/Wilson CIs
 │   ├── baseline.py                   # Single-shot LLM baseline evaluation runner
+│   ├── stability_analysis.py         # 15-fold Leave-One-Out (LOO) stability analysis
+│   ├── run_critic_probe.py           # Adversarial mechanistic leakage critic probe runner
+│   ├── run_confounding_probe.py      # Confounding 4-pair self-probe harness
+│   ├── run_confounding_evaluation.py # Confounding-enabled full evaluation runner
+│   ├── export_paper_figures.py       # Publication-ready figure & asset exporter
+│   ├── verify_react_agreement.py     # ReAct stated vs. reported escalation divergence audit
 │   ├── run_probe.py                  # Memorization probe runner
 │   ├── check_albuterol.py            # FAERS verification diagnostic
 │   ├── verify_reports.py             # Output schema & UTF-8 integrity diagnostic
@@ -250,7 +266,7 @@ python scripts/baseline.py
 ```bash
 streamlit run scripts/dashboard.py
 ```
-*The dashboard opens at `http://localhost:8501`, rendering all 4 views (Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison) with zero live network calls.*
+*The dashboard opens at `http://localhost:8501`, rendering all 5 views (Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison, Methodology Probes) with zero live network calls.*
 
 ### 4. Run Unit Tests
 
@@ -265,7 +281,7 @@ pytest -v
 | Document | Purpose & Description |
 | :--- | :--- |
 | **[`docs/context/UNDERSTAND.md`](docs/context/UNDERSTAND.md)** | **Start here.** Plain-language guide covering system mechanics, data streams, and the dual-metric philosophy. |
-| **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 23-section chronological record of all architectural decisions, MedDRA PT audits, and memorization probe findings. |
+| **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 29-section chronological record of all architectural decisions, MedDRA PT audits, and memorization probe findings. |
 | **[`docs/context/PROGRESS.md`](docs/context/PROGRESS.md)** | Sprint changelog, exact Wilson/Bootstrap confidence interval tables, and clean reproduction verification. |
 | **[`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md)** | Formal technical architecture, component interactions, scoring equations, and JSON schemas. |
 | **[`docs/context/CONTRIBUTION.md`](docs/context/CONTRIBUTION.md)** | Grounded claims of project contributions, empirical findings, and architectural comparisons. |
