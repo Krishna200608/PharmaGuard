@@ -1,0 +1,1521 @@
+{
+  "experiment_id": "404e2175-66d9-4655-8d29-716f2620ba7c",
+  "git_commit_hash": "64ecb1e9c08540c8ec6a91b3abeceab34cf5470c",
+  "timestamp_start": "2026-08-29T17:31:43.375873+00:00",
+  "timestamp_end": "2026-08-29T17:39:51.257063+00:00",
+  "wall_clock_duration_hours": 0.1355,
+  "duration_warning": null,
+  "model_name": "gemini-3.1-flash-lite",
+  "prompts_version": "v1.1",
+  "cache_schema_version": "v7",
+  "config_snapshot": {
+    "agent_mode": "fixed_pipeline",
+    "plausibility_source": "lookup_first",
+    "leakage_critic_enabled": false,
+    "confounding_enabled": true
+  },
+  "per_pair_raw_results": {
+    "montelukast::suicidal_ideation": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T12:47:39.222430+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T12:47:46.435216+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T12:47:53.624318+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T12:47:59.396067+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T12:48:05.954012+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T12:48:15.957447+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T12:48:23.170690+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T12:48:32.193960+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T12:48:38.111670+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T12:48:45.155633+00:00",
+        "prr_score": 0.594,
+        "plausibility_score": 0.0,
+        "grade": "A",
+        "grade_score": 1.0,
+        "discount_factor": 0.9,
+        "confidence": 0.6376,
+        "escalation": "MONITOR"
+      }
+    ],
+    "ciprofloxacin::tendon_rupture": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T12:49:05.421313+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T12:49:12.217501+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T12:49:19.830699+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T12:49:26.662470+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T12:49:32.836003+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T12:49:40.035921+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T12:49:46.915575+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T12:49:54.137937+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T12:50:03.155461+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T12:50:12.200999+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.5,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.7,
+        "escalation": "ESCALATE"
+      }
+    ],
+    "isotretinoin::teratogenicity": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T12:50:35.747877+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T12:50:41.472497+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T12:50:48.528735+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T12:50:54.796850+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T12:51:02.761113+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T12:51:09.798253+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T12:51:19.391150+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T12:51:25.531341+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T12:51:33.710482+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T12:51:40.401633+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      }
+    ],
+    "clozapine::agranulocytosis": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T12:52:02.241296+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T12:52:10.432898+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T12:52:18.982062+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T12:52:25.496870+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T12:52:31.875413+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T12:52:41.634621+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T12:52:50.434970+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T12:52:57.479553+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T12:53:04.993171+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T12:53:12.971831+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      }
+    ],
+    "valproic_acid::hepatotoxicity": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T12:53:32.831895+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T12:53:39.533834+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T12:53:48.675169+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T12:53:57.057995+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T12:54:03.532027+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T12:54:11.901195+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T12:54:22.750822+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T12:54:29.633019+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T12:54:38.670040+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T12:54:46.179289+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.6,
+        "escalation": "MONITOR"
+      }
+    ],
+    "rosiglitazone::myocardial_infarction": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T12:55:07.380453+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T12:55:16.990863+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T12:55:27.713391+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T12:55:35.116093+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T12:55:44.273217+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T14:57:08.693358+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T14:57:14.885562+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T14:57:23.468431+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T14:57:29.897509+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T14:57:36.555437+00:00",
+        "prr_score": 0.4,
+        "plausibility_score": 0.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 0.4,
+        "confidence": 0.36,
+        "escalation": "MONITOR"
+      }
+    ],
+    "pembrolizumab::pneumonitis": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T14:57:58.190222+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T14:58:05.389138+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T14:58:11.404025+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T14:58:18.446895+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T14:58:24.710375+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T14:58:30.515258+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T14:58:36.554859+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T14:58:44.592234+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T14:58:51.926870+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T14:58:57.997767+00:00",
+        "prr_score": 1.0,
+        "plausibility_score": 1.0,
+        "grade": "B",
+        "grade_score": 0.5,
+        "discount_factor": 1.0,
+        "confidence": 0.8,
+        "escalation": "ESCALATE"
+      }
+    ],
+    "metformin::hypoglycaemia": [
+      {
+        "run_index": 0,
+        "timestamp": "2026-08-29T15:00:34.369760+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 1,
+        "timestamp": "2026-08-29T15:00:40.945305+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 2,
+        "timestamp": "2026-08-29T15:00:46.511698+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 3,
+        "timestamp": "2026-08-29T15:00:52.046131+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 4,
+        "timestamp": "2026-08-29T15:00:58.419165+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 5,
+        "timestamp": "2026-08-29T15:01:03.953962+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 6,
+        "timestamp": "2026-08-29T15:01:09.725265+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 7,
+        "timestamp": "2026-08-29T15:01:15.145529+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 8,
+        "timestamp": "2026-08-29T15:01:20.539844+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      },
+      {
+        "run_index": 9,
+        "timestamp": "2026-08-29T15:01:26.011133+00:00",
+        "prr_score": 0.1,
+        "plausibility_score": 0.0,
+        "grade": "C",
+        "grade_score": 0.0,
+        "discount_factor": 0.1,
+        "confidence": 0.04,
+        "escalation": "DO_NOT_ESCALATE"
+      }
+    ]
+  },
+  "per_pair_summary_statistics": {
+    "montelukast::suicidal_ideation": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.6376,
+        "std": 0.0,
+        "min": 0.6376,
+        "max": 0.6376,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "MONITOR",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 0.9,
+        "std": 0.0,
+        "min": 0.9,
+        "max": 0.9,
+        "cv": 0.0
+      }
+    },
+    "ciprofloxacin::tendon_rupture": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 0.5,
+        "std": 0.0,
+        "min": 0.5,
+        "max": 0.5,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 0.5,
+        "std": 0.0,
+        "min": 0.5,
+        "max": 0.5,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.7,
+        "std": 0.0,
+        "min": 0.7,
+        "max": 0.7,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "ESCALATE",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "cv": 0.0
+      }
+    },
+    "isotretinoin::teratogenicity": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 0.5,
+        "std": 0.0,
+        "min": 0.5,
+        "max": 0.5,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.6,
+        "std": 0.0,
+        "min": 0.6,
+        "max": 0.6,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "MONITOR",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "cv": 0.0
+      }
+    },
+    "clozapine::agranulocytosis": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 0.5,
+        "std": 0.0,
+        "min": 0.5,
+        "max": 0.5,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.6,
+        "std": 0.0,
+        "min": 0.6,
+        "max": 0.6,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "MONITOR",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "cv": 0.0
+      }
+    },
+    "valproic_acid::hepatotoxicity": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 0.5,
+        "std": 0.0,
+        "min": 0.5,
+        "max": 0.5,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.6,
+        "std": 0.0,
+        "min": 0.6,
+        "max": 0.6,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "MONITOR",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "cv": 0.0
+      }
+    },
+    "rosiglitazone::myocardial_infarction": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 0.5,
+        "std": 0.0,
+        "min": 0.5,
+        "max": 0.5,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.36,
+        "std": 0.0,
+        "min": 0.36,
+        "max": 0.36,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "MONITOR",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 0.4,
+        "std": 0.0,
+        "min": 0.4,
+        "max": 0.4,
+        "cv": 0.0
+      }
+    },
+    "pembrolizumab::pneumonitis": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 0.5,
+        "std": 0.0,
+        "min": 0.5,
+        "max": 0.5,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.8,
+        "std": 0.0,
+        "min": 0.8,
+        "max": 0.8,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "ESCALATE",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "cv": 0.0
+      }
+    },
+    "metformin::hypoglycaemia": {
+      "plausibility_score": {
+        "n": 10,
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "cv": 0.0
+      },
+      "grade_score": {
+        "n": 10,
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "cv": 0.0
+      },
+      "confidence": {
+        "n": 10,
+        "mean": 0.04,
+        "std": 0.0,
+        "min": 0.04,
+        "max": 0.04,
+        "cv": 0.0
+      },
+      "escalation": {
+        "mode": "DO_NOT_ESCALATE",
+        "mode_count": 10,
+        "percent_agreement": 100.0,
+        "wilson_ci": [
+          0.7225,
+          1.0
+        ],
+        "is_100_percent_stable": true
+      },
+      "discount_factor": {
+        "n": 10,
+        "mean": 0.1,
+        "std": 0.0,
+        "min": 0.1,
+        "max": 0.1,
+        "cv": 0.0
+      }
+    }
+  },
+  "cross_pair_summary": {
+    "confidence_cv_range": [
+      0.0,
+      0.0
+    ],
+    "grade_score_cv_range": [
+      0.0,
+      0.0
+    ],
+    "plausibility_score_cv_range": [
+      0.0,
+      0.0
+    ],
+    "discount_factor_cv_range": [
+      0.0,
+      0.0
+    ],
+    "total_pairs_evaluated": 8,
+    "total_unstable_pairs": 0
+  },
+  "cross_run_rank_stability": {
+    "mean_spearman_rho": 1.0,
+    "num_run_pairs_compared": 45,
+    "pairwise_correlations": [
+      {
+        "run_i": 0,
+        "run_j": 1,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 2,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 3,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 4,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 5,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 6,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 7,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 0,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 2,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 3,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 4,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 5,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 6,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 7,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 1,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 2,
+        "run_j": 3,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 2,
+        "run_j": 4,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 2,
+        "run_j": 5,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 2,
+        "run_j": 6,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 2,
+        "run_j": 7,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 2,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 2,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 3,
+        "run_j": 4,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 3,
+        "run_j": 5,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 3,
+        "run_j": 6,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 3,
+        "run_j": 7,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 3,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 3,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 4,
+        "run_j": 5,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 4,
+        "run_j": 6,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 4,
+        "run_j": 7,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 4,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 4,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 5,
+        "run_j": 6,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 5,
+        "run_j": 7,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 5,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 5,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 6,
+        "run_j": 7,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 6,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 6,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 7,
+        "run_j": 8,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 7,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      },
+      {
+        "run_i": 8,
+        "run_j": 9,
+        "spearman_rho": 1.0
+      }
+    ]
+  },
+  "unstable_pairs": []
+}
