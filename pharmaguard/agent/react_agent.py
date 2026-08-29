@@ -227,40 +227,114 @@ class PharmaGuardAgent:
         
         return graph.compile()
 
+    def _build_error_fallback_report(self, drug: str, event: str, stage: str, error_msg: str) -> TriageReport:
+        """
+        Construct a graceful fallback TriageReport reusing the standard null_reason
+        contract when an unexpected orchestrator exception occurs during ReAct execution.
+        """
+        now = datetime.now(timezone.utc)
+        s_out = SignalStatsOutput(
+            prr=None,
+            ror=None,
+            prr_lower_ci=None,
+            ror_lower_ci=None,
+            report_count=0,
+            source_endpoint="react_error_fallback",
+            data_pulled_at=now,
+            null_reason=f"ReAct agent error at stage '{stage}': {error_msg}",
+            prr_score=0.0,
+            prr_score_label=SignalStrength.NO_SIGNAL,
+            ci_downgraded=False,
+        )
+        m_out = MechanismOutput(
+            chembl_id=None,
+            moa=None,
+            biological_plausibility=PlausibilityLevel.UNKNOWN,
+            plausibility_score=0.0,
+            plausibility_source=PlausibilitySource.UNKNOWN,
+            plausibility_rationale=f"ReAct agent error at stage '{stage}': {error_msg}",
+        )
+        l_out = LiteratureOutput(
+            pubmed_query="",
+            abstracts_retrieved=0,
+            evidence_grade=EvidenceGrade.C,
+            grade_score=0.0,
+            supporting_pmids=[],
+            evidence_summary=f"ReAct agent error at stage '{stage}': {error_msg}",
+        )
+        t_out = TriageOutput(
+            signal_strength=SignalStrength.NO_SIGNAL,
+            evidence_grade=EvidenceGrade.C,
+            escalation=EscalationDecision.DO_NOT_ESCALATE,
+            confidence=0.0,
+            prompts_version=self.prompt_loader.version,
+            agent_reasoning_trace=[f"ERROR: PharmaGuardAgent (ReAct) failed at stage '{stage}' for {drug}::{event}: {error_msg}"],
+        )
+        return TriageReport(
+            run_id=self.run_id,
+            prompts_version=self.prompt_loader.version,
+            drug=drug,
+            event=event,
+            signal_stats=s_out,
+            mechanism=m_out,
+            literature=l_out,
+            triage=t_out,
+        )
+
     def run(self, drug: str, event: str) -> TriageReport:
-        graph = self.build_graph()
-        initial_state = {
-            "messages": [HumanMessage(content=f"Evaluate drug: {drug}, event: {event}")],
-            "run_id": self.run_id,
-            "drug": drug,
-            "event": event,
-            "signal_stats": None,
-            "mechanism": None,
-            "literature": None,
-            "agent_reasoning_trace": []
-        }
-        
-        final_state = graph.invoke(initial_state, {"recursion_limit": 15})
-        
-        # After tool calling, we synthesize
-        synth_prompt = self.prompt_loader.get("synthesis")
-        messages = list(final_state["messages"]) + [HumanMessage(content=synth_prompt)]
-        synth_resp = self.llm.invoke(messages)
-        text_content = extract_text(synth_resp.content)
-        self.tlog.log_final_answer(text_content)
-        final_state["agent_reasoning_trace"].append(text_content)
-        
-        self.tlog.finalize()
-        
-        return self._assemble_report(final_state)
+        stage = "graph_execution"
+        try:
+            graph = self.build_graph()
+            initial_state = {
+                "messages": [HumanMessage(content=f"Evaluate drug: {drug}, event: {event}")],
+                "run_id": self.run_id,
+                "drug": drug,
+                "event": event,
+                "signal_stats": None,
+                "mechanism": None,
+                "literature": None,
+                "agent_reasoning_trace": []
+            }
+            
+            final_state = graph.invoke(initial_state, {"recursion_limit": 15})
+            
+            # After tool calling, we synthesize
+            stage = "synthesis"
+            synth_prompt = self.prompt_loader.get("synthesis")
+            messages = list(final_state["messages"]) + [HumanMessage(content=synth_prompt)]
+            synth_resp = self.llm.invoke(messages)
+            text_content = extract_text(synth_resp.content)
+            self.tlog.log_final_answer(text_content)
+            final_state["agent_reasoning_trace"].append(text_content)
+            
+            self.tlog.finalize()
+            
+            stage = "report_assembly"
+            return self._assemble_report(final_state)
+        except Exception as exc:
+            logger.error(
+                "Unexpected failure in PharmaGuardAgent (ReAct) at stage '%s' for pair %s::%s: %s",
+                stage, drug, event, exc, exc_info=True
+            )
+            try:
+                self.tlog.log_thought(f"ERROR: PharmaGuardAgent (ReAct) failed at stage '{stage}' for {drug}::{event}: {exc}")
+                self.tlog.log_final_answer(f"Failed at stage '{stage}': {exc}")
+                self.tlog.finalize()
+            except Exception as log_exc:
+                logger.warning("Failed to finalize transcript logger for %s::%s: %s", drug, event, log_exc)
+            
+            return self._build_error_fallback_report(drug, event, stage, str(exc))
         
     def _assemble_report(self, state: AgentState) -> TriageReport:
         # 1. Parse Faers
-        ss_dict = state["signal_stats"] or {}
+        ss_dict = state.get("signal_stats") or {}
         rc = ss_dict.get("report_count", 0)
         prr = ss_dict.get("prr")
         prr_lci = ss_dict.get("prr_lower_ci")
         prr_score, ss_label, ci_downgraded = compute_prr_score(rc, prr, prr_lci)
+
+        # 2. Parse Chembl (pre-extract for confounding check)
+        m_dict = state.get("mechanism") or {}
         
         # Confounding assessment & discounting (if enabled)
         discount_factor = 1.0
@@ -274,6 +348,14 @@ class PharmaGuardAgent:
 
         adjusted_prr_score = round(prr_score * discount_factor, 4)
 
+        data_pulled = ss_dict.get("data_pulled_at")
+        if data_pulled and hasattr(data_pulled, "isoformat"):
+            pulled_dt = data_pulled
+        elif data_pulled and isinstance(data_pulled, str):
+            pulled_dt = datetime.fromisoformat(data_pulled)
+        else:
+            pulled_dt = datetime.now(timezone.utc)
+
         s_out = SignalStatsOutput(
             prr=prr,
             ror=ss_dict.get("ror"),
@@ -281,7 +363,7 @@ class PharmaGuardAgent:
             ror_lower_ci=ss_dict.get("ror_lower_ci"),
             report_count=rc,
             source_endpoint=ss_dict.get("source_endpoint", "unknown"),
-            data_pulled_at=datetime.fromisoformat(ss_dict["data_pulled_at"]),
+            data_pulled_at=pulled_dt,
             null_reason=ss_dict.get("null_reason"),
             prr_score=adjusted_prr_score,
             prr_score_label=ss_label,
@@ -292,8 +374,6 @@ class PharmaGuardAgent:
             confounding_explanation=confounding_res.confounding_explanation if confounding_res else None,
         )
         
-        # 2. Parse Chembl
-        m_dict = state["mechanism"] or {}
         plaus = m_dict.get("level", PlausibilityLevel.UNKNOWN)
         m_out = MechanismOutput(
             chembl_id=m_dict.get("chembl_id"),
@@ -309,7 +389,7 @@ class PharmaGuardAgent:
         )
         
         # 3. Parse PubMed
-        l_dict = state["literature"] or {}
+        l_dict = state.get("literature") or {}
         eg_str = l_dict.get("grade", "C")
         l_out = LiteratureOutput(
             pubmed_query=l_dict.get("query", ""),
@@ -330,7 +410,7 @@ class PharmaGuardAgent:
             escalation=esc,
             confidence=conf,
             prompts_version=self.prompt_loader.version,
-            agent_reasoning_trace=state["agent_reasoning_trace"]
+            agent_reasoning_trace=state.get("agent_reasoning_trace", [])
         )
         
         return TriageReport(
