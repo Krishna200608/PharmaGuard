@@ -1,0 +1,2010 @@
+{
+  "manifest_metadata": {
+    "schema_version": "1.0",
+    "generated_at_utc": "2026-08-30T11:37:37.842479+00:00",
+    "repository_head_commit": "22e5f04c12008039139d030683a0a30f8ae80880",
+    "total_artifacts_indexed": 75,
+    "active_cache_schema_version": "v7",
+    "core_provenance_fields_specification": [
+      "git_commit_hash",
+      "timestamp",
+      "model_name",
+      "prompts_version",
+      "cache_schema_version",
+      "config_snapshot"
+    ]
+  },
+  "summary_statistics": {
+    "provenance_completeness": {
+      "COMPLETE": 5,
+      "PARTIAL": 66,
+      "MINIMAL": 4
+    },
+    "completeness_percentages": {
+      "COMPLETE": 6.67,
+      "PARTIAL": 88.0,
+      "MINIMAL": 5.33
+    },
+    "by_broad_category": {
+      "evaluation_run": 46,
+      "diagnostic_probe": 6,
+      "production_benchmark": 15,
+      "research_experiment": 6,
+      "meta_manifest": 1,
+      "stability_evaluation": 1
+    },
+    "by_artifact_type": {
+      "ablation_report": 15,
+      "baseline_report": 15,
+      "confounding_self_probe": 1,
+      "confounding_probe_report": 1,
+      "critic_probe_results": 1,
+      "production_report": 15,
+      "diagnostic_probe_report": 3,
+      "react_agent_report": 15,
+      "agent_agreement_audit": 1,
+      "research_taxonomy_experiment": 1,
+      "reproducibility_manifest": 1,
+      "research_ablation_experiment": 3,
+      "research_stability_experiment": 2,
+      "stability_analysis": 1
+    },
+    "status_by_artifact_type": {
+      "ablation_report": {
+        "COMPLETE": 0,
+        "PARTIAL": 15,
+        "MINIMAL": 0
+      },
+      "baseline_report": {
+        "COMPLETE": 0,
+        "PARTIAL": 15,
+        "MINIMAL": 0
+      },
+      "confounding_self_probe": {
+        "COMPLETE": 0,
+        "PARTIAL": 0,
+        "MINIMAL": 1
+      },
+      "confounding_probe_report": {
+        "COMPLETE": 0,
+        "PARTIAL": 1,
+        "MINIMAL": 0
+      },
+      "critic_probe_results": {
+        "COMPLETE": 0,
+        "PARTIAL": 0,
+        "MINIMAL": 1
+      },
+      "production_report": {
+        "COMPLETE": 0,
+        "PARTIAL": 15,
+        "MINIMAL": 0
+      },
+      "diagnostic_probe_report": {
+        "COMPLETE": 0,
+        "PARTIAL": 3,
+        "MINIMAL": 0
+      },
+      "react_agent_report": {
+        "COMPLETE": 0,
+        "PARTIAL": 15,
+        "MINIMAL": 0
+      },
+      "agent_agreement_audit": {
+        "COMPLETE": 0,
+        "PARTIAL": 0,
+        "MINIMAL": 1
+      },
+      "research_taxonomy_experiment": {
+        "COMPLETE": 0,
+        "PARTIAL": 1,
+        "MINIMAL": 0
+      },
+      "reproducibility_manifest": {
+        "COMPLETE": 0,
+        "PARTIAL": 1,
+        "MINIMAL": 0
+      },
+      "research_ablation_experiment": {
+        "COMPLETE": 3,
+        "PARTIAL": 0,
+        "MINIMAL": 0
+      },
+      "research_stability_experiment": {
+        "COMPLETE": 2,
+        "PARTIAL": 0,
+        "MINIMAL": 0
+      },
+      "stability_analysis": {
+        "COMPLETE": 0,
+        "PARTIAL": 0,
+        "MINIMAL": 1
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "file_path": "outputs/ablation/eval-run-0-montelukast-suicidal_ideation_report.json",
+      "file_size_bytes": 2424,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-0-montelukast-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:02:52.319169Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-1-ciprofloxacin-tendon_rupture_report.json",
+      "file_size_bytes": 2243,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:02:57.492440Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-10-albuterol-suicidal_ideation_report.json",
+      "file_size_bytes": 1932,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-10-albuterol-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:12.298684Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-11-amoxicillin-tendon_rupture_report.json",
+      "file_size_bytes": 2326,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-11-amoxicillin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:12.809905Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-12-atorvastatin-common_cold_report.json",
+      "file_size_bytes": 1859,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-12-atorvastatin-common_cold",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:15.547177Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-13-imatinib-tooth_eruption_report.json",
+      "file_size_bytes": 1991,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-13-imatinib-tooth_eruption",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:16.015210Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-14-adalimumab-frostbite_report.json",
+      "file_size_bytes": 1943,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-14-adalimumab-frostbite",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:16.524228Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-2-isotretinoin-teratogenicity_report.json",
+      "file_size_bytes": 2394,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-2-isotretinoin-teratogenicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:02:58.070599Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-3-clozapine-agranulocytosis_report.json",
+      "file_size_bytes": 2212,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-3-clozapine-agranulocytosis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:02:58.577801Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-4-valproic_acid-hepatotoxicity_report.json",
+      "file_size_bytes": 2228,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:02:59.146108Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-5-rosiglitazone-myocardial_infarction_report.json",
+      "file_size_bytes": 2495,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:02:59.648503Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-6-pembrolizumab-pneumonitis_report.json",
+      "file_size_bytes": 2319,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-6-pembrolizumab-pneumonitis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:02.194239Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-7-liraglutide-pancreatic_cancer_report.json",
+      "file_size_bytes": 2591,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:04.433095Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-8-metformin-hypoglycaemia_report.json",
+      "file_size_bytes": 2223,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-8-metformin-hypoglycaemia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:04.906418Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/ablation/eval-run-9-atorvastatin-dementia_report.json",
+      "file_size_bytes": 2520,
+      "artifact_type": "ablation_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-9-atorvastatin-dementia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:03:09.868829Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-0-montelukast-suicidal_ideation_report.json",
+      "file_size_bytes": 1746,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-0-montelukast-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:30.347920Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-1-ciprofloxacin-tendon_rupture_report.json",
+      "file_size_bytes": 1745,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:32.526256Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-10-albuterol-suicidal_ideation_report.json",
+      "file_size_bytes": 1799,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-10-albuterol-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:59.144431Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-11-amoxicillin-tendon_rupture_report.json",
+      "file_size_bytes": 1741,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-11-amoxicillin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:05:00.326954Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-12-atorvastatin-common_cold_report.json",
+      "file_size_bytes": 1687,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-12-atorvastatin-common_cold",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:05:05.875938Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-13-imatinib-tooth_eruption_report.json",
+      "file_size_bytes": 1722,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-13-imatinib-tooth_eruption",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:05:26.923432Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-14-adalimumab-frostbite_report.json",
+      "file_size_bytes": 1795,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-14-adalimumab-frostbite",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:05:29.309790Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-2-isotretinoin-teratogenicity_report.json",
+      "file_size_bytes": 1659,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-2-isotretinoin-teratogenicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:35.148940Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-3-clozapine-agranulocytosis_report.json",
+      "file_size_bytes": 1724,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-3-clozapine-agranulocytosis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:40.014359Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-4-valproic_acid-hepatotoxicity_report.json",
+      "file_size_bytes": 1701,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:41.738232Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-5-rosiglitazone-myocardial_infarction_report.json",
+      "file_size_bytes": 1683,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:44.440978Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-6-pembrolizumab-pneumonitis_report.json",
+      "file_size_bytes": 1697,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-6-pembrolizumab-pneumonitis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:46.438549Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-7-liraglutide-pancreatic_cancer_report.json",
+      "file_size_bytes": 1840,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:48.647955Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-8-metformin-hypoglycaemia_report.json",
+      "file_size_bytes": 1725,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-8-metformin-hypoglycaemia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:54.530875Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/baseline/eval-run-9-atorvastatin-dementia_report.json",
+      "file_size_bytes": 1830,
+      "artifact_type": "baseline_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-9-atorvastatin-dementia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T12:04:56.979812Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/confounding_probe/confounding_self_probe.json",
+      "file_size_bytes": 4900,
+      "artifact_type": "confounding_self_probe",
+      "broad_category": "diagnostic_probe",
+      "provenance_status": "MINIMAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": null,
+        "git_commit_hash": null,
+        "timestamp": null,
+        "model_name": null,
+        "prompts_version": null,
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": null
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "timestamp",
+        "model_name",
+        "prompts_version",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Legacy diagnostic probe with raw metrics; missing all core provenance fields."
+    },
+    {
+      "file_path": "outputs/confounding_probe/metformin_confounding_report.json",
+      "file_size_bytes": 3366,
+      "artifact_type": "confounding_probe_report",
+      "broad_category": "diagnostic_probe",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "confounding-probe-metformin-hypoglycaemia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-27T05:09:44.507865Z",
+        "model_name": null,
+        "prompts_version": "v1.1",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/critic_probe/leakage_critique_results.json",
+      "file_size_bytes": 4459,
+      "artifact_type": "critic_probe_results",
+      "broad_category": "diagnostic_probe",
+      "provenance_status": "MINIMAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": null,
+        "git_commit_hash": null,
+        "timestamp": null,
+        "model_name": null,
+        "prompts_version": null,
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": null
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "timestamp",
+        "model_name",
+        "prompts_version",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Legacy diagnostic probe with raw metrics; missing all core provenance fields."
+    },
+    {
+      "file_path": "outputs/eval-run-0-montelukast-suicidal_ideation_report.json",
+      "file_size_bytes": 2268,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-0-montelukast-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:23.039269Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-1-ciprofloxacin-tendon_rupture_report.json",
+      "file_size_bytes": 2184,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:24.291283Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-10-albuterol-suicidal_ideation_report.json",
+      "file_size_bytes": 1780,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-10-albuterol-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:35.427166Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-11-amoxicillin-tendon_rupture_report.json",
+      "file_size_bytes": 2326,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-11-amoxicillin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:36.569200Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-12-atorvastatin-common_cold_report.json",
+      "file_size_bytes": 1682,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-12-atorvastatin-common_cold",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:37.623059Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-13-imatinib-tooth_eruption_report.json",
+      "file_size_bytes": 1991,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-13-imatinib-tooth_eruption",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:38.770870Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-14-adalimumab-frostbite_report.json",
+      "file_size_bytes": 1943,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-14-adalimumab-frostbite",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:39.459691Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-2-isotretinoin-teratogenicity_report.json",
+      "file_size_bytes": 2394,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-2-isotretinoin-teratogenicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:25.521075Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-3-clozapine-agranulocytosis_report.json",
+      "file_size_bytes": 2212,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-3-clozapine-agranulocytosis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:26.821735Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-4-valproic_acid-hepatotoxicity_report.json",
+      "file_size_bytes": 2228,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:28.237928Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-5-rosiglitazone-myocardial_infarction_report.json",
+      "file_size_bytes": 2495,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:29.515068Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-6-pembrolizumab-pneumonitis_report.json",
+      "file_size_bytes": 2175,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-6-pembrolizumab-pneumonitis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:30.765555Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-7-liraglutide-pancreatic_cancer_report.json",
+      "file_size_bytes": 2464,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:32.012477Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-8-metformin-hypoglycaemia_report.json",
+      "file_size_bytes": 2223,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-8-metformin-hypoglycaemia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:33.148050Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/eval-run-9-atorvastatin-dementia_report.json",
+      "file_size_bytes": 2232,
+      "artifact_type": "production_report",
+      "broad_category": "production_benchmark",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-9-atorvastatin-dementia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T11:37:34.284737Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/probe/probe-run-0-topiramate-hypohidrosis_report.json",
+      "file_size_bytes": 2334,
+      "artifact_type": "diagnostic_probe_report",
+      "broad_category": "diagnostic_probe",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "probe-run-0-topiramate-hypohidrosis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T03:45:54.371151Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/probe/probe-run-1-tamsulosin-intraoperative_floppy_iris_syndrome_report.json",
+      "file_size_bytes": 2370,
+      "artifact_type": "diagnostic_probe_report",
+      "broad_category": "diagnostic_probe",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "probe-run-1-tamsulosin-intraoperative_floppy_iris_syndrome",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T03:45:54.899440Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/probe/probe-run-2-terbinafine-ageusia_report.json",
+      "file_size_bytes": 1855,
+      "artifact_type": "diagnostic_probe_report",
+      "broad_category": "diagnostic_probe",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "probe-run-2-terbinafine-ageusia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-14T03:45:55.453251Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-0-montelukast-suicidal_ideation_report.json",
+      "file_size_bytes": 5147,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-0-montelukast-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:40:55.169263Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-1-ciprofloxacin-tendon_rupture_report.json",
+      "file_size_bytes": 4515,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-1-ciprofloxacin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:41:35.609527Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-10-albuterol-suicidal_ideation_report.json",
+      "file_size_bytes": 4367,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-10-albuterol-suicidal_ideation",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:47:27.604456Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-11-amoxicillin-tendon_rupture_report.json",
+      "file_size_bytes": 4118,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-11-amoxicillin-tendon_rupture",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:48:22.567201Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-12-atorvastatin-common_cold_report.json",
+      "file_size_bytes": 3833,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-12-atorvastatin-common_cold",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:48:42.259152Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-13-imatinib-tooth_eruption_report.json",
+      "file_size_bytes": 3685,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-13-imatinib-tooth_eruption",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:49:15.202715Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-14-adalimumab-frostbite_report.json",
+      "file_size_bytes": 3996,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-14-adalimumab-frostbite",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:50:07.317074Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-2-isotretinoin-teratogenicity_report.json",
+      "file_size_bytes": 4295,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-2-isotretinoin-teratogenicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:42:02.587698Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-3-clozapine-agranulocytosis_report.json",
+      "file_size_bytes": 4989,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-3-clozapine-agranulocytosis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:42:42.621803Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-4-valproic_acid-hepatotoxicity_report.json",
+      "file_size_bytes": 4072,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-4-valproic_acid-hepatotoxicity",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:43:24.019899Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-5-rosiglitazone-myocardial_infarction_report.json",
+      "file_size_bytes": 5171,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:44:05.026060Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-6-pembrolizumab-pneumonitis_report.json",
+      "file_size_bytes": 4084,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-6-pembrolizumab-pneumonitis",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:44:40.977066Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-7-liraglutide-pancreatic_cancer_report.json",
+      "file_size_bytes": 4631,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:45:12.869136Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-8-metformin-hypoglycaemia_report.json",
+      "file_size_bytes": 5230,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-8-metformin-hypoglycaemia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:46:07.510542Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent/eval-run-9-atorvastatin-dementia_report.json",
+      "file_size_bytes": 4846,
+      "artifact_type": "react_agent_report",
+      "broad_category": "evaluation_run",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": "eval-run-9-atorvastatin-dementia",
+        "git_commit_hash": null,
+        "timestamp": "2026-08-21T03:46:51.219589Z",
+        "model_name": null,
+        "prompts_version": "v1.0",
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": "1.1"
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Frozen execution report (predates git_commit_hash / config_snapshot tracking convention)."
+    },
+    {
+      "file_path": "outputs/react_agent_agreement_report.json",
+      "file_size_bytes": 6157,
+      "artifact_type": "agent_agreement_audit",
+      "broad_category": "evaluation_run",
+      "provenance_status": "MINIMAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": null,
+        "git_commit_hash": null,
+        "timestamp": null,
+        "model_name": null,
+        "prompts_version": null,
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": null
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "timestamp",
+        "model_name",
+        "prompts_version",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Legacy diagnostic probe with raw metrics; missing all core provenance fields."
+    },
+    {
+      "file_path": "outputs/research/error_taxonomy/taxonomy_results.json",
+      "file_size_bytes": 13682,
+      "artifact_type": "research_taxonomy_experiment",
+      "broad_category": "research_experiment",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": null,
+        "git_commit_hash": null,
+        "timestamp": "2026-08-30T11:32:32.278345+00:00",
+        "model_name": null,
+        "prompts_version": null,
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": null
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "model_name",
+        "prompts_version",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Intermediate probe or summary report with partial timestamp/metadata."
+    },
+    {
+      "file_path": "outputs/research/reproducibility_manifest.json",
+      "file_size_bytes": 0,
+      "artifact_type": "reproducibility_manifest",
+      "broad_category": "meta_manifest",
+      "provenance_status": "PARTIAL",
+      "provenance": {
+        "experiment_id": "meta-reproducibility-manifest-r1",
+        "run_id": null,
+        "git_commit_hash": "22e5f04c12008039139d030683a0a30f8ae80880",
+        "timestamp": "2026-08-30T11:37:37.842479+00:00",
+        "model_name": null,
+        "prompts_version": null,
+        "cache_schema_version": "v7",
+        "config_snapshot": null,
+        "schema_version": "1.0"
+      },
+      "missing_fields": [
+        "model_name",
+        "prompts_version",
+        "config_snapshot"
+      ],
+      "notes": "Self-indexing metadata manifest consolidating provenance across all repository outputs."
+    },
+    {
+      "file_path": "outputs/research/source_ablation/ablation_results.json",
+      "file_size_bytes": 29453,
+      "artifact_type": "research_ablation_experiment",
+      "broad_category": "research_experiment",
+      "provenance_status": "COMPLETE",
+      "provenance": {
+        "experiment_id": "48e29d84-ad6c-4e35-a041-6ac031009d4f",
+        "run_id": null,
+        "git_commit_hash": "24b634ac6fdf8fc0ac45ce456d1a3f01e4e378f9",
+        "timestamp": "2026-08-29T15:13:50.329450+00:00",
+        "model_name": "gemini-3.1-flash-lite",
+        "prompts_version": "v1.1",
+        "cache_schema_version": "v7",
+        "config_snapshot": {
+          "agent_mode": "fixed_pipeline",
+          "plausibility_source": "lookup_first",
+          "leakage_critic_enabled": false,
+          "confounding_enabled": false
+        },
+        "schema_version": null
+      },
+      "missing_fields": [],
+      "notes": "Full provenance recorded: commit hash, model, prompts, cache schema, config snapshot."
+    },
+    {
+      "file_path": "outputs/research/source_ablation/counterfactual_margins.json",
+      "file_size_bytes": 15896,
+      "artifact_type": "research_ablation_experiment",
+      "broad_category": "research_experiment",
+      "provenance_status": "COMPLETE",
+      "provenance": {
+        "experiment_id": "48e29d84-ad6c-4e35-a041-6ac031009d4f",
+        "run_id": null,
+        "git_commit_hash": "24b634ac6fdf8fc0ac45ce456d1a3f01e4e378f9",
+        "timestamp": "2026-08-29T15:13:50.329450+00:00",
+        "model_name": "gemini-3.1-flash-lite",
+        "prompts_version": "v1.1",
+        "cache_schema_version": "v7",
+        "config_snapshot": {
+          "agent_mode": "fixed_pipeline",
+          "plausibility_source": "lookup_first",
+          "leakage_critic_enabled": false,
+          "confounding_enabled": false
+        },
+        "schema_version": null
+      },
+      "missing_fields": [],
+      "notes": "Full provenance recorded: commit hash, model, prompts, cache schema, config snapshot."
+    },
+    {
+      "file_path": "outputs/research/source_ablation/threshold_sensitivity.json",
+      "file_size_bytes": 8981,
+      "artifact_type": "research_ablation_experiment",
+      "broad_category": "research_experiment",
+      "provenance_status": "COMPLETE",
+      "provenance": {
+        "experiment_id": "48e29d84-ad6c-4e35-a041-6ac031009d4f",
+        "run_id": null,
+        "git_commit_hash": "24b634ac6fdf8fc0ac45ce456d1a3f01e4e378f9",
+        "timestamp": "2026-08-29T15:13:50.329450+00:00",
+        "model_name": "gemini-3.1-flash-lite",
+        "prompts_version": "v1.1",
+        "cache_schema_version": "v7",
+        "config_snapshot": {
+          "agent_mode": "fixed_pipeline",
+          "plausibility_source": "lookup_first",
+          "leakage_critic_enabled": false,
+          "confounding_enabled": false
+        },
+        "schema_version": null
+      },
+      "missing_fields": [],
+      "notes": "Full provenance recorded: commit hash, model, prompts, cache schema, config snapshot."
+    },
+    {
+      "file_path": "outputs/research/stability/repeated_run_variance.json",
+      "file_size_bytes": 64627,
+      "artifact_type": "research_stability_experiment",
+      "broad_category": "research_experiment",
+      "provenance_status": "COMPLETE",
+      "provenance": {
+        "experiment_id": "e554cf68-1435-432d-a90c-e56b4caaa25b",
+        "run_id": null,
+        "git_commit_hash": "804395031b97d7b36ad3ce862e298e685fcdc1b3",
+        "timestamp": "2026-08-29T14:57:02.857330+00:00",
+        "model_name": "gemini-3.1-flash-lite",
+        "prompts_version": "v1.1",
+        "cache_schema_version": "v7",
+        "config_snapshot": {
+          "agent_mode": "fixed_pipeline",
+          "plausibility_source": "lookup_first",
+          "leakage_critic_enabled": false,
+          "confounding_enabled": false
+        },
+        "schema_version": null
+      },
+      "missing_fields": [],
+      "notes": "Full provenance recorded: commit hash, model, prompts, cache schema, config snapshot."
+    },
+    {
+      "file_path": "outputs/research/stability/repeated_run_variance_confounding.json",
+      "file_size_bytes": 38010,
+      "artifact_type": "research_stability_experiment",
+      "broad_category": "research_experiment",
+      "provenance_status": "COMPLETE",
+      "provenance": {
+        "experiment_id": "404e2175-66d9-4655-8d29-716f2620ba7c",
+        "run_id": null,
+        "git_commit_hash": "64ecb1e9c08540c8ec6a91b3abeceab34cf5470c",
+        "timestamp": "2026-08-29T17:31:43.375873+00:00",
+        "model_name": "gemini-3.1-flash-lite",
+        "prompts_version": "v1.1",
+        "cache_schema_version": "v7",
+        "config_snapshot": {
+          "agent_mode": "fixed_pipeline",
+          "plausibility_source": "lookup_first",
+          "leakage_critic_enabled": false,
+          "confounding_enabled": true
+        },
+        "schema_version": null
+      },
+      "missing_fields": [],
+      "notes": "Full provenance recorded: commit hash, model, prompts, cache schema, config snapshot."
+    },
+    {
+      "file_path": "outputs/stability/loo_analysis.json",
+      "file_size_bytes": 9284,
+      "artifact_type": "stability_analysis",
+      "broad_category": "stability_evaluation",
+      "provenance_status": "MINIMAL",
+      "provenance": {
+        "experiment_id": null,
+        "run_id": null,
+        "git_commit_hash": null,
+        "timestamp": null,
+        "model_name": null,
+        "prompts_version": null,
+        "cache_schema_version": null,
+        "config_snapshot": null,
+        "schema_version": null
+      },
+      "missing_fields": [
+        "git_commit_hash",
+        "timestamp",
+        "model_name",
+        "prompts_version",
+        "cache_schema_version",
+        "config_snapshot"
+      ],
+      "notes": "Legacy diagnostic probe with raw metrics; missing all core provenance fields."
+    }
+  ]
+}

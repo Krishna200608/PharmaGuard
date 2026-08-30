@@ -1,0 +1,306 @@
+{
+  "metadata": {
+    "taxonomy_version": "1.0",
+    "generated_at_utc": "2026-08-30T11:32:32.278345+00:00",
+    "total_benchmark_pairs": 15,
+    "total_diagnostic_probe_cases": 6,
+    "defined_categories": [
+      "MECHANISTIC_UNCERTAINTY",
+      "CONFOUNDED_SIGNAL",
+      "CROSS_SOURCE_DISCORDANCE",
+      "LLM_MEMORIZATION_LEAKAGE",
+      "GATE_ARTIFACT",
+      "AGENT_ARCHITECTURE_DIVERGENCE",
+      "ZERO_REPORT_EDGE_CASE"
+    ]
+  },
+  "summary_counts": {
+    "benchmark_pairs": {
+      "MECHANISTIC_UNCERTAINTY": 1,
+      "CONFOUNDED_SIGNAL": 2,
+      "CROSS_SOURCE_DISCORDANCE": 3,
+      "LLM_MEMORIZATION_LEAKAGE": 1,
+      "GATE_ARTIFACT": 8,
+      "AGENT_ARCHITECTURE_DIVERGENCE": 4,
+      "ZERO_REPORT_EDGE_CASE": 3
+    },
+    "all_evaluated_cases": {
+      "MECHANISTIC_UNCERTAINTY": 1,
+      "CONFOUNDED_SIGNAL": 5,
+      "CROSS_SOURCE_DISCORDANCE": 3,
+      "LLM_MEMORIZATION_LEAKAGE": 4,
+      "GATE_ARTIFACT": 8,
+      "AGENT_ARCHITECTURE_DIVERGENCE": 4,
+      "ZERO_REPORT_EDGE_CASE": 3
+    }
+  },
+  "multi_category_co_occurrences": {
+    "montelukast::suicidal_ideation": [
+      "MECHANISTIC_UNCERTAINTY",
+      "CROSS_SOURCE_DISCORDANCE",
+      "LLM_MEMORIZATION_LEAKAGE",
+      "GATE_ARTIFACT",
+      "AGENT_ARCHITECTURE_DIVERGENCE"
+    ],
+    "rosiglitazone::myocardial_infarction": [
+      "CONFOUNDED_SIGNAL",
+      "GATE_ARTIFACT"
+    ],
+    "metformin::hypoglycaemia": [
+      "CONFOUNDED_SIGNAL",
+      "CROSS_SOURCE_DISCORDANCE",
+      "GATE_ARTIFACT"
+    ],
+    "atorvastatin::dementia": [
+      "CROSS_SOURCE_DISCORDANCE",
+      "AGENT_ARCHITECTURE_DIVERGENCE"
+    ]
+  },
+  "benchmark_pairs": {
+    "montelukast::suicidal_ideation": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "confirmed_positive",
+      "expected_escalation": "ESCALATE",
+      "categories": [
+        "MECHANISTIC_UNCERTAINTY",
+        "CROSS_SOURCE_DISCORDANCE",
+        "LLM_MEMORIZATION_LEAKAGE",
+        "GATE_ARTIFACT",
+        "AGENT_ARCHITECTURE_DIVERGENCE"
+      ],
+      "evidence": {
+        "MECHANISTIC_UNCERTAINTY": "outputs/eval-run-*_report.json: Strict False Negative (expected ESCALATE, actual MONITOR; confidence=0.6640 < 0.70 driven by low biological plausibility=0.0).",
+        "CROSS_SOURCE_DISCORDANCE": "scripts/dev/backfill_agreement.py / DECISIONS.md \u00a726: Classified DISCORDANT (max=1.00, min=0.00, spread >= 0.66 across modalities).",
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('FDA has issued a boxed warning'); score downgraded to LOW.",
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence.",
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'ESCALATE' diverged from deterministic pipeline reported escalation 'MONITOR'."
+      }
+    },
+    "ciprofloxacin::tendon_rupture": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "confirmed_positive",
+      "expected_escalation": "ESCALATE",
+      "categories": [
+        "GATE_ARTIFACT"
+      ],
+      "evidence": {
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence."
+      }
+    },
+    "isotretinoin::teratogenicity": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "confirmed_positive",
+      "expected_escalation": "ESCALATE",
+      "categories": [
+        "GATE_ARTIFACT"
+      ],
+      "evidence": {
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence."
+      }
+    },
+    "clozapine::agranulocytosis": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "confirmed_positive",
+      "expected_escalation": "ESCALATE",
+      "categories": [
+        "GATE_ARTIFACT"
+      ],
+      "evidence": {
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence."
+      }
+    },
+    "valproic_acid::hepatotoxicity": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "confirmed_positive",
+      "expected_escalation": "ESCALATE",
+      "categories": [
+        "GATE_ARTIFACT"
+      ],
+      "evidence": {
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence."
+      }
+    },
+    "rosiglitazone::myocardial_infarction": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "confirmed_positive",
+      "expected_escalation": "ESCALATE",
+      "categories": [
+        "CONFOUNDED_SIGNAL",
+        "GATE_ARTIFACT"
+      ],
+      "evidence": {
+        "CONFOUNDED_SIGNAL": "outputs/research/stability/repeated_run_variance_confounding.json: Severe polypharmacy confounding discount (mean discount_factor=0.40 <= 0.50; DECISIONS.md \u00a721, \u00a728).",
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence."
+      }
+    },
+    "pembrolizumab::pneumonitis": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "confirmed_positive",
+      "expected_escalation": "ESCALATE",
+      "categories": [
+        "GATE_ARTIFACT"
+      ],
+      "evidence": {
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence."
+      }
+    },
+    "liraglutide::pancreatic_cancer": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "genuine_negative_control",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [
+        "AGENT_ARCHITECTURE_DIVERGENCE"
+      ],
+      "evidence": {
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'MONITOR' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
+      }
+    },
+    "metformin::hypoglycaemia": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "genuine_negative_control",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [
+        "CONFOUNDED_SIGNAL",
+        "CROSS_SOURCE_DISCORDANCE",
+        "GATE_ARTIFACT"
+      ],
+      "evidence": {
+        "CONFOUNDED_SIGNAL": "outputs/research/stability/repeated_run_variance_confounding.json: Severe polypharmacy confounding discount (mean discount_factor=0.10 <= 0.50; DECISIONS.md \u00a721, \u00a728).",
+        "CROSS_SOURCE_DISCORDANCE": "scripts/dev/backfill_agreement.py / DECISIONS.md \u00a726: Classified DISCORDANT (max=1.00, min=0.00, spread >= 0.66 across modalities).",
+        "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence."
+      }
+    },
+    "atorvastatin::dementia": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "genuine_negative_control",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [
+        "CROSS_SOURCE_DISCORDANCE",
+        "AGENT_ARCHITECTURE_DIVERGENCE"
+      ],
+      "evidence": {
+        "CROSS_SOURCE_DISCORDANCE": "scripts/dev/backfill_agreement.py / DECISIONS.md \u00a726: Classified DISCORDANT (max=1.00, min=0.00, spread >= 0.66 across modalities).",
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'ESCALATE' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
+      }
+    },
+    "albuterol::suicidal_ideation": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "genuine_negative_control",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [
+        "AGENT_ARCHITECTURE_DIVERGENCE"
+      ],
+      "evidence": {
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'Monitor' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
+      }
+    },
+    "amoxicillin::tendon_rupture": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "genuine_negative_control",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [],
+      "evidence": {}
+    },
+    "atorvastatin::common_cold": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "zero_report_edge_case",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [
+        "ZERO_REPORT_EDGE_CASE"
+      ],
+      "evidence": {
+        "ZERO_REPORT_EDGE_CASE": "pharmaguard/data/ground_truth.json: Curated zero-report edge case testing FAERS NO_SIGNAL short-circuit."
+      }
+    },
+    "imatinib::tooth_eruption": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "zero_report_edge_case",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [
+        "ZERO_REPORT_EDGE_CASE"
+      ],
+      "evidence": {
+        "ZERO_REPORT_EDGE_CASE": "pharmaguard/data/ground_truth.json: Curated zero-report edge case testing FAERS NO_SIGNAL short-circuit."
+      }
+    },
+    "adalimumab::frostbite": {
+      "is_benchmark_pair": true,
+      "ground_truth_category": "zero_report_edge_case",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "categories": [
+        "ZERO_REPORT_EDGE_CASE"
+      ],
+      "evidence": {
+        "ZERO_REPORT_EDGE_CASE": "pharmaguard/data/ground_truth.json: Curated zero-report edge case testing FAERS NO_SIGNAL short-circuit."
+      }
+    }
+  },
+  "supplementary_probe_cases": {
+    "rosiglitazone::hypoglycaemia": {
+      "is_benchmark_pair": false,
+      "ground_truth_category": "diagnostic_probe_case",
+      "expected_escalation": null,
+      "categories": [
+        "CONFOUNDED_SIGNAL"
+      ],
+      "evidence": {
+        "CONFOUNDED_SIGNAL": "outputs/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (insulin, sulfonylureas) (discount_factor=0.10; DECISIONS.md \u00a728)."
+      }
+    },
+    "semaglutide::hypoglycaemia": {
+      "is_benchmark_pair": false,
+      "ground_truth_category": "diagnostic_probe_case",
+      "expected_escalation": null,
+      "categories": [
+        "CONFOUNDED_SIGNAL"
+      ],
+      "evidence": {
+        "CONFOUNDED_SIGNAL": "outputs/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (insulin, sulfonylureas) (discount_factor=0.30; DECISIONS.md \u00a728)."
+      }
+    },
+    "tamsulosin::intraoperative_floppy_iris_syndrome": {
+      "is_benchmark_pair": false,
+      "ground_truth_category": "diagnostic_probe_case",
+      "expected_escalation": null,
+      "categories": [
+        "LLM_MEMORIZATION_LEAKAGE"
+      ],
+      "evidence": {
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented clinical complication'); score downgraded to HIGH."
+      }
+    },
+    "terbinafine::ageusia": {
+      "is_benchmark_pair": false,
+      "ground_truth_category": "diagnostic_probe_case",
+      "expected_escalation": null,
+      "categories": [
+        "LLM_MEMORIZATION_LEAKAGE"
+      ],
+      "evidence": {
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented'); score downgraded to MODERATE."
+      }
+    },
+    "topiramate::hypohidrosis": {
+      "is_benchmark_pair": false,
+      "ground_truth_category": "diagnostic_probe_case",
+      "expected_escalation": null,
+      "categories": [
+        "LLM_MEMORIZATION_LEAKAGE"
+      ],
+      "evidence": {
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented to cause hypohidrosis (decreased sweating) and hyperthermia'); score downgraded to HIGH."
+      }
+    },
+    "warfarin::gastrointestinal_haemorrhage": {
+      "is_benchmark_pair": false,
+      "ground_truth_category": "diagnostic_probe_case",
+      "expected_escalation": null,
+      "categories": [
+        "CONFOUNDED_SIGNAL"
+      ],
+      "evidence": {
+        "CONFOUNDED_SIGNAL": "outputs/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (NSAIDs, aspirin) (discount_factor=0.60; DECISIONS.md \u00a728)."
+      }
+    }
+  }
+}
