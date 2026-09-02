@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-1-isoniazid-hepatotoxicity",
+  "timestamp": "2026-09-02T05:51:44.829412Z",
+  "prompts_version": "v1.1",
+  "drug": "isoniazid",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 28.787985208503454,
+    "ror": 29.639889323806493,
+    "prr_lower_ci": 26.41028180948247,
+    "ror_lower_ci": 27.12170703441495,
+    "report_count": 514,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T05:51:39.179710Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"isoniazid\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42544326",
+      "42531284",
+      "42437231",
+      "42366197",
+      "42325285"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain one instance of statistical association language (PMID 42366197, which reports a p-value < 0.05 and 95% CI for factors associated with elevated liver enzymes) and multiple instances of case report/adverse event language (PMIDs 42544326, 42531284, 42437231). Since only one abstract meets the Grade A criteria, the overall grade is B."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.6,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}
