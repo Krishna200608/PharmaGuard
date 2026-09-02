@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-9-hydrochlorothiazide-acute_kidney_injury",
+  "timestamp": "2026-09-02T06:14:42.015943Z",
+  "prompts_version": "v1.1",
+  "drug": "hydrochlorothiazide",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 4.714740272290677,
+    "ror": 4.841394708000191,
+    "prr_lower_ci": 4.6056206310645464,
+    "ror_lower_ci": 4.725713031099995,
+    "report_count": 7121,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:14:35.297455Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Thiazide diuretics can cause acute kidney injury primarily through two mechanisms: pre-renal azotemia due to excessive volume depletion and, less commonly, acute interstitial nephritis as an idiosyncratic hypersensitivity reaction. While they are generally nephroprotective in the long term, the risk of acute functional decline is well-documented, particularly in patients with pre-existing renal impairment or those on concomitant RAAS inhibitors.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"hydrochlorothiazide\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41675782",
+      "39484134",
+      "37959360",
+      "32878711",
+      "32273811"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain language indicating adverse effects (e.g., 'adverse reactions', 'adverse effects', 'side effects') in abstracts 39484134 and 32273811, but none of the abstracts provide statistical evidence (p-values, confidence intervals, or odds ratios) to meet the criteria for Grade A."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.564,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-8-acyclovir-acute_kidney_injury",
+  "timestamp": "2026-09-02T06:14:22.611319Z",
+  "prompts_version": "v1.1",
+  "drug": "acyclovir",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 3.088332561496521,
+    "ror": 3.135685389410173,
+    "prr_lower_ci": 2.972142125046201,
+    "ror_lower_ci": 3.0151216413063184,
+    "report_count": 2600,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:14:14.171375Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Acyclovir is well-documented to cause acute kidney injury, primarily through the mechanism of crystal nephropathy. When acyclovir concentrations in the renal tubules exceed its solubility, it precipitates into crystals, leading to tubular obstruction and direct tubular injury. This risk is particularly high with intravenous administration and in patients who are dehydrated.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"acyclovir\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41475795",
+      "41205930",
+      "40922834",
+      "40447999",
+      "39776713"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple case reports and descriptions of adverse events (nephrotoxicity, acute kidney injury) associated with acyclovir and valacyclovir. However, none of the abstracts provide statistical evidence (e.g., p-values, confidence intervals, or odds ratios) to meet the criteria for Grade A. Therefore, the evidence is classified as Grade B."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.664,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

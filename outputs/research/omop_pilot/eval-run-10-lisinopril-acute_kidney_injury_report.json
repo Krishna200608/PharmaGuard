@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-10-lisinopril-acute_kidney_injury",
+  "timestamp": "2026-09-02T06:15:04.129938Z",
+  "prompts_version": "v1.1",
+  "drug": "lisinopril",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 4.462055230188392,
+    "ror": 4.571895248139517,
+    "prr_lower_ci": 4.373494839333264,
+    "ror_lower_ci": 4.47845437354974,
+    "report_count": 9937,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:14:57.058373Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "ACE inhibitors reduce intraglomerular pressure by dilating the efferent arteriole, which can lead to a decrease in glomerular filtration rate (GFR), particularly in patients with renal artery stenosis, volume depletion, or pre-existing chronic kidney disease, making acute kidney injury a well-documented and common adverse effect.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"lisinopril\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42077598",
+      "40834017",
+      "37304386",
+      "33599896",
+      "33506137"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple instances of Grade B qualifying language, such as 'adverse event', 'side effects', 'adverse effects', and 'case report' (e.g., PMID 37304386 describes a case of lisinopril-induced pancreatitis). However, none of the abstracts provide statistical association language (such as p-values, confidence intervals, or odds ratios) required for a Grade A classification."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.664,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-16-amlodipine-myocardial_infarction",
+  "timestamp": "2026-09-02T06:16:56.894602Z",
+  "prompts_version": "v1.1",
+  "drug": "amlodipine",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 1.2710371805466414,
+    "ror": 1.274431892385301,
+    "prr_lower_ci": 1.2346798983242429,
+    "ror_lower_ci": 1.2375298037380373,
+    "report_count": 4610,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:16:48.409099Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Dihydropyridine calcium channel blockers are primarily used to treat hypertension and angina by inducing vasodilation and reducing afterload. While they can cause reflex tachycardia in some patients, they are not considered a direct cause of myocardial infarction. In fact, they are often used as part of the therapeutic management for cardiovascular conditions, although they are generally not the first-line agents for post-MI secondary prevention compared to beta-blockers.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"amlodipine\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41661542",
+      "41532016",
+      "39589752",
+      "38716657",
+      "38545866"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: Only one abstract (PMID 41661542) provides statistically significant evidence (hazard ratio, 95% CI, P < 0.001) regarding the association between amlodipine and MACE. The other abstracts either do not report statistical associations for amlodipine specifically or show no significant increase in risk (PMID 38545866). Since Grade A requires two or more abstracts with statistically significant evidence, the evidence is classified as Grade B."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

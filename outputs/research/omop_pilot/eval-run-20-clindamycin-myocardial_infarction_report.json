@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-20-clindamycin-myocardial_infarction",
+  "timestamp": "2026-09-02T06:18:14.826387Z",
+  "prompts_version": "v1.1",
+  "drug": "clindamycin",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 0.570176194407682,
+    "ror": 0.5677638556294925,
+    "prr_lower_ci": 0.502156300281635,
+    "ror_lower_ci": 0.49967504982833705,
+    "report_count": 237,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:18:11.939347Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Lincosamides like clindamycin primarily affect bacterial protein synthesis and are not associated with direct cardiotoxicity or the induction of myocardial infarction. While some antibiotics can cause rare cardiac arrhythmias due to QT prolongation, there is no established pharmacological mechanism linking lincosamides to the pathophysiology of myocardial infarction.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"clindamycin\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

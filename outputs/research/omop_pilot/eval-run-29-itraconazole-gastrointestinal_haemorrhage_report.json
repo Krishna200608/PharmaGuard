@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-29-itraconazole-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-02T06:21:08.340074Z",
+  "prompts_version": "v1.1",
+  "drug": "itraconazole",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 1.7698732592185908,
+    "ror": 1.7769332686083397,
+    "prr_lower_ci": 1.4321820540942227,
+    "ror_lower_ci": 1.4351071079957376,
+    "report_count": 85,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:21:04.465079Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Gastrointestinal haemorrhage is not a recognized or common side effect of triazole antifungals. While some triazoles can cause gastrointestinal distress such as nausea, vomiting, or abdominal pain, they do not possess a mechanism of action that directly induces mucosal ulceration or coagulopathy leading to significant bleeding.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"itraconazole\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

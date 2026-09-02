@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-17-dipyridamole-myocardial_infarction",
+  "timestamp": "2026-09-02T06:17:16.589927Z",
+  "prompts_version": "v1.1",
+  "drug": "dipyridamole",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 1.806751470867382,
+    "ror": 1.8212601007830698,
+    "prr_lower_ci": 1.4559248964315668,
+    "ror_lower_ci": 1.461930286560271,
+    "report_count": 81,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:17:09.697937Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The mechanism of action described corresponds to Dipyridamole. By inhibiting phosphodiesterase and adenosine reuptake, it increases cAMP and adenosine levels, which leads to potent antiplatelet effects. Antiplatelet agents are standard therapeutic interventions for the prevention and management of myocardial infarction, as they reduce the risk of thrombus formation in coronary arteries.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"dipyridamole\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 4,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "31335041",
+      "38964552",
+      "38735483",
+      "37077602",
+      "34419409"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple mentions of 'adverse events', 'side effects', and 'associated with' in the context of antiplatelet medications (including dipyridamole). However, none of the abstracts provide specific statistical data (p-values, confidence intervals, or hazard ratios) for dipyridamole specifically, failing to meet the criteria for Grade A."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.4,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}

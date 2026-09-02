@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-5-sucralfate-hepatotoxicity",
+  "timestamp": "2026-09-02T06:13:37.864592Z",
+  "prompts_version": "v1.1",
+  "drug": "sucralfate",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 1.2651060456756023,
+    "ror": 1.2654610350243911,
+    "prr_lower_ci": 0.8162614016632724,
+    "ror_lower_ci": 0.8160116106717762,
+    "report_count": 20,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:13:30.647991Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The mechanism of action describes a locally acting agent (typically sucralfate) that is minimally absorbed from the gastrointestinal tract. Because it does not undergo significant systemic metabolism and does not reach high concentrations in the liver, it is not associated with hepatotoxicity.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"sucralfate\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 1,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "11348860"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstract contains the phrase 'We describe an elderly patient' and 'side effect', which meets the criteria for Grade B evidence. Since only one abstract was provided and it does not contain statistical significance language, it does not qualify for Grade A."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-15-temazepam-acute_kidney_injury",
+  "timestamp": "2026-09-02T06:16:34.543224Z",
+  "prompts_version": "v1.1",
+  "drug": "temazepam",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 3.121551084645433,
+    "ror": 3.1706134629567977,
+    "prr_lower_ci": 2.9022449763295635,
+    "ror_lower_ci": 2.942914838336899,
+    "report_count": 711,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:16:31.675926Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Positive allosteric modulators of GABA-A receptors, such as benzodiazepines or Z-drugs, primarily act on the central nervous system. They are not typically associated with direct nephrotoxicity. Acute kidney injury in the context of these drugs is usually secondary to complications like rhabdomyolysis from prolonged immobilization or severe hypotension in overdose, rather than a direct pharmacological effect on renal tissue.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"temazepam\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.264,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}
