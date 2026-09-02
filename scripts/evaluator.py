@@ -70,9 +70,10 @@ def compute_confusion_matrix(evaluated_records: list[dict]) -> tuple[dict, dict]
                 lenient_metrics["TN"] += 1
     return strict_metrics, lenient_metrics
 
-def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard"):
+def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard", gt_path: Path = None):
     project_root = Path(__file__).resolve().parents[1]
-    gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
+    if gt_path is None:
+        gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
     if outputs_dir is None:
         outputs_dir = project_root / "outputs"
     
@@ -341,5 +342,13 @@ if __name__ == "__main__":
         default="PharmaGuard",
         help="Label shown in the report header (e.g. 'PharmaGuard' or 'Baseline').",
     )
+    parser.add_argument(
+        "--gt-path",
+        "--ground-truth",
+        dest="gt_path",
+        type=Path,
+        default=None,
+        help="Path to ground truth JSON file. Defaults to pharmaguard/data/ground_truth.json.",
+    )
     args = parser.parse_args()
-    run_evaluation(outputs_dir=args.outputs_dir, title=args.title)
+    run_evaluation(outputs_dir=args.outputs_dir, title=args.title, gt_path=args.gt_path)
