@@ -1,6 +1,6 @@
 # Understanding PharmaGuard
 
-*A project overview for anyone joining this project with no prior context. This is a summary — the full decision-by-decision record with rationale lives in `docs/context/DECISIONS.md` (28 numbered sections), and this document points there wherever more depth is warranted. Where something in the project's own record is genuinely unclear, unverified, or still open, this document says so directly rather than smoothing it over.*
+*A project overview for anyone joining this project with no prior context. This is a summary — the full decision-by-decision record with rationale lives in `docs/context/DECISIONS.md` (31 numbered sections), and this document points there wherever more depth is warranted. Where something in the project's own record is genuinely unclear, unverified, or still open, this document says so directly rather than smoothing it over.*
 
 ---
 
@@ -163,14 +163,14 @@ PharmaGuard includes a production Streamlit evaluation dashboard (`scripts/dashb
 
 | Question | Look here |
 |---|---|
-| Technical decisions and rationale (all 28 sections) | `docs/context/DECISIONS.md` |
+| Technical decisions and rationale (all 31 sections) | `docs/context/DECISIONS.md` |
 | Sprint status and bug history | `docs/context/PROGRESS.md` |
 | Software architecture & graph flow | `docs/context/ARCHITECTURE.md` |
 | 15 ground-truth pairs with regulatory sourcing | `docs/context/GROUND_TRUTH_CANDIDATES.md` |
-| Frozen production evaluation reports | `outputs/*.json` |
-| Baseline & ablation reports | `outputs/baseline/`, `outputs/ablation/` |
-| Stability & Leave-One-Out outputs | `outputs/stability/loo_analysis.json` |
-| Adversarial critic probe outputs | `outputs/critic_probe/leakage_critique_results.json` |
-| Confounding self-probe outputs | `outputs/confounding_probe/` |
+| Frozen production evaluation reports | `outputs/core/*.json` |
+| Baseline & ablation reports | `outputs/experiments/baseline/`, `outputs/experiments/ablation/` |
+| Stability & Leave-One-Out outputs | `outputs/research/stability/loo_analysis.json` |
+| Adversarial critic probe outputs | `outputs/experiments/critic_probe/leakage_critique_results.json` |
+| Confounding self-probe outputs | `outputs/experiments/confounding_probe/` |
 | Interactive dashboard code | `scripts/dashboard.py` and `scripts/dashboard_modules/` |
 | Verification screenshot captures | `assets/Screenshots/Light/`, `assets/Screenshots/Dark/` |

@@ -4,7 +4,7 @@ PharmaGuard Evaluation Dashboard
 =================================
 Demo/presentation tool.
 NO live API calls at runtime -- reads only from pre-committed JSON files in:
-  outputs/, outputs/baseline/, pharmaguard/data/ground_truth.json.
+  outputs/core/, outputs/experiments/baseline/, pharmaguard/data/ground_truth.json.
 
 Run:
     streamlit run scripts/dashboard.py   (from project root)

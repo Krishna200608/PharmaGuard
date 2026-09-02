@@ -3,7 +3,7 @@ Confounding Evaluation on Metformin::Hypoglycaemia.
 
 Runs FixedPipelineAgent with confounding discounting enabled specifically for
 metformin::hypoglycaemia to verify resolution of the §21 lenient false-positive.
-Writes output to outputs/confounding_probe/ (never modifies frozen outputs/*.json).
+Writes output to outputs/experiments/confounding_probe/ (never modifies frozen outputs/core/*.json).
 
 Owner: Krishna Sikheriya (IIT2023139)
 """
