@@ -36,10 +36,14 @@ pharmaguard/                  # Python package (core source)
 │   └── text.py               # normalize_term(): snake_case → natural language
 │
 ├── data/
-│   ├── chembl_lookup.json    # Pre-resolved ChEMBL IDs + MoA text (15 drugs)
+│   ├── chembl_lookup.json    # Pre-resolved ChEMBL IDs + MoA text (50 drugs)
 │   ├── plausibility_ratings.json  # Human-curated plausibility labels (lookup default)
 │   ├── ground_truth.json     # 15-pair evaluation set with categories + citations
-│   └── pilot_set.json        # 3-pair quick-check set for development runs
+│   ├── ground_truth_omop_pilot.json   # 32-pair secondary OMOP pilot reference set
+│   ├── archive/
+│   │   └── pilot_set.json    # 3-pair quick-check set (superseded by ground_truth.json)
+│   └── external/
+│       └── omopReferenceSet.rda   # OHDSI MethodEvaluation reference dataset
 │
 └── prompts/
     ├── baseline_single_shot.txt    # Single-shot prompt for baseline.py
@@ -54,26 +58,40 @@ configs/
 └── config.yaml               # All runtime settings (mode, model, weights, cache, APIs)
 
 scripts/
-├── run_eval.py               # Run all 15 ground truth pairs → outputs/
-├── run_pilot.py              # Run 3-pair pilot set → outputs/
+├── dashboard.py              # Multi-view Streamlit dashboard entrypoint
 ├── evaluator.py              # Score TriageReport JSONs against ground_truth.json
 ├── baseline.py               # Single-shot Gemini baseline (no tool use)
-├── stability_analysis.py     # 15-fold Leave-One-Out (LOO) stability analysis
-├── run_critic_probe.py       # Adversarial mechanistic leakage critic probe
-├── run_confounding_probe.py  # Confounding self-probe harness
-├── generate_paper_figures.py # Publication-ready figure generator
-├── dashboard.py              # Multi-view Streamlit dashboard entrypoint
+├── run_eval.py               # Run all 15 ground truth pairs → outputs/core/
 ├── dashboard_modules/        # Modular dashboard views, components, and styles
-├── check_albuterol.py        # One-off FAERS probe for albuterol+suicidal_ideation
-└── verify_reports.py         # Quick sanity-check on output JSON structure
+├── dev/                      # Developer and diagnostic utilities
+│   ├── backfill_agreement.py # Cross-source agreement backfill audit
+│   ├── capture_screenshots.py# 1080p automated screenshot utility
+│   ├── check_ablation.py     # Diagnostic script for ablation agreement
+│   ├── check_albuterol.py    # Diagnostic probe for albuterol
+│   ├── fetch_chembl.py       # Utility to query ChEMBL API for chembl_lookup.json
+│   ├── run_pilot.py          # Interactive pilot demonstration utility
+│   ├── verify_react_agreement.py # Read-only audit for ReAct vs deterministic gating
+│   └── verify_reports.py     # Sanity check for output report schemas
+└── research/                 # Formal research experiments and publication artifacts
+    ├── build_reproducibility_manifest.py # Automated provenance manifest builder
+    ├── error_taxonomy.py     # Programmatic error & edge-case taxonomy generator
+    ├── export_paper_figures.py # Publication-ready figure generator
+    ├── run_confounding_evaluation.py # Metformin confounding discounting evaluation
+    ├── run_confounding_probe.py # Confounding self-probe harness
+    ├── run_critic_probe.py   # Adversarial mechanistic leakage critic probe
+    ├── run_omop_pilot_eval.py# 32-pair OMOP secondary pilot evaluation runner
+    ├── run_probe.py          # Memorization-vs-reasoning probe on obscure pairs
+    ├── source_ablation.py    # Multi-source ablation & threshold sensitivity
+    ├── stability_analysis.py # 15-fold Leave-One-Out (LOO) stability analysis
+    └── stability_repeated_runs.py # Repeated-run sub-score variance experiment
 
-tests/                        # pytest unit tests (51 tests, all passing)
+tests/                        # pytest unit tests (84 tests, all passing)
 docs/
 └── context/
     ├── ARCHITECTURE.md       # Technical architecture & schema reference
     ├── CONTRIBUTION.md       # Grounded project contribution claims
     ├── CONVENTIONS.md        # Coding and data-curation conventions
-    ├── DECISIONS.md          # Complete 29-section design decision record
+    ├── DECISIONS.md          # Complete 31-section design decision record
     ├── GROUND_TRUTH_CANDIDATES.md  # Ground truth sourcing + regulatory citations
     ├── NOTES.md              # Design constraints, escalation thresholds
     ├── PROGRESS.md           # Continuous sprint log and audit history
@@ -81,14 +99,21 @@ docs/
     └── UNDERSTAND.md         # Comprehensive project guide and results walk-through
 
 outputs/
-├── eval-run-*_report.json    # Frozen production TriageReport JSONs (15 pairs)
-├── baseline/                 # Single-shot LLM baseline reports
-├── ablation/                 # Force-agent derivation ablation reports
-├── react_agent/              # ReAct LangGraph agent reports
-├── stability/                # Leave-One-Out cross-validation outputs (loo_analysis.json)
-├── critic_probe/             # Adversarial critic audit results
-├── confounding_probe/        # Confounding self-probe and Metformin reports
-└── paper_figures/            # High-resolution publication figures
+├── core/                     # Frozen production TriageReport JSONs (15 pairs) + summary
+├── experiments/              # Isolated experimental condition outputs
+│   ├── baseline/             # Single-shot LLM baseline reports
+│   ├── ablation/             # Force-agent derivation ablation reports
+│   ├── react_agent/          # ReAct LangGraph agent reports & agreement_report.json
+│   ├── probe/                # Obscure pair epistemic probe reports
+│   ├── critic_probe/         # Adversarial critic audit results
+│   └── confounding_probe/    # Confounding self-probe & Metformin reports
+└── research/                 # Formal research artifacts and secondary benchmarks
+    ├── omop_pilot/           # 32-pair OMOP pilot evaluation reports
+    ├── stability/            # LOO analysis & repeated-run variance datasets
+    ├── source_ablation/      # Multi-source ablation & sensitivity matrices
+    ├── error_taxonomy/       # Programmatic taxonomy results
+    ├── paper_figures/        # High-resolution publication figures
+    └── reproducibility_manifest.json # Consolidated provenance index (.json & .md)
 
 assets/
 └── Screenshots/              # 1080p dashboard captures (Light and Dark themes)
@@ -163,7 +188,7 @@ Input: (drug: str, event: str)
      - derive_escalation(confidence, signal_strength) — see below
          │
          ▼
-  5. TriageReport (Pydantic) → written to outputs/eval-run-*_report.json
+  5. TriageReport (Pydantic) → written to outputs/core/eval-run-*_report.json
      - Computes source_agreement property (CONCORDANT vs. DISCORDANT)
 ```
 
@@ -206,7 +231,7 @@ Sub-score ranges:
 PharmaGuard uses Pydantic v2 data models to enforce strictly typed schemas across tool outputs, orchestrator results, and serialization artifacts.
 
 ### 1. `TriageReport` (`pharmaguard/agent/output_schema.py`)
-The primary document schema serialized to `outputs/eval-run-*_report.json`:
+The primary document schema serialized to `outputs/core/eval-run-*_report.json`:
 
 | Field | Type | Description |
 |---|---|---|
@@ -301,7 +326,7 @@ against `pharmaguard/data/ground_truth.json`.
 
 **CLI flags:**
 ```
---outputs-dir PATH   Directory of report JSONs. Default: outputs/
+--outputs-dir PATH   Directory of report JSONs. Default: outputs/core/
 --title TEXT         Label in report header. Default: "PharmaGuard"
 ```
 
@@ -310,7 +335,7 @@ against `pharmaguard/data/ground_truth.json`.
 ## Baseline (`scripts/baseline.py`)
 
 Single-shot Gemini comparison: one LLM call per pair, no tool use, no database
-access. Produces TriageReport JSON to `outputs/baseline/` with null sentinel values
+access. Produces TriageReport JSON to `outputs/experiments/baseline/` with null sentinel values
 for `signal_stats`, `mechanism`, and `literature` sub-objects so `evaluator.py`
 can score it without modification.
 
