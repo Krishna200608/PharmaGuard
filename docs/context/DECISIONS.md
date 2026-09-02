@@ -504,3 +504,45 @@ All 15 benchmark pairs are restricted to English-language biomedical literature 
 To provide readers with transparent calibration on the evidential strength of these disclosures, these threats divide into two distinct tiers:
 - **Tier 1 — Statistically Quantified via Dedicated Experiments:** Threats 1 (small sample size via LOO and bootstrap CIs), 2 (LLM stability via 150-run and 80-run repeated experiments with Wilson intervals), 4 (source fusion via 9 ablation conditions and gate-artifact accounting), and 5 (threshold sensitivity via 25-point grid sweep and counterfactual margins) rest on direct, systematic experimental data.
 - **Tier 2 — Structural, Qualitative, and Diagnostic Audits:** Threats 3 (leakage audit via 4-case critic probe), 6 (single-curator ground-truth design), 7 (ReAct agent divergence audit), and 8 (geographic and linguistic external validity) represent acknowledged architectural boundaries, diagnostic case studies, and structural scope limits that have not undergone multi-sample statistical hypothesis testing.
+
+## 31. OMOP Pilot Finding: PRR-Magnitude Gate Does Not Generalize to High-Utilization Chronic Medications
+**Context:** Execution of the secondary 32-pair OMOP reference set pilot evaluation (`scripts/research/run_omop_pilot_eval.py`, outputs in `outputs/research/omop_pilot/`, ground truth at `pharmaguard/data/ground_truth_omop_pilot.json`) across 4 clinical endpoints (acute liver injury, acute kidney injury, acute myocardial infarction, upper gastrointestinal bleeding).
+
+### 1. Empirical Pilot Performance (32 Pairs)
+| Evaluation Metric | Strict (Primary) | Lenient (Secondary) |
+| :--- | :---: | :---: |
+| **TP / FP / TN / FN** | 1 / 0 / 16 / 15 | 9 / 0 / 16 / 7 |
+| **Precision** | **1.000** [Wilson: 0.207 – 1.000] | **1.000** [Wilson: 0.701 – 1.000] |
+| **Recall** | **0.062** [Wilson: 0.011 – 0.283] | **0.562** [Wilson: 0.332 – 0.769] |
+| **Specificity** | **1.000** [Wilson: 0.806 – 1.000] | **1.000** [Wilson: 0.806 – 1.000] |
+| **$F_1$-Score** | **0.118** [Bootstrap: 0.000 – 0.333] | **0.720** [Bootstrap: 0.455 – 0.883] |
+| **Over-Caution Rate** | **0.0%** (0/16 on negative controls) | — |
+
+- **Negative Control Specificity:** Perfect ($16/16$ true negatives, $1.000$ specificity, $0.0\%$ false-alarm rate across all OMOP negative controls).
+- **Strict Recall Collapse:** $15/16$ confirmed positive pairs failed to reach the strict `ESCALATE` decision tier (14 routed to `MONITOR` or `DO_NOT_ESCALATE`), dropping strict recall to $0.062$ ($F_1 = 0.118$). Under lenient gating, 8 of these 15 were rescued as `MONITOR` (Lenient Recall $= 0.562$, $F_1 = 0.720$), leaving 7 true disagreements where confirmed positives were triaged as `DO_NOT_ESCALATE`.
+
+### 2. Root-Cause Analysis: The PRR-Magnitude Hard Gate
+The primary driver of the 7 `DO_NOT_ESCALATE` disagreements is the unconditional PRR magnitude floor in `pharmaguard/agent/output_schema.py` (`compute_prr_score()`, line 89):
+$$\text{PRR} < 2.0 \implies \text{SignalStrength} = \text{NO\_SIGNAL} \quad (\text{score} = 0.0)$$
+When `SignalStrength == NO_SIGNAL`, `derive_escalation()` unconditionally executes **Gate 1** (`if signal_strength == NO_SIGNAL: return DO_NOT_ESCALATE`), overriding all literature evidence and biological plausibility regardless of score.
+
+### 3. Disagreement Breakdown Across the 7 Missed Positives
+| Drug & Adverse Event | FAERS PRR | PRR Lower 95% CI | FAERS Count | Plausibility (Score) | Literature Grade (Score) | Raw Confidence | Triage Decision | Disagreement Root Cause |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| `amlodipine::myocardial_infarction` | 1.271 | 1.235 | 4,610 | LOW (0.0) | B (0.5) | 0.200 | `DO_NOT_ESCALATE` | **Gate 1 Hard Override** ($\text{PRR} < 2.0$) |
+| `dipyridamole::myocardial_infarction` | 1.807 | 1.456 | 81 | HIGH (1.0) | B (0.5) | 0.400 | `DO_NOT_ESCALATE` | **Gate 1 Hard Override** ($\text{PRR} < 2.0$) |
+| `nifedipine::myocardial_infarction` | 1.738 | 1.618 | 743 | LOW (0.0) | A (1.0) | 0.400 | `DO_NOT_ESCALATE` | **Gate 1 Hard Override** ($\text{PRR} < 2.0$) |
+| `citalopram::gastrointestinal_haemorrhage` | 1.904 | 1.795 | 1,108 | HIGH (1.0) | C (0.0) | 0.200 | `DO_NOT_ESCALATE` | **Gate 1 Hard Override** ($\text{PRR} < 2.0$) |
+| `fluoxetine::gastrointestinal_haemorrhage` | 1.162 | 1.066 | 521 | HIGH (1.0) | C (0.0) | 0.200 | `DO_NOT_ESCALATE` | **Gate 1 Hard Override** ($\text{PRR} < 2.0$) |
+| `sertraline::gastrointestinal_haemorrhage` | 1.601 | 1.513 | 1,191 | HIGH (1.0) | C (0.0) | 0.200 | `DO_NOT_ESCALATE` | **Gate 1 Hard Override** ($\text{PRR} < 2.0$) |
+| `captopril::hepatotoxicity` | 2.239 | 1.501 | 24 | LOW (0.0) | B (0.5) | 0.332 | `DO_NOT_ESCALATE` | **Marginal Confidence** ($0.332 < 0.35$ monitoring threshold) |
+
+### 4. Pharmacovigilance Significance: Epidemiology of Chronic Background Signals
+1. **High-Utilization Dilution Effect:** For highly prescribed chronic medications (antihypertensives like amlodipine/nifedipine and antidepressants like citalopram/fluoxetine/sertraline), adverse event disproportionality in spontaneous databases is heavily attenuated by massive denominator reporting volume. The point estimate for PRR sits in the $1.16$–$1.90$ range, even though the lower bound of the 95% confidence interval strictly clears $1.0$ (ranging from $1.066$ to $1.795$), confirming statistical disproportionality over background.
+2. **Suppression of Independent Biological Signal:** For the three SSRIs (`citalopram`, `fluoxetine`, `sertraline`), LLM-derived plausibility independently assigned `HIGH` (score 1.0) based on platelet serotonin depletion impairing hemostasis. However, because FAERS PRR fell marginally below $2.0$, Gate 1 zeroed the entire triage output.
+3. **Low-Incidence Idiosyncratic Events:** For `captopril::hepatotoxicity`, PRR reached $2.24$ (`WEAK`, score 0.33) with $24$ reports, but low idiosyncratic plausibility ($0.0$) and Grade B literature ($0.5$) yielded a composite confidence of $0.332$, narrowly missing the $0.35$ monitoring cutoff.
+
+### 5. Non-Retroactive Calibration Policy (Anti-Overfitting Discipline)
+- **Policy:** PharmaGuard's scoring weights ($0.40 / 0.40 / 0.20$) and escalation thresholds ($0.70 / 0.35$) were locked prior to running this pilot. In accordance with §15 (the rubric-revision-with-foreknowledge incident) and §18, **no post-hoc threshold adjustments or rubric mutations are permitted on this pilot data**.
+- **External Validity Finding:** This experiment demonstrates a concrete, disclosed boundary of the heuristic fixed-threshold design: a static $\text{PRR} \ge 2.0$ cutoff optimized on acute, high-signal benchmark drugs does not transfer seamlessly to high-utilization chronic therapies exhibiting modest relative risk. This finding represents a valuable empirical characterization of multi-source signal fusion limitations, rather than a code defect.
+

@@ -135,3 +135,10 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - **Methodology Probes Tab:** Added dedicated 5th dashboard view (`scripts/dashboard_modules/views/probes.py`) rendering the Adversarial Critic probe audit table, Confounding Self-Probe rationale cards, and side-by-side Metformin before/after waterfall charts.
 - **Google Material Icons & Screenshots:** Standardized all UI icons to official Google Material Icons (Material 3 SVG paths and Material Symbols Outlined font), eliminating raw unicode emojis. Added automated Playwright capture script (`scripts/dev/capture_screenshots.py`) and regenerated 10 high-resolution 1080p verification screenshots in `assets/Screenshots/Light/` and `assets/Screenshots/Dark/`.
 - **Bugfix (Zero-Row Filter Rendering):** Resolved Markdown indented code-block escaping bug in `scripts/dashboard_modules/views/per_pair.py` by unindenting HTML structure and adding an explicit, styled empty state row when filters match zero pairs.
+
+---
+
+## OMOP Secondary Benchmark Expansion (2026-09-02)
+
+- **OMOP Pilot Evaluation (Stage 2 Complete):** Executed full 32-pair OMOP reference set evaluation (`scripts/research/run_omop_pilot_eval.py`, outputs in `outputs/research/omop_pilot/`). Achieved 100% negative control specificity ($16/16$ true negatives) alongside Strict $F_1 = 0.118$ and Lenient $F_1 = 0.720$; identified that the static $\text{PRR} < 2.0$ magnitude gate attenuates sensitivity on high-utilization chronic medications despite statistically significant 95% CIs and high biological plausibility. Fully documented as a non-retroactively tuned external-validity finding in `DECISIONS.md §31`.
+
