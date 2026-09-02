@@ -32,6 +32,16 @@ BASE_METRICS = {
     'ocr': 25.0,
 }
 
+# Verified OMOP Stage 2 pilot metrics from DECISIONS.md §31
+OMOP_METRICS = {
+    's_prec': 1.000, 's_rec': 0.062, 's_spec': 1.000, 's_f1': 0.118,
+    'l_prec': 1.000, 'l_rec': 0.562, 'l_spec': 1.000, 'l_f1': 0.720,
+    'ocr': 0.0,
+    'pairs': 32,
+    'pos_count': 16,
+    'neg_count': 16,
+}
+
 
 def run_idx(name: str) -> int:
     """Extract evaluation run index from filename."""

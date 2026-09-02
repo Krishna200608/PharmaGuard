@@ -55,11 +55,16 @@ import dashboard_modules.views.probes as _v_probes
 importlib.reload(_v_probes)
 from dashboard_modules.views.probes import view_probes
 
+import dashboard_modules.views.omop_pilot as _v_omop_pilot
+importlib.reload(_v_omop_pilot)
+from dashboard_modules.views.omop_pilot import view_omop_pilot
+
 # ---------------------------------------------------------------------------
 # Paths & Page Configuration
 # ---------------------------------------------------------------------------
 OUTPUTS_DIR = REPO_ROOT / "outputs" / "core"
 BASELINE_DIR = REPO_ROOT / "outputs" / "experiments" / "baseline"
+OMOP_DIR = REPO_ROOT / "outputs" / "research" / "omop_pilot"
 STABILITY_PATH = REPO_ROOT / "outputs" / "research" / "stability" / "loo_analysis.json"
 GROUND_TRUTH_PATH = REPO_ROOT / "pharmaguard" / "data" / "ground_truth.json"
 FAVICON_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_1.png"
@@ -119,6 +124,7 @@ def main() -> None:
     gt = load_ground_truth(GROUND_TRUTH_PATH)
     prod_reports = load_reports(OUTPUTS_DIR)
     base_reports = load_reports(BASELINE_DIR)
+    omop_reports = load_reports(OMOP_DIR)
     df = build_df(prod_reports, gt)
 
     if not prod_reports:
@@ -129,12 +135,13 @@ def main() -> None:
         st.stop()
 
     # ── Tabs & Views ──
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "Overview",
         "Per-Pair Table",
         "Disagreement Spotlight",
         "Baseline Comparison",
         "Methodology Probes",
+        "OMOP Pilot",
     ])
     with tab1:
         view_overview(LOGO_PATH, STABILITY_PATH)
@@ -146,6 +153,8 @@ def main() -> None:
         view_baseline(prod_reports, base_reports, theme=active_theme)
     with tab5:
         view_probes(REPO_ROOT, theme=active_theme)
+    with tab6:
+        view_omop_pilot(omop_reports, OMOP_DIR, theme=active_theme, repo_root=REPO_ROOT)
 
 
 if __name__ == "__main__":

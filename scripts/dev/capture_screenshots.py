@@ -20,7 +20,7 @@ DARK_DIR = REPO_ROOT / "assets" / "Screenshots" / "Dark"
 LIGHT_DIR.mkdir(parents=True, exist_ok=True)
 DARK_DIR.mkdir(parents=True, exist_ok=True)
 
-PORT = 8501
+PORT = 8544
 URL = f"http://localhost:{PORT}"
 
 TABS = [
@@ -29,6 +29,7 @@ TABS = [
     ("Disagreement Spotlight", "3_Disagreement Spotlight.png"),
     ("Baseline Comparison", "4_Baseline Comparison.png"),
     ("Methodology Probes", "5_Methodology Probes.png"),
+    ("OMOP Pilot", "6_OMOP Pilot.png"),
 ]
 
 
