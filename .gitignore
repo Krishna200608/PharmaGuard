@@ -15,6 +15,7 @@ ENV/
 # Environment variables & secrets
 .env
 .env.local
+docs/proposals/Sage Bionetworks Backup codes.pdf
 
 # API cache — never commit cached API responses
 .cache/
