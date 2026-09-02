@@ -1,196 +1,258 @@
-# Group 07: 7th Semester B.Tech Project Progress Briefing
+# PharmaGuard: B.Tech Capstone Project Update & Meeting Briefing
 
-**Project Title:** PharmaGuard: A Tool-Grounded Agentic AI Architecture for Pharmacovigilance Signal Triage  
-**Course:** 7th Semester B.Tech Project (IT) — IIIT Allahabad  
+**Course:** 7th Semester B.Tech Major Project (IT) — IIIT Allahabad  
 **Project Group:** Group 07  
+**Project Title:** PharmaGuard: A Tool-Grounded Agentic AI Architecture for Pharmacovigilance Signal Triage  
 **Team Members:** Krishna Sikheriya (IIT2023139), Lokesh, Naitik  
 **Project Supervisor:** Dr. Nikhilanand Arya, Assistant Professor, Department of Information Technology  
-**Date:** September 2026  
-**Repository State:** Main Branch (`main`), 84/84 Unit & Integration Tests Passing  
+**Date of Meeting:** Thursday, September 3, 2026 (1:00 PM) — Cabin CC-III, Room 5414  
+**Codebase & Live Artifacts:** [GitHub Repository (Krishna200608/PharmaGuard)](https://github.com/Krishna200608/PharmaGuard) · 84/84 Tests Passing  
 
 ---
 
-## Executive Summary
+## 📌 Document Purpose (For Team Members)
 
-PharmaGuard investigates a critical open question in clinical artificial intelligence: **can large language models (LLMs) be constrained to reason strictly from verifiable, multi-source external evidence rather than memorized parametric knowledge during postmarketing drug-safety triage?**
-
-Spontaneous reporting databases such as the FDA Adverse Event Reporting System (FAERS) receive millions of safety reports annually, creating a severe triage bottleneck for pharmacovigilance teams. While standard LLMs are prone to hallucinations, temporal confusion (recalling a historical concern without checking if it was formally investigated and dismissed), and ungrounded confidence, PharmaGuard enforces deterministic evidence fusion across three independent biomedical data streams:
-1. **Empirical Disproportionality:** Real-time FAERS reporting statistics (PRR, ROR, 95% confidence intervals).
-2. **Molecular Pharmacology:** ChEMBL target mechanisms and biological plausibility deduction.
-3. **Biomedical Literature:** Live PubMed retrieval and structured Grade A/B/C evidence assessment.
-
-The evidence streams are synthesized through a published, fully deterministic linear confidence formula ($0.40 \cdot S_{\text{FAERS}} + 0.40 \cdot S_{\text{PubMed}} + 0.20 \cdot S_{\text{Mech}}$) and an auditable escalation gating protocol (**ESCALATE / MONITOR / DO_NOT_ESCALATE**).
-
-To date, the project has completed full software architecture implementation, extensive benchmark evaluations on a frozen 15-pair curated ground-truth set, Leave-One-Out stability verification, adversarial epistemic leakage audits, confounding discount heuristics, a 32-pair secondary OMOP reference set pilot, and an interactive 6-view Streamlit evaluation dashboard.
+> **Team Study Guide:**  
+> This briefing document is prepared for **Krishna, Lokesh, and Naitik** to review before our progress update meeting with Dr. Nikhilanand Arya. It summarizes what we built, the exact results obtained, the mathematical concepts behind our architecture, the challenges we solved, and the exact questions Sir is likely to ask.
+>
+> *Tip for PDF conversion:* This document is formatted with clean tables, callout blocks, and section hierarchies for printing or direct PDF export.
 
 ---
 
-## 1. Work Completed So Far
+## 🧠 Part 1: Quick Primer & Core Terminology
 
-### 1.1 Multi-Source Evidence Grounding Pipeline
-- **openFDA FAERS Disproportionality Engine (`pharmaguard/tools/signal_source.py`):** Automatically queries the openFDA endpoint to construct $2 \times 2$ contingency tables, computing Proportional Reporting Ratios (PRR), Reporting Odds Ratios (ROR), report counts, and exact log-normal 95% confidence intervals with automatic low-count and CI-downgrade gating.
-- **ChEMBL Pharmacology & Plausibility Engine (`pharmaguard/tools/chembl_tool.py`):** Integrates curated ChEMBL mechanism-of-action metadata for 50 benchmark drugs with an agentic plausibility reasoning fallback. Structured Pydantic outputs isolate reasoning traces from discrete ratings (`HIGH=1.0`, `MODERATE=0.5`, `LOW=0.0`, `UNKNOWN=0.0`).
-- **PubMed Literature Retrieval & Grading Engine (`pharmaguard/tools/pubmed_tool.py`):** Performs structured NCBI E-utilities queries, extracts abstracts, and applies a strict clinical evidence grading rubric (`Grade A=1.0` for statistically significant associations, `Grade B=0.5` for case reports/series, `Grade C=0.0` for negative or unconfirmed literature).
-- **Persistent Disk-Backed Tool Cache (`pharmaguard/tools/cache.py`):** Backed by `diskcache` with schema versioning (`v7`), ensuring $100\%$ zero-network replayability during testing and offline demonstration.
+Before the meeting, ensure you are comfortable with these core concepts:
 
-### 1.2 Deterministic Decision Logic & Dual Agent Modes
-- **Deterministic Confidence Formulation (`pharmaguard/agent/output_schema.py`):**
-  $$\text{Confidence} = 0.40 \times S_{\text{FAERS}} + 0.40 \times S_{\text{PubMed}} + 0.20 \times S_{\text{Mech}}$$
-- **Hierarchical Escalation Gating (`derive_escalation()`):**
-  - **Gate 1 (Hard Empirical Floor):** If FAERS $S_{\text{FAERS}} == \text{NO\_SIGNAL}$, unconditionally output **`DO_NOT_ESCALATE`** (prevents speculative escalations on zero-report pairs).
-  - **Gate 2 (High-Confidence Escalation):** If $\text{Confidence} \ge 0.70$ and $S_{\text{FAERS}} \in \{\text{STRONG}, \text{MODERATE}\}$, output **`ESCALATE`**.
-  - **Gate 3 (Modulated Monitoring):** If $\text{Confidence} \ge 0.35$, output **`MONITOR`** (captures emergent signals with mechanistic uncertainty).
-  - **Gate 4 (Default):** Otherwise, output **`DO_NOT_ESCALATE`**.
-- **Dual Orchestration Engines:**
-  - *Fixed Pipeline Agent (`fixed_pipeline.py`):* Deterministic sequence (FAERS $\to$ ChEMBL $\to$ PubMed $\to$ Synthesize) — primary production mode.
-  - *ReAct LangGraph Agent (`react_agent.py`):* Dynamic LLM-directed tool-use graph for comparative architectural audits.
-
-### 1.3 Methodology Audits & Epistemic Probes
-- **Adversarial Mechanistic Leakage Critic (`chembl_tool.py`):** Implemented an independent, blinded maker-checker critic agent (inspired by the MARCH framework, ACL 2026) that audits plausibility rationales for parametric regulatory leakage without access to drug or event names.
-- **Polypharmacy Confounding Evaluator (`confounding.py`):** Implemented an opt-in clinical discounting tool to identify concomitant medication artifacts (e.g., insulin co-prescription in metformin reporting) and apply multiplicative discounting factors ($0.0 \le \text{factor} \le 1.0$).
-- **Cross-Source Evidence Concordance Property (`source_agreement`):** Programmatic classification identifying $\text{DISCORDANT}$ vs $\text{CONCORDANT}$ evidence profiles across modalities.
-
-### 1.4 Benchmark Datasets & Secondary Pilots
-- **Frozen 15-Pair Core Benchmark (`pharmaguard/data/ground_truth.json`):** 7 Confirmed Positives (FDA Boxed Warnings), 5 Genuine Negative Controls, and 3 Zero-Report Edge Cases, fully documented with regulatory and epidemiological citations.
-- **Secondary 32-Pair OMOP Pilot Benchmark (`pharmaguard/data/ground_truth_omop_pilot.json`):** Derived from the OHDSI OMOP reference set (Ryan et al., *Drug Safety* 2013) across 4 clinical endpoints (acute liver injury, acute kidney injury, acute myocardial infarction, upper gastrointestinal bleeding).
-
-### 1.5 Interactive Dashboard & Reproducibility Infrastructure
-- **Streamlit Production Dashboard (`scripts/dashboard.py`):** Full 6-view evaluation dashboard with dynamic Light/Dark theme switching, high-resolution metric cards, dense aligned tables, Plotly confidence decomposition charts, and dedicated tabs for Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison, Methodology Probes, and OMOP Pilot.
-- **Automated Verification & Manifest:** Automated 1080p Playwright screenshot suite (`scripts/dev/capture_screenshots.py`) and programmatic reproducibility manifest (`outputs/research/reproducibility_manifest.json`) covering 107 output artifacts.
-- **Comprehensive Test Suite:** 84 passing unit and integration tests (`tests/`) verifying parsers, cache integrity, schema constraints, ablation matrices, and statistical stability.
+| Term | What It Means (Simple English) | Why It Matters for PharmaGuard |
+|---|---|---|
+| **Pharmacovigilance (PV)** | Postmarketing drug safety monitoring — tracking side effects after a drug is approved and sold to the public. | Millions of safety reports arrive each year; human safety teams have a massive triage bottleneck. |
+| **FAERS** | FDA Adverse Event Reporting System — the public database of spontaneous real-world safety reports. | Our system queries live openFDA data to see how often a drug and symptom co-occur in the real world. |
+| **PRR (Proportional Reporting Ratio)** | Statistical ratio comparing how often an event is reported for *Drug X* vs. *all other drugs combined*. | A $\text{PRR} > 2.0$ with $\ge 3$ reports indicates a disproportionate statistical signal above background. |
+| **ChEMBL** | EMBL-EBI open database of drug targets and biological mechanisms of action (MoA). | Tells us *how* the drug works at a molecular level so we can evaluate biological plausibility. |
+| **Biological Plausibility** | Whether a drug's known biochemical target makes it biologically sensible that it could cause the adverse event. | Graded as `HIGH` (1.0), `MODERATE` (0.5), `LOW` (0.0), or `UNKNOWN` (0.0). |
+| **PubMed Evidence Grading** | Real-time literature search via NCBI E-utilities, graded by an LLM using a strict rubric. | `Grade A` (1.0) = Statistically significant ($p < 0.05$ / CIs); `Grade B` (0.5) = Case reports; `Grade C` (0.0) = No support. |
+| **Parametric Memory** | What an LLM "remembers" from its pre-training data without checking live external sources. | Raw LLMs hallucinate or confuse historical safety *concerns* with *proven* safety actions. |
+| **Deterministic Gating** | Using fixed mathematical formulas and explicit logic rules rather than free-form LLM text to make final triage decisions. | Ensures 100% auditability, predictability, and safety compliance in clinical decision-making. |
+| **Strict vs. Lenient Evaluation** | • **Strict:** Only `ESCALATE` counts as a True Positive (requires high confidence + strong statistical data).<br>• **Lenient:** Both `ESCALATE` and `MONITOR` count as True Positives (signal was captured and not dismissed). | Captures the clinical reality that expressing appropriate caution under uncertainty is safe behavior. |
 
 ---
 
-## 2. Results and Outcomes Obtained
+## ⚙️ Part 2: How PharmaGuard Works (Step-by-Step Architecture)
+
+```
+                       [ Input: Drug Name + Adverse Event ]
+                                        │
+                                        ▼
+   ┌────────────────────────────────────────────────────────────────────────┐
+   │                       MULTI-SOURCE EVIDENCE ENGINE                     │
+   ├────────────────────────┬───────────────────────┬───────────────────────┤
+   │      1. FAERS API      │    2. ChEMBL Database │    3. PubMed Search   │
+   │  openFDA co-occurrence │  Mechanism of Action  │ NCBI E-utilities tool │
+   │   PRR & ROR statistics │ Biological Plausibility│ Grade A/B/C Evidence  │
+   │   $S_{\text{FAERS}}$   │   $S_{\text{Mech}}$   │  $S_{\text{PubMed}}$  │
+   └────────────────────────┴───────────────────────┴───────────────────────┘
+                                        │
+                                        ▼
+   ┌────────────────────────────────────────────────────────────────────────┐
+   │                 DETERMINISTIC CONFIDENCE SCORE FORMULA                 │
+   │                                                                        │
+   │   Confidence = 0.40 · S_FAERS + 0.40 · S_PubMed + 0.20 · S_Mech        │
+   │   (Range: 0.000 to 1.000 — 100% traceable, no LLM guesswork)           │
+   └────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+   ┌────────────────────────────────────────────────────────────────────────┐
+   │                       HIERARCHICAL ESCALATION GATING                   │
+   ├────────────────────────────────────────────────────────────────────────┤
+   │  Gate 1: If S_FAERS == NO_SIGNAL  ──► DO_NOT_ESCALATE (Hard Stop)      │
+   │  Gate 2: If Confidence >= 0.70 & Signal is Strong/Mod ──► ESCALATE     │
+   │  Gate 3: If Confidence >= 0.35   ──► MONITOR                           │
+   │  Gate 4: Otherwise               ──► DO_NOT_ESCALATE                   │
+   └────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+                   [ Output: TriageReport JSON + Streamlit UI ]
+```
+
+### Why Gate 1 is the Most Important Safety Rule in the System:
+If an adverse event has **zero reports in FAERS**, a standard LLM might still want to escalate it if it finds theoretical debates in research papers. **Gate 1 prevents this:** if there is no real-world statistical signal, the system unconditionally forces `DO_NOT_ESCALATE`. This eliminates spurious false alarms on negative controls.
+
+---
+
+## 📋 Part 3: The 5 Meeting Discussion Points (Dr. Arya's Agenda)
+
+Dr. Arya asked for an update covering five specific areas. Here is our complete response for each:
+
+---
+
+### 1. Work Completed So Far
+
+1. **End-to-End Tool-Grounded Pipeline:**
+   - Integrated live REST APIs for **openFDA (FAERS)**, **ChEMBL**, and **NCBI PubMed**.
+   - Built a disk-backed caching layer (`diskcache`, cache schema `v7`) guaranteeing $100\%$ zero-cost, offline reproducibility.
+2. **Deterministic Mathematical Decision Engine:**
+   - Implemented strict Pydantic v2 schemas (`TriageReport`, `SignalStatsOutput`, `MechanismOutput`, `LiteratureOutput`).
+   - Built the 4-tier hierarchical escalation logic and dual execution modes: **Fixed Pipeline Agent** (production) and **ReAct LangGraph Agent** (experimental).
+3. **Epistemic Honesty & Methodological Audits:**
+   - **Adversarial Mechanistic Leakage Critic (MARCH Pattern):** A blind secondary agent that checks if the primary agent's explanation leaked pre-trained regulatory knowledge (e.g. recalling FDA Boxed Warnings) rather than deducing pure biochemistry.
+   - **Confounding-Aware Discounting Tool:** Automatically detects polypharmacy artifacts (e.g., co-prescribed diabetes medications) and discounts confounded FAERS signals.
+4. **Benchmark Datasets Curated & Verified:**
+   - **Core Benchmark (15 pairs):** 7 Confirmed Positives (FDA Boxed Warnings), 5 Genuine Negative Controls, 3 Zero-Report Edge Cases—all with regulatory citations.
+   - **OMOP Pilot Benchmark (32 pairs):** Derived from the international OHDSI OMOP reference set (Ryan et al. 2013) across 4 clinical endpoints.
+5. **Interactive Dashboard & Automated Testing:**
+   - Developed a **6-tab Streamlit dashboard** (`scripts/dashboard.py`) with full Light/Dark themes, interactive metric cards, and Plotly confidence waterfall charts.
+   - Built an automated Playwright screenshot suite (`scripts/dev/capture_screenshots.py`) and a comprehensive test suite (**84/84 unit tests passing**).
+
+---
+
+### 2. Results & Outcomes Obtained
 
 ```
 ========================================================================================
-                          SUMMARY OF EXPERIMENTAL RESULTS
+                          KEY HEADLINE EXPERIMENTAL RESULTS
 ========================================================================================
-Core Benchmark (15 pairs):     Strict F1: 0.923 (P=1.000, R=0.857, S=1.000)
-                               Lenient F1: 0.933 (P=0.875, R=1.000, S=0.875)
-                               Over-Caution Rate: 12.5% (1/8 negatives -> MONITOR)
-                               Spurious False Alarms: FP = 0
+Core Benchmark (15 pairs):     Strict F1 = 0.923 | Lenient F1 = 0.933
+                               Strict Specificity = 1.000 (8/8 negative controls cleared)
+                               Lenient Recall = 1.000 (7/7 true signals captured)
+                               Spurious False Alarms = 0
 
-Single-Shot LLM Baseline:      Strict F1: 0.933 | Lenient F1: 0.824 | OCR: 25.0% (2/8)
+Single-Shot LLM Baseline:      Strict F1 = 0.933 | Lenient F1 = 0.824 | False Alarms = 1
 
-LOO Stability (15 folds):      Strict F1 = 0.923 ± 0.023 | Lenient F1 = 0.933 ± 0.019
+15-Fold LOO Stability:         Strict F1 = 0.923 ± 0.023 | Lenient F1 = 0.933 ± 0.019
 
-ReAct Divergence Rate:         26.7% (4/15 pairs diverged from deterministic gating)
+ReAct Divergence Rate:         26.7% (4/15 pairs diverged from deterministic safety rules)
 
-Epistemic Critic Detection:    100% Sensitivity (4/4 leakage cases detected and isolated)
+Epistemic Leakage Critic:      100% Detection Sensitivity (4/4 leakage cases detected)
 
-Metformin Confounding Fix:     Confidence discounted 0.4000 -> 0.0800 (DO_NOT_ESCALATE)
+Confounding Resolution:        Metformin confidence discounted 0.400 -> 0.080 (Cleared FP)
 
-OMOP Pilot (32 pairs):         Specificity: 1.000 (16/16 negative controls cleared)
-                               Lenient F1: 0.720 (9/16 positives captured)
+OMOP Pilot (32 pairs):         Specificity = 1.000 (16/16 negative controls cleared)
+                               Lenient F1 = 0.720 (9/16 true positives captured)
 ========================================================================================
 ```
 
-### 2.1 Primary Benchmark Performance (15 Core Pairs)
+#### Detailed Core Benchmark Comparison (15 Pairs)
 
-| Evaluation Metric | PharmaGuard (Tool-Grounded) | Wilson 95% CI | Bootstrap 95% CI ($B=1000$) | Single-Shot Baseline (Ungrounded LLM) |
-| :--- | :---: | :---: | :---: | :---: |
-| **Strict Precision** | **1.000** | [0.610, 1.000] | [1.000, 1.000] | 0.875 |
-| **Strict Recall** | **0.857** (6/7) | [0.487, 0.974] | [0.571, 1.000] | 1.000 |
-| **Strict Specificity** | **1.000** (8/8) | [0.676, 1.000] | [1.000, 1.000] | 0.875 |
-| **Strict $F_1$-Score** | **0.923** | — | [0.727, 1.000] | **0.933** |
-| **Lenient Precision** | **0.875** | [0.529, 0.978] | [0.778, 1.000] | 0.700 |
-| **Lenient Recall** | **1.000** (7/7) | [0.646, 1.000] | [1.000, 1.000] | 1.000 |
-| **Lenient Specificity** | **0.875** (7/8) | [0.529, 0.978] | [0.750, 1.000] | 0.625 |
-| **Lenient $F_1$-Score** | **0.933** | — | [0.769, 1.000] | **0.824** |
-| **Over-Caution Rate (OCR)** | **12.5%** (1/8) | [0.022, 0.471] | — | **25.0%** (2/8) |
-| **Spurious False Alarms (FP)**| **0** | — | — | 1 |
-
-*Key Benchmark Insight:* Under lenient scoring, PharmaGuard achieves **$100\%$ Recall ($7/7$)** while maintaining an Over-Caution Rate half that of the ungrounded baseline ($12.5\%$ vs $25.0\%$). In strict mode, PharmaGuard produced **0 spurious false alarms on negative controls**, whereas the baseline hallucinated an escalation for `liraglutide::pancreatic_cancer` based on historical regulatory debate rather than the FDA/EMA 2014 resolution.
-
-### 2.2 Leave-One-Out (LOO) Cross-Validation Stability
-- **Strict $F_1$:** Mean $= 0.923 \pm 0.023$ (Range: $0.889$ to $1.000$).
-- **Lenient $F_1$:** Mean $= 0.933 \pm 0.019$ (Range: $0.923$ to $1.000$).
-- The narrow standard deviations confirm that overall system performance does not hinge on any single fragile drug–event pair.
-
-### 2.3 ReAct Generative Divergence Finding (DECISIONS.md §24)
-When the ReAct agent's unconstrained free-form recommendation was compared against the deterministic pipeline across all 15 pairs, the two modes **diverged on 4 of 15 pairs (26.7%)**:
-- For nominal negatives (`atorvastatin::dementia`, `albuterol::suicidal_ideation`), the unconstrained agent recommended `ESCALATE` or `MONITOR` swayed by associative literature discussions.
-- For `liraglutide::pancreatic_cancer`, the unconstrained agent recommended `MONITOR` based on theoretical receptor biology, whereas the deterministic pipeline enforced the hard `NO_SIGNAL` gate to output `DO_NOT_ESCALATE`.
-- *Outcome:* Proves empirically that postmarketing safety triage cannot rely on unconstrained generative LLM judgments without deterministic evidence gating.
-
-### 2.4 Epistemic Auditing & Confounding Solutions
-1. **Adversarial Critic (DECISIONS.md §27):** Tested across 4 leakage probe cases, achieving **$100\%$ detection sensitivity (4/4)** in isolating non-mechanistic regulatory text (e.g. boxed warning mentions in Montelukast).
-2. **Confounding Discounting (DECISIONS.md §28):** On `metformin::hypoglycaemia` (heavily confounded by co-prescribed insulin/sulfonylureas, FAERS $\text{PRR}=10.73$), the tool computed a $0.20$ discount factor, dropping confidence from **$0.4000$ to $0.0800$** and correctly routing the pair to **`DO_NOT_ESCALATE`**.
-
-### 2.5 Secondary OMOP Pilot Benchmark Results (32 Pairs)
-
-| Clinical Endpoint | Positives | Negatives | Strict Recall | Lenient Recall | Specificity | Outcome Summary |
-| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Hepatotoxicity** | 4 | 4 | 1/4 (25.0%) | 3/4 (75.0%) | 4/4 (100%) | Isoniazid escalated; Carbamazepine & Allopurinol monitored; Captopril missed (conf 0.332) |
-| **Acute Kidney Injury** | 4 | 4 | 0/4 (0.0%) | 4/4 (100%) | 4/4 (100%) | All 4 positives (Lisinopril, Naproxen, Acyclovir, HCTZ) captured as MONITOR |
-| **Myocardial Infarction** | 4 | 4 | 0/4 (0.0%) | 1/4 (25.0%) | 4/4 (100%) | Indomethacin monitored; Amlodipine, Dipyridamole, Nifedipine zeroed by PRR < 2.0 |
-| **GI Haemorrhage** | 4 | 4 | 0/4 (0.0%) | 1/4 (25.0%) | 4/4 (100%) | Ketoprofen monitored; SSRIs (Citalopram, Fluoxetine, Sertraline) zeroed by PRR < 2.0 |
-| **Total / Aggregate** | **16** | **16** | **1/16 (6.2%)** | **9/16 (56.2%)** | **16/16 (100%)**| **Strict F1: 0.118 \| Lenient F1: 0.720 \| Specificity: 1.000** |
+| Evaluation Metric | PharmaGuard (Tool-Grounded) | Wilson 95% Confidence Interval | Single-Shot LLM Baseline (No Tools) | Clinical Significance |
+|---|:---:|:---:|:---:|---|
+| **Strict Precision** | **1.000** | [0.610, 1.000] | 0.875 | When PharmaGuard escalates, it is always a true signal. |
+| **Strict Recall** | **0.857** (6/7) | [0.487, 0.974] | 1.000 | 6 of 7 positives escalated; 1 modulated to MONITOR. |
+| **Strict Specificity** | **1.000** (8/8) | [0.676, 1.000] | 0.875 | **Zero false alarms** on known negative controls. |
+| **Lenient Recall** | **1.000** (7/7) | [0.646, 1.000] | 1.000 | **100% signal capture** — no true safety hazard is missed. |
+| **Lenient Specificity**| **0.875** (7/8) | [0.529, 0.978] | 0.625 | Clears 7 of 8 negative controls without human review. |
+| **Over-Caution Rate** | **12.5%** (1/8) | [0.022, 0.471] | **25.0%** (2/8) | PharmaGuard has half the over-caution rate of raw LLMs. |
 
 ---
 
-## 3. Challenges and Methodological Issues Faced
+### 3. Challenges & Issues Faced (And How We Solved Them)
 
-### 3.1 Challenge 1: Parametric Regulatory & Clinical Leakage in Foundation Models
-- **Issue:** Pre-trained LLMs have memorized FDA Boxed Warnings, label changes, and major clinical trials. When asked to evaluate *biological plausibility* from raw drug mechanisms, LLMs frequently substitute memorized regulatory history for biochemical deduction (e.g., upgrading Montelukast plausibility to MODERATE by citing the 2020 FDA warning).
-- **Resolution:** Established a dual plausibility evaluation protocol (human-curated benchmark vs. agent-derived) and developed the independent Adversarial Leakage Critic (MARCH pattern) to detect and redact parametric contamination.
+#### Challenge A: LLM "Cheating" via Memorized Regulatory Knowledge (Parametric Leakage)
+* **The Problem:** When we asked the LLM to deduce biological plausibility for `montelukast::suicidal_ideation`, it recalled the FDA's 2020 Boxed Warning from memory and artificially upgraded plausibility to MODERATE, bypassing true biochemistry.
+* **Our Solution:** We built an independent **Adversarial Leakage Critic** that inspects the reasoning text without knowing the drug or event names. It caught 100% of leakage cases (4/4) and successfully downgraded Montelukast back to LOW plausibility.
 
-### 3.2 Challenge 2: Polypharmacy Confounding in Spontaneous FAERS Data
-- **Issue:** Spontaneous databases report co-occurrences without baseline prescription context. High-volume therapies (such as Metformin in diabetes) exhibit massive disproportionality ($PRR > 10.0$) with hypoglycemia solely because patients take concomitant insulin or sulfonylureas.
-- **Resolution:** Introduced the confounding assessment module (`confounding.py`) which detects polypharmacy multi-drug regimens and applies grounded discount multipliers to FAERS sub-scores.
+#### Challenge B: Polypharmacy Confounding in Real-World FAERS Data
+* **The Problem:** In FAERS, `metformin` appears with `hypoglycaemia` in over 9,300 reports ($\text{PRR}=10.73$). However, metformin monotherapy *does not cause hypoglycemia*; the reports happen because diabetic patients take insulin and sulfonylureas alongside metformin.
+* **Our Solution:** We created the **Confounding Assessment Tool**, which recognized the co-medication artifact and applied a $0.20$ discount factor, dropping composite confidence from $0.4000 \to 0.0800$ (`DO_NOT_ESCALATE`).
 
-### 3.3 Challenge 3: Denominator Dilution in High-Volume Chronic Medications (The OMOP Finding)
-- **Issue:** In the OMOP 32-pair pilot, 6 confirmed positive controls were missed under the strict `PRR < 2.0 -> NO_SIGNAL` hard gate. For chronic, high-utilization drugs (amlodipine, nifedipine, citalopram, fluoxetine, sertraline), enormous total report volumes dilute PRR point estimates to $1.16$–$1.90$, despite 95% lower confidence intervals strictly clearing $1.0$ ($CI_{lower} \ge 1.066$) and high biological plausibility.
-- **Methodological Discipline:** In accordance with non-retroactive evaluation rules (`DECISIONS.md §15, §31`), we **refused to mutate thresholds post-hoc**, documenting this limitation as a formal external-validity boundary of static thresholding.
-
-### 3.4 Challenge 4: Heuristic Escalation Threshold Calibration
-- **Issue:** Escalation cutoffs ($0.70$ for ESCALATE, $0.35$ for MONITOR) represent fixed heuristic priors. Calibrating optimal thresholds via ROC or Youden's J index requires hundreds of ground-truth pairs, which exceeds manual single-curator validation capacity.
-- **Resolution:** Disclosed thresholds as uncalibrated priors in all documentation (`DECISIONS.md §18`) and conducted a 25-point sensitivity sweep to characterize boundary margins.
+#### Challenge C: Denominator Dilution in High-Volume Chronic Drugs (The OMOP Pilot Finding)
+* **The Problem:** When testing 32 OMOP pairs, our strict recall dropped because chronic, widely prescribed drugs (like amlodipine for blood pressure or sertraline for depression) have millions of total prescriptions. This diluted their FAERS PRR point estimate to $1.16$–$1.90$, tripping our static $\text{PRR} < 2.0$ gate even though their lower 95% CI strictly cleared 1.0 ($CI_{\text{lower}} > 1.0$).
+* **Our Solution:** In accordance with scientific integrity rules (`DECISIONS.md §15, §31`), we **refused to secretly tweak thresholds after seeing the results**. We documented this finding as an honest external validity boundary of static thresholding.
 
 ---
 
-## 4. Work Planned for the Next Phase
+### 4. Work Planned for the Next Phase
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           NEXT PHASE ROADMAP & MILESTONES                       │
+│                          NEXT PHASE ROADMAP & TIMELINE                          │
 ├──────────────────────┬──────────────────────────────────────────────────────────┤
-│ Phase 4.1 (Week 1–2) │ Dynamic Statistical Thresholding (Bayesian / CI Bounds) │
+│ Phase 4.1 (Week 1–2) │ Dynamic Statistical Gating (Lower CI Bound / Bayes EBGM) │
 │ Phase 4.2 (Week 3–4) │ MedDRA Ontology Canonicalization Layer (LLT -> PT)      │
 │ Phase 4.3 (Week 5–6) │ Clinical Pharmacologist Expert Validation Protocol      │
 │ Phase 4.4 (Week 7–8) │ Conference Paper Drafting & Final Capstone Defense Deck │
 └──────────────────────┴──────────────────────────────────────────────────────────┘
 ```
 
-1. **Dynamic Disproportionality Gating:** Investigate replacing the rigid static $PRR < 2.0$ cutoff with statistical significance lower-bound gating ($PRR_{lower\_ci} > 1.0$) or Bayesian Empirical Bayes shrinkage (EBGM) to resolve high-utilization chronic dilution without sacrificing negative control specificity.
-2. **Automated MedDRA PT Normalization Layer:** Develop a robust ontology translation module mapping colloquial adverse event terms, British spellings (e.g. *hypoglycaemia*), and Lowest Level Terms (LLTs) to standardized MedDRA Preferred Terms before querying openFDA.
-3. **External Clinical Validation Protocol:** Prepare a blinded study protocol for independent review of biological plausibility ratings by clinical pharmacologists to replace single-curator annotations.
-4. **Conference Manuscript Preparation:** Complete drafting of the academic research paper targeting health informatics and clinical AI venues (e.g., IEEE BIBM 2026, ACM CHIL, or JAMIA).
+1. **Dynamic Disproportionality Gating:** Upgrade the static $\text{PRR} < 2.0$ threshold to a dynamic statistical test (e.g. $\text{PRR}_{\text{lower\_ci}} > 1.0$ or Empirical Bayes Geometric Mean [EBGM]) to rescue chronic diluted signals without adding false positives.
+2. **MedDRA Ontology Normalization Layer:** Implement an automatic term-resolution layer that maps colloquial symptoms and British spellings (e.g., *hypoglycaemia* $\to$ *hypoglycemia*) to official MedDRA Preferred Terms.
+3. **External Clinical Validation Protocol:** Design a formal blinded review protocol where certified clinical pharmacologists evaluate our biological plausibility scores.
+4. **Conference Manuscript Drafting:** Complete full paper drafting targeting venues such as **IEEE BIBM 2026**, **ACM CHIL**, or **JAMIA Open**.
 
 ---
 
-## 5. Support and Guidance Required from Supervisor
+### 5. Support & Guidance Required from Dr. Arya
 
-We would appreciate Dr. Arya's feedback and guidance on the following four points during the upcoming in-person meeting:
+We will ask Sir for his input on these specific points:
 
-1. **Threshold Gating Strategy:** Feedback on our proposed transition from static PRR magnitude thresholds ($\ge 2.0$) to lower confidence interval bounds ($PRR_{lower\_ci} > 1.0$) or Bayesian shrinkage (EBGM) for chronic medication signal detection.
-2. **Dual-Metric Reporting Framework:** Validation of our Strict vs. Lenient evaluation standard and Leave-One-Out stability methodology for capstone defense and conference publication standards.
-3. **Target Publication Venue:** Recommendations on the most suitable submission venue (e.g., IEEE BIBM, ACM Conference on Health, Inference, and Learning [CHIL], or JAMIA Open).
-4. **Capstone Defense Pacing:** Guidance on structuring the final 16:9 defense slide deck and live dashboard demonstration.
+1. **Threshold Gating Strategy:** What is his recommendation on replacing static cutoffs ($\text{PRR} \ge 2.0$) with statistical lower bounds ($\text{PRR}_{\text{lower\_ci}} > 1.0$) or Bayesian shrinkage for high-volume chronic drugs?
+2. **Dual-Metric Evaluation Framing:** Does he approve of our Strict vs. Lenient reporting framework for the final capstone defense and research publication?
+3. **Target Conference Selection:** Which venue does he recommend targeting first (e.g. IEEE BIBM, ACM CHIL, or a healthcare AI symposium)?
+4. **Defense Presentation Structure:** Guidance on structuring our final 15-minute 16:9 widescreen presentation deck and live dashboard demonstration.
 
 ---
 
-## Summary of Reference Documents & Artifacts
+## 📖 Part 4: Four Key Case Studies to Memorize
 
-| Document / Artifact | Repository Path | Description |
-|---|---|---|
-| **Design Decisions Record** | [`docs/context/DECISIONS.md`](file:///d:/Research%20Project/PharmaGuard/docs/context/DECISIONS.md) | Complete 31-section architectural and methodological log |
-| **System Architecture** | [`docs/context/ARCHITECTURE.md`](file:///d:/Research%20Project/PharmaGuard/docs/context/ARCHITECTURE.md) | Component data flow, Pydantic schemas, and tech stack |
-| **Project Overview** | [`docs/context/UNDERSTAND.md`](file:///d:/Research%20Project/PharmaGuard/docs/context/UNDERSTAND.md) | Complete narrative overview and results walk-through |
-| **Core Ground Truth (15 Pairs)** | [`pharmaguard/data/ground_truth.json`](file:///d:/Research%20Project/PharmaGuard/pharmaguard/data/ground_truth.json) | 15 curated pairs with regulatory provenance |
-| **OMOP Pilot Ground Truth (32 Pairs)**| [`pharmaguard/data/ground_truth_omop_pilot.json`](file:///d:/Research%20Project/PharmaGuard/pharmaguard/data/ground_truth_omop_pilot.json) | 32 OMOP reference set pilot pairs across 4 endpoints |
-| **Evaluation Dashboard** | [`scripts/dashboard.py`](file:///d:/Research%20Project/PharmaGuard/scripts/dashboard.py) | Streamlit interactive evaluation UI (6 views) |
-| **Light Verification Screenshots** | [`assets/Screenshots/Light/`](file:///d:/Research%20Project/PharmaGuard/assets/Screenshots/Light/) | 1080p full-panel captures for all 6 views |
-| **Dark Verification Screenshots** | [`assets/Screenshots/Dark/`](file:///d:/Research%20Project/PharmaGuard/assets/Screenshots/Dark/) | 1080p full-panel captures for all 6 views |
+If Sir asks for specific examples of how the system works, cite these four cases:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│ 1. LIRAGLUTIDE + PANCREATIC CANCER (The Grounding Victory)                             │
+│    • Story: Historical safety concern raised in 2013, but FDA/EMA cleared it in 2014.   │
+│    • Ungrounded Baseline: Hallucinated an ESCALATE from old pre-training memory.        │
+│    • PharmaGuard: Checked FAERS, found 0 reports, enforced Gate 1 -> DO_NOT_ESCALATE.   │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│ 2. MONTELUKAST + SUICIDAL IDEATION (The Honest Uncertainty Case)                       │
+│    • Story: FDA Boxed Warning exists, but biological mechanism in the brain is unproven.│
+│    • Curated Plausibility: Rated LOW (0.0) because mechanism is not pharmacologically   │
+│      confirmed in airways receptors.                                                    │
+│    • Output: Confidence = 0.664 -> MONITOR. (Lenient True Positive, honest caution).    │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│ 3. METFORMIN + HYPOGLYCAEMIA (The Confounding Artifact Case)                           │
+│    • Story: 9,300+ FAERS reports caused by co-prescribed insulin in diabetics.          │
+│    • Raw Formula: Gave MONITOR due to high raw PRR (10.73).                             │
+│    • Confounding Tool: Detected polypharmacy, applied 0.20 discount -> DO_NOT_ESCALATE. │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│ 4. CITALOPRAM + GI HAEMORRHAGE (The OMOP Chronic Dilution Case)                        │
+│    • Story: SSRI antidepressant inhibits platelet serotonin, increasing bleeding risk. │
+│    • Plausibility: HIGH (1.0). But high prescription volume diluted FAERS PRR to 1.904. │
+│    • Output: Tripped PRR < 2.0 gate -> DO_NOT_ESCALATE. Proves static threshold limit.  │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎯 Part 5: Anticipated Viva / Meeting Questions & Ideal Answers
+
+### Q1: "Why not just ask ChatGPT or Gemini directly to triage drug safety signals?"
+> **Ideal Answer:**  
+> *"Ungrounded LLMs suffer from three critical failure modes in pharmacovigilance: (1) they hallucinate clinical facts when prompted, (2) they suffer from temporal confusion—recalling past safety investigations that were later dismissed, and (3) their confidence scores are uncalibrated self-reports. PharmaGuard forces the LLM to act as a grounded tool-using agent that retrieves real statistical data from openFDA, mechanisms from ChEMBL, and literature from PubMed, combining them with a deterministic formula rather than opaque generative text."*
+
+### Q2: "Why did you choose the weights 0.40 FAERS, 0.40 PubMed, 0.20 ChEMBL?"
+> **Ideal Answer:**  
+> *"These weights represent a clinically motivated prior: real-world spontaneous reporting (FAERS) and published peer-reviewed medical literature (PubMed) are treated as co-equal primary evidence (0.40 each), while molecular mechanism plausibility (ChEMBL) is treated as corroborating context (0.20). We explicitly disclose in our documentation (DECISIONS.md §18) that these are fixed priors rather than empirically overfitted values, because calibrating weights on a small dataset risks severe overfitting."*
+
+### Q3: "What does the 26.7% ReAct divergence finding prove?"
+> **Ideal Answer:**  
+> *"When we allowed an unconstrained LangGraph ReAct agent to decide final escalation dynamically from conversational state, it diverged from deterministic safety rules on 4 of 15 pairs (26.7%). For example, it escalated nominal negative controls because it was swayed by conversational literature mentions. This provides empirical proof that safety-critical triage requires deterministic gating rather than free-form LLM judgment."*
+
+### Q4: "Why did your Strict Recall drop on the OMOP 32-pair pilot?"
+> **Ideal Answer:**  
+> *"On the 16 OMOP confirmed positives, 6 pairs were widely used chronic medications (such as amlodipine and SSRIs). Because millions of patients take these drugs, their adverse event reporting is diluted by massive denominator volume, bringing their PRR point estimate to between 1.16 and 1.90. Our static PRR < 2.0 gate zeroed these signals despite their lower 95% confidence intervals clearing 1.0 and high biological plausibility. Rather than secretly modifying our thresholds post-hoc, we documented this finding as an honest external validity boundary of static thresholding."*
+
+### Q5: "Is your system expensive to run or reliant on paid API keys?"
+> **Ideal Answer:**  
+> *"No, sir. All external data sources (openFDA, ChEMBL, PubMed E-utilities) are public, free APIs. We use Google's free-tier `gemini-3.1-flash-lite` model for reasoning. Furthermore, our disk-backed cache allows the entire 6-tab Streamlit dashboard and test suite to run with zero network calls and zero cost during evaluation and live presentation."*
+
+---
+
+## 🛠️ Part 6: Quick Checklist for Tomorrow's Meeting
+
+- [ ] **Laptop Battery & Charger:** Fully charged.
+- [ ] **Local Dashboard Ready:** Launch with `.venv\Scripts\streamlit.exe run scripts/dashboard.py` (verified running on port 8501 / 8544).
+- [ ] **Tabs Walkthrough Order:** Overview $\to$ Per-Pair Table $\to$ Disagreement Spotlight $\to$ Baseline Comparison $\to$ Methodology Probes $\to$ OMOP Pilot.
+- [ ] **Test Suite Confirmation:** 84/84 tests passing (`pytest`).
+- [ ] **Printed / PDF Copy of this Briefing:** Exported from this markdown file.
+
+---
+*End of Briefing Document — Group 07, IIIT Allahabad (September 2026)*
