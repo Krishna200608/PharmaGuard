@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-1-isoniazid-hepatotoxicity",
-  "timestamp": "2026-09-02T05:51:44.829412Z",
+  "timestamp": "2026-09-02T06:07:10.128193Z",
   "prompts_version": "v1.1",
   "drug": "isoniazid",
   "event": "hepatotoxicity",
@@ -25,10 +25,10 @@
   "mechanism": {
     "chembl_id": null,
     "moa": null,
-    "biological_plausibility": "UNKNOWN",
-    "plausibility_score": 0.0,
-    "plausibility_source": "unknown",
-    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The mechanism of action described corresponds to Isoniazid, a first-line antitubercular agent. Isoniazid is well-documented to cause drug-induced liver injury (DILI) in a significant percentage of patients, ranging from asymptomatic elevation of serum aminotransferases to severe, potentially fatal hepatitis, due to the metabolic production of toxic intermediates like hydrazine.",
     "curated_reference": null,
     "plausibility_agreement": null,
     "leak_detected": null,
@@ -51,12 +51,12 @@
   "triage": {
     "signal_strength": "STRONG",
     "evidence_grade": "B",
-    "escalation": "MONITOR",
-    "confidence": 0.6,
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
     "prompts_version": "v1.1",
     "agent_reasoning_trace": [
       "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
     ]
   },
-  "source_agreement": "DISCORDANT"
+  "source_agreement": "CONCORDANT"
 }

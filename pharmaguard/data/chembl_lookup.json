@@ -10,7 +10,7 @@
         "Wegovy",
         "Rybelsus"
       ],
-      "mechanism_of_action": "GLP-1 receptor agonist — stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
+      "mechanism_of_action": "GLP-1 receptor agonist \u2014 stimulates insulin secretion and suppresses glucagon in a glucose-dependent manner; slows gastric emptying.",
       "target_name": "Glucagon-like peptide 1 receptor",
       "target_class": "Peptide hormone receptor",
       "resolved_at": "2026-08-09",
@@ -22,7 +22,7 @@
       "trade_names": [
         "Glucophage"
       ],
-      "mechanism_of_action": "AMPK activator — inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
+      "mechanism_of_action": "AMPK activator \u2014 inhibits mitochondrial complex I, reducing hepatic gluconeogenesis; also activates AMPK pathway.",
       "target_name": "AMP-activated protein kinase",
       "target_class": "Kinase",
       "resolved_at": "2026-08-09",
@@ -34,7 +34,7 @@
       "trade_names": [
         "Lipitor"
       ],
-      "mechanism_of_action": "HMG-CoA reductase inhibitor — competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
+      "mechanism_of_action": "HMG-CoA reductase inhibitor \u2014 competitively inhibits hepatic cholesterol synthesis; increases LDL receptor expression.",
       "target_name": "3-hydroxy-3-methylglutaryl-coenzyme A reductase",
       "target_class": "Enzyme",
       "resolved_at": "2026-08-09",
@@ -195,6 +195,448 @@
       "target_class": "Enzyme",
       "resolved_at": "2026-08-14",
       "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL822/"
+    },
+    "carbamazepine": {
+      "chembl_id": "CHEMBL108",
+      "canonical_name": "CARBAMAZEPINE",
+      "trade_names": [
+        "Tegretol",
+        "Carbatrol",
+        "Equetro",
+        "Epitol"
+      ],
+      "mechanism_of_action": "Voltage-gated sodium channel blocker; inhibits repetitive neuronal firing by stabilizing the inactivated state of sodium channels.",
+      "target_name": "Sodium channel alpha subunit",
+      "target_class": "Ion channel",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL108/"
+    },
+    "isoniazid": {
+      "chembl_id": "CHEMBL64",
+      "canonical_name": "ISONIAZID",
+      "trade_names": [
+        "Nydrazid",
+        "Laniazid",
+        "Isovit"
+      ],
+      "mechanism_of_action": "Enoyl-[acyl-carrier-protein] reductase (InhA) inhibitor; prodrug activated by KatG that blocks bacterial mycolic acid synthesis.",
+      "target_name": "Enoyl-[acyl-carrier-protein] reductase [NADH]",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL64/"
+    },
+    "allopurinol": {
+      "chembl_id": "CHEMBL1467",
+      "canonical_name": "ALLOPURINOL",
+      "trade_names": [
+        "Zyloprim",
+        "Aloprim",
+        "Lopurin"
+      ],
+      "mechanism_of_action": "Xanthine dehydrogenase/oxidase inhibitor; reduces uric acid production by inhibiting the conversion of hypoxanthine and xanthine to uric acid.",
+      "target_name": "Xanthine dehydrogenase/oxidase",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1467/"
+    },
+    "captopril": {
+      "chembl_id": "CHEMBL1560",
+      "canonical_name": "CAPTOPRIL",
+      "trade_names": [
+        "Capoten",
+        "Capozide",
+        "Acepril"
+      ],
+      "mechanism_of_action": "Angiotensin-converting enzyme (ACE) inhibitor; blocks conversion of angiotensin I to angiotensin II, decreasing systemic vascular resistance.",
+      "target_name": "Angiotensin-converting enzyme",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1560/"
+    },
+    "adenosine": {
+      "chembl_id": "CHEMBL477",
+      "canonical_name": "ADENOSINE",
+      "trade_names": [
+        "Adenocard",
+        "Adenoscan"
+      ],
+      "mechanism_of_action": "Adenosine receptor agonist (A1, A2A, A2B, A3); slows conduction time through the AV node and produces coronary vasodilation.",
+      "target_name": "Adenosine receptor",
+      "target_class": "GPCR",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL477/"
+    },
+    "sucralfate": {
+      "chembl_id": "CHEMBL6067980",
+      "canonical_name": "SUCRALFATE",
+      "trade_names": [
+        "Carafate",
+        "Antepsin",
+        "Sulcrate"
+      ],
+      "mechanism_of_action": "Mucosal protective agent and pepsin inhibitor; forms an ulcer-adherent complex with proteinaceous exudate covering ulcer sites.",
+      "target_name": "Pepsin A / Gastrointestinal mucosa",
+      "target_class": "Enzyme / Mucosal barrier",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL6067980/"
+    },
+    "methenamine": {
+      "chembl_id": "CHEMBL1201270",
+      "canonical_name": "METHENAMINE",
+      "trade_names": [
+        "Hiprex",
+        "Urex",
+        "Mandelamine"
+      ],
+      "mechanism_of_action": "Urinary tract antibacterial; hydrolyzed in acidic urine to formaldehyde and ammonia, exerting non-specific bactericidal activity.",
+      "target_name": "Bacterial proteins and DNA (via formaldehyde generation)",
+      "target_class": "Non-specific bactericidal agent",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1201270/"
+    },
+    "dicyclomine": {
+      "chembl_id": "CHEMBL1123",
+      "canonical_name": "DICYCLOMINE",
+      "trade_names": [
+        "Bentyl",
+        "Byclomine",
+        "Dibent"
+      ],
+      "mechanism_of_action": "Muscarinic acetylcholine receptor (M1/M3) antagonist; relieves smooth muscle spasm in the gastrointestinal tract.",
+      "target_name": "Muscarinic acetylcholine receptor M1/M3",
+      "target_class": "GPCR",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1123/"
+    },
+    "acyclovir": {
+      "chembl_id": "CHEMBL184",
+      "canonical_name": "ACYCLOVIR",
+      "trade_names": [
+        "Zovirax",
+        "Sitavig"
+      ],
+      "mechanism_of_action": "Herpesvirus DNA polymerase inhibitor; converted by viral thymidine kinase to acyclovir triphosphate which causes DNA chain termination.",
+      "target_name": "DNA polymerase catalytic subunit (Herpesvirus)",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL184/"
+    },
+    "hydrochlorothiazide": {
+      "chembl_id": "CHEMBL435",
+      "canonical_name": "HYDROCHLOROTHIAZIDE",
+      "trade_names": [
+        "Microzide",
+        "Esidrix",
+        "HydroDIURIL"
+      ],
+      "mechanism_of_action": "Thiazide diuretic; inhibits the sodium-chloride cotransporter (NCCT/SLC12A3) in distal convoluted renal tubules to promote natriuresis.",
+      "target_name": "Solute carrier family 12 member 3 (NCCT)",
+      "target_class": "Transporter",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL435/"
+    },
+    "lisinopril": {
+      "chembl_id": "CHEMBL419213",
+      "canonical_name": "LISINOPRIL",
+      "trade_names": [
+        "Prinivil",
+        "Zestril",
+        "Qbrelis"
+      ],
+      "mechanism_of_action": "Angiotensin-converting enzyme (ACE) inhibitor; suppresses the renin-angiotensin-aldosterone system reducing angiotensin II and aldosterone.",
+      "target_name": "Angiotensin-converting enzyme",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL419213/"
+    },
+    "naproxen": {
+      "chembl_id": "CHEMBL154",
+      "canonical_name": "NAPROXEN",
+      "trade_names": [
+        "Aleve",
+        "Naprosyn",
+        "Anaprox"
+      ],
+      "mechanism_of_action": "Nonsteroidal anti-inflammatory drug (NSAID); reversibly inhibits cyclooxygenase-1 and 2 (COX-1 and COX-2) enzymes, reducing prostaglandin synthesis.",
+      "target_name": "Cyclooxygenase-1 / Cyclooxygenase-2",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL154/"
+    },
+    "acarbose": {
+      "chembl_id": "CHEMBL404271",
+      "canonical_name": "ACARBOSE",
+      "trade_names": [
+        "Precose",
+        "Glucobay"
+      ],
+      "mechanism_of_action": "Alpha-glucosidase and pancreatic alpha-amylase inhibitor; delays carbohydrate digestion and glucose absorption in the small intestine.",
+      "target_name": "Pancreatic alpha-amylase / Maltase-glucoamylase",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL404271/"
+    },
+    "loratadine": {
+      "chembl_id": "CHEMBL998",
+      "canonical_name": "LORATADINE",
+      "trade_names": [
+        "Claritin",
+        "Alavert"
+      ],
+      "mechanism_of_action": "Second-generation peripheral histamine H1 receptor antagonist; selectively blocks H1 receptors without significant central sedation.",
+      "target_name": "Histamine H1 receptor",
+      "target_class": "GPCR",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL998/"
+    },
+    "simethicone": {
+      "chembl_id": "CHEMBL4297192",
+      "canonical_name": "SIMETHICONE",
+      "trade_names": [
+        "Gas-X",
+        "Mylanta Gas",
+        "Phazyme",
+        "Mylicon"
+      ],
+      "mechanism_of_action": "Surfactant antifoaming agent; reduces surface tension of gas bubbles in the gastrointestinal tract allowing them to coalesce and be dispelled.",
+      "target_name": "Gastrointestinal gas bubble surface films",
+      "target_class": "Physical surfactant / Non-protein",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL4297192/"
+    },
+    "temazepam": {
+      "chembl_id": "CHEMBL967",
+      "canonical_name": "TEMAZEPAM",
+      "trade_names": [
+        "Restoril",
+        "Normison"
+      ],
+      "mechanism_of_action": "Positive allosteric modulator of GABA-A receptors; enhances GABA-mediated inhibitory neurotransmission to produce sedative-hypnotic effects.",
+      "target_name": "GABA-A receptor anion channel",
+      "target_class": "Ion channel",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL967/"
+    },
+    "amlodipine": {
+      "chembl_id": "CHEMBL1491",
+      "canonical_name": "AMLODIPINE",
+      "trade_names": [
+        "Norvasc",
+        "Istin",
+        "Amlor"
+      ],
+      "mechanism_of_action": "Dihydropyridine L-type calcium channel blocker; inhibits transmembrane calcium influx into vascular smooth muscle and myocardium, causing peripheral vasodilation.",
+      "target_name": "Voltage-gated L-type calcium channel",
+      "target_class": "Ion channel",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1491/"
+    },
+    "dipyridamole": {
+      "chembl_id": "CHEMBL932",
+      "canonical_name": "DIPYRIDAMOLE",
+      "trade_names": [
+        "Persantine",
+        "Aggrenox (component)"
+      ],
+      "mechanism_of_action": "Phosphodiesterase inhibitor and adenosine reuptake inhibitor; increases cellular cAMP/cGMP and extracellular adenosine levels to inhibit platelet aggregation.",
+      "target_name": "Equilibrative nucleoside transporter 1 / Cyclic nucleotide phosphodiesterases",
+      "target_class": "Transporter / Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL932/"
+    },
+    "indomethacin": {
+      "chembl_id": "CHEMBL6",
+      "canonical_name": "INDOMETHACIN",
+      "trade_names": [
+        "Indocin",
+        "Tivorbex"
+      ],
+      "mechanism_of_action": "Potent nonsteroidal anti-inflammatory drug (NSAID); non-selectively inhibits COX-1 and COX-2 enzymes to block prostaglandin synthesis.",
+      "target_name": "Cyclooxygenase-1 / Cyclooxygenase-2",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL6/"
+    },
+    "nifedipine": {
+      "chembl_id": "CHEMBL193",
+      "canonical_name": "NIFEDIPINE",
+      "trade_names": [
+        "Procardia",
+        "Adalat",
+        "Afeditab"
+      ],
+      "mechanism_of_action": "Dihydropyridine L-type calcium channel blocker; inhibits calcium entry into cardiac and vascular smooth muscle, reducing peripheral vascular resistance.",
+      "target_name": "Voltage-gated L-type calcium channel",
+      "target_class": "Ion channel",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL193/"
+    },
+    "clindamycin": {
+      "chembl_id": "CHEMBL1753",
+      "canonical_name": "CLINDAMYCIN",
+      "trade_names": [
+        "Cleocin",
+        "Dalacin",
+        "Clindagel"
+      ],
+      "mechanism_of_action": "Lincosamide antibiotic; binds reversibly to the 50S subunit of the bacterial 70S ribosome to inhibit protein synthesis.",
+      "target_name": "Bacterial 70S ribosome (50S subunit)",
+      "target_class": "Ribosomal complex",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1753/"
+    },
+    "lactulose": {
+      "chembl_id": "CHEMBL296306",
+      "canonical_name": "LACTULOSE",
+      "trade_names": [
+        "Cephulac",
+        "Duphalac",
+        "Kristalose",
+        "Cholac",
+        "Enulose"
+      ],
+      "mechanism_of_action": "Osmotic laxative and ammonia reducer; broken down by colonic bacteria into organic acids that acidify intestinal contents, trapping ammonia as unabsorbable ammonium ions.",
+      "target_name": "Colonic microflora metabolism",
+      "target_class": "Metabolic substrate / Non-protein",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL296306/"
+    },
+    "miconazole": {
+      "chembl_id": "CHEMBL91",
+      "canonical_name": "MICONAZOLE",
+      "trade_names": [
+        "Monistat",
+        "Oravig",
+        "Micatin"
+      ],
+      "mechanism_of_action": "Imidazole antifungal; inhibits fungal cytochrome P450 14-alpha demethylase (CYP51), blocking conversion of lanosterol to ergosterol and disrupting fungal cell membranes.",
+      "target_name": "Lanosterol 14-alpha demethylase (CYP51)",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL91/"
+    },
+    "sulfisoxazole": {
+      "chembl_id": "CHEMBL453",
+      "canonical_name": "SULFISOXAZOLE",
+      "trade_names": [
+        "Gantrisin",
+        "Truxazole",
+        "Azo Gantrisin"
+      ],
+      "mechanism_of_action": "Sulfonamide antibacterial; competitively inhibits bacterial dihydropteroate synthase (DHPS), blocking the synthesis of folic acid.",
+      "target_name": "Dihydropteroate synthase",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL453/"
+    },
+    "citalopram": {
+      "chembl_id": "CHEMBL549",
+      "canonical_name": "CITALOPRAM",
+      "trade_names": [
+        "Celexa",
+        "Cipramil"
+      ],
+      "mechanism_of_action": "Selective serotonin reuptake inhibitor (SSRI); potently and selectively inhibits the sodium-dependent serotonin transporter (SERT/SLC6A4).",
+      "target_name": "Sodium-dependent serotonin transporter (SERT)",
+      "target_class": "Transporter",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL549/"
+    },
+    "fluoxetine": {
+      "chembl_id": "CHEMBL41",
+      "canonical_name": "FLUOXETINE",
+      "trade_names": [
+        "Prozac",
+        "Sarafem",
+        "Symbyax (component)"
+      ],
+      "mechanism_of_action": "Selective serotonin reuptake inhibitor (SSRI); selectively inhibits the presynaptic serotonin transporter (SERT/SLC6A4), increasing extracellular serotonin levels.",
+      "target_name": "Sodium-dependent serotonin transporter (SERT)",
+      "target_class": "Transporter",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL41/"
+    },
+    "ketoprofen": {
+      "chembl_id": "CHEMBL571",
+      "canonical_name": "KETOPROFEN",
+      "trade_names": [
+        "Orudis",
+        "Oruvail",
+        "Actron"
+      ],
+      "mechanism_of_action": "Nonsteroidal anti-inflammatory drug (NSAID); non-selectively inhibits COX-1 and COX-2 enzymes and may inhibit lipoxygenase pathways, reducing inflammatory mediators.",
+      "target_name": "Cyclooxygenase-1 / Cyclooxygenase-2",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL571/"
+    },
+    "sertraline": {
+      "chembl_id": "CHEMBL809",
+      "canonical_name": "SERTRALINE",
+      "trade_names": [
+        "Zoloft",
+        "Lustral"
+      ],
+      "mechanism_of_action": "Selective serotonin reuptake inhibitor (SSRI); selectively blocks the sodium-dependent serotonin transporter (SERT/SLC6A4) with weak dopamine transporter inhibition.",
+      "target_name": "Sodium-dependent serotonin transporter (SERT)",
+      "target_class": "Transporter",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL809/"
+    },
+    "griseofulvin": {
+      "chembl_id": "CHEMBL562",
+      "canonical_name": "GRISEOFULVIN",
+      "trade_names": [
+        "Gris-PEG",
+        "Grifulvin V",
+        "Fulvicin"
+      ],
+      "mechanism_of_action": "Antifungal mitotic inhibitor; binds to fungal tubulin and disrupts microtubule dynamics, arresting fungal cell division in metaphase.",
+      "target_name": "Tubulin",
+      "target_class": "Protein complex",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL562/"
+    },
+    "itraconazole": {
+      "chembl_id": "CHEMBL64391",
+      "canonical_name": "ITRACONAZOLE",
+      "trade_names": [
+        "Sporanox",
+        "Tolsura",
+        "Onmel"
+      ],
+      "mechanism_of_action": "Triazole antifungal; inhibits fungal cytochrome P450 14-alpha demethylase (CYP51), blocking ergosterol biosynthesis and destabilizing fungal cell membranes.",
+      "target_name": "Lanosterol 14-alpha demethylase (CYP51)",
+      "target_class": "Enzyme",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL64391/"
+    },
+    "nitrofurantoin": {
+      "chembl_id": "CHEMBL572",
+      "canonical_name": "NITROFURANTOIN",
+      "trade_names": [
+        "Macrobid",
+        "Macrodantin",
+        "Furadantin"
+      ],
+      "mechanism_of_action": "Nitrofuran antibacterial; reduced by bacterial flavoproteins into reactive intermediates that attack bacterial ribosomal proteins, DNA, RNA, and metabolic enzymes.",
+      "target_name": "Bacterial ribosomal proteins and DNA (via reactive intermediates)",
+      "target_class": "Multi-target bacterial intermediate",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL572/"
+    },
+    "pioglitazone": {
+      "chembl_id": "CHEMBL595",
+      "canonical_name": "PIOGLITAZONE",
+      "trade_names": [
+        "Actos",
+        "Zactoplus"
+      ],
+      "mechanism_of_action": "Thiazolidinedione antidiabetic; potent and selective agonist of peroxisome proliferator-activated receptor gamma (PPAR-gamma), enhancing insulin sensitivity in peripheral tissues.",
+      "target_name": "Peroxisome proliferator-activated receptor gamma (PPAR-gamma)",
+      "target_class": "Nuclear receptor",
+      "resolved_at": "2026-09-02",
+      "chembl_url": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL595/"
     }
   }
 }
