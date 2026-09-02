@@ -8,7 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import sys
 
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from pharmaguard.utils.config_loader import load_config
 from pharmaguard.agent.react_agent import PharmaGuardAgent
@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 def run_pilot():
     load_dotenv()
     
-    project_root = Path(__file__).resolve().parents[1]
-    pilot_file = project_root / "pharmaguard" / "data" / "pilot_set.json"
+    project_root = Path(__file__).resolve().parents[2]
+    pilot_file = project_root / "pharmaguard" / "data" / "archive" / "pilot_set.json"
     
     if not pilot_file.exists():
         logger.error(f"Pilot file not found at {pilot_file}")
@@ -56,8 +56,8 @@ def run_pilot():
             logger.info(f"Generated report successfully. Signal Strength: {report.triage.signal_strength}, Escalation: {report.triage.escalation}")
             
             # Save the final report
-            output_dir = project_root / "outputs"
-            output_dir.mkdir(exist_ok=True)
+            output_dir = project_root / "outputs" / "experiments" / "probe"
+            output_dir.mkdir(parents=True, exist_ok=True)
             with open(output_dir / f"{run_id}_report.json", "w", encoding="utf-8") as rf:
                 rf.write(report.model_dump_json(indent=2))
         except Exception as e:

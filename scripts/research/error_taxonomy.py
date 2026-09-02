@@ -58,15 +58,19 @@ def load_source_artifacts(repo_root: Path) -> Dict[str, Any]:
 
     # 2. Production Evaluation Reports
     outputs_dir = repo_root / "outputs"
+    core_dir = outputs_dir / "core"
+    report_dir = core_dir if core_dir.exists() else outputs_dir
     prod_reports = {}
-    for rf in sorted(outputs_dir.glob("eval-run-*_report.json")):
+    for rf in sorted(report_dir.glob("eval-run-*_report.json")):
         with open(rf, "r", encoding="utf-8") as f:
             d = json.load(f)
         pk = f"{d['drug']}::{d['event']}"
         prod_reports[pk] = d
 
     # 3. Leakage Critic Probe Results
-    critic_file = outputs_dir / "critic_probe" / "leakage_critique_results.json"
+    critic_file = outputs_dir / "experiments" / "critic_probe" / "leakage_critique_results.json"
+    if not critic_file.exists():
+        critic_file = outputs_dir / "critic_probe" / "leakage_critique_results.json"
     critic_cases = {}
     if critic_file.exists():
         with open(critic_file, "r", encoding="utf-8") as f:
@@ -92,7 +96,9 @@ def load_source_artifacts(repo_root: Path) -> Dict[str, Any]:
         for pk, s in cs_data.get("per_pair_summary_statistics", {}).items():
             conf_stability[pk] = s.get("discount_factor", {})
 
-    conf_probe_file = outputs_dir / "confounding_probe" / "confounding_self_probe.json"
+    conf_probe_file = outputs_dir / "experiments" / "confounding_probe" / "confounding_self_probe.json"
+    if not conf_probe_file.exists():
+        conf_probe_file = outputs_dir / "confounding_probe" / "confounding_self_probe.json"
     conf_probes = {}
     if conf_probe_file.exists():
         with open(conf_probe_file, "r", encoding="utf-8") as f:
@@ -119,7 +125,9 @@ def load_source_artifacts(repo_root: Path) -> Dict[str, Any]:
                 gate_artifact_pairs.add(pk)
 
     # 6. ReAct Agent Divergence Audit
-    react_report_file = outputs_dir / "react_agent_agreement_report.json"
+    react_report_file = outputs_dir / "experiments" / "react_agent" / "agreement_report.json"
+    if not react_report_file.exists():
+        react_report_file = outputs_dir / "react_agent_agreement_report.json"
     react_divergent_pairs = {}
     if react_report_file.exists():
         with open(react_report_file, "r", encoding="utf-8") as f:
@@ -175,7 +183,7 @@ def classify_pair(
         if exp == "ESCALATE" and act != "ESCALATE" and plaus <= 0.5:
             categories.append("MECHANISTIC_UNCERTAINTY")
             evidence_dict["MECHANISTIC_UNCERTAINTY"] = (
-                f"outputs/eval-run-*_report.json: Strict False Negative (expected ESCALATE, actual {act}; "
+                f"outputs/core/eval-run-*_report.json: Strict False Negative (expected ESCALATE, actual {act}; "
                 f"confidence={conf:.4f} < 0.70 driven by low biological plausibility={plaus})."
             )
 
@@ -194,7 +202,7 @@ def classify_pair(
         drugs_str = f" ({', '.join(drugs[:2])})" if drugs else ""
         categories.append("CONFOUNDED_SIGNAL")
         evidence_dict["CONFOUNDED_SIGNAL"] = (
-            f"outputs/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy "
+            f"outputs/experiments/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy "
             f"co-medication{drugs_str} (discount_factor={disc:.2f}; DECISIONS.md §28)."
         )
 
@@ -221,7 +229,7 @@ def classify_pair(
         categories.append("LLM_MEMORIZATION_LEAKAGE")
         phrase_preview = f"'{phrases[0]}'" if phrases else "regulatory citations"
         evidence_dict["LLM_MEMORIZATION_LEAKAGE"] = (
-            f"outputs/critic_probe/leakage_critique_results.json / DECISIONS.md §27: Adversarial critic flagged "
+            f"outputs/experiments/critic_probe/leakage_critique_results.json / DECISIONS.md §27: Adversarial critic flagged "
             f"regulatory/epidemiological leakage ({phrase_preview}); score downgraded to {score}."
         )
 
@@ -238,7 +246,7 @@ def classify_pair(
         r_info = react_divergent_pairs[pk]
         categories.append("AGENT_ARCHITECTURE_DIVERGENCE")
         evidence_dict["AGENT_ARCHITECTURE_DIVERGENCE"] = (
-            f"outputs/react_agent_agreement_report.json / DECISIONS.md §24: ReAct agent stated recommendation "
+            f"outputs/experiments/react_agent/agreement_report.json / DECISIONS.md §24: ReAct agent stated recommendation "
             f"'{r_info['agent_stated_raw']}' diverged from deterministic pipeline reported escalation "
             f"'{r_info['reported_escalation']}'."
         )

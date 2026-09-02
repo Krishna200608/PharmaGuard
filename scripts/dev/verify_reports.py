@@ -2,8 +2,8 @@ import json
 from pathlib import Path
 
 print("--- Verifying UTF-8 Encoding ---")
-project_root = Path(__file__).resolve().parents[1]
-outputs_dir = project_root / "outputs"
+project_root = Path(__file__).resolve().parents[2]
+outputs_dir = project_root / "outputs" / "core"
 
 files = list(outputs_dir.glob("eval-run-*_report.json"))
 

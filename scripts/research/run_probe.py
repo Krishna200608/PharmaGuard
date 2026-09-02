@@ -8,7 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import sys
 
-project_root = Path(__file__).resolve().parents[1]
+project_root = Path(__file__).resolve().parents[2]
 sys.path.append(str(project_root))
 
 from pharmaguard.agent.fixed_pipeline import FixedPipelineAgent
@@ -37,7 +37,7 @@ PROBE_PAIRS = [
 
 def run_probe():
     load_dotenv()
-    output_dir = project_root / "outputs" / "probe"
+    output_dir = project_root / "outputs" / "experiments" / "probe"
     output_dir.mkdir(parents=True, exist_ok=True)
     
     print("=" * 70)

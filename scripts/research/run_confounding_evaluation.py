@@ -17,7 +17,7 @@ import sys
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -44,7 +44,7 @@ def run_metformin_confounding_eval():
     report = agent.run(drug="metformin", event="hypoglycaemia")
 
     # Read baseline frozen report for before/after comparison
-    baseline_file = REPO_ROOT / "outputs" / "eval-run-8-metformin-hypoglycaemia_report.json"
+    baseline_file = REPO_ROOT / "outputs" / "core" / "eval-run-8-metformin-hypoglycaemia_report.json"
     with open(baseline_file, "r", encoding="utf-8") as f:
         baseline_data = json.load(f)
 
@@ -74,8 +74,8 @@ def run_metformin_confounding_eval():
     print(f"  \"{report.signal_stats.confounding_explanation}\"")
     print(f"Confounding Drugs Identified: {report.signal_stats.confounding_drugs}")
 
-    # Write report to outputs/confounding_probe/
-    out_dir = REPO_ROOT / "outputs" / "confounding_probe"
+    # Write report to outputs/experiments/confounding_probe/
+    out_dir = REPO_ROOT / "outputs" / "experiments" / "confounding_probe"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_file = out_dir / "metformin_confounding_report.json"
     with open(out_file, "w", encoding="utf-8") as f:

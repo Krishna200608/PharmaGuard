@@ -1,7 +1,7 @@
 {
   "metadata": {
     "taxonomy_version": "1.0",
-    "generated_at_utc": "2026-08-30T11:32:32.278345+00:00",
+    "generated_at_utc": "2026-09-02T06:52:00.240923+00:00",
     "total_benchmark_pairs": 15,
     "total_diagnostic_probe_cases": 6,
     "defined_categories": [
@@ -69,11 +69,11 @@
         "AGENT_ARCHITECTURE_DIVERGENCE"
       ],
       "evidence": {
-        "MECHANISTIC_UNCERTAINTY": "outputs/eval-run-*_report.json: Strict False Negative (expected ESCALATE, actual MONITOR; confidence=0.6640 < 0.70 driven by low biological plausibility=0.0).",
+        "MECHANISTIC_UNCERTAINTY": "outputs/core/eval-run-*_report.json: Strict False Negative (expected ESCALATE, actual MONITOR; confidence=0.6640 < 0.70 driven by low biological plausibility=0.0).",
         "CROSS_SOURCE_DISCORDANCE": "scripts/dev/backfill_agreement.py / DECISIONS.md \u00a726: Classified DISCORDANT (max=1.00, min=0.00, spread >= 0.66 across modalities).",
-        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('FDA has issued a boxed warning'); score downgraded to LOW.",
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/experiments/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('FDA has issued a boxed warning'); score downgraded to LOW.",
         "GATE_ARTIFACT": "outputs/research/source_ablation/ablation_results.json: Zeroing FAERS in multi-source ablation triggered Gate 1 (NO_SIGNAL) as an artificial zeroing artifact rather than a true biological absence.",
-        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'ESCALATE' diverged from deterministic pipeline reported escalation 'MONITOR'."
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/experiments/react_agent/agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'ESCALATE' diverged from deterministic pipeline reported escalation 'MONITOR'."
       }
     },
     "ciprofloxacin::tendon_rupture": {
@@ -152,7 +152,7 @@
         "AGENT_ARCHITECTURE_DIVERGENCE"
       ],
       "evidence": {
-        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'MONITOR' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/experiments/react_agent/agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'MONITOR' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
       }
     },
     "metformin::hypoglycaemia": {
@@ -180,7 +180,7 @@
       ],
       "evidence": {
         "CROSS_SOURCE_DISCORDANCE": "scripts/dev/backfill_agreement.py / DECISIONS.md \u00a726: Classified DISCORDANT (max=1.00, min=0.00, spread >= 0.66 across modalities).",
-        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'ESCALATE' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/experiments/react_agent/agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'ESCALATE' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
       }
     },
     "albuterol::suicidal_ideation": {
@@ -191,7 +191,7 @@
         "AGENT_ARCHITECTURE_DIVERGENCE"
       ],
       "evidence": {
-        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/react_agent_agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'Monitor' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
+        "AGENT_ARCHITECTURE_DIVERGENCE": "outputs/experiments/react_agent/agreement_report.json / DECISIONS.md \u00a724: ReAct agent stated recommendation 'Monitor' diverged from deterministic pipeline reported escalation 'DO_NOT_ESCALATE'."
       }
     },
     "amoxicillin::tendon_rupture": {
@@ -244,7 +244,7 @@
         "CONFOUNDED_SIGNAL"
       ],
       "evidence": {
-        "CONFOUNDED_SIGNAL": "outputs/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (insulin, sulfonylureas) (discount_factor=0.10; DECISIONS.md \u00a728)."
+        "CONFOUNDED_SIGNAL": "outputs/experiments/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (insulin, sulfonylureas) (discount_factor=0.10; DECISIONS.md \u00a728)."
       }
     },
     "semaglutide::hypoglycaemia": {
@@ -255,7 +255,7 @@
         "CONFOUNDED_SIGNAL"
       ],
       "evidence": {
-        "CONFOUNDED_SIGNAL": "outputs/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (insulin, sulfonylureas) (discount_factor=0.30; DECISIONS.md \u00a728)."
+        "CONFOUNDED_SIGNAL": "outputs/experiments/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (insulin, sulfonylureas) (discount_factor=0.30; DECISIONS.md \u00a728)."
       }
     },
     "tamsulosin::intraoperative_floppy_iris_syndrome": {
@@ -266,7 +266,7 @@
         "LLM_MEMORIZATION_LEAKAGE"
       ],
       "evidence": {
-        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented clinical complication'); score downgraded to HIGH."
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/experiments/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented clinical complication'); score downgraded to HIGH."
       }
     },
     "terbinafine::ageusia": {
@@ -277,7 +277,7 @@
         "LLM_MEMORIZATION_LEAKAGE"
       ],
       "evidence": {
-        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented'); score downgraded to MODERATE."
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/experiments/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented'); score downgraded to MODERATE."
       }
     },
     "topiramate::hypohidrosis": {
@@ -288,7 +288,7 @@
         "LLM_MEMORIZATION_LEAKAGE"
       ],
       "evidence": {
-        "LLM_MEMORIZATION_LEAKAGE": "outputs/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented to cause hypohidrosis (decreased sweating) and hyperthermia'); score downgraded to HIGH."
+        "LLM_MEMORIZATION_LEAKAGE": "outputs/experiments/critic_probe/leakage_critique_results.json / DECISIONS.md \u00a727: Adversarial critic flagged regulatory/epidemiological leakage ('well-documented to cause hypohidrosis (decreased sweating) and hyperthermia'); score downgraded to HIGH."
       }
     },
     "warfarin::gastrointestinal_haemorrhage": {
@@ -299,7 +299,7 @@
         "CONFOUNDED_SIGNAL"
       ],
       "evidence": {
-        "CONFOUNDED_SIGNAL": "outputs/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (NSAIDs, aspirin) (discount_factor=0.60; DECISIONS.md \u00a728)."
+        "CONFOUNDED_SIGNAL": "outputs/experiments/confounding_probe/confounding_self_probe.json: Confounding self-probe identified polypharmacy co-medication (NSAIDs, aspirin) (discount_factor=0.60; DECISIONS.md \u00a728)."
       }
     }
   }

@@ -17,7 +17,7 @@ if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # Ensure repository root is on sys.path
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 def run_stability_analysis(outputs_dir: Path = None, gt_path: Path = None) -> dict:
     if outputs_dir is None:
-        outputs_dir = REPO_ROOT / "outputs"
+        outputs_dir = REPO_ROOT / "outputs" / "core"
     if gt_path is None:
         gt_path = REPO_ROOT / "pharmaguard" / "data" / "ground_truth.json"
 
@@ -209,8 +209,8 @@ def run_stability_analysis(outputs_dir: Path = None, gt_path: Path = None) -> di
         "loo_iterations": loo_results,
     }
 
-    # Save to outputs/stability/loo_analysis.json
-    out_dir = REPO_ROOT / "outputs" / "stability"
+    # Save to outputs/research/stability/loo_analysis.json
+    out_dir = REPO_ROOT / "outputs" / "research" / "stability"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_file = out_dir / "loo_analysis.json"
     with open(out_file, "w", encoding="utf-8") as f:

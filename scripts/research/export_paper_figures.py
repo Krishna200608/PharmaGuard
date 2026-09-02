@@ -26,7 +26,7 @@ import sys
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -189,13 +189,13 @@ def generate_waterfall_chart(
 
 
 def export_all_figures():
-    out_dir = REPO_ROOT / "outputs" / "paper_figures"
+    out_dir = REPO_ROOT / "outputs" / "research" / "paper_figures"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    outputs_dir = REPO_ROOT / "outputs"
+    core_dir = REPO_ROOT / "outputs" / "core"
 
     # 1. Montelukast :: suicidal_ideation (Flagship Strict FN Disagreement Case)
-    montelukast_file = outputs_dir / "eval-run-0-montelukast-suicidal_ideation_report.json"
+    montelukast_file = core_dir / "eval-run-0-montelukast-suicidal_ideation_report.json"
     with open(montelukast_file, "r", encoding="utf-8") as f:
         montelukast_data = json.load(f)
 
@@ -207,7 +207,7 @@ def export_all_figures():
     )
 
     # 2. Metformin :: hypoglycaemia (Polypharmacy Confounded Case - Baseline vs Discounted)
-    metformin_base_file = outputs_dir / "eval-run-8-metformin-hypoglycaemia_report.json"
+    metformin_base_file = core_dir / "eval-run-8-metformin-hypoglycaemia_report.json"
     with open(metformin_base_file, "r", encoding="utf-8") as f:
         metformin_base_data = json.load(f)
 
@@ -218,7 +218,7 @@ def export_all_figures():
         output_dir=out_dir,
     )
 
-    metformin_discount_file = outputs_dir / "confounding_probe" / "metformin_confounding_report.json"
+    metformin_discount_file = REPO_ROOT / "outputs" / "experiments" / "confounding_probe" / "metformin_confounding_report.json"
     if metformin_discount_file.exists():
         with open(metformin_discount_file, "r", encoding="utf-8") as f:
             metformin_disc_data = json.load(f)
@@ -232,7 +232,7 @@ def export_all_figures():
         )
 
     # 3. Ciprofloxacin :: tendon_rupture (Concordant Positive Control)
-    cipro_file = outputs_dir / "eval-run-1-ciprofloxacin-tendon_rupture_report.json"
+    cipro_file = core_dir / "eval-run-1-ciprofloxacin-tendon_rupture_report.json"
     with open(cipro_file, "r", encoding="utf-8") as f:
         cipro_data = json.load(f)
 

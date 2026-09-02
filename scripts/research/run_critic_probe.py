@@ -16,7 +16,7 @@ import sys
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -131,8 +131,8 @@ def run_critic_probe():
         if critique.rationale_critique:
             print(f"  Critic Notes:                {critique.rationale_critique}")
 
-    # Write to outputs/critic_probe/leakage_critique_results.json
-    out_dir = REPO_ROOT / "outputs" / "critic_probe"
+    # Write to outputs/experiments/critic_probe/leakage_critique_results.json
+    out_dir = REPO_ROOT / "outputs" / "experiments" / "critic_probe"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_file = out_dir / "leakage_critique_results.json"
     with open(out_file, "w", encoding="utf-8") as f:

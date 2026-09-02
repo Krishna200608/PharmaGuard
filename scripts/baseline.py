@@ -5,7 +5,7 @@ One LLM call per drug-event pair. No tool use. No FAERS, ChEMBL, or PubMed acces
 The LLM receives only the drug name and adverse event, and must produce an
 escalation decision (ESCALATE / MONITOR / DO_NOT_ESCALATE) with a confidence score.
 
-Output: TriageReport JSON files written to outputs/baseline/, using the exact same
+Output: TriageReport JSON files written to outputs/experiments/baseline/, using the exact same
 schema as the main pipeline so evaluator.py can score them with zero modification.
 
 Cache: disk-backed via cache.py, key prefix "baseline::{drug}::{event}::{prompts_version}".
@@ -136,7 +136,7 @@ def run_baseline():
 
     project_root = Path(__file__).resolve().parents[1]
     gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
-    output_dir = project_root / "outputs" / "baseline"
+    output_dir = project_root / "outputs" / "experiments" / "baseline"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if not gt_path.exists():

@@ -130,7 +130,7 @@ def view_overview(logo_path: Path | None = None, stability_path: Path | None = N
     st.markdown('<div class="pg-section-label">Leave-One-Out (LOO) Stability Analysis (15 Iterations)</div>', unsafe_allow_html=True)
 
     if stability_path is None:
-        stability_path = Path(__file__).resolve().parents[3] / "outputs" / "stability" / "loo_analysis.json"
+        stability_path = Path(__file__).resolve().parents[3] / "outputs" / "research" / "stability" / "loo_analysis.json"
 
     stability_data = None
     if stability_path and stability_path.exists():
@@ -193,7 +193,7 @@ def view_overview(logo_path: Path | None = None, stability_path: Path | None = N
     else:
         st.markdown(
             '<div style="font-family:\'JetBrains Mono\', monospace; font-size:12px; color:var(--text-dim); padding: 12px 0;">'
-            'LOO stability analysis not yet generated — run <code>python scripts/stability_analysis.py</code>'
+            'LOO stability analysis not yet generated — run <code>python scripts/research/stability_analysis.py</code>'
             '</div>',
             unsafe_allow_html=True,
         )

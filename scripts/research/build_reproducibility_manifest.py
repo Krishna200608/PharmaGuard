@@ -67,10 +67,56 @@ def classify_artifact(rel_posix: str) -> Tuple[str, str]:
     parts = rel_posix.split("/")
     filename = parts[-1]
 
+    # outputs/core/...
+    if len(parts) >= 3 and parts[1] == "core":
+        if filename.startswith("eval-run-"):
+            return "production_report", "production_benchmark"
+        return "core_report", "production_benchmark"
+
+    # outputs/experiments/...
+    if len(parts) >= 3 and parts[1] == "experiments":
+        folder = parts[2]
+        if folder == "baseline":
+            return "baseline_report", "evaluation_run"
+        elif folder == "ablation":
+            return "ablation_report", "evaluation_run"
+        elif folder == "react_agent":
+            if filename in ("agreement_report.json", "react_agent_agreement_report.json"):
+                return "agent_agreement_audit", "evaluation_run"
+            return "react_agent_report", "evaluation_run"
+        elif folder == "probe":
+            return "diagnostic_probe_report", "diagnostic_probe"
+        elif folder == "critic_probe":
+            return "critic_probe_results", "diagnostic_probe"
+        elif folder == "confounding_probe":
+            if "self_probe" in filename:
+                return "confounding_self_probe", "diagnostic_probe"
+            return "confounding_probe_report", "diagnostic_probe"
+        return "experiment_artifact", "evaluation_run"
+
+    # outputs/research/...
+    if len(parts) >= 3 and parts[1] == "research":
+        if len(parts) > 3:
+            res_sub = parts[2]
+            if res_sub == "stability":
+                if filename == "loo_analysis.json":
+                    return "stability_analysis", "stability_evaluation"
+                return "research_stability_experiment", "research_experiment"
+            elif res_sub == "source_ablation":
+                return "research_ablation_experiment", "research_experiment"
+            elif res_sub == "error_taxonomy":
+                return "research_taxonomy_experiment", "research_experiment"
+            elif res_sub == "omop_pilot":
+                return "omop_pilot_report", "research_experiment"
+        if filename == "reproducibility_manifest.json":
+            return "reproducibility_manifest", "meta_manifest"
+        return "research_experiment", "research_experiment"
+
+    # Legacy fallbacks
     if len(parts) == 2:  # outputs/<file>
         if filename.startswith("eval-run-"):
             return "production_report", "production_benchmark"
-        elif filename == "react_agent_agreement_report.json":
+        elif filename in ("agreement_report.json", "react_agent_agreement_report.json"):
             return "agent_agreement_audit", "evaluation_run"
         return "root_output", "other"
 
@@ -80,6 +126,8 @@ def classify_artifact(rel_posix: str) -> Tuple[str, str]:
     elif folder == "ablation":
         return "ablation_report", "evaluation_run"
     elif folder == "react_agent":
+        if filename in ("agreement_report.json", "react_agent_agreement_report.json"):
+            return "agent_agreement_audit", "evaluation_run"
         return "react_agent_report", "evaluation_run"
     elif folder == "probe":
         return "diagnostic_probe_report", "diagnostic_probe"
@@ -91,18 +139,6 @@ def classify_artifact(rel_posix: str) -> Tuple[str, str]:
         return "confounding_probe_report", "diagnostic_probe"
     elif folder == "stability":
         return "stability_analysis", "stability_evaluation"
-    elif folder == "research":
-        if len(parts) > 2:
-            res_sub = parts[2]
-            if res_sub == "stability":
-                return "research_stability_experiment", "research_experiment"
-            elif res_sub == "source_ablation":
-                return "research_ablation_experiment", "research_experiment"
-            elif res_sub == "error_taxonomy":
-                return "research_taxonomy_experiment", "research_experiment"
-        if filename == "reproducibility_manifest.json":
-            return "reproducibility_manifest", "meta_manifest"
-        return "research_experiment", "research_experiment"
 
     return "unknown", "other"
 
@@ -373,17 +409,17 @@ def generate_markdown_report(manifest_data: Dict[str, Any]) -> str:
         "PharmaGuard's provenance tracking evolved across three distinct architectural phases:",
         "",
         "1. **Phase 1: Frozen Postmarketing Evaluation Reports (August 14–21, 2026)**",
-        "   - **Files:** `outputs/eval-run-*_report.json`, `outputs/baseline/`, `outputs/ablation/`, `outputs/react_agent/` (60 files)",
+        "   - **Files:** `outputs/core/eval-run-*_report.json`, `outputs/experiments/baseline/`, `outputs/experiments/ablation/`, `outputs/experiments/react_agent/` (60 files)",
         "   - **Fields Present:** `run_id`, `timestamp`, `prompts_version` (`v1.0`), `schema_version` (`1.1`).",
         "   - **Missing Fields:** `git_commit_hash`, `model_name`, `cache_schema_version`, `config_snapshot`.",
         "   - **Design Rationale:** These frozen evaluation reports predate the formal configuration snapshotting convention introduced in R0. Per project integrity rules, these files remain immutable.",
         "",
         "2. **Phase 2: Diagnostic Safety Probes & Audits (August 20–27, 2026)**",
-        "   - **Files:** `outputs/critic_probe/`, `outputs/confounding_probe/`, `outputs/probe/`, `outputs/stability/loo_analysis.json` (8 files)",
+        "   - **Files:** `outputs/experiments/critic_probe/`, `outputs/experiments/confounding_probe/`, `outputs/experiments/probe/`, `outputs/research/stability/loo_analysis.json` (8 files)",
         "   - **Characteristics:** Focused on internal probe cases and post-hoc qualitative audits; metrics were output without standardized experiment metadata wrappers.",
         "",
         "3. **Phase 3: Formal R0 & R1 Research Experiments (August 28–30, 2026)**",
-        "   - **Files:** `outputs/research/stability/*.json`, `outputs/research/source_ablation/*.json` (5 files)",
+        "   - **Files:** `outputs/research/stability/*.json`, `outputs/research/source_ablation/*.json`, `outputs/research/omop_pilot/*.json`, `outputs/research/error_taxonomy/*.json` (37 files)",
         "   - **Fields Present:** `experiment_id`, `git_commit_hash`, `timestamp`, `model_name` (`gemini-3.1-flash-lite`), `prompts_version` (`v1.1`), `cache_schema_version` (`v7`), `config_snapshot`.",
         "   - **Completeness:** 100% complete provenance specification with reproducible hyperparameter and cache tracking.",
         "",

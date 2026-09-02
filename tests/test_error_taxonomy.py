@@ -58,7 +58,7 @@ def test_montelukast_classification(taxonomy_data):
     assert "AGENT_ARCHITECTURE_DIVERGENCE" in cats
 
     # Check evidence citations
-    assert "outputs/eval-run-" in item["evidence"]["MECHANISTIC_UNCERTAINTY"]
+    assert "outputs/core/eval-run-" in item["evidence"]["MECHANISTIC_UNCERTAINTY"]
     assert "Strict False Negative" in item["evidence"]["MECHANISTIC_UNCERTAINTY"]
     assert "scripts/dev/backfill_agreement.py" in item["evidence"]["CROSS_SOURCE_DISCORDANCE"]
 
@@ -124,7 +124,7 @@ def test_agent_architecture_divergence_cases(taxonomy_data):
 
     for pk in divergent_pairs:
         assert "AGENT_ARCHITECTURE_DIVERGENCE" in taxonomy_data["benchmark_pairs"][pk]["categories"]
-        assert "outputs/react_agent_agreement_report.json" in taxonomy_data["benchmark_pairs"][pk]["evidence"]["AGENT_ARCHITECTURE_DIVERGENCE"]
+        assert "outputs/experiments/react_agent/agreement_report.json" in taxonomy_data["benchmark_pairs"][pk]["evidence"]["AGENT_ARCHITECTURE_DIVERGENCE"]
 
 
 def test_gate_artifact_cases(taxonomy_data):

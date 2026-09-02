@@ -84,10 +84,10 @@ def normalize_recommendation(raw_rec: str) -> str:
 
 def audit_react_agreement() -> Dict[str, Any]:
     """Run read-only audit comparing agent stated recommendation to reported escalation."""
-    root_dir = Path(__file__).resolve().parents[1]
+    root_dir = Path(__file__).resolve().parents[2]
     gt_path = root_dir / "pharmaguard" / "data" / "ground_truth.json"
-    react_dir = root_dir / "outputs" / "react_agent"
-    fixed_dir = root_dir / "outputs"
+    react_dir = root_dir / "outputs" / "experiments" / "react_agent"
+    fixed_dir = root_dir / "outputs" / "core"
 
     if not gt_path.exists():
         print(f"Error: Ground truth file not found at {gt_path}", file=sys.stderr)
@@ -213,7 +213,7 @@ def audit_react_agreement() -> Dict[str, Any]:
         "pairs": results
     }
 
-    out_file = root_dir / "outputs" / "react_agent_agreement_report.json"
+    out_file = root_dir / "outputs" / "experiments" / "react_agent" / "agreement_report.json"
     out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w", encoding="utf-8") as out_f:
         json.dump(report_payload, out_f, indent=2)

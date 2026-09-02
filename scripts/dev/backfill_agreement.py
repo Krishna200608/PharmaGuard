@@ -21,7 +21,9 @@ from pharmaguard.agent.output_schema import TriageReport, compute_source_agreeme
 
 
 def backfill_agreement():
-    outputs_dir = REPO_ROOT / "outputs"
+    outputs_dir = REPO_ROOT / "outputs" / "core"
+    if not outputs_dir.exists():
+        outputs_dir = REPO_ROOT / "outputs"
     report_files = sorted(list(outputs_dir.glob("eval-run-*_report.json")))
     if not report_files:
         print(f"No reports found in {outputs_dir}")

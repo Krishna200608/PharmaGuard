@@ -17,7 +17,7 @@ import sys
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -114,7 +114,7 @@ def run_confounding_self_probe():
         print(f"  Confounding Drugs:   {assessment.confounding_drugs}")
         print(f"  Full Rationale Text:\n    \"{assessment.confounding_explanation}\"")
 
-    out_dir = REPO_ROOT / "outputs" / "confounding_probe"
+    out_dir = REPO_ROOT / "outputs" / "experiments" / "confounding_probe"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_file = out_dir / "confounding_self_probe.json"
     with open(out_file, "w", encoding="utf-8") as f:

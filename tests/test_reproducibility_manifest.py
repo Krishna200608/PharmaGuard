@@ -63,7 +63,7 @@ def test_complete_provenance_research_artifacts(manifest_payload):
 def test_partial_provenance_frozen_reports(manifest_payload):
     """Frozen production reports must have PARTIAL status and explicitly null missing fields."""
     by_path = {a["file_path"]: a for a in manifest_payload["artifacts"]}
-    sample_path = "outputs/eval-run-0-montelukast-suicidal_ideation_report.json"
+    sample_path = "outputs/core/eval-run-0-montelukast-suicidal_ideation_report.json"
 
     assert sample_path in by_path
     entry = by_path[sample_path]

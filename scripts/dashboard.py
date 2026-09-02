@@ -58,9 +58,9 @@ from dashboard_modules.views.probes import view_probes
 # ---------------------------------------------------------------------------
 # Paths & Page Configuration
 # ---------------------------------------------------------------------------
-OUTPUTS_DIR = REPO_ROOT / "outputs"
-BASELINE_DIR = OUTPUTS_DIR / "baseline"
-STABILITY_PATH = OUTPUTS_DIR / "stability" / "loo_analysis.json"
+OUTPUTS_DIR = REPO_ROOT / "outputs" / "core"
+BASELINE_DIR = REPO_ROOT / "outputs" / "experiments" / "baseline"
+STABILITY_PATH = REPO_ROOT / "outputs" / "research" / "stability" / "loo_analysis.json"
 GROUND_TRUTH_PATH = REPO_ROOT / "pharmaguard" / "data" / "ground_truth.json"
 FAVICON_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_1.png"
 LOGO_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_2.png"
@@ -145,7 +145,7 @@ def main() -> None:
     with tab4:
         view_baseline(prod_reports, base_reports, theme=active_theme)
     with tab5:
-        view_probes(OUTPUTS_DIR, theme=active_theme)
+        view_probes(REPO_ROOT, theme=active_theme)
 
 
 if __name__ == "__main__":

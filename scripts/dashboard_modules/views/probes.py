@@ -21,8 +21,13 @@ import streamlit as st
 from ..components import render_conf_chart, esc_badge, material_icon
 
 
-def view_probes(outputs_dir: Path, theme: str = "light") -> None:
+def view_probes(repo_root: Path | None = None, theme: str = "light") -> None:
     """Render the Methodology Probes view with graceful fallbacks and Google Material Icons."""
+    if repo_root is None:
+        repo_root = Path(__file__).resolve().parents[3]
+    elif (repo_root / "outputs").is_dir() is False and repo_root.name == "core":
+        repo_root = repo_root.parents[1]
+
     is_dark = (theme == "dark")
 
     st.markdown(
@@ -71,9 +76,9 @@ def view_probes(outputs_dir: Path, theme: str = "light") -> None:
         unsafe_allow_html=True,
     )
 
-    critic_file = outputs_dir / "critic_probe" / "leakage_critique_results.json"
+    critic_file = repo_root / "outputs" / "experiments" / "critic_probe" / "leakage_critique_results.json"
     if not critic_file.exists():
-        st.info("Adversarial critic results not yet generated. Run `python scripts/run_critic_probe.py`.")
+        st.info("Adversarial critic results not yet generated. Run `python scripts/research/run_critic_probe.py`.")
     else:
         try:
             with open(critic_file, "r", encoding="utf-8") as f:
@@ -129,7 +134,7 @@ def view_probes(outputs_dir: Path, theme: str = "light") -> None:
                     f'</tr>'
                 )
 
-            st.markdown(
+                st.markdown(
                 f'<div class="pg-table-container">'
                 f'<table class="pg-data-table">'
                 f'<thead><tr>'
@@ -173,9 +178,9 @@ def view_probes(outputs_dir: Path, theme: str = "light") -> None:
         unsafe_allow_html=True,
     )
 
-    confound_file = outputs_dir / "confounding_probe" / "confounding_self_probe.json"
+    confound_file = repo_root / "outputs" / "experiments" / "confounding_probe" / "confounding_self_probe.json"
     if not confound_file.exists():
-        st.info("Confounding self-probe results not yet generated. Run `python scripts/run_confounding_probe.py`.")
+        st.info("Confounding self-probe results not yet generated. Run `python scripts/research/run_confounding_probe.py`.")
     else:
         try:
             with open(confound_file, "r", encoding="utf-8") as f:
@@ -245,11 +250,11 @@ def view_probes(outputs_dir: Path, theme: str = "light") -> None:
         unsafe_allow_html=True,
     )
 
-    base_file = outputs_dir / "eval-run-8-metformin-hypoglycaemia_report.json"
-    disc_file = outputs_dir / "confounding_probe" / "metformin_confounding_report.json"
+    base_file = repo_root / "outputs" / "core" / "eval-run-8-metformin-hypoglycaemia_report.json"
+    disc_file = repo_root / "outputs" / "experiments" / "confounding_probe" / "metformin_confounding_report.json"
 
     if not base_file.exists() or not disc_file.exists():
-        st.info("Before/after evaluation reports not found. Run `python scripts/run_confounding_evaluation.py`.")
+        st.info("Before/after evaluation reports not found. Run `python scripts/research/run_confounding_evaluation.py`.")
     else:
         try:
             with open(base_file, "r", encoding="utf-8") as f:

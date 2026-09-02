@@ -52,6 +52,6 @@ logging:
 paths:
   data_dir: "pharmaguard/data"
   prompts_dir: "pharmaguard/prompts"
-  output_dir: "outputs"   # Teammate 2's evaluator reads TriageReport JSONs from here
+  output_dir: "outputs/core"   # Primary evaluator reads core benchmark TriageReport JSONs from here
 
 

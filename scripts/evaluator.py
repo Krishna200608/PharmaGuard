@@ -75,7 +75,9 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard", gt_path
     if gt_path is None:
         gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
     if outputs_dir is None:
-        outputs_dir = project_root / "outputs"
+        outputs_dir = project_root / "outputs" / "core"
+        if not outputs_dir.exists():
+            outputs_dir = project_root / "outputs"
     
     ground_truth = load_ground_truth(gt_path)
     if not ground_truth:
@@ -334,7 +336,7 @@ if __name__ == "__main__":
         "--outputs-dir",
         type=Path,
         default=None,
-        help="Directory containing eval-run-*_report.json files. Defaults to outputs/.",
+        help="Directory containing eval-run-*_report.json files. Defaults to outputs/core/.",
     )
     parser.add_argument(
         "--title",
