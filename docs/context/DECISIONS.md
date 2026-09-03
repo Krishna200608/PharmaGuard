@@ -629,6 +629,13 @@ For the 7 OMOP benchmark positive-control disagreements documented in §31, the 
 * **Config Gate:** Gated behind `signal_detection.ci_based_gate.enabled: false` (default OFF in `configs/config.yaml`). Default production behavior remains 100% byte-for-byte unchanged.
 * **Dual-Validation Finding:** Rescues 2 of 6 gate-driven false negatives on OMOP (`dipyridamole`, `nifedipine` -> `MONITOR`, raising Lenient Recall from 0.562 to 0.688 and Lenient F1 from 0.720 to 0.815 with 1.000 specificity). However, on the core 15-pair benchmark, loosening the gate introduces 1 new lenient false positive on `atorvastatin::dementia` (raising over-caution from 12.5% to 25.0%). Config default remains disabled pending supervisor consultation.
 
+## 33. Two-Stage Term Canonicalization Layer (Opt-In Utility)
+**Context:** Implementation of the two-stage input canonicalization utility specified in `docs/context/CANONICALIZATION.md`.
+- **Implementation Status:** Completed in `pharmaguard/utils/canonicalize.py` with 51 dedicated unit tests (`tests/test_canonicalize.py`). 148/148 full suite tests passing.
+- **Licensing Constraint:** Explicitly disclosed that PharmaGuard possesses no MedDRA MSSO license. The utility operates strictly over an internal controlled vocabulary (15 events, 50 drugs) derived from public ground-truth pairs and ChEMBL lookup tables.
+- **Architectural Invariant:** Standalone and opt-in utility only. Not wired into existing `FixedPipelineAgent` or `PharmaGuardAgent` pipelines, preserving frozen primary and secondary benchmark reproducibility.
+
+
 
 
 
