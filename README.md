@@ -301,6 +301,12 @@ pytest -v
 
 ---
 
-## License
+## License & Third-Party Notices
 
-This project is licensed under the [MIT License](LICENSE).
+- **Software & Code:** PharmaGuard's original software, agent orchestration, evaluation harnesses, and documentation are licensed under the [MIT License](LICENSE).
+- **Third-Party Data:** Certain pharmacological registries and benchmark datasets distributed in `pharmaguard/data/` are governed by separate open licenses:
+  - `pharmaguard/data/chembl_lookup.json` is derived from ChEMBL and licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) (Creative Commons Attribution-ShareAlike 3.0 Unported). In accordance with the ShareAlike clause, this data file remains subject to CC BY-SA 3.0 and is not covered by the repo's MIT license.
+  - `pharmaguard/data/external/omopReferenceSet.rda` and derived `ground_truth_omop_pilot.json` are distributed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) (OHDSI MethodEvaluation).
+
+See **[`NOTICE.md`](NOTICE.md)** for full third-party license texts, copyright notices, and required academic citations.
+
