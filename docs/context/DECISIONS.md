@@ -629,7 +629,59 @@ For the 7 OMOP benchmark positive-control disagreements documented in §31, the 
 * **Config Gate:** Gated behind `signal_detection.ci_based_gate.enabled: false` (default OFF in `configs/config.yaml`). Default production behavior remains 100% byte-for-byte unchanged.
 * **Dual-Validation Finding:** Rescues 2 of 6 gate-driven false negatives on OMOP (`dipyridamole`, `nifedipine` -> `MONITOR`, raising Lenient Recall from 0.562 to 0.688 and Lenient F1 from 0.720 to 0.815 with 1.000 specificity). However, on the core 15-pair benchmark, loosening the gate introduces 1 new lenient false positive on `atorvastatin::dementia` (raising over-caution from 12.5% to 25.0%). Config default remains disabled pending supervisor consultation.
 
+
+### 6. Core Benchmark Regression: A Genuine Trade-off, Not a Free Improvement
+Independent verification of the dual-benchmark experimental run (`commit cbfea38`) reveals that replacing the production magnitude gate with the CI-based gate is **not a free improvement, but a fundamental operating trade-off between two benchmarks**.
+
+While the prior revision emphasized the positive finding (rescuing 2 of 6 false negatives on OMOP), that framing is scientifically incomplete without documenting the accompanying cost: the new gate causes an immediate regression on the frozen 15-pair Core benchmark, flipping `atorvastatin::dementia` from a correctly identified negative control to an erroneous false-positive `MONITOR`.
+
+#### A. Direct Comparison on `atorvastatin::dementia`
+The table below contrasts the actual outputs between production (`outputs/core/eval-run-9-atorvastatin-dementia_report.json`) and the CI-gated experimental run (`outputs/experiments/ci_gate_core/eval-run-9-atorvastatin-dementia_report.json`):
+
+| Pipeline Attribute | Production Gate (`compute_prr_score`) | CI-Based Gate (`compute_prr_score_ci_based`) |
+| :--- | :---: | :---: |
+| **FAERS Report Count ($n$)** | 1,109 | 1,109 |
+| **Point-Estimate Disproportionality ($PRR$)** | 1.719 | 1.719 |
+| **95% Lower Confidence Bound ($PRR_{\text{lower\_ci}}$)** | 1.619 | 1.619 |
+| **FAERS Signal Strength Label** | `NO_SIGNAL` | `WEAK` |
+| **FAERS Numerical Score ($S_{\text{FAERS}}$)** | **0.00** | **0.33** |
+| **Biological Plausibility** | `MODERATE` ($0.50$, human curated) | `MODERATE` ($0.50$, human curated) |
+| **Literature Evidence Grade** | Grade B ($0.50$) / Grade A ($1.00$) | Grade B ($0.50$, live API re-query) |
+| **Composite Confidence** | 0.300 (or 0.500 with Grade A) | **0.432** ($\ge 0.35$ monitoring floor) |
+| **Gate 1 Execution** | `signal_strength == NO_SIGNAL` $\implies$ **Fires** | Bypassed (`signal_strength == WEAK`) |
+| **Final Escalation Decision** | **`DO_NOT_ESCALATE`** | **`MONITOR`** |
+| **Ground Truth Classification** | `genuine_negative_control` | `genuine_negative_control` |
+| **Evaluation Classification** | **True Negative** | **False Positive (Lenient)** |
+
+#### B. Epidemiological Mechanism
+The regression on `atorvastatin::dementia` is driven by the exact same mechanism that dilutes chronic positive signals on OMOP:
+1. **High-Utilization Dilution in Reverse:** Atorvastatin is a massive blockbuster chronic therapy prescribed to tens of millions of older adults. Dementia is a prevalent, age-associated neurodegenerative condition in the same demographic. Consequently, incidental co-reporting in FAERS is substantial ($n = 1,109$), yielding a modest elevation in relative reporting ($PRR = 1.719$).
+2. **Confidence-Interval Tightening on Large $N$:** Because the sample size is large ($n > 1,000$), the standard error is very small, causing the lower 95% confidence bound to clear 1.0 with high statistical confidence ($PRR_{\text{lower\_ci}} = 1.619 > 1.0$).
+3. **Loss of Magnitude Protection:** Under the production gate ($\text{PRR} < 2.0$), this background noise was effectively filtered out despite its statistical significance, correctly stopping the pair at Gate 1 (`NO_SIGNAL`). Under the CI-based gate, the signal is labeled `WEAK` ($0.33$).
+4. **Corroboration Summation:** Because statins crossing the blood-brain barrier have plausible biological hypotheses regarding cholesterol synthesis in neuronal myelin (`MODERATE` plausibility $= 0.50$) and extensive observational literature exists discussing the association (`Grade B` $= 0.50$), the multi-source fusion formula yields:
+   $$\text{Confidence} = 0.40(0.33) + 0.40(0.50) + 0.20(0.50) = 0.132 + 0.200 + 0.100 = \mathbf{0.432}$$
+   Because $0.432 \ge 0.35$, Gate 3 fires and escalates the negative control to `MONITOR`.
+
+#### C. Net Honest Summary: A Trade-off Between Benchmarks
+The impact of the CI-based gate across both cohorts is summarized below:
+
+* **Core 15-Pair Benchmark (High-Signal / Acute Focused):**
+  * Strict Metrics: $F_1 = 0.923$ (Unchanged).
+  * Lenient Metrics: $F_1$ drops from **$0.933 \to 0.875$** (Precision $0.875 \to 0.778$, Specificity $0.875 \to 0.750$).
+  * Over-Caution Rate: Doubles from **$12.5\% \to 25.0\%$** ($2/8$ negative controls flagged: `metformin` + `atorvastatin`).
+  * **Result: Performance is measurably WORSE.**
+* **OMOP 32-Pair Secondary Benchmark (High-Utilization Chronic Focused):**
+  * Strict Metrics: $F_1 = 0.118$ (Unchanged).
+  * Lenient Metrics: $F_1$ improves from **$0.720 \to 0.815$** (Recall $0.562 \to 0.688$, Specificity remains $1.000$).
+  * Over-Caution Rate: Remains **$0.0\%$** ($0/16$ negative controls flagged).
+  * **Result: Performance is measurably BETTER.**
+
+This confirms that the CI-based gate is **not a strict Pareto improvement**. It represents an epidemiological trade-off: loosening the disproportionality gate to capture modest relative risks in chronic populations inevitably increases exposure to high-volume background noise and indication bias among negative controls.
+
+In strict adherence to the anti-overfitting discipline established in §15 and §18, **no post-hoc threshold tweaks, weight re-calibrations, or special-case overrides are introduced** to suppress this false positive. The trade-off is recorded as an authentic empirical property of the gate, and the config flag remains `enabled: false` by default.
+
 ## 33. Two-Stage Term Canonicalization Layer (Opt-In Utility)
+
 **Context:** Implementation of the two-stage input canonicalization utility specified in `docs/context/CANONICALIZATION.md`.
 - **Implementation Status:** Completed in `pharmaguard/utils/canonicalize.py` with 51 dedicated unit tests (`tests/test_canonicalize.py`). 148/148 full suite tests passing.
 - **Licensing Constraint:** Explicitly disclosed that PharmaGuard possesses no MedDRA MSSO license. The utility operates strictly over an internal controlled vocabulary (15 events, 50 drugs) derived from public ground-truth pairs and ChEMBL lookup tables.
