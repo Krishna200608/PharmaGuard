@@ -544,9 +544,7 @@ When `SignalStrength == NO_SIGNAL`, `derive_escalation()` unconditionally execut
 
 ### 5. Non-Retroactive Calibration Policy (Anti-Overfitting Discipline)
 - **Policy:** PharmaGuard's scoring weights ($0.40 / 0.40 / 0.20$) and escalation thresholds ($0.70 / 0.35$) were locked prior to running this pilot. In accordance with §15 (the rubric-revision-with-foreknowledge incident) and §18, **no post-hoc threshold adjustments or rubric mutations are permitted on this pilot data**.
-- **External Validity Finding:** This experiment demonstrates a concrete, disclosed boundary of the heuristic fixed-threshold design: a static $\text{PRR} \ge 2.0$ cutoff optimized on acute, high-signal benchmark drugs does not transfer seamlessly to high-utilization chronic therapies exhibiting modest relative risk. This finding represents a valuable empirical characterization of multi-source signal fusion limitations, rather than a code defect.
-
-## 32. Alternative Signal Detection Gate: Confidence-Interval-Based Gating (Evans et al. 2001)
+- **External Validity Finding:** This experiment demonstrates a concrete, disclosed boundary of the heuristic fixed-threshold design: a static $\text{PRR} \ge 2.0$ cutoff optimized on acute, high-signal benchmark drugs does not transfer seamlessly to high-utilization chronic therapi## 32. Alternative Signal Detection Gate: Confidence-Interval-Based Gating (Evans et al. 2001)
 **Context:** Design of a config-gated alternative signal detection gate addressing the static magnitude cutoff limitation identified in §31, without modifying the production default.
 
 ### 1. Epidemiological Motivation & Pharmacovigilance Literature
@@ -559,6 +557,9 @@ In classical pharmacovigilance literature, signal detection is defined by statis
   1. The **lower bound of the 95% confidence interval strictly exceeds 1.0** ($\text{PRR}_{\text{lower\_ci}} > 1.0$), establishing statistical significance over background reporting ($\alpha = 0.05$).
   2. The **co-occurrence count meets a minimum sample size floor** ($n \ge 3$), guarding against stochastic small-cell instability.
 * **Rothman, Lanes, & Sacks (2004)** (*Pharmacoepidemiology and Drug Safety*, 13(8), 519–523): Emphasize that for widely prescribed chronic medications, massive denominator exposure naturally attenuates relative risk estimates toward $1.0$–$2.0$. Conditioning signal detection on lower confidence interval bounds accounts for sample volume rather than penalizing high-utilization therapies.
+
+**Literature Grounding on Scoring Weights vs. Binary Signals:**
+It is critical to note that the pharmacovigilance literature (Evans et al. 2001, Rothman et al. 2004, van Puijenbroek et al. 2002, EMA PRAC guidelines) defines **binary/tiered screening criteria for signal presence**, NOT continuous utility scores or the specific numeric weights ($0.33, 0.66, 1.0$) used in PharmaGuard. That 3-tier linear normalization is PharmaGuard's internal engineering heuristic layered on top of epidemiological criteria. Literature review reveals **no precedented, validated continuous mapping function** of $\text{PRR}_{\text{lower\_ci}}$ to linear risk utilities in postmarketing surveillance. Per the anti-overfitting policy established in §15, inventing a novel continuous formula post-hoc to force specific pairs to pass is strictly prohibited. We therefore retain the discrete 3-tier architecture and document its honest empirical performance.
 
 ### 2. Design Specification: `compute_prr_score_ci_based()`
 The proposed alternative function operates alongside the production `compute_prr_score()` and is enabled strictly via configuration (`signal_detection.ci_based_gate.enabled: true`). When the flag is disabled (default), the system remains byte-for-byte identical to production.
@@ -592,14 +593,39 @@ When $n \ge 3$ and $\text{prr\_lower\_ci} > 1.0$, disproportionality is statisti
    * **$\text{prr\_lower\_ci} > 1.0$ AND $\text{PRR} < 2.0$ (with $n \ge 3$)** [$\text{ci\_downgraded} = \text{False}$].
    * *Justification:* Grounded in Evans et al. (2001) and Rothman et al. (2004). Captures statistically significant but modest relative risk ($1.0 < \text{PRR} < 2.0$), characteristic of high-volume chronic drugs. Assigning score $0.33$ acknowledges statistical significance without granting an automatic escalation: composite confidence reaches $0.132 + 0.40 \cdot S_{\text{Lit}} + 0.20 \cdot S_{\text{Mech}}$, meaning the signal cannot reach `MONITOR` ($0.35$) without supporting literature or biological plausibility.
 
-### 3. Gating Interaction with `derive_escalation()`
-Under `derive_escalation()`, Gate 1 fires if and only if $\text{signal\_strength} == \text{NO\_SIGNAL}$. 
-* For negative controls (e.g., `atorvastatin::dementia`, $\text{PRR} = 0.65$, $\text{CI}_{\text{lower}} = 0.58 \le 1.0$ or zero-report controls), $\text{prr\_lower\_ci} \le 1.0 \implies \text{NO\_SIGNAL} \implies$ Gate 1 strictly executes `DO_NOT_ESCALATE`. Specificity is rigorously preserved.
-* For chronic diluted signals (e.g., `dipyridamole::myocardial_infarction`, $\text{PRR} = 1.807$, $\text{CI}_{\text{lower}} = 1.456$, $n = 81$), $\text{signal\_strength} = \text{WEAK}$ ($S_{\text{FAERS}} = 0.33$). Gate 1 does not fire. With Grade B literature ($0.5$) and HIGH plausibility ($1.0$), composite confidence computes to $0.40(0.33) + 0.40(0.50) + 0.20(1.00) = 0.532 \ge 0.35$, correctly triaging the pair to `MONITOR`.
+### 3. Gating Interaction with `derive_escalation()` & Full 7-Disagreement Recomputation
 
-### 4. Status & Evaluation Safeguards
+Under `derive_escalation()`, Gate 1 fires if and only if $\text{signal\_strength} == \text{NO\_SIGNAL}$. 
+For negative controls (e.g., `atorvastatin::dementia`, $\text{PRR} = 0.65$, $\text{CI}_{\text{lower}} = 0.58 \le 1.0$ or zero-report controls), $\text{prr\_lower\_ci} \le 1.0 \implies \text{NO\_SIGNAL} \implies$ Gate 1 strictly executes `DO_NOT_ESCALATE`. Specificity is rigorously preserved.
+
+For the 7 OMOP benchmark positive-control disagreements documented in §31, the exact recomputed performance under the proposed CI-based gate is as follows:
+
+| Drug & Adverse Event | FAERS PRR | PRR Lower 95% CI | FAERS Count ($n$) | New Tier (Score) | Plausibility (Score) | Literature Grade (Score) | New Confidence | New Decision | Rescued? |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `amlodipine::myocardial_infarction` | 1.271 | 1.235 | 4,610 | WEAK (0.33) | LOW (0.0) | B (0.5) | **0.3320** | `DO_NOT_ESCALATE` | **NO** (Marginal Confidence) |
+| `dipyridamole::myocardial_infarction` | 1.807 | 1.456 | 81 | WEAK (0.33) | HIGH (1.0) | B (0.5) | **0.5320** | `MONITOR` | **YES** |
+| `nifedipine::myocardial_infarction` | 1.738 | 1.618 | 743 | WEAK (0.33) | LOW (0.0) | A (1.0) | **0.5320** | `MONITOR` | **YES** |
+| `citalopram::gastrointestinal_haemorrhage` | 1.904 | 1.795 | 1,108 | WEAK (0.33) | HIGH (1.0) | C (0.0) | **0.3320** | `DO_NOT_ESCALATE` | **NO** (Marginal Confidence) |
+| `fluoxetine::gastrointestinal_haemorrhage` | 1.162 | 1.066 | 521 | WEAK (0.33) | HIGH (1.0) | C (0.0) | **0.3320** | `DO_NOT_ESCALATE` | **NO** (Marginal Confidence) |
+| `sertraline::gastrointestinal_haemorrhage` | 1.601 | 1.513 | 1,191 | WEAK (0.33) | HIGH (1.0) | C (0.0) | **0.3320** | `DO_NOT_ESCALATE` | **NO** (Marginal Confidence) |
+| `captopril::hepatotoxicity` | 2.239 | 1.501 | 24 | WEAK (0.33) | LOW (0.0) | B (0.5) | **0.3320** | `DO_NOT_ESCALATE` | **NO** (Marginal Confidence) |
+
+### 4. Honest Characterization: Partial Resolution Disclosure
+**This design recovers 2 of 6 gate-driven false negatives; the remaining 4 fail via the same marginal-confidence mechanism as captopril, not via the gate. This is a partial, not complete, resolution of §31.**
+
+* **The Arithmetic of Marginal Confidence:** When FAERS signal strength sits in the `WEAK` tier ($0.33$), its weighted contribution to composite confidence is $0.40 \times 0.33 = 0.132$. 
+  * If a pair possesses strong corroboration from both other streams (e.g. `dipyridamole`: Grade B literature [$0.200$] + HIGH plausibility [$0.200$]), confidence reaches $0.132 + 0.400 = 0.532 \ge 0.35$, successfully routing to `MONITOR`.
+  * If a pair has a single maximal literature signal (e.g. `nifedipine`: Grade A literature [$0.400$] + LOW plausibility [$0.000$]), confidence reaches $0.132 + 0.400 = 0.532 \ge 0.35$, also routing to `MONITOR`.
+  * However, if a pair has only *one* moderate corroborating stream (either Grade B literature [$0.200$] OR HIGH plausibility [$0.200$]), its confidence computes to exactly:
+    $$\text{Confidence} = 0.132 + 0.200 + 0.000 = 0.332$$
+    This falls short of the $0.35$ monitoring threshold by $0.018$.
+* **Consequence:** Replacing the static $\text{PRR} < 2.0$ gate with $\text{PRR}_{\text{lower\_ci}} > 1.0$ lifts Gate 1 as a hard blocker for all 6 chronic pairs. However, under multi-source evidence fusion, removing Gate 1 only rescues pairs that have substantial independent corroboration from both literature and biochemistry. Pairs with modest or missing corroboration transition from a *gate-driven failure* to a *marginal-confidence failure*.
+* **Scientific Integrity Note:** We deliberately refuse to lower the monitoring threshold from $0.35$ to $0.33$ or inflate the WEAK tier score from $0.33$ to $0.38$ to force these 4 pairs to pass. Doing so would violate the non-retroactive calibration policy (§15, §18) by tuning thresholds to post-hoc empirical observations.
+
+### 5. Status & Evaluation Safeguards
 * **Implementation Status:** Designed as a proposed ALTERNATIVE gate.
 * **Config Gate:** Gated behind `signal_detection.ci_based_gate.enabled: false` (default off).
 * **Dual-Validation Requirement:** Must be evaluated on both the frozen 15-pair core benchmark and the 32-pair OMOP pilot benchmark in isolated output directories before any recommendation on production default adoption is made to Dr. Nikhilanand Arya.
+
 
 
