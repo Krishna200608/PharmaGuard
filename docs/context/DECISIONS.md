@@ -627,8 +627,7 @@ For the 7 OMOP benchmark positive-control disagreements documented in §31, the 
 ### 5. Status & Evaluation Safeguards
 * **Implementation Status:** Implementation complete and dual-validated across both benchmarks. Operates as a config-gated alternative alongside the production gate.
 * **Config Gate:** Gated behind `signal_detection.ci_based_gate.enabled: false` (default OFF in `configs/config.yaml`). Default production behavior remains 100% byte-for-byte unchanged.
-* **Dual-Validation Finding:** Rescues 2 of 6 gate-driven false negatives on OMOP (`dipyridamole`, `nifedipine` -> `MONITOR`, raising Lenient Recall from 0.562 to 0.688 and Lenient F1 from 0.720 to 0.815 with 1.000 specificity). However, on the core 15-pair benchmark, loosening the gate introduces 1 new lenient false positive on `atorvastatin::dementia` (raising over-caution from 12.5% to 25.0%). Config default remains disabled pending supervisor consultation.
-
+* **Dual-Validation Finding:** Rescues 2 of 6 gate-driven false negatives on OMOP (`dipyridamole`, `nifedipine` -> `MONITOR`, raising Lenient Recall from 0.562 to 0.688 and Lenient F1 from 0.720 to 0.815 with 1.000 specificity). However, on the core 15-pair benchmark, loosening the gate introduces 1 new lenient false positive on `atorvastatin::dementia` (raising over-caution from 12.5% to 25.0%). Production default retained as disabled (see §32.7).
 
 ### 6. Core Benchmark Regression: A Genuine Trade-off, Not a Free Improvement
 Independent verification of the dual-benchmark experimental run (`commit cbfea38`) reveals that replacing the production magnitude gate with the CI-based gate is **not a free improvement, but a fundamental operating trade-off between two benchmarks**.
@@ -680,7 +679,17 @@ This confirms that the CI-based gate is **not a strict Pareto improvement**. It 
 
 In strict adherence to the anti-overfitting discipline established in §15 and §18, **no post-hoc threshold tweaks, weight re-calibrations, or special-case overrides are introduced** to suppress this false positive. The trade-off is recorded as an authentic empirical property of the gate, and the config flag remains `enabled: false` by default.
 
+### 7. Decision: Static Gate Remains Production Default
+* **The Final Decision:** The production configuration maintains `signal_detection.ci_based_gate.enabled: false`. The static $\text{PRR} < 2.0$ hard gate remains the active production behavior for PharmaGuard. The CI-based gate is established and retained as a thoroughly validated, documented, and reproducible opt-in alternative, but is **not adopted as production default**.
+* **Principled Rationale:**
+  1. **Benchmark Hierarchy & Asymmetry:** The 15-pair Core benchmark is PharmaGuard's primary, golden evaluation set—extensively human-curated, verified against clinical trials/FDA labels, and audited for zero mechanistic leakage. In contrast, the 32-pair OMOP pilot is an exploratory secondary expansion designed to probe external generalizability boundaries. Adopting the CI-based gate would degrade the primary, high-confidence benchmark (Core Lenient $F_1: 0.933 \to 0.875$) to achieve gains on an exploratory secondary benchmark (OMOP Lenient $F_1: 0.720 \to 0.815$). Sacrificing primary benchmark precision for secondary pilot sensitivity violates rigorous evaluation hierarchy.
+  2. **Statistical Uncertainty & Small-Sample Effects:** The trade-off is governed by very small absolute counts on both sides: recovering $2$ of $6$ false negatives on OMOP versus incurring $1$ new false positive among $8$ negative controls on the Core benchmark. Given the wide Wilson score confidence intervals on these sample sizes ($1/8$ has Wilson 95% CI $[0.022, 0.471]$; $2/6$ has Wilson 95% CI $[0.097, 0.700]$), the evidence base is insufficiently powered to justify changing production architecture.
+  3. **Methodological Anti-Overfitting Discipline (§15, §18):** The CI-based gate was conceived and formulated specifically to address the 6 false negatives discovered on the OMOP pilot. Promoting this gate to production based primarily on the exact dataset that motivated its development would repeat the dangerous calibration-with-foreknowledge pattern documented in §15.
+* **Non-Permanent Status & Open Review Item:**
+  This decision is not a permanent closure. If future research expands the OMOP evaluation cohort to a statistically powered sample ($N \ge 100$) or if supervisor review (Dr. Nikhilanand Arya) indicates that public health surveillance should deliberately tolerate elevated over-caution to rescue chronic positive associations, this trade-off can be formally revisited. This decision and its underlying empirical trade-off are designated as primary agenda items for supervisor consultation.
+
 ## 33. Two-Stage Term Canonicalization Layer (Opt-In Utility)
+
 
 **Context:** Implementation of the two-stage input canonicalization utility specified in `docs/context/CANONICALIZATION.md`.
 - **Implementation Status:** Completed in `pharmaguard/utils/canonicalize.py` with 51 dedicated unit tests (`tests/test_canonicalize.py`). 148/148 full suite tests passing.
