@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-0-montelukast-suicidal_ideation",
+  "timestamp": "2026-09-03T01:50:01.938010Z",
+  "prompts_version": "v1.1",
+  "drug": "montelukast",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 3.3671070490564756,
+    "ror": 3.402116597071302,
+    "prr_lower_ci": 3.18620207432658,
+    "ror_lower_ci": 3.216728239250695,
+    "report_count": 1259,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:49:53.038659Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "CysLT1 receptors are primarily targeted in the peripheral airways. While leukotrienes may have some role in neuroinflammation, direct causal mechanisms linking antagonism to suicidal ideation are not well established pharmacologically.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"montelukast\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "41644790",
+      "40553531",
+      "40413828",
+      "36228771",
+      "34987393"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: The retrieved abstracts contain multiple instances of statistical association language meeting the Grade A criteria. Specifically, the first abstract reports reporting odds ratios (ROR) for montelukast and promethazine, and the fifth abstract provides reporting odds ratios with 95% confidence intervals (e.g., 21.5 (95% CI: 20.3-22.9)) for suicidal ideation and depression, confirming a statistically significant association."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "A",
+    "escalation": "MONITOR",
+    "confidence": 0.664,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}

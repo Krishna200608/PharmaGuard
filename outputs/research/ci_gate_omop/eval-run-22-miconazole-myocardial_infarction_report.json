@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-22-miconazole-myocardial_infarction",
+  "timestamp": "2026-09-03T01:55:54.922652Z",
+  "prompts_version": "v1.1",
+  "drug": "miconazole",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 0.25934640833931916,
+    "ror": 0.2574626394796196,
+    "prr_lower_ci": 0.1613181340380718,
+    "ror_lower_ci": 0.15995307876601883,
+    "report_count": 17,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:18:49.094683Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Myocardial infarction is not a recognized or mechanistically linked side effect of imidazole antifungals. While some azoles can cause QT prolongation or hepatotoxicity, there is no established direct causal pathway between the inhibition of fungal CYP51 and the development of acute myocardial infarction.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"miconazole\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

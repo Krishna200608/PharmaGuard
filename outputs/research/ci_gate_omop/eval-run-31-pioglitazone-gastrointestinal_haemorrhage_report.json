@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-31-pioglitazone-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-03T01:56:04.116506Z",
+  "prompts_version": "v1.1",
+  "drug": "pioglitazone",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 1.4504453752776956,
+    "ror": 1.4538250857451707,
+    "prr_lower_ci": 1.2049434303443831,
+    "ror_lower_ci": 1.2060724044930877,
+    "report_count": 111,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:21:38.305211Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Thiazolidinediones like pioglitazone primarily act on PPAR-gamma to improve insulin sensitivity. While some gastrointestinal side effects such as nausea or diarrhea are occasionally reported, gastrointestinal hemorrhage is not a recognized or mechanistically linked adverse effect of this drug class.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"pioglitazone\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.132,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

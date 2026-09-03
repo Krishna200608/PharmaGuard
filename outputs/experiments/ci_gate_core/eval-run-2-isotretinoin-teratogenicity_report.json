@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-2-isotretinoin-teratogenicity",
+  "timestamp": "2026-09-03T01:50:54.407694Z",
+  "prompts_version": "v1.1",
+  "drug": "isotretinoin",
+  "event": "teratogenicity",
+  "signal_stats": {
+    "prr": 49.15549400390057,
+    "ror": 49.18848749091664,
+    "prr_lower_ci": 26.924728534920444,
+    "ror_lower_ci": 26.932091619003575,
+    "report_count": 11,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:50:37.853325Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Retinoic acid receptor (RAR) agonists, such as isotretinoin, are well-established human teratogens. They disrupt the highly regulated signaling pathways involving retinoic acid that are critical for embryonic development, particularly craniofacial, cardiac, and central nervous system morphogenesis. The mechanism of altering gene transcription in developing tissues leads to severe congenital malformations, a phenomenon known as retinoic acid embryopathy.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"isotretinoin\"[tiab] AND \"teratogenicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41914642",
+      "41103707",
+      "40648641",
+      "40429495",
+      "37998335"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: Two abstracts (PMID 41103707 and 37998335) contain language associated with adverse events (e.g., 'adverse events', 'risk of', 'adverse effects'). However, none of the abstracts provide statistical significance metrics (e.g., p-values, confidence intervals, or odds ratios) required for Grade A. Therefore, the evidence is classified as Grade B."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

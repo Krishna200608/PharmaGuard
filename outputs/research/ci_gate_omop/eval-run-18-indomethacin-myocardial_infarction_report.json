@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-18-indomethacin-myocardial_infarction",
+  "timestamp": "2026-09-03T01:55:50.777229Z",
+  "prompts_version": "v1.1",
+  "drug": "indomethacin",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 2.33379598060818,
+    "ror": 2.364922827591733,
+    "prr_lower_ci": 2.084260782705006,
+    "ror_lower_ci": 2.106497795010504,
+    "report_count": 294,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:17:28.753675Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Non-selective NSAIDs are well-documented to increase the risk of cardiovascular events, including myocardial infarction, due to the inhibition of COX-2-mediated prostacyclin production while COX-1-mediated thromboxane A2 production remains relatively unopposed, leading to a pro-thrombotic state.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"indomethacin\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "29538453",
+      "20000300",
+      "21369507",
+      "17509888",
+      "17487453"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple instances of association language (e.g., 'associated with', 'risk of', 'adverse cardiovascular events') and clinical descriptions of adverse effects (e.g., 'myocardial infarction', 'gastrointestinal tract bleeding'). However, none of the abstracts provide statistical metrics such as p-values, confidence intervals, or odds ratios that meet the criteria for Grade A."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.532,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}

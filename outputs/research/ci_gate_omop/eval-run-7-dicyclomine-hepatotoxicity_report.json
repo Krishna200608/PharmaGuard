@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-7-dicyclomine-hepatotoxicity",
+  "timestamp": "2026-09-03T01:55:39.414435Z",
+  "prompts_version": "v1.1",
+  "drug": "dicyclomine",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 0.22077661177626415,
+    "ror": 0.2205945715033466,
+    "prr_lower_ci": 0.08286197872133659,
+    "ror_lower_ci": 0.08277469048633992,
+    "report_count": 4,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:13:57.812845Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Muscarinic antagonists like those targeting M1/M3 receptors (e.g., dicyclomine, hyoscyamine) are generally not associated with significant hepatotoxicity. They are primarily metabolized or excreted without forming reactive metabolites that typically cause drug-induced liver injury, and clinical reports of liver enzyme elevation or acute liver failure linked to these agents are extremely rare.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"dicyclomine\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

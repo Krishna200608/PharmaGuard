@@ -141,4 +141,6 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 ## OMOP Secondary Benchmark Expansion (2026-09-02)
 
 - **OMOP Pilot Evaluation (Stage 2 Complete):** Executed full 32-pair OMOP reference set evaluation (`scripts/research/run_omop_pilot_eval.py`, outputs in `outputs/research/omop_pilot/`). Achieved 100% negative control specificity ($16/16$ true negatives) alongside Strict $F_1 = 0.118$ and Lenient $F_1 = 0.720$; identified that the static $\text{PRR} < 2.0$ magnitude gate attenuates sensitivity on high-utilization chronic medications despite statistically significant 95% CIs and high biological plausibility. Fully documented as a non-retroactively tuned external-validity finding in `DECISIONS.md §31`.
+- **Alternative CI-Based Signal Detection Gate (2026-09-03):** Implemented config-gated `compute_prr_score_ci_based()` (`signal_detection.ci_based_gate.enabled: false`, Evans et al. 2001) alongside production gate; 97/97 tests pass; dual-validated: rescues 2 of 6 OMOP chronic false negatives (`dipyridamole`, `nifedipine` -> `MONITOR`, Lenient F1 0.720 -> 0.815), while introducing 1 lenient false positive on `atorvastatin::dementia` on core 15-pair set (documented in `DECISIONS.md §32`).
+
 

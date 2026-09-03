@@ -12,10 +12,12 @@ import pytest
 from pharmaguard.agent.output_schema import (
     SignalStrength,
     compute_prr_score,
+    compute_prr_score_ci_based,
     compute_confidence,
     derive_escalation,
     EscalationDecision,
 )
+
 
 
 # ================================================================
@@ -86,6 +88,104 @@ class TestPrrScore:
         score, label, downgraded = compute_prr_score(50, 3.0, 1.5)
         assert score == 0.66
         assert label == SignalStrength.MODERATE
+
+
+# ================================================================
+# CI-based PRR score table (DECISIONS.md §32, Evans et al. 2001)
+# ================================================================
+
+class TestPrrScoreCiBased:
+
+    def test_zero_report_count(self):
+        score, label, downgraded = compute_prr_score_ci_based(0, None, None)
+        assert score == 0.0
+        assert label == SignalStrength.NO_SIGNAL
+        assert downgraded is False
+
+    def test_small_sample_floor_under_three(self):
+        """Report count < 3 is NO_SIGNAL even if PRR and CI look large (Evans et al. 2001)."""
+        score, label, downgraded = compute_prr_score_ci_based(2, 4.5, 2.1)
+        assert score == 0.0
+        assert label == SignalStrength.NO_SIGNAL
+        assert downgraded is True  # PRR >= 2.0 but failed sample size floor
+
+    def test_chronic_diluted_signal_rescued(self):
+        """The core §31/§32 case: PRR < 2.0, lower_ci > 1.0, n >= 3 -> WEAK, not NO_SIGNAL."""
+        score, label, downgraded = compute_prr_score_ci_based(1108, 1.904, 1.795)
+        assert score == 0.33
+        assert label == SignalStrength.WEAK
+        assert downgraded is False
+
+    def test_ci_lower_bound_exactly_one(self):
+        """Boundary: lower_ci exactly 1.0 -> NO_SIGNAL (strict >, not >=)."""
+        score, label, downgraded = compute_prr_score_ci_based(50, 2.5, 1.0)
+        assert score == 0.0
+        assert label == SignalStrength.NO_SIGNAL
+        assert downgraded is True
+
+    def test_ci_lower_bound_under_one_regardless_of_prr(self):
+        """lower_ci <= 1.0 is NO_SIGNAL regardless of PRR magnitude."""
+        score, label, downgraded = compute_prr_score_ci_based(100, 6.0, 0.95)
+        assert score == 0.0
+        assert label == SignalStrength.NO_SIGNAL
+        assert downgraded is True
+
+    def test_negative_control_low_prr_low_ci(self):
+        """True negative control: PRR < 1.0, CI < 1.0 -> NO_SIGNAL, not downgraded."""
+        score, label, downgraded = compute_prr_score_ci_based(50, 0.65, 0.58)
+        assert score == 0.0
+        assert label == SignalStrength.NO_SIGNAL
+        assert downgraded is False
+
+    def test_strong_signal_passes(self):
+        """PRR >= 5.0 and lower_ci >= 2.0 -> STRONG."""
+        score, label, downgraded = compute_prr_score_ci_based(100, 5.5, 2.1)
+        assert score == 1.0
+        assert label == SignalStrength.STRONG
+        assert downgraded is False
+
+    def test_strong_boundary(self):
+        """Exact boundary: PRR exactly 5.0, lower_ci exactly 2.0 -> STRONG."""
+        score, label, downgraded = compute_prr_score_ci_based(100, 5.0, 2.0)
+        assert score == 1.0
+        assert label == SignalStrength.STRONG
+        assert downgraded is False
+
+    def test_strong_magnitude_ci_downgrade(self):
+        """PRR >= 5.0 and 1.0 < lower_ci < 2.0 -> MODERATE, ci_downgraded=True."""
+        score, label, downgraded = compute_prr_score_ci_based(100, 5.5, 1.6)
+        assert score == 0.66
+        assert label == SignalStrength.MODERATE
+        assert downgraded is True
+
+    def test_moderate_signal_passes(self):
+        """3.0 <= PRR < 5.0 and lower_ci >= 1.5 -> MODERATE."""
+        score, label, downgraded = compute_prr_score_ci_based(50, 4.0, 1.6)
+        assert score == 0.66
+        assert label == SignalStrength.MODERATE
+        assert downgraded is False
+
+    def test_moderate_boundary(self):
+        """Exact boundary: PRR exactly 3.0, lower_ci exactly 1.5 -> MODERATE."""
+        score, label, downgraded = compute_prr_score_ci_based(50, 3.0, 1.5)
+        assert score == 0.66
+        assert label == SignalStrength.MODERATE
+        assert downgraded is False
+
+    def test_moderate_magnitude_ci_downgrade(self):
+        """3.0 <= PRR < 5.0 and 1.0 < lower_ci < 1.5 -> WEAK, ci_downgraded=True."""
+        score, label, downgraded = compute_prr_score_ci_based(50, 4.0, 1.3)
+        assert score == 0.33
+        assert label == SignalStrength.WEAK
+        assert downgraded is True
+
+    def test_weak_signal_standard(self):
+        """2.0 <= PRR < 3.0 and lower_ci > 1.0 -> WEAK."""
+        score, label, downgraded = compute_prr_score_ci_based(30, 2.5, 1.1)
+        assert score == 0.33
+        assert label == SignalStrength.WEAK
+        assert downgraded is False
+
 
 
 # ================================================================

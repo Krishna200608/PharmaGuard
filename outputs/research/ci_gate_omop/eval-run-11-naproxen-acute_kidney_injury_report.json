@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-11-naproxen-acute_kidney_injury",
+  "timestamp": "2026-09-03T01:55:43.654189Z",
+  "prompts_version": "v1.1",
+  "drug": "naproxen",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 3.9393441081355927,
+    "ror": 4.024734772452973,
+    "prr_lower_ci": 3.7946534416199738,
+    "ror_lower_ci": 3.872753145241549,
+    "report_count": 2716,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:15:18.194998Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "NSAIDs inhibit COX-1 and COX-2 enzymes, which are responsible for the synthesis of prostaglandins that maintain renal blood flow through vasodilation of the afferent arterioles. In patients with compromised renal perfusion, this inhibition can lead to vasoconstriction, reduced glomerular filtration rate, and subsequent acute kidney injury.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"naproxen\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "40560345",
+      "39039992",
+      "36176005",
+      "30801994",
+      "22588445"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The abstracts contain multiple instances of association language (e.g., 'risk of', 'case report', 'we report', 'associated with') linking NSAIDs to acute kidney injury and other adverse events. However, none of the abstracts provide statistical significance metrics (p-values < 0.05, confidence intervals excluding 1.0, etc.) required for a Grade A classification. Therefore, the evidence meets the criteria for Grade B."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.664,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

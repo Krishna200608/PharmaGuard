@@ -61,10 +61,19 @@ class ConfoundingConfig(BaseModel):
     enabled: bool = False
 
 
+class CiBasedGateConfig(BaseModel):
+    enabled: bool = False
+
+
+class SignalDetectionConfig(BaseModel):
+    ci_based_gate: CiBasedGateConfig = Field(default_factory=CiBasedGateConfig)
+
+
 class AppConfig(BaseModel):
     agent: AgentConfig
     plausibility: PlausibilityConfig
     confounding: ConfoundingConfig = Field(default_factory=ConfoundingConfig)
+    signal_detection: SignalDetectionConfig = Field(default_factory=SignalDetectionConfig)
     confidence_weights: ConfidenceWeightsConfig
     cache: CacheConfig
     apis: ApisConfig
@@ -74,12 +83,13 @@ class AppConfig(BaseModel):
 
 _config_instance = None
 
-def load_config() -> AppConfig:
+def load_config(reload: bool = False) -> AppConfig:
     global _config_instance
-    if _config_instance is None:
+    if _config_instance is None or reload:
         if not _CONFIG_PATH.exists():
             raise FileNotFoundError(f"Missing config.yaml at {_CONFIG_PATH}")
         with open(_CONFIG_PATH, "r", encoding="utf-8") as f:
             raw_data = yaml.safe_load(f)
         _config_instance = AppConfig(**raw_data)
     return _config_instance
+

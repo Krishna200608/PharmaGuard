@@ -24,8 +24,9 @@ from pharmaguard.tools.cache import ToolCache
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
     SignalStrength, EscalationDecision, PlausibilityLevel,
-    compute_prr_score, compute_confidence, derive_escalation, EvidenceGrade, PlausibilitySource,
+    compute_prr_score, compute_prr_score_ci_based, compute_confidence, derive_escalation, EvidenceGrade, PlausibilitySource,
     LeakageCritique
+
 )
 from pharmaguard.utils.config_loader import load_config
 
@@ -331,7 +332,12 @@ class PharmaGuardAgent:
         rc = ss_dict.get("report_count", 0)
         prr = ss_dict.get("prr")
         prr_lci = ss_dict.get("prr_lower_ci")
-        prr_score, ss_label, ci_downgraded = compute_prr_score(rc, prr, prr_lci)
+        sig_cfg = getattr(self.config, "signal_detection", None)
+        if sig_cfg and getattr(sig_cfg, "ci_based_gate", None) and sig_cfg.ci_based_gate.enabled:
+            prr_score, ss_label, ci_downgraded = compute_prr_score_ci_based(rc, prr, prr_lci)
+        else:
+            prr_score, ss_label, ci_downgraded = compute_prr_score(rc, prr, prr_lci)
+
 
         # 2. Parse Chembl (pre-extract for confounding check)
         m_dict = state.get("mechanism") or {}

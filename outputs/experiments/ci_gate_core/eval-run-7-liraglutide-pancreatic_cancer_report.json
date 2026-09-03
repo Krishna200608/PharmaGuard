@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-7-liraglutide-pancreatic_cancer",
+  "timestamp": "2026-09-03T01:53:08.177825Z",
+  "prompts_version": "v1.1",
+  "drug": "liraglutide",
+  "event": "pancreatic_cancer",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:52:54.870451Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "GLP-1 receptor agonism stimulates pancreatic exocrine and endocrine function. While chronic hyperstimulation theoretically provides a plausible pathway to hyperplasia or neoplasia, the direct link to carcinogenesis is complex and indirect.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"liraglutide\"[tiab] AND \"pancreatic cancer\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "40196933",
+      "39777709",
+      "37531876",
+      "37252522",
+      "35266164"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple instances of association language (e.g., 'side effects', 'adverse effects', 'associated with', 'case report'), but they do not meet the Grade A criteria of having two or more abstracts that provide statistical evidence (such as p-values < 0.05, confidence intervals excluding 1.0, or specific hazard ratios) for a direct drug-adverse event association. Abstract 2 discusses survival outcomes related to gene expression rather than drug-induced adverse events, and the other abstracts provide qualitative reports or reviews of side effects without the required statistical rigor for Grade A."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.3,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

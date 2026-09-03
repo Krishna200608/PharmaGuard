@@ -24,6 +24,13 @@ plausibility:
 confounding:
   enabled: false          # Gate for polypharmacy confounding discounting (Proposal #2, DECISIONS.md §21)
 
+# --- Signal detection gate ---
+signal_detection:
+  ci_based_gate:
+    enabled: false        # Gate for CI-based signal detection (DECISIONS.md §32, Evans et al. 2001)
+
+
+
 # --- Confidence formula weights ---
 # MUST sum to 1.0. Mirrored in agent/output_schema.py PRR_SCORE_WEIGHTS.
 confidence_weights:

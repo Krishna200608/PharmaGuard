@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-10-albuterol-suicidal_ideation",
+  "timestamp": "2026-09-03T01:54:07.398447Z",
+  "prompts_version": "v1.1",
+  "drug": "albuterol",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 1.267021551351435,
+    "ror": 1.2685040141377224,
+    "prr_lower_ci": 1.200638625493778,
+    "ror_lower_ci": 1.2016854573089975,
+    "report_count": 1339,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:54:05.244887Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "Beta-2 adrenergic receptor agonism causes sympathetic activation (tachycardia, tremor), but there is no direct established pharmacological mechanism linking peripheral or central beta-2 stimulation to complex psychiatric events like suicidal ideation.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"albuterol\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.132,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

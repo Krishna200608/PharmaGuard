@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-12-acarbose-acute_kidney_injury",
+  "timestamp": "2026-09-03T01:55:44.682188Z",
+  "prompts_version": "v1.1",
+  "drug": "acarbose",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 4.885963224782727,
+    "ror": 5.02885156141012,
+    "prr_lower_ci": 4.159175719246381,
+    "ror_lower_ci": 4.255553480470824,
+    "report_count": 143,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:15:39.312241Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Alpha-glucosidase inhibitors like acarbose act locally in the gastrointestinal tract to inhibit carbohydrate digestion and are minimally absorbed into systemic circulation. There is no established pharmacological mechanism linking these agents to direct nephrotoxicity, and acute kidney injury is not a recognized adverse effect of this drug class.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"acarbose\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.264,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}

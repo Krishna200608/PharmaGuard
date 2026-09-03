@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-14-adalimumab-frostbite",
+  "timestamp": "2026-09-03T01:55:05.630177Z",
+  "prompts_version": "v1.1",
+  "drug": "adalimumab",
+  "event": "frostbite",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:55:00.189357Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "TNF-alpha inhibitors are immunosuppressive agents used for autoimmune conditions. There is no established pharmacological mechanism linking these drugs to an increased risk of frostbite, which is a physical injury caused by freezing temperatures. While immunosuppression might theoretically increase susceptibility to secondary infections following tissue damage, it does not directly cause or predispose a patient to the environmental condition of frostbite.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"adalimumab\"[tiab] AND \"frostbite\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

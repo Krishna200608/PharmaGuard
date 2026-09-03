@@ -16,7 +16,7 @@ from pharmaguard.tools.chembl_tool import ChemblTool
 from pharmaguard.tools.pubmed_tool import PubMedTool
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
-    compute_prr_score, compute_confidence, derive_escalation, SignalStrength, EvidenceGrade, PlausibilityLevel, EscalationDecision, PlausibilitySource,
+    compute_prr_score, compute_prr_score_ci_based, compute_confidence, derive_escalation, SignalStrength, EvidenceGrade, PlausibilityLevel, EscalationDecision, PlausibilitySource,
     LeakageCritique
 )
 from pydantic import BaseModel, Field
@@ -207,7 +207,12 @@ class FixedPipelineAgent:
             rc = ss_dict.get("report_count", 0)
             prr = ss_dict.get("prr")
             prr_lci = ss_dict.get("prr_lower_ci")
-            prr_score, ss_label, ci_downgraded = compute_prr_score(rc, prr, prr_lci)
+            sig_cfg = getattr(self.config, "signal_detection", None)
+
+            if sig_cfg and getattr(sig_cfg, "ci_based_gate", None) and sig_cfg.ci_based_gate.enabled:
+                prr_score, ss_label, ci_downgraded = compute_prr_score_ci_based(rc, prr, prr_lci)
+            else:
+                prr_score, ss_label, ci_downgraded = compute_prr_score(rc, prr, prr_lci)
 
             # Confounding assessment & discounting (if enabled)
             discount_factor = 1.0

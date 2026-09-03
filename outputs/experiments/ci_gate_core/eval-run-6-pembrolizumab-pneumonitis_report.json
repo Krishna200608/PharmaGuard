@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-6-pembrolizumab-pneumonitis",
+  "timestamp": "2026-09-03T01:52:52.021994Z",
+  "prompts_version": "v1.1",
+  "drug": "pembrolizumab",
+  "event": "pneumonitis",
+  "signal_stats": {
+    "prr": 24.16818373066168,
+    "ror": 25.01593138559652,
+    "prr_lower_ci": 22.866315858227697,
+    "ror_lower_ci": 23.622365625329888,
+    "report_count": 1261,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:52:39.398815Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "PD-1 inhibition directly removes negative regulation of T-cell activation. This mechanism of unleashing systemic immune responses inherently carries a high biological plausibility for autoimmune and inflammatory toxicities, including pneumonitis.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"pembrolizumab\"[tiab] AND \"pneumonitis\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42656364",
+      "42568649",
+      "42459692",
+      "42382749",
+      "42373597"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: Only one abstract (PMID 42373597) contains statistical association language (p-values < 0.05). The other abstracts mention adverse events or case reports but do not meet the threshold of two or more abstracts with statistical significance required for Grade A."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

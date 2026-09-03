@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-3-captopril-hepatotoxicity",
+  "timestamp": "2026-09-03T01:55:35.126803Z",
+  "prompts_version": "v1.1",
+  "drug": "captopril",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 2.239431436367599,
+    "ror": 2.2423710899374005,
+    "prr_lower_ci": 1.501391935447313,
+    "ror_lower_ci": 1.5019386749975392,
+    "report_count": 24,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:12:48.902418Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Hepatotoxicity is a rare and idiosyncratic adverse effect associated with ACE inhibitors. While cases of cholestatic jaundice and elevated liver enzymes have been documented, they are infrequent compared to other side effects like cough or angioedema, and the mechanism is not directly related to the primary pharmacological action of blocking the conversion of angiotensin I to angiotensin II.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"captopril\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "28702139",
+      "27019222",
+      "23762827",
+      "23747952",
+      "17133470"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple instances of association language (e.g., 'adverse effects', 'adverse events', 'case report', 'associated with') but do not meet the threshold for Grade A, which requires two or more abstracts containing specific statistical significance markers (such as p-values < 0.05 or confidence intervals). While one abstract mentions a p-value, the overall evidence set relies primarily on case reports and descriptive associations."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.332,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

@@ -116,7 +116,65 @@ def compute_prr_score(
     return 0.0, SignalStrength.NO_SIGNAL, False
 
 
+def compute_prr_score_ci_based(
+    report_count: int,
+    prr: Optional[float],
+    prr_lower_ci: Optional[float],
+) -> tuple[float, SignalStrength, bool]:
+    """
+    Compute PRR_score using the alternative CI-based signal detection gate (Evans et al. 2001).
+    Grounded in DECISIONS.md §32.
+
+    Statistical significance floor: report_count >= 3 AND prr_lower_ci > 1.0.
+    Replaces the unconditional PRR < 2.0 -> NO_SIGNAL rule with statistical significance
+    and sample size constraints, accommodating high-utilization chronic therapies.
+
+    Returns: (prr_score: float, label: SignalStrength, ci_downgraded: bool)
+
+    Table (each row: condition -> score, label, ci_downgraded):
+      report_count < 3 or prr is None or prr_lower_ci is None or prr_lower_ci <= 1.0
+        -> 0.0, NO_SIGNAL, ci_downgraded = (prr >= 2.0)
+      prr >= 5.0 AND prr_lower_ci >= 2.0
+        -> 1.0, STRONG, False
+      prr >= 5.0 AND 1.0 < prr_lower_ci < 2.0
+        -> 0.66, MODERATE, True  (CI-downgraded from STRONG)
+      3.0 <= prr < 5.0 AND prr_lower_ci >= 1.5
+        -> 0.66, MODERATE, False
+      3.0 <= prr < 5.0 AND 1.0 < prr_lower_ci < 1.5
+        -> 0.33, WEAK, True      (CI-downgraded from MODERATE)
+      2.0 <= prr < 3.0 AND prr_lower_ci > 1.0
+        -> 0.33, WEAK, False
+      prr < 2.0 AND prr_lower_ci > 1.0 AND report_count >= 3
+        -> 0.33, WEAK, False     (Evans et al. 2001 statistical signal floor)
+    """
+    if report_count < 3 or prr is None or prr_lower_ci is None or prr_lower_ci <= 1.0:
+        is_downgraded = bool(prr is not None and prr >= 2.0)
+        return 0.0, SignalStrength.NO_SIGNAL, is_downgraded
+
+    # Top bucket
+    if prr >= 5.0:
+        if prr_lower_ci >= 2.0:
+            return 1.0, SignalStrength.STRONG, False
+        else:
+            return 0.66, SignalStrength.MODERATE, True   # CI-downgraded from STRONG
+
+    # Middle bucket
+    if 3.0 <= prr < 5.0:
+        if prr_lower_ci >= 1.5:
+            return 0.66, SignalStrength.MODERATE, False
+        else:
+            return 0.33, SignalStrength.WEAK, True       # CI-downgraded from MODERATE
+
+    # Lower bucket
+    if 2.0 <= prr < 3.0:
+        return 0.33, SignalStrength.WEAK, False
+
+    # Diluted chronic bucket: PRR < 2.0 (with prr_lower_ci > 1.0 and report_count >= 3)
+    return 0.33, SignalStrength.WEAK, False
+
+
 _GRADE_SCORE_MAP: dict[str, float] = {"A": 1.0, "B": 0.5, "C": 0.0}
+
 _PLAUSIBILITY_SCORE_MAP: dict[str, float] = {
     "HIGH": 1.0, "MODERATE": 0.5, "LOW": 0.0, "UNKNOWN": 0.0
 }

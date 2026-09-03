@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-19-nifedipine-myocardial_infarction",
+  "timestamp": "2026-09-03T01:55:51.829340Z",
+  "prompts_version": "v1.1",
+  "drug": "nifedipine",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 1.7379448288754409,
+    "ror": 1.7506839786861859,
+    "prr_lower_ci": 1.6181416921435872,
+    "ror_lower_ci": 1.6279972866869703,
+    "report_count": 743,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:17:51.498887Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Dihydropyridine calcium channel blockers are primarily used to treat hypertension and angina by inducing vasodilation and reducing afterload. While they can cause reflex tachycardia in some cases, they are not considered a direct cause of myocardial infarction; in fact, they are often used as part of the therapeutic management for patients with coronary artery disease.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"nifedipine\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "35674192",
+      "35152786",
+      "27525576",
+      "27335688",
+      "26765458"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: The evidence includes at least two abstracts that meet the criteria for Grade A. Specifically, the abstract with PMID 26765458 reports statistically significant associations (adjusted odds ratios with 95% confidence intervals excluding 1.0) between the coprescription of nifedipine (a CYP3A4-inhibiting CCB) and statins and adverse events such as acute kidney injury, hyperkalemia, acute myocardial infarction, and acute ischemic stroke. Additionally, the abstract with PMID 27335688 provides evidence of nifedipine being associated with increased mortality and risk for myocardial infarction, and the abstract with PMID 27525576 discusses nifedipine-associated adverse events in a clinical context."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "A",
+    "escalation": "MONITOR",
+    "confidence": 0.532,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}

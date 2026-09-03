@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-4-adenosine-hepatotoxicity",
+  "timestamp": "2026-09-03T01:55:36.189124Z",
+  "prompts_version": "v1.1",
+  "drug": "adenosine",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 0.7964993443609023,
+    "ror": 0.7963278309553911,
+    "prr_lower_ci": 0.1993012246889469,
+    "ror_lower_ci": 0.19902577604721697,
+    "report_count": 2,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:13:09.703513Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Adenosine is an endogenous nucleoside with an extremely short half-life (less than 10 seconds) due to rapid uptake and metabolism by erythrocytes and vascular endothelial cells. Because it is rapidly cleared and does not undergo significant hepatic metabolism or accumulation, it is not associated with drug-induced liver injury or hepatotoxicity in clinical practice.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"adenosine\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41720236",
+      "41615787",
+      "41306723",
+      "41177639",
+      "40012256"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain mentions of adverse effects and hepatotoxicity in a clinical or experimental context (e.g., 'adverse effects of aluminum exposure', 'possible hepatotoxicity at higher doses' for SSR504734, and 'potentiation of hepatotoxicity' regarding alcohol-drug interactions). However, there are no abstracts that meet the Grade A criteria of providing statistical significance (p-values, confidence intervals, or odds ratios) for a specific drug-adverse event association. Therefore, the evidence is classified as Grade B."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

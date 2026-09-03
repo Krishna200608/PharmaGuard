@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-9-atorvastatin-dementia",
+  "timestamp": "2026-09-03T01:53:52.501571Z",
+  "prompts_version": "v1.1",
+  "drug": "atorvastatin",
+  "event": "dementia",
+  "signal_stats": {
+    "prr": 1.7186954299858166,
+    "ror": 1.7210203621130387,
+    "prr_lower_ci": 1.6192386347593966,
+    "ror_lower_ci": 1.621120093678577,
+    "report_count": 1109,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:53:43.059309Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "HMG-CoA reductase inhibitors block cholesterol synthesis. Since brain cholesterol (synthesized locally) is critical for neuronal function and myelin maintenance, statins that cross the blood-brain barrier could plausibly impair cognition, though dementia is a chronic complex process.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"atorvastatin\"[tiab] AND \"dementia\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42670961",
+      "39882323",
+      "39673546",
+      "39262357",
+      "37597795"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The evidence includes one abstract (PMID 37597795) that contains statistical association language ('odds ratio', '95% CI', 'P = 0.17'), which qualifies as a Grade A abstract. However, since Grade A requires two or more such abstracts, the grade defaults to B. Additionally, other abstracts contain language such as 'adverse event' and 'associated with', which further supports a Grade B classification."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.432,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

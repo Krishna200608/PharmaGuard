@@ -543,9 +543,11 @@ When `SignalStrength == NO_SIGNAL`, `derive_escalation()` unconditionally execut
 3. **Low-Incidence Idiosyncratic Events:** For `captopril::hepatotoxicity`, PRR reached $2.24$ (`WEAK`, score 0.33) with $24$ reports, but low idiosyncratic plausibility ($0.0$) and Grade B literature ($0.5$) yielded a composite confidence of $0.332$, narrowly missing the $0.35$ monitoring cutoff.
 
 ### 5. Non-Retroactive Calibration Policy (Anti-Overfitting Discipline)
-- **Policy:** PharmaGuard's scoring weights ($0.40 / 0.40 / 0.20$) and escalation thresholds ($0.70 / 0.35$) were locked prior to running this pilot. In accordance with §15 (the rubric-revision-with-foreknowledge incident) and §18, **no post-hoc threshold adjustments or rubric mutations are permitted on this pilot data**.
-- **External Validity Finding:** This experiment demonstrates a concrete, disclosed boundary of the heuristic fixed-threshold design: a static $\text{PRR} \ge 2.0$ cutoff optimized on acute, high-signal benchmark drugs does not transfer seamlessly to high-utilization chronic therapi## 32. Alternative Signal Detection Gate: Confidence-Interval-Based Gating (Evans et al. 2001)
+- **External Validity Finding:** This experiment demonstrates a concrete, disclosed boundary of the heuristic fixed-threshold design: a static $\text{PRR} \ge 2.0$ cutoff optimized on acute, high-signal benchmark drugs does not transfer seamlessly to high-utilization chronic therapies exhibiting modest relative risk. This finding represents a valuable empirical characterization of multi-source signal fusion limitations, rather than a code defect.
+
+## 32. Alternative Signal Detection Gate: Confidence-Interval-Based Gating (Evans et al. 2001)
 **Context:** Design of a config-gated alternative signal detection gate addressing the static magnitude cutoff limitation identified in §31, without modifying the production default.
+
 
 ### 1. Epidemiological Motivation & Pharmacovigilance Literature
 As empirically documented in §31, the production `compute_prr_score()` function enforces an unconditional magnitude cutoff:
@@ -623,9 +625,10 @@ For the 7 OMOP benchmark positive-control disagreements documented in §31, the 
 * **Scientific Integrity Note:** We deliberately refuse to lower the monitoring threshold from $0.35$ to $0.33$ or inflate the WEAK tier score from $0.33$ to $0.38$ to force these 4 pairs to pass. Doing so would violate the non-retroactive calibration policy (§15, §18) by tuning thresholds to post-hoc empirical observations.
 
 ### 5. Status & Evaluation Safeguards
-* **Implementation Status:** Designed as a proposed ALTERNATIVE gate.
-* **Config Gate:** Gated behind `signal_detection.ci_based_gate.enabled: false` (default off).
-* **Dual-Validation Requirement:** Must be evaluated on both the frozen 15-pair core benchmark and the 32-pair OMOP pilot benchmark in isolated output directories before any recommendation on production default adoption is made to Dr. Nikhilanand Arya.
+* **Implementation Status:** Implementation complete and dual-validated across both benchmarks. Operates as a config-gated alternative alongside the production gate.
+* **Config Gate:** Gated behind `signal_detection.ci_based_gate.enabled: false` (default OFF in `configs/config.yaml`). Default production behavior remains 100% byte-for-byte unchanged.
+* **Dual-Validation Finding:** Rescues 2 of 6 gate-driven false negatives on OMOP (`dipyridamole`, `nifedipine` -> `MONITOR`, raising Lenient Recall from 0.562 to 0.688 and Lenient F1 from 0.720 to 0.815 with 1.000 specificity). However, on the core 15-pair benchmark, loosening the gate introduces 1 new lenient false positive on `atorvastatin::dementia` (raising over-caution from 12.5% to 25.0%). Config default remains disabled pending supervisor consultation.
+
 
 
 

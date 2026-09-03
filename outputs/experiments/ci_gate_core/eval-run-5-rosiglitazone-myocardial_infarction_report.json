@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-5-rosiglitazone-myocardial_infarction",
+  "timestamp": "2026-09-03T01:52:26.854499Z",
+  "prompts_version": "v1.1",
+  "drug": "rosiglitazone",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 23.06335490148134,
+    "ror": 29.452836311563566,
+    "prr_lower_ci": 21.788687593643967,
+    "ror_lower_ci": 27.37292176909274,
+    "report_count": 927,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-03T01:52:11.686984Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "PPAR-gamma agonists, such as thiazolidinediones, have been associated with an increased risk of myocardial infarction in some clinical trials and meta-analyses, particularly with rosiglitazone. While the mechanism is debated—potentially involving fluid retention, weight gain, or adverse effects on lipid profiles—the clinical evidence suggests a moderate association that led to regulatory restrictions for certain drugs in this class.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"rosiglitazone\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "40246234",
+      "40011379",
+      "39810462",
+      "37921061",
+      "36625492"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The provided abstracts contain multiple mentions of adverse events and associations (e.g., 'cardiovascular adverse events', 'risk of ischemic cardiovascular events', 'associated with a significant increase in the risk of MI'), but they do not meet the Grade A requirement of two or more abstracts containing specific statistical evidence (e.g., p-values, confidence intervals, or specific hazard ratios) for a single drug-event pair."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.7,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "CONCORDANT"
+}

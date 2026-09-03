@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-2-allopurinol-hepatotoxicity",
+  "timestamp": "2026-09-03T01:55:34.057503Z",
+  "prompts_version": "v1.1",
+  "drug": "allopurinol",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 2.2554972222843217,
+    "ror": 2.258469212386166,
+    "prr_lower_ci": 2.0379150800261496,
+    "ror_lower_ci": 2.0401151423837436,
+    "report_count": 379,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:12:26.510238Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Hepatotoxicity is a recognized, though relatively uncommon, side effect of xanthine oxidase inhibitors like allopurinol and febuxostat. Allopurinol-induced liver injury is often associated with hypersensitivity reactions, while febuxostat has been linked to rare cases of clinically apparent liver injury with jaundice. Given that these drugs are widely used and monitoring of liver enzymes is standard practice, the risk is considered moderate.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"allopurinol\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "41707030",
+      "41653207",
+      "38989562",
+      "38356449",
+      "38051367"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: The evidence meets the criteria for Grade A because at least two retrieved abstracts contain language indicating a statistically significant association between allopurinol and adverse events or clinical outcomes. Specifically, PMID 38356449 reports p-values < 0.001 for changes in e-TGN, e-MeMP, and ALT levels, and PMID 38051367 provides an odds ratio (OR 1.23) with a 95% confidence interval (1.04-1.45) regarding allopurinol-associated liver injury."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "A",
+    "escalation": "MONITOR",
+    "confidence": 0.632,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}

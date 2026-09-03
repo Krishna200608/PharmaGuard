@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-0-carbamazepine-hepatotoxicity",
+  "timestamp": "2026-09-03T01:55:31.917732Z",
+  "prompts_version": "v1.1",
+  "drug": "carbamazepine",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 3.175454046039907,
+    "ror": 3.182753061052982,
+    "prr_lower_ci": 2.666126879566616,
+    "ror_lower_ci": 2.670694375866869,
+    "report_count": 126,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T05:51:20.461814Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The mechanism of action described is characteristic of classic anticonvulsants like phenytoin or carbamazepine. While some drugs in this class are associated with idiosyncratic drug-induced liver injury (DILI), hepatotoxicity is not a direct pharmacological consequence of blocking voltage-gated sodium channels. Most agents with this specific mechanism do not possess intrinsic hepatotoxic potential, and liver injury, when it occurs, is rare and typically immune-mediated rather than dose-dependent.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"carbamazepine\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42652919",
+      "41924668",
+      "41050417",
+      "40569711",
+      "40465184"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: Multiple abstracts (41924668, 41050417, 40569711, 40465184) contain qualifying language for Grade B, such as 'adverse drug reaction', 'adverse effects', and 'risk of'. However, none of the abstracts provide statistical evidence (e.g., p-values, confidence intervals, or odds ratios) required for Grade A."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.464,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}

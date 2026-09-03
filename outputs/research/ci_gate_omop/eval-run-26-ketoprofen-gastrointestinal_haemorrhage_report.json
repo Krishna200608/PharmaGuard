@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-26-ketoprofen-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-03T01:55:58.980471Z",
+  "prompts_version": "v1.1",
+  "drug": "ketoprofen",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 2.578022475996635,
+    "ror": 2.5991752737018388,
+    "prr_lower_ci": 2.2276915775363197,
+    "ror_lower_ci": 2.2415814960934526,
+    "report_count": 178,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-02T06:20:03.769597Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "NSAIDs are well-established to cause gastrointestinal hemorrhage due to the inhibition of COX-1, which reduces the production of protective prostaglandins in the gastric mucosa, leading to mucosal injury, ulceration, and subsequent bleeding.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"ketoprofen\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 1,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "15233140"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The abstract contains language indicating an association between parecoxib and adverse events (e.g., 'can cause severe hypersensitivity reactions', 'severe adverse effects seen with other NSAIDs'), but it does not provide statistical significance data (p-values, confidence intervals, or odds ratios). Since only one abstract was provided and it meets the criteria for Grade B, the final grade is B."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.532,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "source_agreement": "DISCORDANT"
+}
