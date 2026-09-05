@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 # --- Paths ---
 _DATA_DIR = Path(__file__).resolve().parents[2] / "pharmaguard" / "data"
 _DEFAULT_CHEMBL_LOOKUP = _DATA_DIR / "chembl_lookup.json"
+_DEFAULT_ATC_LOOKUP = _DATA_DIR / "atc_lookup.json"
 
 # --- WHO ATC Level 1: Anatomical Main Group (14 Standard Groups) ---
 ATC_LEVEL_1_MAP: dict[str, str] = {
@@ -383,16 +384,29 @@ class DiseaseContextTool:
         self,
         cache: Optional[ToolCache] = None,
         chembl_lookup_path: Optional[Path] = None,
+        atc_lookup_path: Optional[Path] = _DEFAULT_ATC_LOOKUP,
         http_timeout: float = 10.0,
     ):
         self._cache = cache
         self._http_timeout = http_timeout
         self._chembl_lookup_path = chembl_lookup_path or _DEFAULT_CHEMBL_LOOKUP
+        self._atc_lookup_path = atc_lookup_path
         self._chembl_lookup: dict[str, Any] = {}
-        self._load_lookup()
+        self._atc_lookup: dict[str, Any] = {}
+        self._load_lookups()
 
-    def _load_lookup(self) -> None:
-        """Load static ChEMBL lookup table to map canonical drug names to ChEMBL IDs."""
+    def _load_lookups(self) -> None:
+        """Load static ChEMBL and ATC lookup tables."""
+        if self._atc_lookup_path and self._atc_lookup_path.exists():
+            try:
+                with open(self._atc_lookup_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    self._atc_lookup = data.get("drugs", {})
+            except Exception as e:
+                logger.warning("Failed to load ATC lookup from %s: %s", self._atc_lookup_path, e)
+        elif self._atc_lookup_path:
+            logger.warning("ATC lookup path %s does not exist", self._atc_lookup_path)
+
         if self._chembl_lookup_path.exists():
             try:
                 with open(self._chembl_lookup_path, "r", encoding="utf-8") as f:
@@ -422,7 +436,29 @@ class DiseaseContextTool:
                 except Exception as e:
                     logger.debug("Failed to deserialize cached DiseaseContext for %s: %s", drug_norm, e)
 
-        # 2. Check Documented Fallback
+        # 2. Static ATC Lookup Check (Committed Cache for Offline Reproducibility)
+        if drug_norm in self._atc_lookup:
+            entry = self._atc_lookup[drug_norm]
+            atc_codes = entry.get("atc_codes", [])
+            atc_source = entry.get("atc_source", "chembl_api")
+            if not atc_codes:
+                return DiseaseContext(
+                    drug_canonical=drug_canonical,
+                    atc_source="unresolved",
+                    is_resolved=False,
+                    selection_rationale=entry.get("selection_rationale", "No ATC codes found in static lookup."),
+                )
+            ctx = self._build_context(
+                drug_canonical=drug_canonical,
+                atc_codes=atc_codes,
+                atc_source=atc_source,
+                selection_method=entry.get("selection_method"),
+                selection_rationale=entry.get("selection_rationale"),
+            )
+            self._write_cache(drug_norm, ctx)
+            return ctx
+
+        # 3. Check Documented Fallback
         if drug_norm in ATC_FALLBACK_MAP:
             fb = ATC_FALLBACK_MAP[drug_norm]
             ctx = self._build_context(
@@ -435,12 +471,12 @@ class DiseaseContextTool:
             self._write_cache(drug_norm, ctx)
             return ctx
 
-        # 3. Resolve via ChEMBL API
+        # 4. Resolve via ChEMBL API
         drug_entry = self._chembl_lookup.get(drug_norm)
         chembl_id = drug_entry.get("chembl_id") if isinstance(drug_entry, dict) else None
 
         if not chembl_id:
-            logger.info("Drug '%s' has no ChEMBL ID in lookup ΓÇö cannot query ChEMBL ATC.", drug_canonical)
+            logger.info("Drug '%s' has no ChEMBL ID in lookup — cannot query ChEMBL ATC.", drug_canonical)
             return DiseaseContext(
                 drug_canonical=drug_canonical,
                 atc_source="unresolved",

@@ -268,7 +268,7 @@ class TestApiErrorsAndResiliency:
     """Verify guaranteed non-throwing behavior under network or parsing errors."""
 
     def test_http_404_error_handled(self):
-        tool = DiseaseContextTool()
+        tool = DiseaseContextTool(atc_lookup_path=None)
         with patch("urllib.request.urlopen", side_effect=urllib.error.HTTPError(None, 404, "Not Found", None, None)):
             ctx = tool.resolve("metformin")
         assert ctx.is_resolved is False
@@ -276,7 +276,7 @@ class TestApiErrorsAndResiliency:
         assert "404" in ctx.selection_rationale
 
     def test_timeout_error_handled(self):
-        tool = DiseaseContextTool()
+        tool = DiseaseContextTool(atc_lookup_path=None)
         with patch("urllib.request.urlopen", side_effect=TimeoutError("Request timed out")):
             ctx = tool.resolve("metformin")
         assert ctx.is_resolved is False
@@ -284,7 +284,7 @@ class TestApiErrorsAndResiliency:
         assert "timed out" in ctx.selection_rationale.lower()
 
     def test_malformed_json_handled(self):
-        tool = DiseaseContextTool()
+        tool = DiseaseContextTool(atc_lookup_path=None)
         with patch("urllib.request.urlopen") as mock_url:
             mock_url.return_value.__enter__.return_value.read.return_value = b"{malformed json"
             ctx = tool.resolve("metformin")
@@ -292,12 +292,57 @@ class TestApiErrorsAndResiliency:
         assert ctx.atc_source == "unresolved"
 
     def test_empty_atc_list_handled(self):
-        tool = DiseaseContextTool()
+        tool = DiseaseContextTool(atc_lookup_path=None)
         with patch("urllib.request.urlopen") as mock_url:
             mock_url.return_value.__enter__.return_value.read.return_value = json.dumps({"atc_classifications": []}).encode("utf-8")
             ctx = tool.resolve("metformin")
         assert ctx.is_resolved is False
         assert ctx.atc_source == "unresolved"
+
+
+class TestOfflineReproducibility:
+    """Verify offline reproducibility from committed atc_lookup.json without network."""
+
+    def test_offline_resolution_all_benchmark_drugs(self):
+        """Confirm all 46 benchmark drugs resolve offline with network forbidden."""
+        tool = DiseaseContextTool()
+        assert len(tool._atc_lookup) == 46
+
+        with patch("urllib.request.urlopen", side_effect=RuntimeError("Offline: Network call forbidden")):
+            for drug_name, entry in tool._atc_lookup.items():
+                ctx = tool.resolve(drug_name)
+                assert ctx.is_resolved is True
+                assert ctx.primary_atc == entry["primary_atc"]
+                assert ctx.therapeutic_area == entry["therapeutic_area"]
+                assert ctx.pharmacological_subgroup == entry["pharmacological_subgroup"]
+                assert ctx.atc_source == entry["atc_source"]
+                assert ctx.atc_codes == entry["atc_codes"]
+
+    def test_offline_fallback_provenance_preserved(self):
+        """Verify that known fallbacks preserve their hardcoded_fallback source in static cache."""
+        tool = DiseaseContextTool()
+        with patch("urllib.request.urlopen", side_effect=RuntimeError("Offline: Network call forbidden")):
+            ctx_ator = tool.resolve("atorvastatin")
+            assert ctx_ator.atc_source == "hardcoded_fallback"
+            assert ctx_ator.selected_atc == "C10AA05"
+
+            ctx_sim = tool.resolve("simethicone")
+            assert ctx_sim.atc_source == "hardcoded_fallback"
+            assert ctx_sim.selected_atc == "A03AX13"
+
+    def test_api_fallback_for_uncached_drug_when_network_available(self):
+        """Verify that a drug NOT in atc_lookup.json falls back to live ChEMBL API."""
+        tool = DiseaseContextTool(atc_lookup_path=None)
+        mock_response = json.dumps({
+            "atc_classifications": ["A10BA02"]
+        }).encode("utf-8")
+        with patch("urllib.request.urlopen") as mock_url:
+            mock_url.return_value.__enter__.return_value.read.return_value = mock_response
+            ctx = tool.resolve("metformin")
+            mock_url.assert_called_once()
+        assert ctx.is_resolved is True
+        assert ctx.atc_source == "chembl_api"
+        assert ctx.primary_atc == "A10BA02"
 
 
 class TestCacheIntegration:

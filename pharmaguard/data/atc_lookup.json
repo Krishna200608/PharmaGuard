@@ -1,0 +1,638 @@
+{
+  "schema_version": "1.0",
+  "source": "ChEMBL REST API v34 molecule atc_classifications with WHO ATC Index 2026 fallbacks.",
+  "drugs": {
+    "acarbose": {
+      "drug_canonical": "acarbose",
+      "atc_codes": [
+        "A10BF01"
+      ],
+      "primary_atc": "A10BF01",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs used in diabetes",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "acyclovir": {
+      "drug_canonical": "acyclovir",
+      "atc_codes": [
+        "D06BB03",
+        "D06BB53",
+        "J05AB01",
+        "S01AD03"
+      ],
+      "primary_atc": "J05AB01",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antivirals for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_route_priority",
+      "selection_rationale": "Prioritized systemic antiviral (J05AB01) over ophthalmic (S01AD03) and topical dermatological (D06BB) formulations."
+    },
+    "adalimumab": {
+      "drug_canonical": "adalimumab",
+      "atc_codes": [
+        "L04AB04"
+      ],
+      "primary_atc": "L04AB04",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "pharmacological_subgroup": "Immunosuppressants",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "adenosine": {
+      "drug_canonical": "adenosine",
+      "atc_codes": [
+        "C01EB10"
+      ],
+      "primary_atc": "C01EB10",
+      "therapeutic_area": "Cardiovascular system",
+      "pharmacological_subgroup": "Cardiac therapy",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "albuterol": {
+      "drug_canonical": "albuterol",
+      "atc_codes": [
+        "R03AC02",
+        "R03CC02"
+      ],
+      "primary_atc": "R03AC02",
+      "therapeutic_area": "Respiratory system",
+      "pharmacological_subgroup": "Drugs for obstructive airway diseases",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "primary_formulation_priority",
+      "selection_rationale": "Prioritized inhaled beta-2 agonist (R03AC02, primary clinical delivery) over oral systemic form (R03CC02)."
+    },
+    "allopurinol": {
+      "drug_canonical": "allopurinol",
+      "atc_codes": [
+        "M04AA01",
+        "M04AA51"
+      ],
+      "primary_atc": "M04AA01",
+      "therapeutic_area": "Musculo-skeletal system",
+      "pharmacological_subgroup": "Antigout preparations",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "monotherapy_priority",
+      "selection_rationale": "Prioritized plain allopurinol monotherapy (M04AA01) over fixed-dose combination code (M04AA51)."
+    },
+    "amlodipine": {
+      "drug_canonical": "amlodipine",
+      "atc_codes": [
+        "C08CA01"
+      ],
+      "primary_atc": "C08CA01",
+      "therapeutic_area": "Cardiovascular system",
+      "pharmacological_subgroup": "Calcium channel blockers",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "amoxicillin": {
+      "drug_canonical": "amoxicillin",
+      "atc_codes": [
+        "J01CA04"
+      ],
+      "primary_atc": "J01CA04",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antibacterials for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "atorvastatin": {
+      "drug_canonical": "atorvastatin",
+      "atc_codes": [
+        "C10AA05"
+      ],
+      "primary_atc": "C10AA05",
+      "therapeutic_area": "Cardiovascular system",
+      "pharmacological_subgroup": "Lipid modifying agents",
+      "atc_source": "hardcoded_fallback",
+      "resolved_at": "2026-09-05",
+      "selection_method": "fallback_mapping",
+      "selection_rationale": "WHO ATC Index 2026 (C10AA05: HMG CoA reductase inhibitors). Confirmed ChEMBL v34 data omission."
+    },
+    "captopril": {
+      "drug_canonical": "captopril",
+      "atc_codes": [
+        "C09AA01"
+      ],
+      "primary_atc": "C09AA01",
+      "therapeutic_area": "Cardiovascular system",
+      "pharmacological_subgroup": "Agents acting on the renin-angiotensin system",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "carbamazepine": {
+      "drug_canonical": "carbamazepine",
+      "atc_codes": [
+        "N03AF01"
+      ],
+      "primary_atc": "N03AF01",
+      "therapeutic_area": "Nervous system",
+      "pharmacological_subgroup": "Antiepileptics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "ciprofloxacin": {
+      "drug_canonical": "ciprofloxacin",
+      "atc_codes": [
+        "J01MA02",
+        "S01AE03",
+        "S02AA15",
+        "S03AA07"
+      ],
+      "primary_atc": "J01MA02",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antibacterials for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_route_priority",
+      "selection_rationale": "Prioritized systemic fluoroquinolone antibacterial (J01MA02) over ophthalmic/otological drops (S01/S02/S03)."
+    },
+    "citalopram": {
+      "drug_canonical": "citalopram",
+      "atc_codes": [
+        "N06AB04"
+      ],
+      "primary_atc": "N06AB04",
+      "therapeutic_area": "Nervous system",
+      "pharmacological_subgroup": "Psychoanaleptics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "clindamycin": {
+      "drug_canonical": "clindamycin",
+      "atc_codes": [
+        "D10AF01",
+        "G01AA10",
+        "J01FF01"
+      ],
+      "primary_atc": "J01FF01",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antibacterials for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_route_priority",
+      "selection_rationale": "Prioritized systemic lincosamide antibacterial (J01FF01) over topical anti-acne (D10AF01) and vaginal (G01AA10)."
+    },
+    "clozapine": {
+      "drug_canonical": "clozapine",
+      "atc_codes": [
+        "N05AH02"
+      ],
+      "primary_atc": "N05AH02",
+      "therapeutic_area": "Nervous system",
+      "pharmacological_subgroup": "Psycholeptics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "dicyclomine": {
+      "drug_canonical": "dicyclomine",
+      "atc_codes": [
+        "A03AA07"
+      ],
+      "primary_atc": "A03AA07",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs for functional gastrointestinal disorders",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "dipyridamole": {
+      "drug_canonical": "dipyridamole",
+      "atc_codes": [
+        "B01AC07"
+      ],
+      "primary_atc": "B01AC07",
+      "therapeutic_area": "Blood and blood forming organs",
+      "pharmacological_subgroup": "Antithrombotic agents",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "fluoxetine": {
+      "drug_canonical": "fluoxetine",
+      "atc_codes": [
+        "N06AB03"
+      ],
+      "primary_atc": "N06AB03",
+      "therapeutic_area": "Nervous system",
+      "pharmacological_subgroup": "Psychoanaleptics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "griseofulvin": {
+      "drug_canonical": "griseofulvin",
+      "atc_codes": [
+        "D01AA08",
+        "D01BA01"
+      ],
+      "primary_atc": "D01BA01",
+      "therapeutic_area": "Dermatologicals",
+      "pharmacological_subgroup": "Antifungals for dermatological use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_route_priority",
+      "selection_rationale": "Prioritized systemic antifungal for dermatological infections (D01BA01) over topical antibiotics (D01AA08)."
+    },
+    "hydrochlorothiazide": {
+      "drug_canonical": "hydrochlorothiazide",
+      "atc_codes": [
+        "C03AA03",
+        "C03AX01"
+      ],
+      "primary_atc": "C03AA03",
+      "therapeutic_area": "Cardiovascular system",
+      "pharmacological_subgroup": "Diuretics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "monotherapy_priority",
+      "selection_rationale": "Prioritized plain low-ceiling thiazide diuretic (C03AA03) over other diuretic code (C03AX01)."
+    },
+    "imatinib": {
+      "drug_canonical": "imatinib",
+      "atc_codes": [
+        "L01EA01"
+      ],
+      "primary_atc": "L01EA01",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "pharmacological_subgroup": "Antineoplastic agents",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "indomethacin": {
+      "drug_canonical": "indomethacin",
+      "atc_codes": [
+        "C01EB03",
+        "M01AB01",
+        "M01AB51",
+        "M02AA23",
+        "S01BC01"
+      ],
+      "primary_atc": "M01AB01",
+      "therapeutic_area": "Musculo-skeletal system",
+      "pharmacological_subgroup": "Anti-inflammatory and antirheumatic products",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_indication_priority",
+      "selection_rationale": "Prioritized systemic anti-inflammatory NSAID (M01AB01) over topical (M02AA23), combination (M01AB51), ophthalmic (S01BC01), and ductus arteriosus (C01EB03)."
+    },
+    "isoniazid": {
+      "drug_canonical": "isoniazid",
+      "atc_codes": [
+        "J04AC01",
+        "J04AC51"
+      ],
+      "primary_atc": "J04AC01",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antimycobacterials",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "monotherapy_priority",
+      "selection_rationale": "Prioritized plain antimycobacterial monotherapy (J04AC01) over combination code (J04AC51)."
+    },
+    "isotretinoin": {
+      "drug_canonical": "isotretinoin",
+      "atc_codes": [
+        "D10AD04",
+        "D10AD54",
+        "D10BA01"
+      ],
+      "primary_atc": "D10BA01",
+      "therapeutic_area": "Dermatologicals",
+      "pharmacological_subgroup": "Anti-acne preparations",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_route_priority",
+      "selection_rationale": "Prioritized oral systemic retinoid (D10BA01) over topical retinoid preparations (D10AD)."
+    },
+    "itraconazole": {
+      "drug_canonical": "itraconazole",
+      "atc_codes": [
+        "J02AC02"
+      ],
+      "primary_atc": "J02AC02",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antimycotics for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "ketoprofen": {
+      "drug_canonical": "ketoprofen",
+      "atc_codes": [
+        "M01AE03",
+        "M01AE53",
+        "M02AA10"
+      ],
+      "primary_atc": "M01AE03",
+      "therapeutic_area": "Musculo-skeletal system",
+      "pharmacological_subgroup": "Anti-inflammatory and antirheumatic products",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_route_priority",
+      "selection_rationale": "Prioritized systemic oral NSAID (M01AE03) over topical gel (M02AA10) and combination code (M01AE53)."
+    },
+    "lactulose": {
+      "drug_canonical": "lactulose",
+      "atc_codes": [
+        "A06AD11",
+        "A06AD61"
+      ],
+      "primary_atc": "A06AD11",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs for constipation",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "monotherapy_priority",
+      "selection_rationale": "Prioritized plain osmotic laxative (A06AD11) over combination code (A06AD61)."
+    },
+    "liraglutide": {
+      "drug_canonical": "liraglutide",
+      "atc_codes": [
+        "A10BJ02"
+      ],
+      "primary_atc": "A10BJ02",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs used in diabetes",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "lisinopril": {
+      "drug_canonical": "lisinopril",
+      "atc_codes": [
+        "C09AA03"
+      ],
+      "primary_atc": "C09AA03",
+      "therapeutic_area": "Cardiovascular system",
+      "pharmacological_subgroup": "Agents acting on the renin-angiotensin system",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "loratadine": {
+      "drug_canonical": "loratadine",
+      "atc_codes": [
+        "R06AX13"
+      ],
+      "primary_atc": "R06AX13",
+      "therapeutic_area": "Respiratory system",
+      "pharmacological_subgroup": "Antihistamines for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "metformin": {
+      "drug_canonical": "metformin",
+      "atc_codes": [
+        "A10BA02"
+      ],
+      "primary_atc": "A10BA02",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs used in diabetes",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "methenamine": {
+      "drug_canonical": "methenamine",
+      "atc_codes": [
+        "J01XX05"
+      ],
+      "primary_atc": "J01XX05",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antibacterials for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "miconazole": {
+      "drug_canonical": "miconazole",
+      "atc_codes": [
+        "A01AB09",
+        "A07AC01",
+        "D01AC02",
+        "D01AC52",
+        "G01AF04",
+        "J02AB01",
+        "S02AA13"
+      ],
+      "primary_atc": "D01AC02",
+      "therapeutic_area": "Dermatologicals",
+      "pharmacological_subgroup": "Antifungals for dermatological use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "primary_indication_priority",
+      "selection_rationale": "Prioritized topical dermatological antifungal (D01AC02, primary WHO classification) over gynecological (G01AF04), stomatological (A01AB09), and systemic (J02AB01)."
+    },
+    "montelukast": {
+      "drug_canonical": "montelukast",
+      "atc_codes": [
+        "R03DC03",
+        "R03DC53"
+      ],
+      "primary_atc": "R03DC03",
+      "therapeutic_area": "Respiratory system",
+      "pharmacological_subgroup": "Drugs for obstructive airway diseases",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "monotherapy_priority",
+      "selection_rationale": "Prioritized plain leukotriene receptor antagonist monotherapy (R03DC03) over combination code (R03DC53)."
+    },
+    "naproxen": {
+      "drug_canonical": "naproxen",
+      "atc_codes": [
+        "G02CC02",
+        "M01AE02",
+        "M02AA12"
+      ],
+      "primary_atc": "M01AE02",
+      "therapeutic_area": "Musculo-skeletal system",
+      "pharmacological_subgroup": "Anti-inflammatory and antirheumatic products",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_indication_priority",
+      "selection_rationale": "Prioritized systemic anti-inflammatory NSAID (M01AE02) over topical formulation (M02AA12) and vaginal preparation (G02CC02)."
+    },
+    "nifedipine": {
+      "drug_canonical": "nifedipine",
+      "atc_codes": [
+        "C08CA05",
+        "C08CA55"
+      ],
+      "primary_atc": "C08CA05",
+      "therapeutic_area": "Cardiovascular system",
+      "pharmacological_subgroup": "Calcium channel blockers",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "monotherapy_priority",
+      "selection_rationale": "Prioritized plain dihydropyridine calcium channel blocker (C08CA05) over combination code (C08CA55)."
+    },
+    "nitrofurantoin": {
+      "drug_canonical": "nitrofurantoin",
+      "atc_codes": [
+        "J01XE01",
+        "J01XE51"
+      ],
+      "primary_atc": "J01XE01",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antibacterials for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "monotherapy_priority",
+      "selection_rationale": "Prioritized plain nitrofuran antibacterial monotherapy (J01XE01) over combination code (J01XE51)."
+    },
+    "pembrolizumab": {
+      "drug_canonical": "pembrolizumab",
+      "atc_codes": [
+        "L01FF02"
+      ],
+      "primary_atc": "L01FF02",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "pharmacological_subgroup": "Antineoplastic agents",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "pioglitazone": {
+      "drug_canonical": "pioglitazone",
+      "atc_codes": [
+        "A10BG03"
+      ],
+      "primary_atc": "A10BG03",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs used in diabetes",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "rosiglitazone": {
+      "drug_canonical": "rosiglitazone",
+      "atc_codes": [
+        "A10BG02"
+      ],
+      "primary_atc": "A10BG02",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs used in diabetes",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "sertraline": {
+      "drug_canonical": "sertraline",
+      "atc_codes": [
+        "N06AB06"
+      ],
+      "primary_atc": "N06AB06",
+      "therapeutic_area": "Nervous system",
+      "pharmacological_subgroup": "Psychoanaleptics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "simethicone": {
+      "drug_canonical": "simethicone",
+      "atc_codes": [
+        "A03AX13"
+      ],
+      "primary_atc": "A03AX13",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs for functional gastrointestinal disorders",
+      "atc_source": "hardcoded_fallback",
+      "resolved_at": "2026-09-05",
+      "selection_method": "fallback_mapping",
+      "selection_rationale": "WHO ATC Index 2026 (A03AX13: Other drugs for functional bowel disorders). Confirmed ChEMBL v34 data omission."
+    },
+    "sucralfate": {
+      "drug_canonical": "sucralfate",
+      "atc_codes": [
+        "A02BX02"
+      ],
+      "primary_atc": "A02BX02",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "pharmacological_subgroup": "Drugs for acid related disorders",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "sulfisoxazole": {
+      "drug_canonical": "sulfisoxazole",
+      "atc_codes": [
+        "J01EB05",
+        "S01AB02"
+      ],
+      "primary_atc": "J01EB05",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "pharmacological_subgroup": "Antibacterials for systemic use",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "systemic_route_priority",
+      "selection_rationale": "Prioritized systemic short-acting sulfonamide (J01EB05) over ophthalmic drops (S01AB02)."
+    },
+    "temazepam": {
+      "drug_canonical": "temazepam",
+      "atc_codes": [
+        "N05CD07"
+      ],
+      "primary_atc": "N05CD07",
+      "therapeutic_area": "Nervous system",
+      "pharmacological_subgroup": "Psycholeptics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    },
+    "valproic_acid": {
+      "drug_canonical": "valproic_acid",
+      "atc_codes": [
+        "N03AG01"
+      ],
+      "primary_atc": "N03AG01",
+      "therapeutic_area": "Nervous system",
+      "pharmacological_subgroup": "Antiepileptics",
+      "atc_source": "chembl_api",
+      "resolved_at": "2026-09-05",
+      "selection_method": "single_code",
+      "selection_rationale": "Single unambiguous ATC classification returned by source."
+    }
+  }
+}

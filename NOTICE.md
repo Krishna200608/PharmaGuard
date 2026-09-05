@@ -6,14 +6,14 @@ While the core PharmaGuard software, agent orchestration, evaluation harnesses, 
 
 ---
 
-## 1. ChEMBL Database Registry (`pharmaguard/data/chembl_lookup.json`)
+## 1. ChEMBL Database Registry (`pharmaguard/data/chembl_lookup.json` & `pharmaguard/data/atc_lookup.json`)
 
 * **Upstream Resource:** [EMBL-EBI ChEMBL Bioactivity & Drug Target Database](https://www.ebi.ac.uk/chembl/)
 * **Upstream Provider:** European Molecular Biology Laboratory - European Bioinformatics Institute (EMBL-EBI)
 * **Release Version Used:** ChEMBL REST API v34
 * **Upstream License:** [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/)
 * **License Notice & ShareAlike Restriction:**
-  `pharmaguard/data/chembl_lookup.json` contains curated compound identifiers, mechanism-of-action descriptions, target names, and target classifications derived from the ChEMBL database. In accordance with the CC BY-SA 3.0 ShareAlike term, **this specific data file is NOT covered by PharmaGuard's MIT License**; it remains licensed under CC BY-SA 3.0. Any redistribution or modification of this file must carry the same or a compatible ShareAlike license.
+  `pharmaguard/data/chembl_lookup.json` and `pharmaguard/data/atc_lookup.json` contain curated compound identifiers, mechanism-of-action descriptions, target classifications, and WHO ATC classifications derived from the ChEMBL database (with supplementary WHO ATC Index 2026 fallbacks for documented ChEMBL data omissions). In accordance with the CC BY-SA 3.0 ShareAlike term, **these specific data files are NOT covered by PharmaGuard's MIT License**; they remain licensed under CC BY-SA 3.0. Any redistribution or modification of these files must carry the same or a compatible ShareAlike license.
 * **Required Academic Attribution:**
   > Gaulton, A., Bellis, L. J., Bento, A. P., Chambers, J., Davies, M., Hersey, A., ... & Overington, J. P. (2012). ChEMBL: a large-scale bioactivity database for drug discovery. *Nucleic Acids Research*, 40(D1), D1100–D1107. [DOI: 10.1093/nar/gkr777](https://doi.org/10.1093/nar/gkr777).
   >
