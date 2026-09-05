@@ -1,0 +1,1827 @@
+{
+  "title": "PharmaGuard",
+  "pairs_evaluated": 32,
+  "pairs_total": 32,
+  "strict_metrics": {
+    "TP": 1,
+    "FP": 0,
+    "TN": 16,
+    "FN": 15,
+    "precision": 1.0,
+    "recall": 0.0625,
+    "specificity": 1.0,
+    "f1": 0.11764705882352941,
+    "wilson_ci": {
+      "precision": [
+        0.20654998073085312,
+        1.0
+      ],
+      "recall": [
+        0.011119376567744865,
+        0.2832867884600566
+      ],
+      "specificity": [
+        0.8063929542539412,
+        1.0
+      ]
+    },
+    "bootstrap_ci": {
+      "precision": [
+        0.0,
+        1.0
+      ],
+      "recall": [
+        0.0,
+        0.2
+      ],
+      "specificity": [
+        1.0,
+        1.0
+      ],
+      "f1": [
+        0.0,
+        0.33333333333333337
+      ]
+    }
+  },
+  "lenient_metrics": {
+    "TP": 9,
+    "FP": 0,
+    "TN": 16,
+    "FN": 7,
+    "precision": "N/A",
+    "recall": "N/A",
+    "specificity": "1.000",
+    "f1": "N/A",
+    "wilson_ci": {
+      "precision": [
+        0.7008558040328856,
+        1.0
+      ],
+      "recall": [
+        0.33178596314935843,
+        0.7690131561323841
+      ],
+      "specificity": [
+        0.8063929542539412,
+        1.0
+      ]
+    },
+    "bootstrap_ci": {
+      "precision": [
+        1.0,
+        1.0
+      ],
+      "recall": [
+        0.29411764705882354,
+        0.789736842105263
+      ],
+      "specificity": [
+        1.0,
+        1.0
+      ],
+      "f1": [
+        0.45454545454545453,
+        0.8825163398692809
+      ]
+    }
+  },
+  "over_caution_rate": 0.0,
+  "category_metrics": {
+    "omop_confirmed_positive": {
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 15
+      },
+      "lenient": {
+        "TP": 9,
+        "FP": 0,
+        "TN": 0,
+        "FN": 7
+      },
+      "count": 16
+    },
+    "omop_negative_control": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 16,
+        "FN": 0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 16,
+        "FN": 0
+      },
+      "count": 16
+    }
+  },
+  "therapeutic_area_metrics": {
+    "A": {
+      "code": "A",
+      "name": "Alimentary tract and metabolism",
+      "n": 6,
+      "is_exploratory": false,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 6,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.61,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 6,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.61,
+          1.0
+        ]
+      },
+      "records": [
+        "acarbose::acute_kidney_injury",
+        "simethicone::acute_kidney_injury",
+        "lactulose::myocardial_infarction",
+        "pioglitazone::gastrointestinal_haemorrhage",
+        "sucralfate::hepatotoxicity",
+        "dicyclomine::hepatotoxicity"
+      ]
+    },
+    "B": {
+      "code": "B",
+      "name": "Blood and blood forming organs",
+      "n": 1,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "dipyridamole::myocardial_infarction"
+      ]
+    },
+    "C": {
+      "code": "C",
+      "name": "Cardiovascular system",
+      "n": 6,
+      "is_exploratory": false,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 1,
+        "FN": 5,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.434
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 1,
+        "FN": 3,
+        "precision": 1.0,
+        "recall": 0.4,
+        "specificity": 1.0,
+        "f1": 0.571,
+        "precision_ci": [
+          0.342,
+          1.0
+        ],
+        "recall_ci": [
+          0.118,
+          0.769
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "records": [
+        "lisinopril::acute_kidney_injury",
+        "amlodipine::myocardial_infarction",
+        "nifedipine::myocardial_infarction",
+        "captopril::hepatotoxicity",
+        "adenosine::hepatotoxicity",
+        "hydrochlorothiazide::acute_kidney_injury"
+      ]
+    },
+    "D": {
+      "code": "D",
+      "name": "Dermatologicals",
+      "n": 2,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "records": [
+        "miconazole::myocardial_infarction",
+        "griseofulvin::gastrointestinal_haemorrhage"
+      ]
+    },
+    "J": {
+      "code": "J",
+      "name": "Antiinfectives for systemic use",
+      "n": 7,
+      "is_exploratory": false,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 5,
+        "FN": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "specificity": 1.0,
+        "f1": 0.667,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.095,
+          0.905
+        ],
+        "specificity_ci": [
+          0.566,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 5,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.342,
+          1.0
+        ],
+        "recall_ci": [
+          0.342,
+          1.0
+        ],
+        "specificity_ci": [
+          0.566,
+          1.0
+        ]
+      },
+      "records": [
+        "isoniazid::hepatotoxicity",
+        "clindamycin::myocardial_infarction",
+        "sulfisoxazole::myocardial_infarction",
+        "itraconazole::gastrointestinal_haemorrhage",
+        "nitrofurantoin::gastrointestinal_haemorrhage",
+        "methenamine::hepatotoxicity",
+        "acyclovir::acute_kidney_injury"
+      ]
+    },
+    "M": {
+      "code": "M",
+      "name": "Musculo-skeletal system",
+      "n": 4,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.49
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 4,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": null,
+        "f1": 1.0,
+        "precision_ci": [
+          0.51,
+          1.0
+        ],
+        "recall_ci": [
+          0.51,
+          1.0
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "naproxen::acute_kidney_injury",
+        "indomethacin::myocardial_infarction",
+        "allopurinol::hepatotoxicity",
+        "ketoprofen::gastrointestinal_haemorrhage"
+      ]
+    },
+    "N": {
+      "code": "N",
+      "name": "Nervous system",
+      "n": 5,
+      "is_exploratory": false,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 1,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.49
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 1,
+        "FN": 3,
+        "precision": 1.0,
+        "recall": 0.25,
+        "specificity": 1.0,
+        "f1": 0.4,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.046,
+          0.699
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "records": [
+        "carbamazepine::hepatotoxicity",
+        "temazepam::acute_kidney_injury",
+        "citalopram::gastrointestinal_haemorrhage",
+        "fluoxetine::gastrointestinal_haemorrhage",
+        "sertraline::gastrointestinal_haemorrhage"
+      ]
+    },
+    "R": {
+      "code": "R",
+      "name": "Respiratory system",
+      "n": 1,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 1,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 1,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "records": [
+        "loratadine::acute_kidney_injury"
+      ]
+    }
+  },
+  "atc_coverage": {
+    "total_unique_drugs": 32,
+    "chembl_resolved": 31,
+    "fallback_resolved": 1,
+    "unresolved": 0,
+    "resolution_percentage": 100.0,
+    "multi_atc_count": 14,
+    "multi_level1_count": 6
+  },
+  "disagreements": [
+    {
+      "pair": "carbamazepine::hepatotoxicity",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "lisinopril::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "naproxen::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "amlodipine::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "dipyridamole::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "indomethacin::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "nifedipine::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "allopurinol::hepatotoxicity",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "citalopram::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "fluoxetine::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "ketoprofen::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "sertraline::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "captopril::hepatotoxicity",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "acyclovir::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "hydrochlorothiazide::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    }
+  ],
+  "records": [
+    {
+      "pair": "carbamazepine::hepatotoxicity",
+      "drug": "carbamazepine",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "carbamazepine",
+        "atc_codes": [
+          "N03AF01"
+        ],
+        "all_atc_codes": [
+          "N03AF01"
+        ],
+        "primary_atc": "N03AF01",
+        "selected_atc": "N03AF01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N03",
+        "pharmacological_subgroup": "Antiepileptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as long-term continuous maintenance therapy for epilepsy, schizophrenia, or bipolar disorder.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "isoniazid::hepatotoxicity",
+      "drug": "isoniazid",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "isoniazid",
+        "atc_codes": [
+          "J04AC51",
+          "J04AC01"
+        ],
+        "all_atc_codes": [
+          "J04AC51",
+          "J04AC01"
+        ],
+        "primary_atc": "J04AC01",
+        "selected_atc": "J04AC01",
+        "secondary_atc_codes": [
+          "J04AC51"
+        ],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J04",
+        "pharmacological_subgroup": "Antimycobacterials",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Intermediate subacute duration: 6-9 months regimen for tuberculosis prophylaxis or therapy.",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain antimycobacterial monotherapy (J04AC01) over combination code (J04AC51).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "lisinopril::acute_kidney_injury",
+      "drug": "lisinopril",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "lisinopril",
+        "atc_codes": [
+          "C09AA03"
+        ],
+        "all_atc_codes": [
+          "C09AA03"
+        ],
+        "primary_atc": "C09AA03",
+        "selected_atc": "C09AA03",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C09",
+        "pharmacological_subgroup": "Agents acting on the renin-angiotensin system",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "naproxen::acute_kidney_injury",
+      "drug": "naproxen",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "M",
+      "therapeutic_area": "Musculo-skeletal system",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "naproxen",
+        "atc_codes": [
+          "G02CC02",
+          "M01AE02",
+          "M02AA12"
+        ],
+        "all_atc_codes": [
+          "G02CC02",
+          "M01AE02",
+          "M02AA12"
+        ],
+        "primary_atc": "M01AE02",
+        "selected_atc": "M01AE02",
+        "secondary_atc_codes": [
+          "G02CC02",
+          "M02AA12"
+        ],
+        "therapeutic_area_code": "M",
+        "therapeutic_area": "Musculo-skeletal system",
+        "pharmacological_subgroup_code": "M01",
+        "pharmacological_subgroup": "Anti-inflammatory and antirheumatic products",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever versus long-term daily use for inflammatory arthritis.",
+        "selection_method": "systemic_indication_priority",
+        "selection_rationale": "Prioritized systemic anti-inflammatory NSAID (M01AE02) over topical formulation (M02AA12) and vaginal preparation (G02CC02).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "acarbose::acute_kidney_injury",
+      "drug": "acarbose",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "acarbose",
+        "atc_codes": [
+          "A10BF01"
+        ],
+        "all_atc_codes": [
+          "A10BF01"
+        ],
+        "primary_atc": "A10BF01",
+        "selected_atc": "A10BF01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A10",
+        "pharmacological_subgroup": "Drugs used in diabetes",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term or lifelong glycemic management in diabetes mellitus.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "loratadine::acute_kidney_injury",
+      "drug": "loratadine",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "R",
+      "therapeutic_area": "Respiratory system",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "loratadine",
+        "atc_codes": [
+          "R06AX13"
+        ],
+        "all_atc_codes": [
+          "R06AX13"
+        ],
+        "primary_atc": "R06AX13",
+        "selected_atc": "R06AX13",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "R",
+        "therapeutic_area": "Respiratory system",
+        "pharmacological_subgroup_code": "R06",
+        "pharmacological_subgroup": "Antihistamines for systemic use",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Used both as-needed for acute allergic episodes and daily for seasonal/perennial allergic rhinitis.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "simethicone::acute_kidney_injury",
+      "drug": "simethicone",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "simethicone",
+        "atc_codes": [
+          "A03AX13"
+        ],
+        "all_atc_codes": [
+          "A03AX13"
+        ],
+        "primary_atc": "A03AX13",
+        "selected_atc": "A03AX13",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A03",
+        "pharmacological_subgroup": "Drugs for functional gastrointestinal disorders",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Used both acutely for episodic gastrointestinal symptoms/constipation and chronically for motility or encephalopathy management.",
+        "selection_method": "fallback_mapping",
+        "selection_rationale": "WHO ATC Index 2026 (A03AX13: Other drugs for functional bowel disorders). Confirmed ChEMBL v34 data omission.",
+        "atc_source": "hardcoded_fallback",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "temazepam::acute_kidney_injury",
+      "drug": "temazepam",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "temazepam",
+        "atc_codes": [
+          "N05CD07"
+        ],
+        "all_atc_codes": [
+          "N05CD07"
+        ],
+        "primary_atc": "N05CD07",
+        "selected_atc": "N05CD07",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N05",
+        "pharmacological_subgroup": "Psycholeptics",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Guidelines recommend short-term acute use (<=2-4 weeks) for insomnia, though clinical practice frequently involves chronic extension.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "amlodipine::myocardial_infarction",
+      "drug": "amlodipine",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "amlodipine",
+        "atc_codes": [
+          "C08CA01"
+        ],
+        "all_atc_codes": [
+          "C08CA01"
+        ],
+        "primary_atc": "C08CA01",
+        "selected_atc": "C08CA01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C08",
+        "pharmacological_subgroup": "Calcium channel blockers",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "dipyridamole::myocardial_infarction",
+      "drug": "dipyridamole",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "B",
+      "therapeutic_area": "Blood and blood forming organs",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "dipyridamole",
+        "atc_codes": [
+          "B01AC07"
+        ],
+        "all_atc_codes": [
+          "B01AC07"
+        ],
+        "primary_atc": "B01AC07",
+        "selected_atc": "B01AC07",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "B",
+        "therapeutic_area": "Blood and blood forming organs",
+        "pharmacological_subgroup_code": "B01",
+        "pharmacological_subgroup": "Antithrombotic agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term continuous antiplatelet or anticoagulant thromboprophylaxis.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "indomethacin::myocardial_infarction",
+      "drug": "indomethacin",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "M",
+      "therapeutic_area": "Musculo-skeletal system",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "indomethacin",
+        "atc_codes": [
+          "C01EB03",
+          "M02AA23",
+          "M01AB51",
+          "S01BC01",
+          "M01AB01"
+        ],
+        "all_atc_codes": [
+          "C01EB03",
+          "M02AA23",
+          "M01AB51",
+          "S01BC01",
+          "M01AB01"
+        ],
+        "primary_atc": "M01AB01",
+        "selected_atc": "M01AB01",
+        "secondary_atc_codes": [
+          "C01EB03",
+          "M02AA23",
+          "M01AB51",
+          "S01BC01"
+        ],
+        "therapeutic_area_code": "M",
+        "therapeutic_area": "Musculo-skeletal system",
+        "pharmacological_subgroup_code": "M01",
+        "pharmacological_subgroup": "Anti-inflammatory and antirheumatic products",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever versus long-term daily use for inflammatory arthritis.",
+        "selection_method": "systemic_indication_priority",
+        "selection_rationale": "Prioritized systemic anti-inflammatory NSAID (M01AB01) over topical (M02AA23), combination (M01AB51), ophthalmic (S01BC01), and ductus arteriosus (C01EB03).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "nifedipine::myocardial_infarction",
+      "drug": "nifedipine",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "nifedipine",
+        "atc_codes": [
+          "C08CA05",
+          "C08CA55"
+        ],
+        "all_atc_codes": [
+          "C08CA05",
+          "C08CA55"
+        ],
+        "primary_atc": "C08CA05",
+        "selected_atc": "C08CA05",
+        "secondary_atc_codes": [
+          "C08CA55"
+        ],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C08",
+        "pharmacological_subgroup": "Calcium channel blockers",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain dihydropyridine calcium channel blocker (C08CA05) over combination code (C08CA55).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "allopurinol::hepatotoxicity",
+      "drug": "allopurinol",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "M",
+      "therapeutic_area": "Musculo-skeletal system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "allopurinol",
+        "atc_codes": [
+          "M04AA01",
+          "M04AA51"
+        ],
+        "all_atc_codes": [
+          "M04AA01",
+          "M04AA51"
+        ],
+        "primary_atc": "M04AA01",
+        "selected_atc": "M04AA01",
+        "secondary_atc_codes": [
+          "M04AA51"
+        ],
+        "therapeutic_area_code": "M",
+        "therapeutic_area": "Musculo-skeletal system",
+        "pharmacological_subgroup_code": "M04",
+        "pharmacological_subgroup": "Antigout preparations",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as daily long-term urate-lowering therapy for gout prevention.",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain allopurinol monotherapy (M04AA01) over fixed-dose combination code (M04AA51).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "clindamycin::myocardial_infarction",
+      "drug": "clindamycin",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "clindamycin",
+        "atc_codes": [
+          "G01AA10",
+          "D10AF01",
+          "J01FF01"
+        ],
+        "all_atc_codes": [
+          "G01AA10",
+          "D10AF01",
+          "J01FF01"
+        ],
+        "primary_atc": "J01FF01",
+        "selected_atc": "J01FF01",
+        "secondary_atc_codes": [
+          "G01AA10",
+          "D10AF01"
+        ],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J01",
+        "pharmacological_subgroup": "Antibacterials for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized systemic lincosamide antibacterial (J01FF01) over topical anti-acne (D10AF01) and vaginal (G01AA10).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "lactulose::myocardial_infarction",
+      "drug": "lactulose",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "lactulose",
+        "atc_codes": [
+          "A06AD11",
+          "A06AD61"
+        ],
+        "all_atc_codes": [
+          "A06AD11",
+          "A06AD61"
+        ],
+        "primary_atc": "A06AD11",
+        "selected_atc": "A06AD11",
+        "secondary_atc_codes": [
+          "A06AD61"
+        ],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A06",
+        "pharmacological_subgroup": "Drugs for constipation",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Used both acutely for episodic gastrointestinal symptoms/constipation and chronically for motility or encephalopathy management.",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain osmotic laxative (A06AD11) over combination code (A06AD61).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "miconazole::myocardial_infarction",
+      "drug": "miconazole",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "D",
+      "therapeutic_area": "Dermatologicals",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "miconazole",
+        "atc_codes": [
+          "G01AF04",
+          "S02AA13",
+          "J02AB01",
+          "A01AB09",
+          "D01AC52",
+          "A07AC01",
+          "D01AC02"
+        ],
+        "all_atc_codes": [
+          "G01AF04",
+          "S02AA13",
+          "J02AB01",
+          "A01AB09",
+          "D01AC52",
+          "A07AC01",
+          "D01AC02"
+        ],
+        "primary_atc": "D01AC02",
+        "selected_atc": "D01AC02",
+        "secondary_atc_codes": [
+          "G01AF04",
+          "S02AA13",
+          "J02AB01",
+          "A01AB09",
+          "D01AC52",
+          "A07AC01"
+        ],
+        "therapeutic_area_code": "D",
+        "therapeutic_area": "Dermatologicals",
+        "pharmacological_subgroup_code": "D01",
+        "pharmacological_subgroup": "Antifungals for dermatological use",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Used for episodic or subacute courses (weeks to months) for localized fungal or dermatological infections.",
+        "selection_method": "primary_indication_priority",
+        "selection_rationale": "Prioritized topical dermatological antifungal (D01AC02, primary WHO classification) over gynecological (G01AF04), stomatological (A01AB09), and systemic (J02AB01).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "sulfisoxazole::myocardial_infarction",
+      "drug": "sulfisoxazole",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "sulfisoxazole",
+        "atc_codes": [
+          "J01EB05",
+          "S01AB02"
+        ],
+        "all_atc_codes": [
+          "J01EB05",
+          "S01AB02"
+        ],
+        "primary_atc": "J01EB05",
+        "selected_atc": "J01EB05",
+        "secondary_atc_codes": [
+          "S01AB02"
+        ],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J01",
+        "pharmacological_subgroup": "Antibacterials for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized systemic short-acting sulfonamide (J01EB05) over ophthalmic drops (S01AB02).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "citalopram::gastrointestinal_haemorrhage",
+      "drug": "citalopram",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "citalopram",
+        "atc_codes": [
+          "N06AB04"
+        ],
+        "all_atc_codes": [
+          "N06AB04"
+        ],
+        "primary_atc": "N06AB04",
+        "selected_atc": "N06AB04",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N06",
+        "pharmacological_subgroup": "Psychoanaleptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Antidepressants are prescribed for continuous maintenance therapy (typically >=6-12 months) for depressive/anxiety disorders.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "fluoxetine::gastrointestinal_haemorrhage",
+      "drug": "fluoxetine",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "fluoxetine",
+        "atc_codes": [
+          "N06AB03"
+        ],
+        "all_atc_codes": [
+          "N06AB03"
+        ],
+        "primary_atc": "N06AB03",
+        "selected_atc": "N06AB03",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N06",
+        "pharmacological_subgroup": "Psychoanaleptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Antidepressants are prescribed for continuous maintenance therapy (typically >=6-12 months) for depressive/anxiety disorders.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "ketoprofen::gastrointestinal_haemorrhage",
+      "drug": "ketoprofen",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "M",
+      "therapeutic_area": "Musculo-skeletal system",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "ketoprofen",
+        "atc_codes": [
+          "M01AE53",
+          "M01AE03",
+          "M02AA10"
+        ],
+        "all_atc_codes": [
+          "M01AE53",
+          "M01AE03",
+          "M02AA10"
+        ],
+        "primary_atc": "M01AE03",
+        "selected_atc": "M01AE03",
+        "secondary_atc_codes": [
+          "M01AE53",
+          "M02AA10"
+        ],
+        "therapeutic_area_code": "M",
+        "therapeutic_area": "Musculo-skeletal system",
+        "pharmacological_subgroup_code": "M01",
+        "pharmacological_subgroup": "Anti-inflammatory and antirheumatic products",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever versus long-term daily use for inflammatory arthritis.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized systemic oral NSAID (M01AE03) over topical gel (M02AA10) and combination code (M01AE53).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "sertraline::gastrointestinal_haemorrhage",
+      "drug": "sertraline",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "sertraline",
+        "atc_codes": [
+          "N06AB06"
+        ],
+        "all_atc_codes": [
+          "N06AB06"
+        ],
+        "primary_atc": "N06AB06",
+        "selected_atc": "N06AB06",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N06",
+        "pharmacological_subgroup": "Psychoanaleptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Antidepressants are prescribed for continuous maintenance therapy (typically >=6-12 months) for depressive/anxiety disorders.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "griseofulvin::gastrointestinal_haemorrhage",
+      "drug": "griseofulvin",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "D",
+      "therapeutic_area": "Dermatologicals",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "griseofulvin",
+        "atc_codes": [
+          "D01AA08",
+          "D01BA01"
+        ],
+        "all_atc_codes": [
+          "D01AA08",
+          "D01BA01"
+        ],
+        "primary_atc": "D01BA01",
+        "selected_atc": "D01BA01",
+        "secondary_atc_codes": [
+          "D01AA08"
+        ],
+        "therapeutic_area_code": "D",
+        "therapeutic_area": "Dermatologicals",
+        "pharmacological_subgroup_code": "D01",
+        "pharmacological_subgroup": "Antifungals for dermatological use",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Used for episodic or subacute courses (weeks to months) for localized fungal or dermatological infections.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized systemic antifungal for dermatological infections (D01BA01) over topical antibiotics (D01AA08).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "itraconazole::gastrointestinal_haemorrhage",
+      "drug": "itraconazole",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "itraconazole",
+        "atc_codes": [
+          "J02AC02"
+        ],
+        "all_atc_codes": [
+          "J02AC02"
+        ],
+        "primary_atc": "J02AC02",
+        "selected_atc": "J02AC02",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J02",
+        "pharmacological_subgroup": "Antimycotics for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic regimens (typically 2-12 weeks) for acute or subacute systemic fungal infections.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "captopril::hepatotoxicity",
+      "drug": "captopril",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "captopril",
+        "atc_codes": [
+          "C09AA01"
+        ],
+        "all_atc_codes": [
+          "C09AA01"
+        ],
+        "primary_atc": "C09AA01",
+        "selected_atc": "C09AA01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C09",
+        "pharmacological_subgroup": "Agents acting on the renin-angiotensin system",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "nitrofurantoin::gastrointestinal_haemorrhage",
+      "drug": "nitrofurantoin",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "nitrofurantoin",
+        "atc_codes": [
+          "J01XE01",
+          "J01XE51"
+        ],
+        "all_atc_codes": [
+          "J01XE01",
+          "J01XE51"
+        ],
+        "primary_atc": "J01XE01",
+        "selected_atc": "J01XE01",
+        "secondary_atc_codes": [
+          "J01XE51"
+        ],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J01",
+        "pharmacological_subgroup": "Antibacterials for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain nitrofuran antibacterial monotherapy (J01XE01) over combination code (J01XE51).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "pioglitazone::gastrointestinal_haemorrhage",
+      "drug": "pioglitazone",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "pioglitazone",
+        "atc_codes": [
+          "A10BG03"
+        ],
+        "all_atc_codes": [
+          "A10BG03"
+        ],
+        "primary_atc": "A10BG03",
+        "selected_atc": "A10BG03",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A10",
+        "pharmacological_subgroup": "Drugs used in diabetes",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term or lifelong glycemic management in diabetes mellitus.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "adenosine::hepatotoxicity",
+      "drug": "adenosine",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "adenosine",
+        "atc_codes": [
+          "C01EB10"
+        ],
+        "all_atc_codes": [
+          "C01EB10"
+        ],
+        "primary_atc": "C01EB10",
+        "selected_atc": "C01EB10",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C01",
+        "pharmacological_subgroup": "Cardiac therapy",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Adenosine is administered as an acute, rapid IV bolus for paroxysmal supraventricular tachycardia conversion or diagnostic imaging.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "sucralfate::hepatotoxicity",
+      "drug": "sucralfate",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "sucralfate",
+        "atc_codes": [
+          "A02BX02"
+        ],
+        "all_atc_codes": [
+          "A02BX02"
+        ],
+        "primary_atc": "A02BX02",
+        "selected_atc": "A02BX02",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A02",
+        "pharmacological_subgroup": "Drugs for acid related disorders",
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix A02.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "methenamine::hepatotoxicity",
+      "drug": "methenamine",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "methenamine",
+        "atc_codes": [
+          "J01XX05"
+        ],
+        "all_atc_codes": [
+          "J01XX05"
+        ],
+        "primary_atc": "J01XX05",
+        "selected_atc": "J01XX05",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J01",
+        "pharmacological_subgroup": "Antibacterials for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "dicyclomine::hepatotoxicity",
+      "drug": "dicyclomine",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "dicyclomine",
+        "atc_codes": [
+          "A03AA07"
+        ],
+        "all_atc_codes": [
+          "A03AA07"
+        ],
+        "primary_atc": "A03AA07",
+        "selected_atc": "A03AA07",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A03",
+        "pharmacological_subgroup": "Drugs for functional gastrointestinal disorders",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Used both acutely for episodic gastrointestinal symptoms/constipation and chronically for motility or encephalopathy management.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "acyclovir::acute_kidney_injury",
+      "drug": "acyclovir",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "acyclovir",
+        "atc_codes": [
+          "J05AB01",
+          "S01AD03",
+          "D06BB53",
+          "D06BB03"
+        ],
+        "all_atc_codes": [
+          "J05AB01",
+          "S01AD03",
+          "D06BB53",
+          "D06BB03"
+        ],
+        "primary_atc": "J05AB01",
+        "selected_atc": "J05AB01",
+        "secondary_atc_codes": [
+          "S01AD03",
+          "D06BB53",
+          "D06BB03"
+        ],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J05",
+        "pharmacological_subgroup": "Antivirals for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized systemic antiviral (J05AB01) over ophthalmic (S01AD03) and topical dermatological (D06BB) formulations.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "hydrochlorothiazide::acute_kidney_injury",
+      "drug": "hydrochlorothiazide",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "hydrochlorothiazide",
+        "atc_codes": [
+          "C03AX01",
+          "C03AA03"
+        ],
+        "all_atc_codes": [
+          "C03AX01",
+          "C03AA03"
+        ],
+        "primary_atc": "C03AA03",
+        "selected_atc": "C03AA03",
+        "secondary_atc_codes": [
+          "C03AX01"
+        ],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C03",
+        "pharmacological_subgroup": "Diuretics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain low-ceiling thiazide diuretic (C03AA03) over other diuretic code (C03AX01).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    }
+  ]
+}

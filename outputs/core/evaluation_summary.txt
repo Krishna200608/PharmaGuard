@@ -1,1 +1,111 @@
-Evaluation Summary complete.
+============================================================
+PharmaGuard Evaluation Report
+Pairs evaluated: 15 / 15
+============================================================
+
+--- STRICT METRICS (Primary) ---
+TP: 6, FP: 0, TN: 8, FN: 1
+Precision  : 1.000
+Recall     : 0.857
+Specificity: 1.000
+F1-Score   : 0.923
+
+--- LENIENT METRICS (Secondary) ---
+TP: 7, FP: 1, TN: 7, FN: 0
+Precision  : 0.875
+Recall     : 1.000
+Specificity: 0.875
+F1-Score   : 0.933
+
+--- 95% CONFIDENCE INTERVALS (Bootstrap B=1000, Seed=42 / Wilson Score) ---
+Strict:
+  Precision  : 1.000  [Bootstrap 95% CI: 1.000 - 1.000]  [Wilson Score: 0.610 - 1.000]
+  Recall     : 0.857  [Bootstrap 95% CI: 0.571 - 1.000]  [Wilson Score: 0.487 - 0.974]
+  Specificity: 1.000  [Bootstrap 95% CI: 1.000 - 1.000]  [Wilson Score: 0.676 - 1.000]
+  F1-Score   : 0.923  [Bootstrap 95% CI: 0.727 - 1.000]
+Lenient:
+  Precision  : 0.875  [Bootstrap 95% CI: 0.624 - 1.000]  [Wilson Score: 0.529 - 0.978]
+  Recall     : 1.000  [Bootstrap 95% CI: 1.000 - 1.000]  [Wilson Score: 0.646 - 1.000]
+  Specificity: 0.875  [Bootstrap 95% CI: 0.600 - 1.000]  [Wilson Score: 0.529 - 0.978]
+  F1-Score   : 0.933  [Bootstrap 95% CI: 0.769 - 1.000]
+
+--- CATEGORY BREAKDOWN ---
+
+Category: confirmed_positive (Count: 7)
+  Strict -> TP: 6, FP: 0, TN: 0, FN: 1 | P: 1.00, R: 0.86, S: 0.00
+  Lenient-> TP: 7, FP: 0, TN: 0, FN: 0 | P: 1.00, R: 1.00, S: 0.00
+
+Category: genuine_negative_control (Count: 5)
+  Strict -> TP: 0, FP: 0, TN: 5, FN: 0 | P: 0.00, R: 0.00, S: 1.00
+  Lenient-> TP: 0, FP: 1, TN: 4, FN: 0 | P: 0.00, R: 0.00, S: 0.80
+
+Category: zero_report_edge_case (Count: 3)
+  Strict -> TP: 0, FP: 0, TN: 3, FN: 0 | P: 0.00, R: 0.00, S: 1.00
+  Lenient-> TP: 0, FP: 0, TN: 3, FN: 0 | P: 0.00, R: 0.00, S: 1.00
+
+--- FAILURE MODES ---
+Over-Caution Rate (MONITOR on known negatives): 12.5% (1/8)
+
+--- DISAGREEMENTS (Expected != Actual) ---
+- montelukast::suicidal_ideation (confirmed_positive): Expected ESCALATE, Got MONITOR
+- metformin::hypoglycaemia (genuine_negative_control): Expected DO_NOT_ESCALATE, Got MONITOR
+
+============================================================
+--- THERAPEUTIC AREA STRATIFICATION -- ATC LEVEL 1 ---
+============================================================
+Code | Therapeutic Area                     |  n | Status       | Strict F1 | Strict (P/R/Sp)     | Lenient F1 | Lenient (P/R/Sp)
+------------------------------------------------------------------------------------------------------------------------
+A    | Alimentary tract and metabolism      |  3 | [Exploratory] | 1.000     | 1.00/1.00/1.00      | 0.667      | 0.50/1.00/0.50
+C    | Cardiovascular system                |  2 | [Exploratory] | N/A       | N/A/N/A/1.00        | N/A        | N/A/N/A/1.00
+D    | Dermatologicals                      |  1 | [Exploratory] | 1.000     | 1.00/1.00/N/A       | 1.000      | 1.00/1.00/N/A
+J    | Antiinfectives for systemic use      |  2 | [Exploratory] | 1.000     | 1.00/1.00/1.00      | 1.000      | 1.00/1.00/1.00
+L    | Antineoplastic and immunomodulatin.. |  3 | [Exploratory] | 1.000     | 1.00/1.00/1.00      | 1.000      | 1.00/1.00/1.00
+N    | Nervous system                       |  2 | [Exploratory] | 1.000     | 1.00/1.00/N/A       | 1.000      | 1.00/1.00/N/A
+R    | Respiratory system                   |  2 | [Exploratory] | 0.000     | N/A/0.00/1.00       | 1.000      | 1.00/1.00/1.00
+
+--- DETAILED STRATUM BREAKDOWN (Wilson 95% Confidence Intervals) ---
+
+Stratum A: Alimentary tract and metabolism (n=3) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 1, FP: 0, TN: 2, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: 1.000
+  Lenient-> TP: 1, FP: 1, TN: 1, FN: 0 | Precision: 0.500 (Wilson: [0.095 - 0.905]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 0.500 (Wilson: [0.095 - 0.905]), F1: 0.667
+
+Stratum C: Cardiovascular system (n=2) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 0, FP: 0, TN: 2, FN: 0 | Precision: N/A (Wilson: N/A), Recall: N/A (Wilson: N/A), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: N/A
+  Lenient-> TP: 0, FP: 0, TN: 2, FN: 0 | Precision: N/A (Wilson: N/A), Recall: N/A (Wilson: N/A), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: N/A
+
+Stratum D: Dermatologicals (n=1) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 1, FP: 0, TN: 0, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: N/A (Wilson: N/A), F1: 1.000
+  Lenient-> TP: 1, FP: 0, TN: 0, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: N/A (Wilson: N/A), F1: 1.000
+
+Stratum J: Antiinfectives for systemic use (n=2) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 1, FP: 0, TN: 1, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 1.000 (Wilson: [0.207 - 1.000]), F1: 1.000
+  Lenient-> TP: 1, FP: 0, TN: 1, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 1.000 (Wilson: [0.207 - 1.000]), F1: 1.000
+
+Stratum L: Antineoplastic and immunomodulating agents (n=3) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 1, FP: 0, TN: 2, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: 1.000
+  Lenient-> TP: 1, FP: 0, TN: 2, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: 1.000
+
+Stratum N: Nervous system (n=2) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 2, FP: 0, TN: 0, FN: 0 | Precision: 1.000 (Wilson: [0.342 - 1.000]), Recall: 1.000 (Wilson: [0.342 - 1.000]), Specificity: N/A (Wilson: N/A), F1: 1.000
+  Lenient-> TP: 2, FP: 0, TN: 0, FN: 0 | Precision: 1.000 (Wilson: [0.342 - 1.000]), Recall: 1.000 (Wilson: [0.342 - 1.000]), Specificity: N/A (Wilson: N/A), F1: 1.000
+
+Stratum R: Respiratory system (n=2) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 0, FP: 0, TN: 1, FN: 1 | Precision: N/A (Wilson: N/A), Recall: 0.000 (Wilson: [0.000 - 0.793]), Specificity: 1.000 (Wilson: [0.207 - 1.000]), F1: 0.000
+  Lenient-> TP: 1, FP: 0, TN: 1, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 1.000 (Wilson: [0.207 - 1.000]), F1: 1.000
+
+============================================================
+--- ATC ANNOTATION COVERAGE & MULTI-ATC PROVENANCE ---
+============================================================
+Total unique benchmark drugs        : 14
+Resolved via ChEMBL API             : 13
+Resolved via fallback (known gaps)  : 1 (atorvastatin)
+Unresolved                          : 0
+Total resolution coverage           : 100.0%
+Drugs with multiple ATC codes       : 4
+Drugs spanning multiple Level 1s    : 1
+
+SCIENTIFIC METHODOLOGY NOTE:
+  ATC classification provides drug-class / therapeutic context. It does NOT identify
+  patient-level indication, why the patient was prescribed the drug, or actual duration.
+  Strata with n < 5 are marked [EXPLORATORY] to prevent spurious ranking of small samples.
+============================================================

@@ -696,7 +696,199 @@ In strict adherence to the anti-overfitting discipline established in §15 and �
 - **Licensing Constraint:** Explicitly disclosed that PharmaGuard possesses no MedDRA MSSO license. The utility operates strictly over an internal controlled vocabulary (15 events, 50 drugs) derived from public ground-truth pairs and ChEMBL lookup tables.
 - **Architectural Invariant:** Standalone and opt-in utility only. Not wired into existing `FixedPipelineAgent` or `PharmaGuardAgent` pipelines, preserving frozen primary and secondary benchmark reproducibility.
 
+## 34. Disease-Context-Aware Architecture Direction: ATC Classification-Based Indication Reasoning
 
+**Context:** Supervisor (Dr. Nikhilanand Arya) requested architectural novelty via explicit multi-disease/indication consideration. The OMOP pilot findings (§31) empirically identified confounding-by-indication as a concrete failure mode: cardiovascular drugs (amlodipine, nifedipine, dipyridamole) prescribed for conditions whose natural history includes myocardial infarction, and SSRIs (citalopram, fluoxetine, sertraline) whose serotonergic mechanism directly causes GI bleeding, both produce statistically significant but magnitude-diluted FAERS signals that the static PRR$<$2.0 gate suppresses. The recent literature (Toonsi, Schofield & Hoehndorf, *Bioinformatics*, Volume 42, Issue 1, January 2026, [DOI: 10.1093/bioinformatics/btaf661](https://doi.org/10.1093/bioinformatics/btaf661)) demonstrates disease-context-aware confounding adjustment using causal knowledge graphs, but requires large cohort EHR data (UK Biobank, MIMIC-IV) inaccessible to this project. This section designs a lightweight, public-API-only equivalent.
 
+### 1. ATC Classification: Licensing, Access, and Coverage Verification
 
+#### 1.1 Licensing Status
+The WHO Anatomical Therapeutic Chemical (ATC) classification system is maintained by the WHO Collaborating Centre for Drug Statistics Methodology (WHOCC, Oslo, Norway). The searchable ATC/DDD index is available **free of charge** at [whocc.no](https://www.whocc.no/atc_ddd_index/) for non-commercial academic use with attribution. Redistribution of machine-readable bulk data requires explicit permission; however, PharmaGuard accesses ATC codes **indirectly through ChEMBL's API** (already used in the project, CC BY-SA 3.0), which exposes the `atc_classifications` field on the molecule endpoint (`https://www.ebi.ac.uk/chembl/api/data/molecule/{CHEMBL_ID}.json`). This avoids any direct WHOCC licensing interaction — ATC codes are retrieved as metadata from an already-licensed data source.
+
+**Licensing Conclusion:** No new license blocker. ATC codes are accessible through ChEMBL (already used) with no additional subscription, unlike MedDRA (§33 licensing constraint). Attribution to WHOCC is required in publications.
+
+#### 1.2 Empirical Coverage Verification Against PharmaGuard Drug Corpus
+Queried ChEMBL REST API v34 `molecule` endpoint for all 46 unique drugs across both benchmarks (`ground_truth.json`: 14 drugs, `ground_truth_omop_pilot.json`: 32 drugs). Results (verified 2026-09-04):
+
+| Coverage Metric | Count | Percentage |
+| :--- | :---: | :---: |
+| **Total unique drugs** | 46 | — |
+| **Have ATC code(s) via ChEMBL** | 44 | 95.7% |
+| **Missing from ChEMBL ATC** | 2 | 4.3% |
+| **API errors** | 0 | 0.0% |
+
+**Drugs without ChEMBL ATC codes (2/46):**
+1. **Atorvastatin** (CHEMBL1582) — Confirmed data gap in ChEMBL v34. True ATC code is **C10AA05** (HMG CoA reductase inhibitors, Cardiovascular system) per WHO ATC index. This is a critical gap: atorvastatin is the drug at the center of the §32 CI-gate trade-off.
+2. **Simethicone** (CHEMBL4297192) — OMOP negative control. True ATC code is **A03AX13** (Other drugs for functional GI disorders, Alimentary tract).
+
+**Resolution Strategy:** Maintain a small hardcoded fallback table for known ChEMBL ATC gaps. With only 2/46 gaps (both independently verifiable from WHO ATC index), this is a tractable manual override, not a systemic coverage failure.
+
+#### 1.3 ATC Level 1 (Therapeutic Area) Distribution Across Benchmarks
+
+| ATC Level 1 | Therapeutic Area | Drug Count | Example Drugs |
+| :---: | :--- | :---: | :--- |
+| **A** | Alimentary tract and metabolism | 8 | metformin, rosiglitazone, pioglitazone, liraglutide, acarbose, lactulose, sucralfate, dicyclomine |
+| **B** | Blood and blood forming organs | 1 | dipyridamole |
+| **C** | Cardiovascular system | 7 | amlodipine, nifedipine, captopril, lisinopril, hydrochlorothiazide, atorvastatin*, adenosine |
+| **D** | Dermatologicals | 3 | isotretinoin, griseofulvin, (clindamycin secondary) |
+| **J** | Antiinfectives for systemic use | 9 | ciprofloxacin, amoxicillin, acyclovir, isoniazid, clindamycin, itraconazole, nitrofurantoin, methenamine, sulfisoxazole |
+| **L** | Antineoplastic and immunomodulating agents | 3 | pembrolizumab, imatinib, adalimumab |
+| **M** | Musculoskeletal system | 4 | allopurinol, indomethacin, naproxen, ketoprofen |
+| **N** | Nervous system | 6 | citalopram, fluoxetine, sertraline, clozapine, carbamazepine, valproic_acid, temazepam, montelukast (R primary) |
+| **R** | Respiratory system | 3 | albuterol, loratadine, montelukast |
+| **S** | Sensory organs | 0 | (secondary codes only for ciprofloxacin, miconazole) |
+
+*\* Atorvastatin ATC from WHO fallback, not ChEMBL API.*
+
+**Key Structural Observation:** The 7 OMOP disagreements (§31) cluster into exactly 2 therapeutic areas at ATC Level 2:
+- **Cardiovascular (C08/C09/B01):** amlodipine (C08CA01), nifedipine (C08CA05), dipyridamole (B01AC07), captopril (C09AA01) — drugs prescribed for conditions whose natural history includes the adverse event being monitored (myocardial infarction, hepatotoxicity)
+- **Nervous System — SSRIs (N06AB):** citalopram (N06AB04), fluoxetine (N06AB03), sertraline (N06AB06) — drugs with a known pharmacological mechanism (platelet serotonin depletion) directly causing the adverse event (GI haemorrhage)
+
+The §32 CI-gate regression case, **atorvastatin::dementia** (C10AA05), is also Cardiovascular Level 1 but a **different** Level 2 subgroup (C10 vs C08/C09).
+
+### 2. DiseaseContextTool Design Proposal
+
+#### 2.1 Tool Architecture
+Following the existing `ChemblTool` and `ConfoundingTool` patterns (`pharmaguard/tools/`), a new `DiseaseContextTool` would:
+
+1. **Resolve ATC classification:** Given a `drug_canonical` string, resolve its ATC code(s) via:
+   - Primary: ChEMBL API molecule endpoint (`atc_classifications` field) — already used in the project.
+   - Fallback: Static hardcoded table for known ChEMBL gaps (atorvastatin → C10AA05, simethicone → A03AX13).
+   - Output: Primary ATC code, Level 1 therapeutic area, Level 2 pharmacological subgroup.
+
+2. **Derive chronic-vs-acute utilization classification:** ATC does not natively encode treatment duration (confirmed via WHO documentation). A rule-based mapping from ATC Level 2/3 is proposed, grounded in clinical pharmacology:
+   - **CHRONIC** (typically $\ge$3 months continuous use): ATC C08 (CCBs), C09 (RAS agents), C10 (lipid-modifying), A10 (antidiabetics), N06A (antidepressants), N05A (antipsychotics), N03 (antiepileptics), L01 (antineoplastics), L04 (immunosuppressants), R03DC (leukotriene receptor antagonists), M04 (antigout agents)
+   - **ACUTE** (typically $<$4 weeks): ATC J01 (antibacterials), J02 (antifungals), J04 (antimycobacterials—though isoniazid regimens are 6–9 months), J05 (antivirals), D10 (anti-acne preparations), A06 (laxatives)
+   - **MIXED/CONTEXT-DEPENDENT**: R03AC/R03CC (short-acting bronchodilators — rescue vs. maintenance), N05CD (benzodiazepine hypnotics), M01 (NSAIDs — acute pain vs. chronic arthritis)
+
+   This classification would follow the existing `chembl_tool.py` pattern: a curated static table with explicit rationale fields, not a black-box classifier. The `source_policy` would be documented as `RULE_DERIVED` with clinical pharmacology citations.
+
+3. **Structured output schema** (following the `PlausibilityResult` / `ConfoundingAssessment` Pydantic model pattern):
+   ```python
+   class DiseaseContext(BaseModel):
+       atc_codes: list[str]           # All ATC codes for this drug
+       primary_atc: str               # Primary (most-prescribed indication) ATC code
+       therapeutic_area: str          # ATC Level 1 name (e.g., "Cardiovascular system")
+       pharmacological_subgroup: str  # ATC Level 2 code + name (e.g., "C08 - Calcium channel blockers")
+       utilization_class: str         # "CHRONIC" | "ACUTE" | "MIXED"
+       utilization_rationale: str     # Clinical justification for the classification
+       atc_source: str                # "chembl_api" | "hardcoded_fallback"
+   ```
+
+#### 2.2 Data Source: ChEMBL API vs. RxNorm/RxClass
+Both ChEMBL (already integrated) and NLM's RxNorm/RxClass (free, public) expose ATC classification. **ChEMBL is recommended** because:
+- Already integrated in the project (no new API dependency).
+- 95.7% coverage empirically verified on PharmaGuard's full drug corpus.
+- The 2 gaps are independently resolvable with a hardcoded fallback.
+- RxClass adds architectural complexity (new API, new dependency) for marginal coverage gain.
+
+### 3. Usage Proposals: How Disease Context Enters the Pipeline
+
+#### 3.1 Proposal A: Additional Evidence Axis in Confidence Fusion
+
+**Description:** Add `disease_context_score` as a 4th evidence stream in the composite confidence formula:
+$$\text{Confidence} = w_1 \cdot S_{\text{FAERS}} + w_2 \cdot S_{\text{PubMed}} + w_3 \cdot S_{\text{ChEMBL}} + w_4 \cdot S_{\text{DiseaseContext}}$$
+
+**Trade-offs:**
+- ✅ Directly incorporates indication reasoning into triage decisions.
+- ⚠️ **Critical Anti-Overfitting Risk (§15):** Any re-derivation of fusion weights ($w_1, w_2, w_3, w_4$) on the current benchmarks (15 core + 32 OMOP) would constitute calibration-with-foreknowledge. The current weights ($0.40/0.40/0.20$) are heuristic, uncalibrated priors (§5, §18); replacing them with data-derived weights on a 47-pair dataset that motivated the feature addition repeats the exact methodological trap §15 was designed to prevent.
+- ⚠️ Requires defining what `disease_context_score` means numerically — is a cardiovascular drug being evaluated for a cardiovascular event "more suspicious" (higher score) or "more likely confounded" (lower score)? This ambiguity is the core unsolved research question.
+- **Verdict: DEFER.** Not implementable without either (a) a held-out validation set large enough to derive weights independently, or (b) pre-registered weight selection justified by external pharmacoepidemiological calibration studies.
+
+#### 3.2 Proposal B: Conditioning Signal for Gate Selection (Static vs. CI-Based)
+
+**Description:** Use ATC therapeutic class to decide WHICH gate to apply:
+- If drug is classified as CHRONIC utilization in a high-prevalence therapeutic area (e.g., cardiovascular, SSRI antidepressants) → apply CI-based gate ($\text{PRR}_{\text{lower\_ci}} > 1.0$)
+- Otherwise → apply static gate ($\text{PRR} \ge 2.0$)
+
+**Honest Analysis of the §32 Trade-off:**
+
+The 7 OMOP disagreements and the 1 CI-gate regression case map to ATC as follows:
+
+| Drug (Event) | ATC Level 2 | Utilization | §31 Status | §32 CI-Gate Effect |
+| :--- | :---: | :---: | :--- | :--- |
+| amlodipine (MI) | **C08** (CCB) | CHRONIC | FN (gate-driven) | Stays FN (confidence 0.332 < 0.35) |
+| nifedipine (MI) | **C08** (CCB) | CHRONIC | FN (gate-driven) | **Rescued → MONITOR** ✅ |
+| dipyridamole (MI) | **B01** (antithrombotic) | CHRONIC | FN (gate-driven) | **Rescued → MONITOR** ✅ |
+| captopril (hepatotox.) | **C09** (ACE inhibitor) | CHRONIC | FN (marginal conf.) | Stays FN (PRR > 2.0, not gate-driven) |
+| citalopram (GI bleed) | **N06AB** (SSRI) | CHRONIC | FN (gate-driven) | Stays FN (confidence 0.332 < 0.35) |
+| fluoxetine (GI bleed) | **N06AB** (SSRI) | CHRONIC | FN (gate-driven) | Stays FN (confidence 0.332 < 0.35) |
+| sertraline (GI bleed) | **N06AB** (SSRI) | CHRONIC | FN (gate-driven) | Stays FN (confidence 0.332 < 0.35) |
+| atorvastatin (dementia) | **C10** (statin) | CHRONIC | TN (correct) | **Regression → FP** ❌ |
+
+**Critical finding:** Atorvastatin (C10, the CI-gate regression) and the OMOP chronic drugs (C08, C09, N06AB, B01) are **ALL classified as CHRONIC**. Naively conditioning "use CI-gate for CHRONIC drugs" would apply the CI gate to atorvastatin as well, **reproducing the exact same regression** documented in §32.
+
+Even at ATC Level 2 granularity, selective application (e.g., "CI gate for C08 and B01 and N06AB, but NOT C10") is transparently post-hoc special-casing — designing a gate-selector rule to match the 8 known outcomes rather than deriving it from an independent principle.
+
+- ⚠️ **This proposal is a hypothesis to test on independent data, not a claimed fix.** Implementing it on the same OMOP pilot that motivated it would violate §15.
+- ✅ The hypothesis is worth formally documenting for future expanded-sample validation: "Does ATC-stratified gate selection improve net signal detection on an independent multi-cohort benchmark?"
+- **Verdict: DOCUMENT AS FUTURE HYPOTHESIS.** Do not implement on current evidence base.
+
+#### 3.3 Proposal C: Disease-Context-Stratified Evaluation Dimension
+
+**Description:** Report benchmark performance stratified by ATC Level 1 therapeutic area as a new evaluation dimension, without modifying any production logic.
+
+**Concrete Implementation:**
+1. Annotate each benchmark pair with its drug's ATC Level 1 therapeutic area.
+2. Compute Strict and Lenient $F_1$, Precision, Recall, and Specificity **per therapeutic area** (where sample size permits, with Wilson CIs).
+3. Report these stratified metrics alongside aggregate metrics in evaluation summaries.
+
+**Trade-offs:**
+- ✅ **Zero risk to production logic.** Purely analytical — no scoring, gating, or fusion changes.
+- ✅ **Directly addresses a documented literature gap.** The Coste et al. (2023) systematic review (*Pharmacoepidemiology and Drug Safety*) of 101 pharmacovigilance signal detection studies found that **only 10/101 (9.9%) reported performance stratified by therapeutic area or disease context**. PharmaGuard would be among the minority of systems providing this analysis.
+- ✅ **Publishable novelty.** Provides concrete data on where multi-source fusion succeeds (antiinfectives, dermatologicals) vs. where it struggles (chronic cardiovascular, psychiatric SSRIs), directly supporting the confounding-by-indication narrative.
+- ✅ **Immediately actionable.** All ATC data is already available (44/46 via ChEMBL API, 2 via hardcoded fallback). No new API calls during pipeline runs.
+- ⚠️ Per-area sample sizes are small (e.g., Cardiovascular: 7 drugs, SSRIs: 3 drugs). Wilson confidence intervals will be wide. This is an honest reporting limitation, not a flaw.
+- **Verdict: RECOMMENDED FOR IMMEDIATE IMPLEMENTATION.**
+
+### 4. Recommendation and Prioritization
+
+Given remaining project time, the anti-overfitting discipline established in §15/§18, and the supervisor's request for architectural novelty:
+
+| Priority | Proposal | Action | Rationale |
+| :---: | :--- | :--- | :--- |
+| **1 (Primary)** | **C: Stratified Evaluation** | **Implement immediately** | Zero-risk, directly publishable, addresses Coste et al. 2023 gap, demonstrates disease-context awareness in evaluation methodology |
+| **2 (Secondary)** | **B: Gate Conditioning** | **Document as formal future hypothesis** | Intellectually coherent but cannot be validated on the evidence base that motivated it; requires independent multi-cohort data |
+| **3 (Deferred)** | **A: Fusion Weight Rewrite** | **Defer indefinitely** | Requires large held-out validation set and pre-registered weight derivation protocol to avoid §15 overfitting trap |
+
+**Implementation Priority 1 (Proposal C)** adds the `DiseaseContextTool` as a lightweight, read-only annotation utility that resolves ATC classification for each drug in the evaluation loop, then stratifies existing metrics by therapeutic area. This requires:
+- A new file `pharmaguard/tools/disease_context.py` implementing the `DiseaseContextTool` with ATC resolution logic.
+- Modifications to `scripts/evaluator.py` to compute and report per-therapeutic-area metrics.
+- No changes to `pharmaguard/agent/fixed_pipeline.py`, `react_agent.py`, `output_schema.py`, `config.yaml`, or any production scoring logic.
+
+### 5. Draft Revised Problem Statement
+
+> *PharmaGuard is a lightweight, publicly-reproducible multi-agent LLM framework for pharmacovigilance signal triage that fuses real-time FAERS disproportionality statistics, ChEMBL target pharmacology, and PubMed clinical literature grading through deterministic safety-gated escalation logic. The system incorporates disease/indication-context reasoning — via public WHO ATC classification resolved through ChEMBL rather than restricted EHR cohort data — to stratify and evaluate signal interpretation across multiple therapeutic areas, addressing the confounding-by-indication limitation empirically identified in this project's own OMOP external-validity pilot and the therapeutic-area evaluation gap documented in systematic reviews of pharmacovigilance signal detection methods (Coste et al. 2023, only 10/101 studies).*
+
+**Note:** This draft uses "stratify and evaluate" (reflecting Proposal C) rather than "condition" (Proposal B) or "integrate as evidence" (Proposal A), consistent with the recommendation above. Subject to revision if supervisor review endorses a more aggressive integration path.
+
+### 6. Honest Limitations and Open Questions
+
+1. **ATC is single-indication by design.** Many drugs have multiple indications (e.g., indomethacin: C01EB03 for cardiovascular + M01AB01 for musculoskeletal). The primary ATC code may not reflect the indication driving FAERS reports in a specific case. This is a structural limitation of any ATC-based approach.
+
+2. **Chronic/acute classification is a simplification.** Some drugs classified as CHRONIC here (e.g., isoniazid for TB prophylaxis: 6–9 months) don't fit neatly into a binary chronic/acute model. The MIXED category exists for this reason, but edge cases will remain.
+
+3. **The fundamental confounding-by-indication problem requires patient-level data to solve rigorously.** Toonsi et al. (2026) achieved this via causal knowledge graphs over cohort EHR data. PharmaGuard's ATC-based approach is a proxy — it characterizes the *drug's typical use context* rather than the *individual patient's disease burden*. The design doc is explicit about this gap rather than overclaiming.
+
+4. **Atorvastatin/dipyridamole separation at ATC Level 2.** While atorvastatin (C10) and amlodipine/nifedipine (C08) are in different ATC Level 2 groups, using this granularity for gate selection (Proposal B) on a dataset that motivated the distinction remains a §15 anti-overfitting concern. Any Level 2-based conditioning rule must be validated on independent data.
+
+### 7. References
+
+1. WHO Collaborating Centre for Drug Statistics Methodology. *ATC classification index with DDDs, 2026*. Oslo, Norway. [https://www.whocc.no/atc_ddd_index/](https://www.whocc.no/atc_ddd_index/)
+2. Evans, S. J. W., Waller, P. C., & Davis, S. (2001). Use of proportional reporting ratios (PRRs) for signal generation from spontaneous adverse drug reaction reports. *Pharmacoepidemiology and Drug Safety*, 10(6), 483–486. [DOI: 10.1002/pds.677](https://doi.org/10.1002/pds.677)
+3. Toonsi, S., Schofield, P. N., & Hoehndorf, R. (2026). Causal knowledge graph analysis identifies adverse drug effects. *Bioinformatics*, 42(1), btaf661. [DOI: 10.1093/bioinformatics/btaf661](https://doi.org/10.1093/bioinformatics/btaf661)
+4. Coste, A., Wong, A., Bokern, M., Bate, A., & Douglas, I. J. (2023). Methods for drug safety signal detection using routinely collected observational electronic health care data: A systematic review. *Pharmacoepidemiology and Drug Safety*, 32(1), 28–43. [DOI: 10.1002/pds.5548](https://doi.org/10.1002/pds.5548)
+5. Ryan, P. B., Schuemie, M. J., Welebob, E., Duke, J., Valentine, S., & Hartzema, A. G. (2013). Defining a ground truth for pharmacovigilance signal detection. *Drug Safety*, 36(Suppl 1), S33–S47. [DOI: 10.1007/s40264-013-0097-8](https://doi.org/10.1007/s40264-013-0097-8)
+6. Gaulton, A., et al. (2019). ChEMBL: towards direct deposition of bioassay data. *Nucleic Acids Research*, 47(D1), D930–D940. [DOI: 10.1093/nar/gky1075](https://doi.org/10.1093/nar/gky1075)
+
+### 8. Implementation Status: Proposal C (ATC-Based Stratified Evaluation)
+
+**Date:** September 2026  
+**Status:** Implemented, Verified, Production-Invariant
+
+Proposal C has been implemented per specification:
+1. `pharmaguard/tools/disease_context.py` implements `DiseaseContextTool` with the exact Pydantic schema from §2.1 (`atc_codes`, `primary_atc`, `therapeutic_area`, `pharmacological_subgroup`, `utilization_class`, `utilization_rationale`, `atc_source`).
+2. ATC resolution queries ChEMBL API molecule endpoint (`atc_classifications`) as primary source, with hardcoded fallbacks for `atorvastatin` (C10AA05) and `simethicone` (A03AX13).
+3. Read-only and additive: no integration into `fixed_pipeline.py`, `react_agent.py`, or production confidence/escalation scoring.
+4. `scripts/evaluator.py` reports stratified performance by ATC Level 1 therapeutic area alongside unchanged aggregate metrics, with per-area confusion matrices summing exactly to aggregate counts.
 

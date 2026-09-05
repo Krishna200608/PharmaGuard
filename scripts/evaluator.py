@@ -1,20 +1,32 @@
 """
 Evaluator for PharmaGuard Triage Reports.
 Calculates Strict and Lenient metrics against ground_truth.json.
+Includes therapeutic-area stratification based on WHO ATC classification (Phase 2).
 """
 import argparse
 import json
 import logging
+import math
+import random
 from pathlib import Path
+from typing import Any, Optional
 from pydantic import ValidationError
 import sys
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
+import numpy as np
+
 from pharmaguard.agent.output_schema import TriageReport
+from pharmaguard.tools.cache import ToolCache
+from pharmaguard.tools.disease_context import (
+    DiseaseContextTool,
+    ATC_LEVEL_1_MAP,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
+
 
 def load_ground_truth(gt_path: Path) -> dict:
     if not gt_path.exists():
@@ -25,6 +37,7 @@ def load_ground_truth(gt_path: Path) -> dict:
     # Return as dict keyed by canonical drug/event pair
     return {f"{pair['drug_canonical']}::{pair['event_meddra_pt']}": pair for pair in data.get("pairs", [])}
 
+
 def calc_metrics(m: dict) -> tuple[float, float, float, float]:
     """Calculate (precision, recall, specificity, f1) from a confusion matrix dict."""
     tp, fp, tn, fn = m["TP"], m["FP"], m["TN"], m["FN"]
@@ -33,6 +46,7 @@ def calc_metrics(m: dict) -> tuple[float, float, float, float]:
     specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
     f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
     return precision, recall, specificity, f1
+
 
 def compute_confusion_matrix(evaluated_records: list[dict]) -> tuple[dict, dict]:
     """
@@ -70,7 +84,117 @@ def compute_confusion_matrix(evaluated_records: list[dict]) -> tuple[dict, dict]
                 lenient_metrics["TN"] += 1
     return strict_metrics, lenient_metrics
 
-def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard", gt_path: Path = None):
+
+def compute_wilson_ci(k: int, n: int, z: float = 1.95996) -> tuple[float, float]:
+    """
+    Calculate analytical Wilson score confidence interval for a binomial proportion k / n
+    (Wilson, 1927; Brown, Cai & DasGupta, 2001).
+    """
+    if n == 0:
+        return (0.0, 0.0)
+    p_val = k / n
+    denom = 1 + (z**2) / n
+    center = (p_val + (z**2) / (2 * n)) / denom
+    margin = (z * math.sqrt((p_val * (1 - p_val) / n) + (z**2) / (4 * n**2))) / denom
+    return (max(0.0, center - margin), min(1.0, center + margin))
+
+
+def compute_stratified_metrics(
+    evaluated_records: list[dict],
+    strata_key: str = "therapeutic_area_code",
+) -> dict[str, Any]:
+    """
+    Compute stratified evaluation metrics (Strict and Lenient) grouped by strata_key.
+
+    Parameters:
+      evaluated_records: List of evaluated pair records. Each record dict must contain:
+        - "is_gt_positive": bool
+        - "actual": str ("ESCALATE" | "MONITOR" | "DO_NOT_ESCALATE")
+        - strata_key (e.g. "therapeutic_area_code")
+        - optionally "therapeutic_area", "pair", "drug"
+      strata_key: The record attribute used for stratification grouping (default: "therapeutic_area_code").
+
+    Returns:
+      Dict mapping stratum code -> stratum metrics dictionary:
+        - code: str
+        - name: str
+        - n: int
+        - is_exploratory: bool (True if n < 5)
+        - strict: dict with TP, FP, TN, FN, precision, recall, specificity, f1, Wilson CIs
+        - lenient: dict with TP, FP, TN, FN, precision, recall, specificity, f1, Wilson CIs
+        - records: list of pair identifiers
+    """
+    strata_groups: dict[str, list[dict]] = {}
+    strata_names: dict[str, str] = {}
+
+    for r in evaluated_records:
+        s_val = r.get(strata_key) or "UNRESOLVED"
+        if s_val not in strata_groups:
+            strata_groups[s_val] = []
+        strata_groups[s_val].append(r)
+        if s_val not in strata_names:
+            strata_names[s_val] = r.get("therapeutic_area") or ATC_LEVEL_1_MAP.get(s_val, f"Stratum {s_val}")
+
+    results: dict[str, Any] = {}
+    for s_code in sorted(strata_groups.keys()):
+        group_recs = strata_groups[s_code]
+        n_stratum = len(group_recs)
+        is_exploratory = n_stratum < 5
+
+        s_conf, l_conf = compute_confusion_matrix(group_recs)
+
+        def _eval_tier(conf: dict) -> dict[str, Any]:
+            tp, fp, tn, fn = conf["TP"], conf["FP"], conf["TN"], conf["FN"]
+            pos_denom = tp + fp
+            rec_denom = tp + fn
+            spec_denom = tn + fp
+
+            prec = tp / pos_denom if pos_denom > 0 else None
+            rec = tp / rec_denom if rec_denom > 0 else None
+            spec = tn / spec_denom if spec_denom > 0 else None
+
+            if prec is not None and rec is not None and (prec + rec) > 0:
+                f1_val = 2 * (prec * rec) / (prec + rec)
+            else:
+                f1_val = 0.0 if (prec is not None or rec is not None) else None
+
+            prec_ci = compute_wilson_ci(tp, pos_denom) if pos_denom > 0 else None
+            rec_ci = compute_wilson_ci(tp, rec_denom) if rec_denom > 0 else None
+            spec_ci = compute_wilson_ci(tn, spec_denom) if spec_denom > 0 else None
+
+            return {
+                "TP": tp,
+                "FP": fp,
+                "TN": tn,
+                "FN": fn,
+                "precision": round(prec, 3) if prec is not None else None,
+                "recall": round(rec, 3) if rec is not None else None,
+                "specificity": round(spec, 3) if spec is not None else None,
+                "f1": round(f1_val, 3) if f1_val is not None else None,
+                "precision_ci": (round(prec_ci[0], 3), round(prec_ci[1], 3)) if prec_ci is not None else None,
+                "recall_ci": (round(rec_ci[0], 3), round(rec_ci[1], 3)) if rec_ci is not None else None,
+                "specificity_ci": (round(spec_ci[0], 3), round(spec_ci[1], 3)) if spec_ci is not None else None,
+            }
+
+        results[s_code] = {
+            "code": s_code,
+            "name": strata_names.get(s_code, s_code),
+            "n": n_stratum,
+            "is_exploratory": is_exploratory,
+            "strict": _eval_tier(s_conf),
+            "lenient": _eval_tier(l_conf),
+            "records": [r.get("pair") for r in group_recs if r.get("pair")],
+        }
+
+    return results
+
+
+def run_evaluation(
+    outputs_dir: Path = None,
+    title: str = "PharmaGuard",
+    gt_path: Path = None,
+    disease_tool: Optional[DiseaseContextTool] = None,
+) -> Optional[dict[str, Any]]:
     project_root = Path(__file__).resolve().parents[1]
     if gt_path is None:
         gt_path = project_root / "pharmaguard" / "data" / "ground_truth.json"
@@ -81,7 +205,16 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard", gt_path
     
     ground_truth = load_ground_truth(gt_path)
     if not ground_truth:
-        return
+        return None
+
+    # Disease context tool setup (cached)
+    if disease_tool is None:
+        try:
+            cache = ToolCache()
+            disease_tool = DiseaseContextTool(cache=cache)
+        except Exception as e:
+            logger.warning(f"Could not initialize cached ToolCache for DiseaseContextTool: {e}")
+            disease_tool = DiseaseContextTool()
 
     # Track metrics
     strict_metrics = {"TP": 0, "FP": 0, "TN": 0, "FN": 0}
@@ -92,10 +225,12 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard", gt_path
     evaluated_pairs = set()
     category_metrics = {}
     disagreements = []
+    evaluated_records = []
+    drug_contexts: dict[str, Any] = {}
 
     if not outputs_dir.exists():
         logger.error(f"Outputs directory not found: {outputs_dir}")
-        return
+        return None
 
     for report_file in outputs_dir.glob("eval-run-*_report.json"):
         try:
@@ -170,63 +305,58 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard", gt_path
             if actual == "MONITOR":
                 over_caution_count += 1
 
+        # Resolve therapeutic context (ATC)
+        if report.drug not in drug_contexts:
+            drug_contexts[report.drug] = disease_tool.resolve(report.drug)
+        ctx = drug_contexts[report.drug]
+
+        # Record-level provenance
+        evaluated_records.append({
+            "pair": key,
+            "drug": report.drug,
+            "event": report.event,
+            "expected": expected,
+            "actual": actual,
+            "category": category,
+            "is_gt_positive": is_gt_positive,
+            "is_gt_negative": is_gt_negative,
+            "therapeutic_area_code": ctx.therapeutic_area_code or "UNRESOLVED",
+            "therapeutic_area": ctx.therapeutic_area or "Unresolved Area",
+            "utilization_class": ctx.utilization_class,
+            "therapeutic_context": ctx.model_dump(),
+        })
+
     missing = set(ground_truth.keys()) - evaluated_pairs
     if missing:
         logger.warning(f"Missing reports for {len(missing)} pairs: {missing}")
 
-    print("=" * 60)
-    print(f"{title} Evaluation Report")
-    print(f"Pairs evaluated: {len(evaluated_pairs)} / {len(ground_truth)}")
-    print("=" * 60)
+    lines = []
+    def emit(s: str = "") -> None:
+        print(s)
+        lines.append(s)
+
+    emit("=" * 60)
+    emit(f"{title} Evaluation Report")
+    emit(f"Pairs evaluated: {len(evaluated_pairs)} / {len(ground_truth)}")
+    emit("=" * 60)
     
-    def calc_metrics(m):
-        tp, fp, tn, fn = m["TP"], m["FP"], m["TN"], m["FN"]
-        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
-        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-        specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
-        f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
-        return precision, recall, specificity, f1
-        
     p, r, s, f1 = calc_metrics(strict_metrics)
-    print(f"\n--- STRICT METRICS (Primary) ---")
-    print(f"TP: {strict_metrics['TP']}, FP: {strict_metrics['FP']}, TN: {strict_metrics['TN']}, FN: {strict_metrics['FN']}")
-    print(f"Precision  : {p:.3f}")
-    print(f"Recall     : {r:.3f}")
-    print(f"Specificity: {s:.3f}")
-    print(f"F1-Score   : {f1:.3f}")
+    emit("\n--- STRICT METRICS (Primary) ---")
+    emit(f"TP: {strict_metrics['TP']}, FP: {strict_metrics['FP']}, TN: {strict_metrics['TN']}, FN: {strict_metrics['FN']}")
+    emit(f"Precision  : {p:.3f}")
+    emit(f"Recall     : {r:.3f}")
+    emit(f"Specificity: {s:.3f}")
+    emit(f"F1-Score   : {f1:.3f}")
 
     p_l, r_l, s_l, f1_l = calc_metrics(lenient_metrics)
-    print(f"\n--- LENIENT METRICS (Secondary) ---")
-    print(f"TP: {lenient_metrics['TP']}, FP: {lenient_metrics['FP']}, TN: {lenient_metrics['TN']}, FN: {lenient_metrics['FN']}")
-    print(f"Precision  : {p_l:.3f}")
-    print(f"Recall     : {r_l:.3f}")
-    print(f"Specificity: {s_l:.3f}")
-    print(f"F1-Score   : {f1_l:.3f}")
+    emit("\n--- LENIENT METRICS (Secondary) ---")
+    emit(f"TP: {lenient_metrics['TP']}, FP: {lenient_metrics['FP']}, TN: {lenient_metrics['TN']}, FN: {lenient_metrics['FN']}")
+    emit(f"Precision  : {p_l:.3f}")
+    emit(f"Recall     : {r_l:.3f}")
+    emit(f"Specificity: {s_l:.3f}")
+    emit(f"F1-Score   : {f1_l:.3f}")
 
     # --- 95% Confidence Intervals ---
-    # Method 1: Non-parametric bootstrap resampling (B=1000, seed=42)
-    # Why Bootstrap: Resampling paired ground-truth/prediction observations preserves the joint
-    # covariance between TP, FP, TN, and FN. Percentile intervals provide robust empirical
-    # uncertainty bounds without assuming asymptotic normality on small sample sizes (n=15),
-    # and provide a natural, unified formulation for non-linear composite metrics like F1-Score.
-    #
-    # Method 2: Wilson score interval (exact binomial proportion)
-    # Why Wilson: Recommended exact analytical interval for small-n proportions (Brown et al., 2001)
-    # where standard Wald/normal intervals fail near boundary conditions (0.0 / 1.0).
-    import random
-    import math
-    import numpy as np
-
-    def compute_wilson_ci(k, n, z=1.95996):
-        if n == 0:
-            return (0.0, 0.0)
-        p_val = k / n
-        denom = 1 + (z**2) / n
-        center = (p_val + (z**2) / (2 * n)) / denom
-        margin = (z * math.sqrt((p_val * (1 - p_val) / n) + (z**2) / (4 * n**2))) / denom
-        return (max(0.0, center - margin), min(1.0, center + margin))
-
-    # Reconstruct paired record list for bootstrap resampling
     pair_records = []
     for report_file in outputs_dir.glob("eval-run-*_report.json"):
         try:
@@ -292,43 +422,212 @@ def run_evaluation(outputs_dir: Path = None, title: str = "PharmaGuard", gt_path
     b_lenient_s = get_ci_bounds(boot_lenient["s"])
     b_lenient_f1 = get_ci_bounds(boot_lenient["f1"])
 
-    print(f"\n--- 95% CONFIDENCE INTERVALS (Bootstrap B=1000, Seed=42 / Wilson Score) ---")
-    print(f"Strict:")
-    print(f"  Precision  : {p:.3f}  [Bootstrap 95% CI: {b_strict_p[0]:.3f} - {b_strict_p[1]:.3f}]  [Wilson Score: {w_strict_p[0]:.3f} - {w_strict_p[1]:.3f}]")
-    print(f"  Recall     : {r:.3f}  [Bootstrap 95% CI: {b_strict_r[0]:.3f} - {b_strict_r[1]:.3f}]  [Wilson Score: {w_strict_r[0]:.3f} - {w_strict_r[1]:.3f}]")
-    print(f"  Specificity: {s:.3f}  [Bootstrap 95% CI: {b_strict_s[0]:.3f} - {b_strict_s[1]:.3f}]  [Wilson Score: {w_strict_s[0]:.3f} - {w_strict_s[1]:.3f}]")
-    print(f"  F1-Score   : {f1:.3f}  [Bootstrap 95% CI: {b_strict_f1[0]:.3f} - {b_strict_f1[1]:.3f}]")
-    print(f"Lenient:")
-    print(f"  Precision  : {p_l:.3f}  [Bootstrap 95% CI: {b_lenient_p[0]:.3f} - {b_lenient_p[1]:.3f}]  [Wilson Score: {w_lenient_p[0]:.3f} - {w_lenient_p[1]:.3f}]")
-    print(f"  Recall     : {r_l:.3f}  [Bootstrap 95% CI: {b_lenient_r[0]:.3f} - {b_lenient_r[1]:.3f}]  [Wilson Score: {w_lenient_r[0]:.3f} - {w_lenient_r[1]:.3f}]")
-    print(f"  Specificity: {s_l:.3f}  [Bootstrap 95% CI: {b_lenient_s[0]:.3f} - {b_lenient_s[1]:.3f}]  [Wilson Score: {w_lenient_s[0]:.3f} - {w_lenient_s[1]:.3f}]")
-    print(f"  F1-Score   : {f1_l:.3f}  [Bootstrap 95% CI: {b_lenient_f1[0]:.3f} - {b_lenient_f1[1]:.3f}]")
+    emit("\n--- 95% CONFIDENCE INTERVALS (Bootstrap B=1000, Seed=42 / Wilson Score) ---")
+    emit("Strict:")
+    emit(f"  Precision  : {p:.3f}  [Bootstrap 95% CI: {b_strict_p[0]:.3f} - {b_strict_p[1]:.3f}]  [Wilson Score: {w_strict_p[0]:.3f} - {w_strict_p[1]:.3f}]")
+    emit(f"  Recall     : {r:.3f}  [Bootstrap 95% CI: {b_strict_r[0]:.3f} - {b_strict_r[1]:.3f}]  [Wilson Score: {w_strict_r[0]:.3f} - {w_strict_r[1]:.3f}]")
+    emit(f"  Specificity: {s:.3f}  [Bootstrap 95% CI: {b_strict_s[0]:.3f} - {b_strict_s[1]:.3f}]  [Wilson Score: {w_strict_s[0]:.3f} - {w_strict_s[1]:.3f}]")
+    emit(f"  F1-Score   : {f1:.3f}  [Bootstrap 95% CI: {b_strict_f1[0]:.3f} - {b_strict_f1[1]:.3f}]")
+    emit("Lenient:")
+    emit(f"  Precision  : {p_l:.3f}  [Bootstrap 95% CI: {b_lenient_p[0]:.3f} - {b_lenient_p[1]:.3f}]  [Wilson Score: {w_lenient_p[0]:.3f} - {w_lenient_p[1]:.3f}]")
+    emit(f"  Recall     : {r_l:.3f}  [Bootstrap 95% CI: {b_lenient_r[0]:.3f} - {b_lenient_r[1]:.3f}]  [Wilson Score: {w_lenient_r[0]:.3f} - {w_lenient_r[1]:.3f}]")
+    emit(f"  Specificity: {s_l:.3f}  [Bootstrap 95% CI: {b_lenient_s[0]:.3f} - {b_lenient_s[1]:.3f}]  [Wilson Score: {w_lenient_s[0]:.3f} - {w_lenient_s[1]:.3f}]")
+    emit(f"  F1-Score   : {f1_l:.3f}  [Bootstrap 95% CI: {b_lenient_f1[0]:.3f} - {b_lenient_f1[1]:.3f}]")
     
-    print(f"\n--- CATEGORY BREAKDOWN ---")
+    emit("\n--- CATEGORY BREAKDOWN ---")
     for cat, data in category_metrics.items():
-        print(f"\nCategory: {cat} (Count: {data['count']})")
+        emit(f"\nCategory: {cat} (Count: {data['count']})")
         cp, cr, cs, cf1 = calc_metrics(data['strict'])
-        print(f"  Strict -> TP: {data['strict']['TP']}, FP: {data['strict']['FP']}, TN: {data['strict']['TN']}, FN: {data['strict']['FN']} | P: {cp:.2f}, R: {cr:.2f}, S: {cs:.2f}")
+        emit(f"  Strict -> TP: {data['strict']['TP']}, FP: {data['strict']['FP']}, TN: {data['strict']['TN']}, FN: {data['strict']['FN']} | P: {cp:.2f}, R: {cr:.2f}, S: {cs:.2f}")
         lp, lr, ls, lf1 = calc_metrics(data['lenient'])
-        print(f"  Lenient-> TP: {data['lenient']['TP']}, FP: {data['lenient']['FP']}, TN: {data['lenient']['TN']}, FN: {data['lenient']['FN']} | P: {lp:.2f}, R: {lr:.2f}, S: {ls:.2f}")
+        emit(f"  Lenient-> TP: {data['lenient']['TP']}, FP: {data['lenient']['FP']}, TN: {data['lenient']['TN']}, FN: {data['lenient']['FN']} | P: {lp:.2f}, R: {lr:.2f}, S: {ls:.2f}")
 
-    print(f"\n--- FAILURE MODES ---")
+    emit("\n--- FAILURE MODES ---")
     oc_rate = over_caution_count / negative_control_count if negative_control_count > 0 else 0.0
-    print(f"Over-Caution Rate (MONITOR on known negatives): {oc_rate:.1%} ({over_caution_count}/{negative_control_count})")
+    emit(f"Over-Caution Rate (MONITOR on known negatives): {oc_rate:.1%} ({over_caution_count}/{negative_control_count})")
     
-    print(f"\n--- DISAGREEMENTS (Expected != Actual) ---")
+    emit("\n--- DISAGREEMENTS (Expected != Actual) ---")
     if not disagreements:
-        print("None! Perfect agreement.")
+        emit("None! Perfect agreement.")
     else:
         for d in disagreements:
-            print(f"- {d['pair']} ({d['category']}): Expected {d['expected']}, Got {d['actual']}")
-            
-    print("=" * 60)
-    
-    # Save a minimal summary report
-    with open(outputs_dir / "evaluation_summary.txt", "w", encoding="utf-8") as f:
-        f.write("Evaluation Summary complete.\n")
-    logger.info(f"Saved summary to {outputs_dir / 'evaluation_summary.txt'}")
+            emit(f"- {d['pair']} ({d['category']}): Expected {d['expected']}, Got {d['actual']}")
+
+    # =========================================================================
+    # PHASE 2: THERAPEUTIC AREA STRATIFICATION (ATC LEVEL 1)
+    # =========================================================================
+    stratified_metrics = compute_stratified_metrics(evaluated_records, strata_key="therapeutic_area_code")
+
+    emit("\n" + "=" * 60)
+    emit("--- THERAPEUTIC AREA STRATIFICATION -- ATC LEVEL 1 ---")
+    emit("=" * 60)
+
+    emit(
+        f"{'Code':<4} | {'Therapeutic Area':<36} | {'n':>2} | {'Status':<12} | "
+        f"{'Strict F1':<9} | {'Strict (P/R/Sp)':<19} | "
+        f"{'Lenient F1':<10} | {'Lenient (P/R/Sp)'}"
+    )
+    emit("-" * 120)
+
+    for code, s_data in sorted(stratified_metrics.items()):
+        name_short = (s_data["name"][:34] + "..") if len(s_data["name"]) > 36 else s_data["name"]
+        status_tag = "[Exploratory]" if s_data["is_exploratory"] else "[Reportable]"
+
+        st = s_data["strict"]
+        lt = s_data["lenient"]
+
+        st_f1_str = f"{st['f1']:.3f}" if st["f1"] is not None else "N/A"
+        lt_f1_str = f"{lt['f1']:.3f}" if lt["f1"] is not None else "N/A"
+
+        def _fmt_trip(d):
+            p_str = f"{d['precision']:.2f}" if d['precision'] is not None else "N/A"
+            r_str = f"{d['recall']:.2f}" if d['recall'] is not None else "N/A"
+            s_str = f"{d['specificity']:.2f}" if d['specificity'] is not None else "N/A"
+            return f"{p_str}/{r_str}/{s_str}"
+
+        emit(
+            f"{code:<4} | {name_short:<36} | {s_data['n']:>2} | {status_tag:<12} | "
+            f"{st_f1_str:<9} | {_fmt_trip(st):<19} | "
+            f"{lt_f1_str:<10} | {_fmt_trip(lt)}"
+        )
+
+    emit("\n--- DETAILED STRATUM BREAKDOWN (Wilson 95% Confidence Intervals) ---")
+    for code, s_data in sorted(stratified_metrics.items()):
+        st = s_data["strict"]
+        lt = s_data["lenient"]
+        expl_note = " [EXPLORATORY: n < 5 - interpret with caution]" if s_data["is_exploratory"] else ""
+        emit(f"\nStratum {code}: {s_data['name']} (n={s_data['n']}){expl_note}")
+        
+        def _fmt_ci(ci):
+            if ci is None or None in ci:
+                return "N/A"
+            return f"[{ci[0]:.3f} - {ci[1]:.3f}]"
+
+        p_s = f"{st['precision']:.3f}" if st['precision'] is not None else "N/A"
+        r_s = f"{st['recall']:.3f}" if st['recall'] is not None else "N/A"
+        s_s = f"{st['specificity']:.3f}" if st['specificity'] is not None else "N/A"
+        f1_s = f"{st['f1']:.3f}" if st['f1'] is not None else "N/A"
+
+        emit(
+            f"  Strict -> TP: {st['TP']}, FP: {st['FP']}, TN: {st['TN']}, FN: {st['FN']} | "
+            f"Precision: {p_s} (Wilson: {_fmt_ci(st['precision_ci'])}), "
+            f"Recall: {r_s} (Wilson: {_fmt_ci(st['recall_ci'])}), "
+            f"Specificity: {s_s} (Wilson: {_fmt_ci(st['specificity_ci'])}), "
+            f"F1: {f1_s}"
+        )
+
+        p_l = f"{lt['precision']:.3f}" if lt['precision'] is not None else "N/A"
+        r_l = f"{lt['recall']:.3f}" if lt['recall'] is not None else "N/A"
+        s_l = f"{lt['specificity']:.3f}" if lt['specificity'] is not None else "N/A"
+        f1_l = f"{lt['f1']:.3f}" if lt['f1'] is not None else "N/A"
+
+        emit(
+            f"  Lenient-> TP: {lt['TP']}, FP: {lt['FP']}, TN: {lt['TN']}, FN: {lt['FN']} | "
+            f"Precision: {p_l} (Wilson: {_fmt_ci(lt['precision_ci'])}), "
+            f"Recall: {r_l} (Wilson: {_fmt_ci(lt['recall_ci'])}), "
+            f"Specificity: {s_l} (Wilson: {_fmt_ci(lt['specificity_ci'])}), "
+            f"F1: {f1_l}"
+        )
+
+    # =========================================================================
+    # ATC ANNOTATION COVERAGE & PROVENANCE
+    # =========================================================================
+    unique_drugs = sorted(set(r["drug"] for r in evaluated_records))
+    total_drugs = len(unique_drugs)
+    resolved_chembl = sum(1 for d in unique_drugs if drug_contexts[d].atc_source == "chembl_api")
+    resolved_fallback = sum(1 for d in unique_drugs if drug_contexts[d].atc_source == "hardcoded_fallback")
+    unresolved = sum(1 for d in unique_drugs if not drug_contexts[d].is_resolved)
+    pct_resolved = ((resolved_chembl + resolved_fallback) / total_drugs * 100.0) if total_drugs > 0 else 0.0
+    multi_atc_count = sum(1 for d in unique_drugs if len(drug_contexts[d].all_atc_codes) > 1)
+    multi_l1_count = sum(1 for d in unique_drugs if len(set(c[0] for c in drug_contexts[d].all_atc_codes)) > 1)
+
+    coverage_summary = {
+        "total_unique_drugs": total_drugs,
+        "chembl_resolved": resolved_chembl,
+        "fallback_resolved": resolved_fallback,
+        "unresolved": unresolved,
+        "resolution_percentage": round(pct_resolved, 1),
+        "multi_atc_count": multi_atc_count,
+        "multi_level1_count": multi_l1_count,
+    }
+
+    emit("\n" + "=" * 60)
+    emit("--- ATC ANNOTATION COVERAGE & MULTI-ATC PROVENANCE ---")
+    emit("=" * 60)
+    emit(f"Total unique benchmark drugs        : {total_drugs}")
+    emit(f"Resolved via ChEMBL API             : {resolved_chembl}")
+    emit(f"Resolved via fallback (known gaps)  : {resolved_fallback} ({', '.join(d for d in unique_drugs if drug_contexts[d].atc_source == 'hardcoded_fallback') or 'None'})")
+    emit(f"Unresolved                          : {unresolved}")
+    emit(f"Total resolution coverage           : {pct_resolved:.1f}%")
+    emit(f"Drugs with multiple ATC codes       : {multi_atc_count}")
+    emit(f"Drugs spanning multiple Level 1s    : {multi_l1_count}")
+    emit("\nSCIENTIFIC METHODOLOGY NOTE:")
+    emit("  ATC classification provides drug-class / therapeutic context. It does NOT identify")
+    emit("  patient-level indication, why the patient was prescribed the drug, or actual duration.")
+    emit("  Strata with n < 5 are marked [EXPLORATORY] to prevent spurious ranking of small samples.")
+    emit("=" * 60)
+
+    # Save human-readable summary text report
+    summary_txt_path = outputs_dir / "evaluation_summary.txt"
+    with open(summary_txt_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    logger.info(f"Saved evaluation text summary to {summary_txt_path}")
+
+    # Save structured JSON summary report
+    summary_json_path = outputs_dir / "evaluation_summary.json"
+    json_payload = {
+        "title": title,
+        "pairs_evaluated": len(evaluated_pairs),
+        "pairs_total": len(ground_truth),
+        "strict_metrics": {
+            **strict_metrics,
+            "precision": p,
+            "recall": r,
+            "specificity": s,
+            "f1": f1,
+            "wilson_ci": {
+                "precision": w_strict_p,
+                "recall": w_strict_r,
+                "specificity": w_strict_s,
+            },
+            "bootstrap_ci": {
+                "precision": b_strict_p,
+                "recall": b_strict_r,
+                "specificity": b_strict_s,
+                "f1": b_strict_f1,
+            }
+        },
+        "lenient_metrics": {
+            **lenient_metrics,
+            "precision": p_l,
+            "recall": r_l,
+            "specificity": s_l,
+            "f1": f1_l,
+            "wilson_ci": {
+                "precision": w_lenient_p,
+                "recall": w_lenient_r,
+                "specificity": w_lenient_s,
+            },
+            "bootstrap_ci": {
+                "precision": b_lenient_p,
+                "recall": b_lenient_r,
+                "specificity": b_lenient_s,
+                "f1": b_lenient_f1,
+            }
+        },
+        "over_caution_rate": oc_rate,
+        "category_metrics": category_metrics,
+        "therapeutic_area_metrics": stratified_metrics,
+        "atc_coverage": coverage_summary,
+        "disagreements": disagreements,
+        "records": evaluated_records,
+    }
+    with open(summary_json_path, "w", encoding="utf-8") as f:
+        json.dump(json_payload, f, indent=2)
+    logger.info(f"Saved evaluation JSON summary to {summary_json_path}")
+
+    return json_payload
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate PharmaGuard triage reports.")

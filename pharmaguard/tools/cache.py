@@ -95,6 +95,11 @@ class ToolCache:
             f"::{CACHE_SCHEMA_VERSION}"
         )
 
+    @staticmethod
+    def atc_key(drug: str) -> str:
+        """Cache key for drug ATC classification resolution."""
+        return f"atc::{drug.lower().strip()}::{CACHE_SCHEMA_VERSION}"
+
     # ------------------------------------------------------------------
     # Core get/set
     # ------------------------------------------------------------------

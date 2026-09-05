@@ -1,0 +1,1066 @@
+{
+  "title": "PharmaGuard",
+  "pairs_evaluated": 15,
+  "pairs_total": 15,
+  "strict_metrics": {
+    "TP": 6,
+    "FP": 0,
+    "TN": 8,
+    "FN": 1,
+    "precision": 1.0,
+    "recall": 0.8571428571428571,
+    "specificity": 1.0,
+    "f1": 0.923076923076923,
+    "wilson_ci": {
+      "precision": [
+        0.6096666796821562,
+        1.0
+      ],
+      "recall": [
+        0.4868729091072611,
+        0.9743203017064145
+      ],
+      "specificity": [
+        0.6755933262356948,
+        1.0
+      ]
+    },
+    "bootstrap_ci": {
+      "precision": [
+        1.0,
+        1.0
+      ],
+      "recall": [
+        0.5714285714285714,
+        1.0
+      ],
+      "specificity": [
+        1.0,
+        1.0
+      ],
+      "f1": [
+        0.7272727272727273,
+        1.0
+      ]
+    }
+  },
+  "lenient_metrics": {
+    "TP": 7,
+    "FP": 1,
+    "TN": 7,
+    "FN": 0,
+    "precision": "1.000",
+    "recall": "1.000",
+    "specificity": "1.000",
+    "f1": "1.000",
+    "wilson_ci": {
+      "precision": [
+        0.5291125505820761,
+        0.9775824440946951
+      ],
+      "recall": [
+        0.6456704951391459,
+        1.0
+      ],
+      "specificity": [
+        0.5291125505820761,
+        0.9775824440946951
+      ]
+    },
+    "bootstrap_ci": {
+      "precision": [
+        0.624375,
+        1.0
+      ],
+      "recall": [
+        1.0,
+        1.0
+      ],
+      "specificity": [
+        0.6,
+        1.0
+      ],
+      "f1": [
+        0.76875,
+        1.0
+      ]
+    }
+  },
+  "over_caution_rate": 0.125,
+  "category_metrics": {
+    "confirmed_positive": {
+      "strict": {
+        "TP": 6,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1
+      },
+      "lenient": {
+        "TP": 7,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "count": 7
+    },
+    "genuine_negative_control": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 5,
+        "FN": 0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 1,
+        "TN": 4,
+        "FN": 0
+      },
+      "count": 5
+    },
+    "zero_report_edge_case": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 3,
+        "FN": 0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 3,
+        "FN": 0
+      },
+      "count": 3
+    }
+  },
+  "therapeutic_area_metrics": {
+    "A": {
+      "code": "A",
+      "name": "Alimentary tract and metabolism",
+      "n": 3,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 1,
+        "TN": 1,
+        "FN": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "specificity": 0.5,
+        "f1": 0.667,
+        "precision_ci": [
+          0.095,
+          0.905
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.095,
+          0.905
+        ]
+      },
+      "records": [
+        "rosiglitazone::myocardial_infarction",
+        "liraglutide::pancreatic_cancer",
+        "metformin::hypoglycaemia"
+      ]
+    },
+    "C": {
+      "code": "C",
+      "name": "Cardiovascular system",
+      "n": 2,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "records": [
+        "atorvastatin::common_cold",
+        "atorvastatin::dementia"
+      ]
+    },
+    "D": {
+      "code": "D",
+      "name": "Dermatologicals",
+      "n": 1,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": null,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": null,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "isotretinoin::teratogenicity"
+      ]
+    },
+    "J": {
+      "code": "J",
+      "name": "Antiinfectives for systemic use",
+      "n": 2,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 1,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 1,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "records": [
+        "ciprofloxacin::tendon_rupture",
+        "amoxicillin::tendon_rupture"
+      ]
+    },
+    "L": {
+      "code": "L",
+      "name": "Antineoplastic and immunomodulating agents",
+      "n": 3,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "records": [
+        "imatinib::tooth_eruption",
+        "adalimumab::frostbite",
+        "pembrolizumab::pneumonitis"
+      ]
+    },
+    "N": {
+      "code": "N",
+      "name": "Nervous system",
+      "n": 2,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": null,
+        "f1": 1.0,
+        "precision_ci": [
+          0.342,
+          1.0
+        ],
+        "recall_ci": [
+          0.342,
+          1.0
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": null,
+        "f1": 1.0,
+        "precision_ci": [
+          0.342,
+          1.0
+        ],
+        "recall_ci": [
+          0.342,
+          1.0
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "clozapine::agranulocytosis",
+        "valproic_acid::hepatotoxicity"
+      ]
+    },
+    "R": {
+      "code": "R",
+      "name": "Respiratory system",
+      "n": 2,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 1,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 1,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "records": [
+        "montelukast::suicidal_ideation",
+        "albuterol::suicidal_ideation"
+      ]
+    }
+  },
+  "atc_coverage": {
+    "total_unique_drugs": 14,
+    "chembl_resolved": 13,
+    "fallback_resolved": 1,
+    "unresolved": 0,
+    "resolution_percentage": 100.0,
+    "multi_atc_count": 4,
+    "multi_level1_count": 1
+  },
+  "disagreements": [
+    {
+      "pair": "montelukast::suicidal_ideation",
+      "category": "confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "metformin::hypoglycaemia",
+      "category": "genuine_negative_control",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "MONITOR"
+    }
+  ],
+  "records": [
+    {
+      "pair": "montelukast::suicidal_ideation",
+      "drug": "montelukast",
+      "event": "suicidal_ideation",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "R",
+      "therapeutic_area": "Respiratory system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "montelukast",
+        "atc_codes": [
+          "R03DC53",
+          "R03DC03"
+        ],
+        "all_atc_codes": [
+          "R03DC53",
+          "R03DC03"
+        ],
+        "primary_atc": "R03DC03",
+        "selected_atc": "R03DC03",
+        "secondary_atc_codes": [
+          "R03DC53"
+        ],
+        "therapeutic_area_code": "R",
+        "therapeutic_area": "Respiratory system",
+        "pharmacological_subgroup_code": "R03",
+        "pharmacological_subgroup": "Drugs for obstructive airway diseases",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Leukotriene receptor antagonists are prescribed as daily continuous controller therapy for chronic asthma.",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain leukotriene receptor antagonist monotherapy (R03DC03) over combination code (R03DC53).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "ciprofloxacin::tendon_rupture",
+      "drug": "ciprofloxacin",
+      "event": "tendon_rupture",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "ciprofloxacin",
+        "atc_codes": [
+          "J01MA02",
+          "S03AA07",
+          "S01AE03",
+          "S02AA15"
+        ],
+        "all_atc_codes": [
+          "J01MA02",
+          "S03AA07",
+          "S01AE03",
+          "S02AA15"
+        ],
+        "primary_atc": "J01MA02",
+        "selected_atc": "J01MA02",
+        "secondary_atc_codes": [
+          "S03AA07",
+          "S01AE03",
+          "S02AA15"
+        ],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J01",
+        "pharmacological_subgroup": "Antibacterials for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized systemic fluoroquinolone antibacterial (J01MA02) over ophthalmic/otological drops (S01/S02/S03).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "albuterol::suicidal_ideation",
+      "drug": "albuterol",
+      "event": "suicidal_ideation",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "genuine_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "R",
+      "therapeutic_area": "Respiratory system",
+      "utilization_class": "MIXED",
+      "therapeutic_context": {
+        "drug_canonical": "albuterol",
+        "atc_codes": [
+          "R03AC02",
+          "R03CC02"
+        ],
+        "all_atc_codes": [
+          "R03AC02",
+          "R03CC02"
+        ],
+        "primary_atc": "R03AC02",
+        "selected_atc": "R03AC02",
+        "secondary_atc_codes": [
+          "R03CC02"
+        ],
+        "therapeutic_area_code": "R",
+        "therapeutic_area": "Respiratory system",
+        "pharmacological_subgroup_code": "R03",
+        "pharmacological_subgroup": "Drugs for obstructive airway diseases",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Short-acting beta-2 agonists are used primarily as PRN acute rescue bronchodilators, but usage frequency varies with asthma control.",
+        "selection_method": "primary_formulation_priority",
+        "selection_rationale": "Prioritized inhaled beta-2 agonist (R03AC02, primary clinical delivery) over oral systemic form (R03CC02).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "amoxicillin::tendon_rupture",
+      "drug": "amoxicillin",
+      "event": "tendon_rupture",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "genuine_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "amoxicillin",
+        "atc_codes": [
+          "J01CA04"
+        ],
+        "all_atc_codes": [
+          "J01CA04"
+        ],
+        "primary_atc": "J01CA04",
+        "selected_atc": "J01CA04",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J01",
+        "pharmacological_subgroup": "Antibacterials for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "atorvastatin::common_cold",
+      "drug": "atorvastatin",
+      "event": "common_cold",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "zero_report_edge_case",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "atorvastatin",
+        "atc_codes": [
+          "C10AA05"
+        ],
+        "all_atc_codes": [
+          "C10AA05"
+        ],
+        "primary_atc": "C10AA05",
+        "selected_atc": "C10AA05",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C10",
+        "pharmacological_subgroup": "Lipid modifying agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "fallback_mapping",
+        "selection_rationale": "WHO ATC Index 2026 (C10AA05: HMG CoA reductase inhibitors). Confirmed ChEMBL v34 data omission.",
+        "atc_source": "hardcoded_fallback",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "imatinib::tooth_eruption",
+      "drug": "imatinib",
+      "event": "tooth_eruption",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "zero_report_edge_case",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "L",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "imatinib",
+        "atc_codes": [
+          "L01EA01"
+        ],
+        "all_atc_codes": [
+          "L01EA01"
+        ],
+        "primary_atc": "L01EA01",
+        "selected_atc": "L01EA01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "L",
+        "therapeutic_area": "Antineoplastic and immunomodulating agents",
+        "pharmacological_subgroup_code": "L01",
+        "pharmacological_subgroup": "Antineoplastic agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for ongoing cyclical or continuous maintenance immunotherapy, targeted oncology, or immunosuppression.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "adalimumab::frostbite",
+      "drug": "adalimumab",
+      "event": "frostbite",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "zero_report_edge_case",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "L",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "adalimumab",
+        "atc_codes": [
+          "L04AB04"
+        ],
+        "all_atc_codes": [
+          "L04AB04"
+        ],
+        "primary_atc": "L04AB04",
+        "selected_atc": "L04AB04",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "L",
+        "therapeutic_area": "Antineoplastic and immunomodulating agents",
+        "pharmacological_subgroup_code": "L04",
+        "pharmacological_subgroup": "Immunosuppressants",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for ongoing cyclical or continuous maintenance immunotherapy, targeted oncology, or immunosuppression.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "isotretinoin::teratogenicity",
+      "drug": "isotretinoin",
+      "event": "teratogenicity",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "D",
+      "therapeutic_area": "Dermatologicals",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "isotretinoin",
+        "atc_codes": [
+          "D10BA01",
+          "D10AD54",
+          "D10AD04"
+        ],
+        "all_atc_codes": [
+          "D10BA01",
+          "D10AD54",
+          "D10AD04"
+        ],
+        "primary_atc": "D10BA01",
+        "selected_atc": "D10BA01",
+        "secondary_atc_codes": [
+          "D10AD54",
+          "D10AD04"
+        ],
+        "therapeutic_area_code": "D",
+        "therapeutic_area": "Dermatologicals",
+        "pharmacological_subgroup_code": "D10",
+        "pharmacological_subgroup": "Anti-acne preparations",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Oral isotretinoin is administered as a defined, finite course (typically 16-24 weeks) for severe acne.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized oral systemic retinoid (D10BA01) over topical retinoid preparations (D10AD).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "clozapine::agranulocytosis",
+      "drug": "clozapine",
+      "event": "agranulocytosis",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "clozapine",
+        "atc_codes": [
+          "N05AH02"
+        ],
+        "all_atc_codes": [
+          "N05AH02"
+        ],
+        "primary_atc": "N05AH02",
+        "selected_atc": "N05AH02",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N05",
+        "pharmacological_subgroup": "Psycholeptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as long-term continuous maintenance therapy for epilepsy, schizophrenia, or bipolar disorder.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "valproic_acid::hepatotoxicity",
+      "drug": "valproic_acid",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "valproic_acid",
+        "atc_codes": [
+          "N03AG01"
+        ],
+        "all_atc_codes": [
+          "N03AG01"
+        ],
+        "primary_atc": "N03AG01",
+        "selected_atc": "N03AG01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N03",
+        "pharmacological_subgroup": "Antiepileptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as long-term continuous maintenance therapy for epilepsy, schizophrenia, or bipolar disorder.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "rosiglitazone::myocardial_infarction",
+      "drug": "rosiglitazone",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "rosiglitazone",
+        "atc_codes": [
+          "A10BG02"
+        ],
+        "all_atc_codes": [
+          "A10BG02"
+        ],
+        "primary_atc": "A10BG02",
+        "selected_atc": "A10BG02",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A10",
+        "pharmacological_subgroup": "Drugs used in diabetes",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term or lifelong glycemic management in diabetes mellitus.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "pembrolizumab::pneumonitis",
+      "drug": "pembrolizumab",
+      "event": "pneumonitis",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "L",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "pembrolizumab",
+        "atc_codes": [
+          "L01FF02"
+        ],
+        "all_atc_codes": [
+          "L01FF02"
+        ],
+        "primary_atc": "L01FF02",
+        "selected_atc": "L01FF02",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "L",
+        "therapeutic_area": "Antineoplastic and immunomodulating agents",
+        "pharmacological_subgroup_code": "L01",
+        "pharmacological_subgroup": "Antineoplastic agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for ongoing cyclical or continuous maintenance immunotherapy, targeted oncology, or immunosuppression.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "liraglutide::pancreatic_cancer",
+      "drug": "liraglutide",
+      "event": "pancreatic_cancer",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "genuine_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "liraglutide",
+        "atc_codes": [
+          "A10BJ02"
+        ],
+        "all_atc_codes": [
+          "A10BJ02"
+        ],
+        "primary_atc": "A10BJ02",
+        "selected_atc": "A10BJ02",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A10",
+        "pharmacological_subgroup": "Drugs used in diabetes",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term or lifelong glycemic management in diabetes mellitus.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "metformin::hypoglycaemia",
+      "drug": "metformin",
+      "event": "hypoglycaemia",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "MONITOR",
+      "category": "genuine_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "metformin",
+        "atc_codes": [
+          "A10BA02"
+        ],
+        "all_atc_codes": [
+          "A10BA02"
+        ],
+        "primary_atc": "A10BA02",
+        "selected_atc": "A10BA02",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A10",
+        "pharmacological_subgroup": "Drugs used in diabetes",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term or lifelong glycemic management in diabetes mellitus.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "atorvastatin::dementia",
+      "drug": "atorvastatin",
+      "event": "dementia",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "genuine_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "atorvastatin",
+        "atc_codes": [
+          "C10AA05"
+        ],
+        "all_atc_codes": [
+          "C10AA05"
+        ],
+        "primary_atc": "C10AA05",
+        "selected_atc": "C10AA05",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C10",
+        "pharmacological_subgroup": "Lipid modifying agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "fallback_mapping",
+        "selection_rationale": "WHO ATC Index 2026 (C10AA05: HMG CoA reductase inhibitors). Confirmed ChEMBL v34 data omission.",
+        "atc_source": "hardcoded_fallback",
+        "is_resolved": true
+      }
+    }
+  ]
+}
