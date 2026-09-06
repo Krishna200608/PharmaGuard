@@ -214,7 +214,7 @@ def view_omop_pilot(
     # -----------------------------------------------------------------------
     st.markdown('<div style="height: 14px;"></div>', unsafe_allow_html=True)
     st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
-    omop_gt_path = repo_root / "pharmaguard" / "data" / "ground_truth_omop.json"
+    omop_gt_path = repo_root / "pharmaguard" / "data" / "ground_truth_omop_pilot.json"
     omop_strat_data = get_stratified_evaluation(omop_dir or (repo_root / "outputs" / "research" / "omop_pilot"), omop_gt_path)
     render_therapeutic_stratification_table(
         omop_strat_data,
