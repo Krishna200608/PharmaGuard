@@ -10,11 +10,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import streamlit as st
-from ..data_loader import PROD_METRICS
+from ..components import render_therapeutic_stratification_table
+from ..data_loader import PROD_METRICS, get_stratified_evaluation
 
 
-def view_overview(logo_path: Path | None = None, stability_path: Path | None = None) -> None:
-    """Render the Overview tab with benchmark cards and LOO stability block."""
+def view_overview(
+    logo_path: Path | None = None,
+    stability_path: Path | None = None,
+    theme: str = "light",
+    reports_dir: Path | None = None,
+    gt_path: Path | None = None,
+) -> None:
+    """Render the Overview tab with benchmark cards, LOO stability, and therapeutic area stratification."""
     if logo_path and logo_path.exists():
         c_logo, c_title = st.columns([0.06, 0.94], gap='medium')
         with c_logo:
@@ -197,6 +204,22 @@ def view_overview(logo_path: Path | None = None, stability_path: Path | None = N
             '</div>',
             unsafe_allow_html=True,
         )
+
+    # ── THERAPEUTIC AREA STRATIFICATION (WHO ATC LEVEL 1) ──
+    repo_root = Path(__file__).resolve().parents[3]
+    if reports_dir is None:
+        reports_dir = repo_root / "outputs" / "core"
+    if gt_path is None:
+        gt_path = repo_root / "pharmaguard" / "data" / "ground_truth.json"
+
+    st.markdown('<div style="height: 14px;"></div>', unsafe_allow_html=True)
+    st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
+    strat_data = get_stratified_evaluation(reports_dir, gt_path)
+    render_therapeutic_stratification_table(
+        strat_data,
+        title="Performance by Therapeutic Area (WHO ATC Level 1 — Core Benchmark)",
+        theme=theme,
+    )
 
     st.markdown(
         '<div class="pg-callout">'

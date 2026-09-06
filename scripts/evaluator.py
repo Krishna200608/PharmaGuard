@@ -189,6 +189,132 @@ def compute_stratified_metrics(
     return results
 
 
+def build_evaluated_records(
+    reports: list[dict | Any],
+    ground_truth: dict[str, Any],
+    disease_tool: Optional[DiseaseContextTool] = None,
+) -> tuple[list[dict], dict[str, Any]]:
+    """
+    Build structured evaluated records from a list of report dicts or TriageReport objects,
+    annotating each record with WHO ATC Level 1 therapeutic area via DiseaseContextTool.
+
+    Parameters:
+      reports: List of report dictionaries or TriageReport instances.
+      ground_truth: Ground truth mapping keyed by "drug::event".
+      disease_tool: Optional DiseaseContextTool instance (defaults to cached local tool).
+
+    Returns:
+      (evaluated_records, drug_contexts)
+    """
+    if disease_tool is None:
+        try:
+            cache = ToolCache()
+            disease_tool = DiseaseContextTool(cache=cache)
+        except Exception as e:
+            logger.warning(f"Could not initialize cached ToolCache for DiseaseContextTool: {e}")
+            disease_tool = DiseaseContextTool()
+
+    evaluated_records: list[dict] = []
+    drug_contexts: dict[str, Any] = {}
+
+    for item in reports:
+        if isinstance(item, dict):
+            drug = item.get("drug", "")
+            event = item.get("event", "")
+            triage_dict = item.get("triage", {})
+            actual = triage_dict.get("escalation", "")
+        else:
+            drug = getattr(item, "drug", "")
+            event = getattr(item, "event", "")
+            triage_obj = getattr(item, "triage", None)
+            if triage_obj:
+                esc = getattr(triage_obj, "escalation", "")
+                actual = esc.value if hasattr(esc, "value") else str(esc)
+            else:
+                actual = ""
+
+        key = f"{drug}::{event}"
+        if key not in ground_truth:
+            continue
+
+        gt_entry = ground_truth[key]
+        expected = gt_entry.get("expected_escalation", "")
+        category = gt_entry.get("category", "unknown")
+
+        is_gt_positive = expected == "ESCALATE"
+        is_gt_negative = expected == "DO_NOT_ESCALATE"
+
+        if drug not in drug_contexts:
+            drug_contexts[drug] = disease_tool.resolve(drug)
+        ctx = drug_contexts[drug]
+
+        evaluated_records.append({
+            "pair": key,
+            "drug": drug,
+            "event": event,
+            "expected": expected,
+            "actual": actual,
+            "category": category,
+            "is_gt_positive": is_gt_positive,
+            "is_gt_negative": is_gt_negative,
+            "therapeutic_area_code": ctx.therapeutic_area_code or "UNRESOLVED",
+            "therapeutic_area": ctx.therapeutic_area or "Unresolved Area",
+            "utilization_class": ctx.utilization_class,
+            "therapeutic_context": ctx.model_dump(),
+        })
+
+    return evaluated_records, drug_contexts
+
+
+def compute_atc_coverage(
+    evaluated_records: list[dict],
+    drug_contexts: dict[str, Any],
+) -> dict[str, Any]:
+    """Compute ATC resolution coverage and multi-ATC metrics."""
+    unique_drugs = sorted(set(r["drug"] for r in evaluated_records))
+    total_drugs = len(unique_drugs)
+    resolved_chembl = sum(1 for d in unique_drugs if drug_contexts.get(d) and drug_contexts[d].atc_source == "chembl_api")
+    resolved_fallback = sum(1 for d in unique_drugs if drug_contexts.get(d) and drug_contexts[d].atc_source == "hardcoded_fallback")
+    unresolved = sum(1 for d in unique_drugs if not drug_contexts.get(d) or not drug_contexts[d].is_resolved)
+    pct_resolved = ((resolved_chembl + resolved_fallback) / total_drugs * 100.0) if total_drugs > 0 else 0.0
+    multi_atc_count = sum(1 for d in unique_drugs if drug_contexts.get(d) and len(drug_contexts[d].all_atc_codes) > 1)
+    multi_l1_count = sum(1 for d in unique_drugs if drug_contexts.get(d) and len(set(c[0] for c in drug_contexts[d].all_atc_codes)) > 1)
+
+    return {
+        "total_unique_drugs": total_drugs,
+        "chembl_resolved": resolved_chembl,
+        "fallback_resolved": resolved_fallback,
+        "unresolved": unresolved,
+        "resolution_percentage": round(pct_resolved, 1),
+        "multi_atc_count": multi_atc_count,
+        "multi_level1_count": multi_l1_count,
+    }
+
+
+def evaluate_therapeutic_strata(
+    reports: list[dict | Any],
+    ground_truth: dict[str, Any],
+    disease_tool: Optional[DiseaseContextTool] = None,
+) -> dict[str, Any]:
+    """
+    End-to-end convenience function to evaluate therapeutic-area strata from reports and ground truth.
+    Returns dict:
+      {
+        "strata": dict[str, Any],       # Stratum code -> Stratum metrics
+        "coverage": dict[str, Any],     # ATC coverage and resolution stats
+        "records": list[dict],          # Annotated evaluated records
+      }
+    """
+    records, drug_contexts = build_evaluated_records(reports, ground_truth, disease_tool=disease_tool)
+    strata = compute_stratified_metrics(records, strata_key="therapeutic_area_code")
+    coverage = compute_atc_coverage(records, drug_contexts)
+    return {
+        "strata": strata,
+        "coverage": coverage,
+        "records": records,
+    }
+
+
 def run_evaluation(
     outputs_dir: Path = None,
     title: str = "PharmaGuard",
@@ -225,48 +351,46 @@ def run_evaluation(
     evaluated_pairs = set()
     category_metrics = {}
     disagreements = []
-    evaluated_records = []
-    drug_contexts: dict[str, Any] = {}
 
     if not outputs_dir.exists():
         logger.error(f"Outputs directory not found: {outputs_dir}")
         return None
 
-    for report_file in outputs_dir.glob("eval-run-*_report.json"):
+    raw_reports = []
+    for report_file in sorted(outputs_dir.glob("eval-run-*_report.json")):
         try:
             with open(report_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 report = TriageReport(**data)
+                raw_reports.append(report)
         except (json.JSONDecodeError, ValidationError) as e:
             logger.warning(f"Failed to parse report {report_file}: {e}")
             continue
-            
-        key = f"{report.drug}::{report.event}"
-        
-        if key not in ground_truth:
-            continue
-            
-        gt_entry = ground_truth[key]
-        expected = gt_entry["expected_escalation"]
-        actual = report.triage.escalation.value if hasattr(report.triage.escalation, 'value') else report.triage.escalation
-        category = gt_entry.get("category", "unknown")
-        
+
+    evaluated_records, drug_contexts = build_evaluated_records(
+        raw_reports, ground_truth, disease_tool=disease_tool
+    )
+
+    for r in evaluated_records:
+        key = r["pair"]
+        expected = r["expected"]
+        actual = r["actual"]
+        category = r["category"]
+        is_gt_positive = r["is_gt_positive"]
+        is_gt_negative = r["is_gt_negative"]
+
         evaluated_pairs.add(key)
-        
-        is_gt_positive = expected == "ESCALATE"
-        is_gt_negative = expected == "DO_NOT_ESCALATE"
-        
         is_strict_positive = actual == "ESCALATE"
         is_lenient_positive = actual in ("ESCALATE", "MONITOR")
-        
+
         if expected != actual:
             disagreements.append({"pair": key, "category": category, "expected": expected, "actual": actual})
-            
+
         if category not in category_metrics:
             category_metrics[category] = {"strict": {"TP":0, "FP":0, "TN":0, "FN":0}, "lenient": {"TP":0, "FP":0, "TN":0, "FN":0}, "count": 0}
-            
+
         category_metrics[category]["count"] += 1
-        
+
         # Strict logic update
         if is_gt_positive:
             if is_strict_positive:
@@ -282,7 +406,7 @@ def run_evaluation(
             else:
                 strict_metrics["TN"] += 1
                 category_metrics[category]["strict"]["TN"] += 1
-                
+
         # Lenient logic update
         if is_gt_positive:
             if is_lenient_positive:
@@ -298,33 +422,12 @@ def run_evaluation(
             else:
                 lenient_metrics["TN"] += 1
                 category_metrics[category]["lenient"]["TN"] += 1
-                
+
         # Over-caution tracking
         if is_gt_negative:
             negative_control_count += 1
             if actual == "MONITOR":
                 over_caution_count += 1
-
-        # Resolve therapeutic context (ATC)
-        if report.drug not in drug_contexts:
-            drug_contexts[report.drug] = disease_tool.resolve(report.drug)
-        ctx = drug_contexts[report.drug]
-
-        # Record-level provenance
-        evaluated_records.append({
-            "pair": key,
-            "drug": report.drug,
-            "event": report.event,
-            "expected": expected,
-            "actual": actual,
-            "category": category,
-            "is_gt_positive": is_gt_positive,
-            "is_gt_negative": is_gt_negative,
-            "therapeutic_area_code": ctx.therapeutic_area_code or "UNRESOLVED",
-            "therapeutic_area": ctx.therapeutic_area or "Unresolved Area",
-            "utilization_class": ctx.utilization_class,
-            "therapeutic_context": ctx.model_dump(),
-        })
 
     missing = set(ground_truth.keys()) - evaluated_pairs
     if missing:
@@ -532,35 +635,19 @@ def run_evaluation(
     # =========================================================================
     # ATC ANNOTATION COVERAGE & PROVENANCE
     # =========================================================================
+    coverage_summary = compute_atc_coverage(evaluated_records, drug_contexts)
     unique_drugs = sorted(set(r["drug"] for r in evaluated_records))
-    total_drugs = len(unique_drugs)
-    resolved_chembl = sum(1 for d in unique_drugs if drug_contexts[d].atc_source == "chembl_api")
-    resolved_fallback = sum(1 for d in unique_drugs if drug_contexts[d].atc_source == "hardcoded_fallback")
-    unresolved = sum(1 for d in unique_drugs if not drug_contexts[d].is_resolved)
-    pct_resolved = ((resolved_chembl + resolved_fallback) / total_drugs * 100.0) if total_drugs > 0 else 0.0
-    multi_atc_count = sum(1 for d in unique_drugs if len(drug_contexts[d].all_atc_codes) > 1)
-    multi_l1_count = sum(1 for d in unique_drugs if len(set(c[0] for c in drug_contexts[d].all_atc_codes)) > 1)
-
-    coverage_summary = {
-        "total_unique_drugs": total_drugs,
-        "chembl_resolved": resolved_chembl,
-        "fallback_resolved": resolved_fallback,
-        "unresolved": unresolved,
-        "resolution_percentage": round(pct_resolved, 1),
-        "multi_atc_count": multi_atc_count,
-        "multi_level1_count": multi_l1_count,
-    }
 
     emit("\n" + "=" * 60)
     emit("--- ATC ANNOTATION COVERAGE & MULTI-ATC PROVENANCE ---")
     emit("=" * 60)
-    emit(f"Total unique benchmark drugs        : {total_drugs}")
-    emit(f"Resolved via ChEMBL API             : {resolved_chembl}")
-    emit(f"Resolved via fallback (known gaps)  : {resolved_fallback} ({', '.join(d for d in unique_drugs if drug_contexts[d].atc_source == 'hardcoded_fallback') or 'None'})")
-    emit(f"Unresolved                          : {unresolved}")
-    emit(f"Total resolution coverage           : {pct_resolved:.1f}%")
-    emit(f"Drugs with multiple ATC codes       : {multi_atc_count}")
-    emit(f"Drugs spanning multiple Level 1s    : {multi_l1_count}")
+    emit(f"Total unique benchmark drugs        : {coverage_summary['total_unique_drugs']}")
+    emit(f"Resolved via ChEMBL API             : {coverage_summary['chembl_resolved']}")
+    emit(f"Resolved via fallback (known gaps)  : {coverage_summary['fallback_resolved']} ({', '.join(d for d in unique_drugs if drug_contexts.get(d) and drug_contexts[d].atc_source == 'hardcoded_fallback') or 'None'})")
+    emit(f"Unresolved                          : {coverage_summary['unresolved']}")
+    emit(f"Total resolution coverage           : {coverage_summary['resolution_percentage']:.1f}%")
+    emit(f"Drugs with multiple ATC codes       : {coverage_summary['multi_atc_count']}")
+    emit(f"Drugs spanning multiple Level 1s    : {coverage_summary['multi_level1_count']}")
     emit("\nSCIENTIFIC METHODOLOGY NOTE:")
     emit("  ATC classification provides drug-class / therapeutic context. It does NOT identify")
     emit("  patient-level indication, why the patient was prescribed the drug, or actual duration.")

@@ -18,6 +18,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from pharmaguard.agent.output_schema import compute_source_agreement
+from scripts.evaluator import evaluate_therapeutic_strata
 
 # Verified benchmark values from DECISIONS.md §16
 PROD_METRICS = {
@@ -112,3 +113,31 @@ def build_df(reports: list, gt: dict) -> pd.DataFrame:
             '_gt': entry,
         })
     return pd.DataFrame(rows).sort_values('idx').reset_index(drop=True)
+
+
+@st.cache_data
+def get_stratified_evaluation(reports_dir: Path, gt_path: Path) -> dict:
+    """
+    Load therapeutic area stratification metrics.
+    First attempts to read pre-computed metrics from evaluation_summary.json if available;
+    otherwise computes them deterministically via evaluate_therapeutic_strata.
+    Guaranteed zero network calls at runtime.
+    """
+    summary_path = reports_dir / "evaluation_summary.json"
+    if summary_path.exists():
+        try:
+            with open(summary_path, "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+            if "therapeutic_area_metrics" in data:
+                return {
+                    "strata": data["therapeutic_area_metrics"],
+                    "coverage": data.get("atc_coverage", {}),
+                    "records": data.get("records", []),
+                }
+        except Exception:
+            pass
+
+    # Dynamic fallback via shared evaluator functions
+    reports = load_reports(reports_dir)
+    gt = load_ground_truth(gt_path)
+    return evaluate_therapeutic_strata(reports, gt)

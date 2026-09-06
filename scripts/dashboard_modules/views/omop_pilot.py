@@ -11,8 +11,8 @@ import re
 from pathlib import Path
 import streamlit as st
 
-from ..components import cat_badge, esc_badge, grade_badge, material_icon, render_conf_chart
-from ..data_loader import OMOP_METRICS
+from ..components import cat_badge, esc_badge, grade_badge, material_icon, render_conf_chart, render_therapeutic_stratification_table
+from ..data_loader import OMOP_METRICS, get_stratified_evaluation
 
 
 def view_omop_pilot(
@@ -208,6 +208,19 @@ def view_omop_pilot(
         )
     table_html += '</tbody></table></div></div>'
     st.markdown(table_html, unsafe_allow_html=True)
+
+    # -----------------------------------------------------------------------
+    # d2. Performance by Therapeutic Area (WHO ATC Level 1)
+    # -----------------------------------------------------------------------
+    st.markdown('<div style="height: 14px;"></div>', unsafe_allow_html=True)
+    st.markdown('<hr class="pg-divider">', unsafe_allow_html=True)
+    omop_gt_path = repo_root / "pharmaguard" / "data" / "ground_truth_omop.json"
+    omop_strat_data = get_stratified_evaluation(omop_dir or (repo_root / "outputs" / "research" / "omop_pilot"), omop_gt_path)
+    render_therapeutic_stratification_table(
+        omop_strat_data,
+        title="Performance by Therapeutic Area (WHO ATC Level 1 — OMOP Cohort)",
+        theme=theme,
+    )
 
     # -----------------------------------------------------------------------
     # e. Root Cause: The PRR-Magnitude Gate Section & Disagreements Table

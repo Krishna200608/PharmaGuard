@@ -144,7 +144,7 @@ def main() -> None:
         "OMOP Pilot",
     ])
     with tab1:
-        view_overview(LOGO_PATH, STABILITY_PATH)
+        view_overview(LOGO_PATH, STABILITY_PATH, theme=active_theme)
     with tab2:
         view_per_pair(df, theme=active_theme)
     with tab3:

@@ -22,6 +22,9 @@ from scripts.evaluator import (
     compute_confusion_matrix,
     compute_wilson_ci,
     compute_stratified_metrics,
+    build_evaluated_records,
+    compute_atc_coverage,
+    evaluate_therapeutic_strata,
 )
 
 
@@ -267,4 +270,78 @@ class TestProductionIsolation:
 
         assert strict_base == strict_with_ctx
         assert lenient_base == lenient_with_ctx
+
+
+class TestModularStratifiedPipeline:
+    """Verify modular helper functions for dashboard and evaluator interoperability."""
+
+    def test_build_evaluated_records_and_coverage(self):
+        reports = [
+            {
+                "drug": "atorvastatin",
+                "event": "dementia",
+                "triage": {"escalation": "DO_NOT_ESCALATE"},
+            },
+            {
+                "drug": "ciprofloxacin",
+                "event": "tendon_rupture",
+                "triage": {"escalation": "ESCALATE"},
+            },
+        ]
+        gt = {
+            "atorvastatin::dementia": {"expected_escalation": "DO_NOT_ESCALATE", "category": "genuine_negative_control"},
+            "ciprofloxacin::tendon_rupture": {"expected_escalation": "ESCALATE", "category": "confirmed_positive"},
+        }
+
+        records, drug_ctxs = build_evaluated_records(reports, gt)
+        assert len(records) == 2
+
+        # Atorvastatin is ATC C (Cardiovascular)
+        c_rec = next(r for r in records if r["drug"] == "atorvastatin")
+        assert c_rec["therapeutic_area_code"] == "C"
+        assert c_rec["therapeutic_area"] == "Cardiovascular system"
+        assert c_rec["is_gt_positive"] is False
+        assert c_rec["is_gt_negative"] is True
+
+        # Ciprofloxacin is ATC J (Antiinfectives)
+        j_rec = next(r for r in records if r["drug"] == "ciprofloxacin")
+        assert j_rec["therapeutic_area_code"] == "J"
+        assert j_rec["therapeutic_area"] == "Antiinfectives for systemic use"
+        assert j_rec["is_gt_positive"] is True
+        assert j_rec["is_gt_negative"] is False
+
+        cov = compute_atc_coverage(records, drug_ctxs)
+        assert cov["total_unique_drugs"] == 2
+        assert cov["resolution_percentage"] == 100.0
+        assert cov["fallback_resolved"] == 1  # atorvastatin is documented fallback
+        assert cov["chembl_resolved"] == 1    # ciprofloxacin is chembl
+
+    def test_evaluate_therapeutic_strata_end_to_end(self):
+        reports = [
+            {
+                "drug": "atorvastatin",
+                "event": "dementia",
+                "triage": {"escalation": "DO_NOT_ESCALATE"},
+            },
+            {
+                "drug": "ciprofloxacin",
+                "event": "tendon_rupture",
+                "triage": {"escalation": "ESCALATE"},
+            },
+        ]
+        gt = {
+            "atorvastatin::dementia": {"expected_escalation": "DO_NOT_ESCALATE", "category": "genuine_negative_control"},
+            "ciprofloxacin::tendon_rupture": {"expected_escalation": "ESCALATE", "category": "confirmed_positive"},
+        }
+
+        result = evaluate_therapeutic_strata(reports, gt)
+        assert "strata" in result
+        assert "coverage" in result
+        assert "records" in result
+
+        assert "C" in result["strata"]
+        assert "J" in result["strata"]
+        assert result["strata"]["C"]["strict"]["TN"] == 1
+        assert result["strata"]["J"]["strict"]["TP"] == 1
+
 
