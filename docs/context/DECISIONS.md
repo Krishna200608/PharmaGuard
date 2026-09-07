@@ -1176,3 +1176,82 @@ Phase 2 production pipeline integration of `IndicationConcordance` was completed
 
 ---
 
+## 36. Held-Out OMOP Validation Batch for Indication-Concordance Generalization Testing
+
+**Context:** To test whether the indication-concordance informational flag (§35) and any future confidence adjustment derived from it generalizes to genuinely unseen data, a held-out validation batch was curated from `omopReferenceSet.rda` pairs that were never used during any prior PharmaGuard design, threshold calibration, or rule-table work.
+
+### 1. Pair Count & Balance
+
+| Endpoint | Positive Controls | Negative Controls | Total |
+| :--- | :---: | :---: | :---: |
+| `acute_kidney_injury` | 5 | 5 | 10 |
+| `gastrointestinal_haemorrhage` | 5 | 5 | 10 |
+| `hepatotoxicity` | 5 | 5 | 10 |
+| `myocardial_infarction` | 5 | 5 | 10 |
+| **Total** | **20** | **20** | **40** |
+
+27 unique drug substances across all 40 pairs.
+
+### 2. Selection Methodology
+
+The selection follows the same criteria as the original Stage 1 OMOP pilot curation (§31):
+
+1. **Source:** All pairs drawn from `omopReferenceSet.rda` (Ryan PB et al., *Drug Safety* 2013; 399 total pairs across 4 clinical endpoints). The `groundTruth` field in the reference set determines positive (`1`) vs. negative (`0`) control classification.
+2. **Outcome Mapping:** Same proxy MedDRA PT mappings as the original pilot:
+   - Acute Liver Failure → `hepatotoxicity`
+   - Acute Renal Failure → `acute_kidney_injury`
+   - Acute Myocardial Infarction → `myocardial_infarction`
+   - Upper GI Bleeding → `gastrointestinal_haemorrhage`
+3. **Clean Drug Name Filter:** Only single-word generic drug names (no salts, combinations, enzyme class names, or abbreviations < 4 characters) to minimize openFDA/ChEMBL entity-resolution artifacts. Excluded: `darbepoetin alfa`, `Epoetin Alfa`, `Estrogens, Conjugated (USP)`, `Factor VIIa`, `ferrous gluconate`, `Interferon beta-1a`, `lithium citrate`, `Olmesartan medoxomil`, `Penicillin V`, `Amylases`, `Endopeptidases`, `Lipase`, `Cosyntropin`.
+4. **Balance:** Equal positive/negative split (5+5) within each of the 4 clinical endpoints.
+5. **Deterministic Selection:** Within each endpoint×label pool, pairs were sorted alphabetically by drug name and the first 5 were taken. This avoids any appearance of cherry-picking or outcome-aware selection — the ordering is purely lexicographic.
+6. **Hoffman et al. (2016) Critique:** As with the original pilot, the contested-negative-controls critique (Hoffman KB et al., "A pharmacovigilance signaling system based on FDA regulatory action and post-marketing adverse event reports," *Drug Safety* 2016;39(6):561–575) is acknowledged for all OMOP negative controls. These negative controls were originally designated in Ryan et al. (2013) as having "no established causal link" but Hoffman et al. subsequently questioned whether some may represent undetected associations.
+
+### 3. Zero-Overlap Verification Against 47 Already-Used Pairs
+
+The following deduplication check was performed programmatically during curation (see `scratch/curate_holdout.py`):
+
+```
+Already-used pairs (47):
+  Core benchmark (15): montelukast::suicidal_ideation, ciprofloxacin::tendon_rupture,
+    isotretinoin::teratogenicity, clozapine::agranulocytosis, valproic_acid::hepatotoxicity,
+    rosiglitazone::myocardial_infarction, pembrolizumab::pneumonitis,
+    liraglutide::pancreatic_cancer, metformin::hypoglycaemia, atorvastatin::dementia,
+    albuterol::suicidal_ideation, amoxicillin::tendon_rupture, atorvastatin::common_cold,
+    imatinib::tooth_eruption, adalimumab::frostbite
+  OMOP pilot (32): carbamazepine::hepatotoxicity, isoniazid::hepatotoxicity,
+    allopurinol::hepatotoxicity, captopril::hepatotoxicity, adenosine::hepatotoxicity,
+    sucralfate::hepatotoxicity, methenamine::hepatotoxicity, dicyclomine::hepatotoxicity,
+    acyclovir::acute_kidney_injury, hydrochlorothiazide::acute_kidney_injury,
+    lisinopril::acute_kidney_injury, naproxen::acute_kidney_injury,
+    acarbose::acute_kidney_injury, loratadine::acute_kidney_injury,
+    simethicone::acute_kidney_injury, temazepam::acute_kidney_injury,
+    amlodipine::myocardial_infarction, dipyridamole::myocardial_infarction,
+    indomethacin::myocardial_infarction, nifedipine::myocardial_infarction,
+    clindamycin::myocardial_infarction, lactulose::myocardial_infarction,
+    miconazole::myocardial_infarction, sulfisoxazole::myocardial_infarction,
+    citalopram::gastrointestinal_haemorrhage, fluoxetine::gastrointestinal_haemorrhage,
+    ketoprofen::gastrointestinal_haemorrhage, sertraline::gastrointestinal_haemorrhage,
+    griseofulvin::gastrointestinal_haemorrhage, itraconazole::gastrointestinal_haemorrhage,
+    nitrofurantoin::gastrointestinal_haemorrhage, pioglitazone::gastrointestinal_haemorrhage
+
+Holdout batch (40): ZERO pairs overlap with any of the 47 above.
+```
+
+Note: some drugs (e.g. `allopurinol`, `captopril`, `adenosine`, `acarbose`, `clindamycin`) appear in both existing benchmarks and this holdout batch, but paired with _different_ clinical endpoints. For example, `allopurinol::hepatotoxicity` was in the OMOP pilot while `allopurinol::acute_kidney_injury` is in this holdout batch — these are distinct drug–event pairs evaluating different pharmacological mechanisms. The deduplication was performed at the `(drug_canonical, event_meddra_pt)` pair level, which is the correct unit of evaluation.
+
+### 4. Anti-Contamination Confirmation
+
+- The curation script (`scratch/curate_holdout.py`) does **not** import, reference, or call `pharmaguard.tools.indication_concordance`, `pharmaguard.tools.disease_context`, `atc_lookup.json`, or any ATC classification / therapeutic area logic.
+- Pair selection was based exclusively on: (a) drug name cleanliness, (b) positive/negative balance, (c) non-overlap with the 47 used pairs, and (d) deterministic alphabetical ordering. No ATC code, therapeutic class, or indication-concordance flag was consulted during selection.
+- This batch has **not** been run through any part of the PharmaGuard triage pipeline, evaluation harness, or indication-concordance tool.
+
+### 5. File Location & Schema
+
+- **File:** `pharmaguard/data/ground_truth_omop_validation_holdout.json`
+- **Schema:** Matches `ground_truth_omop_pilot.json` exactly (`schema_version: "1.1"`, pairs with `drug_canonical`, `event_meddra_pt`, `expected_escalation`, `category`, `source_url`, `rationale`).
+
+### 6. Status
+
+**Phase 2 (discount-factor design) and Phase 3 (validation against this batch) have not yet begun.** This section documents curation only. Any future work using this batch must be registered in a subsequent DECISIONS.md section before execution.
+

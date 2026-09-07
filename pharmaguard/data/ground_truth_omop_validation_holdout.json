@@ -1,0 +1,326 @@
+{
+  "schema_version": "1.1",
+  "description": "Held-out validation set \u2014 drawn from omopReferenceSet.rda pairs never used in any prior PharmaGuard design, threshold, or rule-table work. Reserved exclusively for testing whether indication-concordance-based confidence adjustment generalizes to unseen data (DECISIONS.md \u00a736, pending).",
+  "pairs": [
+    {
+      "drug_canonical": "allopurinol",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "candesartan",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "capreomycin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "captopril",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "chlorothiazide",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "adenosine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "almotriptan",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "benzocaine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "benzonatate",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "bromfenac",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "clindamycin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "clopidogrel",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "diflunisal",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "escitalopram",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "etodolac",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "abacavir",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "acarbose",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "adenosine",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "benzocaine",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "benzonatate",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "abacavir",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "acetazolamide",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "alatrofloxacin",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "bortezomib",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "bosentan",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "almotriptan",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "benzocaine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "benzonatate",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "droperidol",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "ergotamine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "almotriptan",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "amoxapine",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "bromocriptine",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "desipramine",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "diflunisal",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set positive control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "acarbose",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "acetazolamide",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "benzonatate",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "bromfenac",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    },
+    {
+      "drug_canonical": "chlorambucil",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "OMOP reference set negative control (Ryan et al. 2013, Drug Safety; Hoffman et al. 2016 critique acknowledged)."
+    }
+  ]
+}
