@@ -1255,3 +1255,147 @@ Note: some drugs (e.g. `allopurinol`, `captopril`, `adenosine`, `acarbose`, `cli
 
 **Phase 2 (discount-factor design) and Phase 3 (validation against this batch) have not yet begun.** This section documents curation only. Any future work using this batch must be registered in a subsequent DECISIONS.md section before execution.
 
+---
+
+## 37. Indication-Concordance Discount Factor Design (Sprint 4 — Phase 2)
+
+**Context:** Following the production integration of the scoring-inert `IndicationConcordance` informational flag (§35, commit `ebc25ba`) and the curation of the 40-pair held-out OMOP validation batch (§36, commit `49c22fc`), Phase 2 establishes the formal architectural design of a quantitative confidence adjustment applied when `concordant = True`. 
+
+Per the pre-registered protocol, this design is locked strictly *prior to* and *independent of* any Phase 3 validation runs against the §36 held-out batch.
+
+---
+
+### 1. Step 1: Pharmacoepidemiological Literature Survey & Empirical Reality
+
+To determine whether a universal, portable numeric discount factor exists for confounding by indication (and its operational manifestation, channeling bias), we conducted a structured review of methodological pharmacoepidemiology literature:
+
+1. **Foundational Methodological Consensus (Walker 1996; Psaty et al. 1999; Salas et al. 1999; Schneeweiss & Avorn 2005; Schneeweiss 2006, 2007):**
+   - Confounding by indication arises when the clinical indication for prescribing a drug is itself an independent determinant or risk factor for the adverse outcome under surveillance.
+   - The direction and magnitude of this bias are fundamentally heterogeneous:
+     - **Severity Channeling (Inflation):** Preferential prescribing of potent agents to higher-risk patients with progressive disease inflates observed hazard ratios / disproportionality (e.g., channeling high-potency antihypertensives to refractory hypertensive cohorts at high baseline stroke/MI risk).
+     - **Protective Channeling / Contraindication Bias (Attenuation):** Avoiding certain agents in fragile patients artificially suppresses adverse event incidence in the treated group.
+     - **Protopathic Bias:** Prescribing a medication for early, undiagnosed prodromal symptoms of the adverse endpoint (e.g., acid suppressants for early gastric malignancy; analgesics for occult bone metastasis).
+   - Across published epidemiological cohorts, estimated bias factors range from small attenuations (e.g., $1.2$ to $1.7$) to severe distortions exceeding $20$-fold depending on disease prevalence, treatment penetration, and indication severity.
+2. **Sensitivity Analysis & Quantitative Bias Analysis (VanderWeele & Ding 2017):**
+   - The E-value framework defines the minimum strength of association an unmeasured confounder must have with both exposure and outcome to fully explain away an observed effect estimate.
+   - While the E-value quantifies robustness post-hoc, it does not prescribe a universal numeric deduction factor: the required confounder strength depends on the point estimate and lower confidence limit of the specific study.
+3. **Spontaneous Reporting Systems (FAERS, VigiBase, EudraVigilance) vs. Longitudinal Cohorts:**
+   - In longitudinal electronic health records (EHR) and claims databases, confounding by indication can be quantitatively mitigated through active comparator new-user designs (ACNU), high-dimensional propensity score (hdPS) calibration, instrumental variables, or marginal structural models.
+   - In spontaneous reporting systems (SRS) such as FAERS, patient denominator data, clinical disease severity, baseline lab values, and longitudinal treatment duration are largely absent.
+   - Prominent pharmacovigilance guidelines (EMA Guideline on Good Pharmacovigilance Practices [GVP] Module IX on Signal Management; CIOMS Working Group VIII) and statistical signal detection literature (Bate & Evans 2009; Ryan et al. 2013) **unanimously reject universal numeric discount factors**. Instead, regulatory bodies mandate:
+     - Qualitative flagging and expert multidisciplinary triage annotation;
+     - Stratified disproportionality or restricted comparator sets (e.g., restricting the reference background to patients with the same therapeutic indication);
+     - Empirical Bayesian shrinkage (EBGM, BCPNN Information Component) applied uniformly across all drug-event pairs to shrink small-count noise toward the null.
+4. **Step 1 Literature Finding Conclusion:**
+   - **No general, portable numeric constant exists in the pharmacoepidemiological literature.**
+   - Any assertion that the literature justifies a specific scalar discount (e.g., "literature proves a 15% or 25% discount") is false and methodologically dishonest. If a numeric discount is introduced into an automated triage pipeline, it must be recognized candidly as an **uncalibrated heuristic prior** (under the discipline of §18), not an empirically estimated natural constant.
+
+---
+
+### 2. Precedent Analysis: LLM-Derived Dynamic Discounting vs. Deterministic Heuristics
+
+In §28, PharmaGuard implemented `ConfoundingTool` (`pharmaguard/tools/confounding.py`) to address polypharmacy co-prescription confounding (e.g., `metformin::hypoglycaemia` co-prescribed with sulfonylureas/insulin). That tool prompted an LLM to output an assessment containing a continuous `discount_factor` (0.0 to 1.0).
+
+However, §28's own "Mandatory Epistemic Self-Probe" revealed critical limitations:
+1. **Parametric Memorization vs. Reasoning:** Across probe cases, the LLM exhibited clear markers of memorized clinical recall (quoting standard American Diabetes Association multi-drug guidelines) rather than computing statistical co-reporting ratios from raw data.
+2. **Run-to-Run Variance:** Even at `temperature=0.0`, identical prompts produced non-deterministic outputs across sessions (e.g., `discount_factor: 0.10` in an isolated probe vs. `0.20` in the pipeline run).
+3. **Severe Memorization Hazard for Indication Concordance:**
+   - If an LLM is prompted per pair with: *"Given drug X and event Y, how much should indication overlap discount the signal?"*, the LLM inevitably accesses its training data regarding the historical regulatory consensus on pair X::Y.
+   - For example, for `rosiglitazone::myocardial_infarction`, an LLM already "knows" that the 2007 Nissen meta-analysis and FDA black box warning linked the drug to ischemic risk; for `atorvastatin::dementia`, it "knows" that statins are generally considered cognitively protective or neutral.
+   - Consequently, any LLM-derived discount factor for indication concordance would be heavily contaminated by retrospective outcome memorization, creating catastrophic circularity and violating §17, §19, and §27.
+
+**Architectural Invariant:** LLM-derived per-pair discounting is categorically rejected for indication concordance. All concordance evaluations and discount calculations must remain strictly closed-form, deterministic, and rule-based.
+
+---
+
+### 3. Step 2: Evaluation of Architectural Approaches & Decision
+
+We evaluated the three pre-registered design alternatives:
+
+| Approach | Description | Degrees of Freedom | Primary Strengths | Primary Risks & Weaknesses | Decision |
+| :--- | :--- | :---: | :--- | :--- | :---: |
+| **Approach (a)** | **Single Fixed Uniform Multiplier** ($\delta = 0.85$) applied to FAERS PRR sub-score when `concordant == True`, identical across all 7 rules. | 1 | Minimal parameter space; prevents rule-specific snooping; uniform treatment; simple to ablate and falsify. | Lacks clinical nuance across distinct therapeutic areas; scalar value is an uncalibrated prior. | **SELECTED (Experimental Hypothesis)** |
+| **Approach (b)** | **Per-Rule Fixed Discounts** (7 pre-specified values $\delta_1, \dots, \delta_7$, one per IND-CONF rule). | 7 | Clinically differentiated by disease severity and baseline risk. | 7 ungrounded free parameters; invites unconscious fitting to benchmark intuitions (§15 trap); pseudo-precision without literature support. | **REJECTED** |
+| **Approach (c)** | **Purely Informational Flag (Permanent Status)** (No numeric discount; flag annotates reports only per §35). | 0 | 100% faithful to literature consensus that no universal scalar constant exists; zero scoring interference. | Automated triage decisions (`ESCALATE` / `MONITOR`) remain completely unadjusted; requires human mental math. | **SELECTED (Production Default Baseline)** |
+
+#### Justification for Selected Design (Dual-Track Architecture):
+
+1. **Rejection of Approach (b):** Assigning 7 different discount percentages across the 7 rules without empirical data is unscientific guesswork. It multiplies degrees of freedom by $7\times$ and creates an illusion of pharmacological precision that cannot be defended.
+2. **Reconciliation of (a) and (c):**
+   - The literature finding in Step 1 establishes that Approach (c) is the most scientifically conservative stance: confounding by indication cannot be reduced to a fixed scalar without clinical context.
+   - However, in high-throughput postmarketing surveillance, an automated triage system that does not modulate confidence when severe channeling bias is suspected risks escalating spurious disproportionality artifacts.
+   - Therefore, PharmaGuard establishes a **dual-track architecture**:
+     - **Production Baseline (Approach c):** By default, `indication_concordance.discount_enabled: false`. The informational flag (§35) remains 100% scoring-inert in production, preserving existing benchmark invariants.
+     - **Pre-Registered Experimental Ablation (Approach a):** A single uniform discount multiplier ($\delta_{\text{indication}} = 0.85$, a conservative 15% reduction) is specified and frozen as the exact ablation candidate for Phase 3 testing against the held-out validation batch (§36).
+
+---
+
+### 4. Step 3: Mathematical Formulation & Formula Placement
+
+#### 4.1 Placement in Confidence Architecture
+
+The discount multiplier is applied **strictly and exclusively to the FAERS PRR disproportionality sub-score ($S_{\text{FAERS}}$)** before composite evidence fusion:
+
+$$\text{adjusted\_prr\_score} = \text{round}(\text{prr\_score} \times \delta_{\text{indication}}, 4) \quad \text{when } \text{concordant} = \text{True}$$
+
+where $\delta_{\text{indication}} = 0.85$ (when `discount_enabled = true`). If `concordant = False`, $\delta_{\text{indication}} = 1.00$.
+
+#### 4.2 Principled Justification for PRR-Score Placement vs. Alternatives
+
+We considered three potential injection points:
+
+1. **Multiplying Final Composite Confidence ($\text{confidence}_{\text{adj}} = \text{confidence} \times \delta$):**  
+   *Rejected as unprincipled.* Confounding by indication is an epidemiological phenomenon that biases *reporting disproportionality in FAERS*. It does **not** degrade the validity of receptor-level molecular pharmacology in ChEMBL ($S_{\text{ChEMBL}}$) or peer-reviewed mechanistic/clinical literature in PubMed ($S_{\text{PubMed}}$). Penalizing final confidence would improperly discount orthogonal, unconfounded biological and clinical evidence.
+2. **Shifting Escalation Decision Thresholds (e.g., raising escalation threshold from 0.70 to 0.75):**  
+   *Rejected under §18.* Modifying global decision thresholds creates non-linear boundary shifts that destabilize the entire triage taxonomy and affect non-concordant pairs.
+3. **Discounting the FAERS Sub-Score ($S_{\text{FAERS}}$) Prior to Fusion:**  
+   *Adopted.* This directly isolates the adjustment to the confounded evidence channel. It mirrors the exact architectural placement established in §28 for polypharmacy confounding:
+   $$\text{confidence} = 0.40 \times \text{adjusted\_prr\_score} + 0.40 \times S_{\text{PubMed}} + 0.20 \times S_{\text{ChEMBL}}$$
+   This maintains:
+   - The deterministic 3-argument signature of `compute_confidence()`;
+   - The frozen linear weights ($0.40 / 0.40 / 0.20$);
+   - The hard safety gates in `derive_escalation()` (the unconditional `NO_SIGNAL` hard stop remains fully active).
+
+#### 4.3 Mathematical Impact of $\delta = 0.85$ (15% Conservative Reduction)
+
+The discount dampens disproportionality without collapsing genuine multi-evidence signals:
+
+| FAERS Discrete Tier | Raw `prr_score` | Discounted `prr_score` ($\delta = 0.85$) | $\Delta S_{\text{FAERS}}$ | $\Delta \text{Confidence}$ ($0.40 \times \Delta S_{\text{FAERS}}$) |
+| :--- | :---: | :---: | :---: | :---: |
+| **STRONG** (PRR $\ge 5.0$, LCI $\ge 2.0$) | $1.00$ | $0.8500$ | $-0.1500$ | $-0.0600$ |
+| **MODERATE** (PRR $\ge 3.0$ or LCI $\ge 1.5$) | $0.66$ | $0.5610$ | $-0.0990$ | $-0.0396$ |
+| **WEAK** (PRR $\ge 2.0$ or chronic) | $0.33$ | $0.2805$ | $-0.0495$ | $-0.0198$ |
+| **NO_SIGNAL** (PRR $< 2.0$ or LCI $\le 1.0$) | $0.00$ | $0.0000$ | $0.0000$ | $0.0000$ (Hard Gate Unchanged) |
+
+*Safety Invariant:* A true positive signal with Grade A literature ($0.40$) and High plausibility ($0.20$) achieves $0.60$ from non-FAERS streams. Even with a discounted PRR sub-score ($0.85 \times 0.40 = 0.34$), its confidence remains $0.9400$, safely above the $0.70$ escalation threshold. The discount selectively modulates borderline cases where a high FAERS signal alone is propping up an uncorroborated indication-confounded hypothesis.
+
+#### 4.4 Composition Rule with Polypharmacy Confounding
+
+When both polypharmacy confounding (§28) and indication concordance discounting are enabled:
+
+$$\text{adjusted\_prr\_score} = \text{round}(\text{prr\_score} \times \delta_{\text{confounding}} \times \delta_{\text{indication}}, 4)$$
+
+subject to clamping within $[0.00, 1.00]$. Both discounts target distinct epidemiological phenomena (co-medication vs. disease indication) and compose multiplicatively on the reporting sub-score.
+
+#### 4.5 Configuration Schema Specification
+
+To guarantee additive backward compatibility, the feature is specified as an opt-in configuration in `configs/config.yaml`:
+
+```yaml
+indication_concordance:
+  discount_enabled: false   # Default false: preserves scoring-inert baseline (Proposal D / §35)
+  discount_factor: 0.85    # Pre-registered uniform discount multiplier when concordant=True
+```
+
+---
+
+### 5. Anti-Contamination & Integrity Audit Confirmation
+
+1. **Zero Data Snooping:** Neither the single discount value ($\delta = 0.85$) nor the formula placement was chosen, tuned, or verified against any outcome data from:
+   - The 15 core benchmark pairs;
+   - The 32 Stage 1 OMOP pilot pairs;
+   - The 40 held-out OMOP validation batch pairs curated in §36.
+2. **Pre-Validation Lock:** This design document formally pre-registers the discount factor mechanism.
+3. **Status:** **Phase 3 validation against the §36 held-out batch has not yet begun.** No code modifications have been committed to `fixed_pipeline.py` or `output_schema.py` for this discount factor, and no test runs have been executed.
+
+
