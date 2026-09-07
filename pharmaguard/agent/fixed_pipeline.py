@@ -4,10 +4,10 @@ Runs a strict, deterministic sequence: Faers -> Chembl -> PubMed.
 """
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Optional, Literal
 from pathlib import Path
 
-from pharmaguard.utils.config_loader import load_config
+from pharmaguard.utils.config_loader import load_config, AppConfig
 from pharmaguard.utils.prompt_loader import PromptLoader
 from pharmaguard.agent.transcript_logger import TranscriptLogger
 from pharmaguard.tools.cache import ToolCache
@@ -17,11 +17,10 @@ from pharmaguard.tools.pubmed_tool import PubMedTool
 from pharmaguard.tools.indication_concordance import IndicationConcordanceTool
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
-    compute_prr_score, compute_prr_score_ci_based, compute_confidence, derive_escalation, SignalStrength, EvidenceGrade, PlausibilityLevel, EscalationDecision, PlausibilitySource,
+    compute_prr_score, compute_prr_score_ci_based, compute_confidence, derive_escalation, apply_indication_discount, SignalStrength, EvidenceGrade, PlausibilityLevel, EscalationDecision, PlausibilitySource,
     LeakageCritique
 )
 from pydantic import BaseModel, Field
-from typing import Literal
 
 logger = logging.getLogger(__name__)
 
@@ -39,9 +38,9 @@ def extract_text(content) -> str:
     return str(content)
 
 class FixedPipelineAgent:
-    def __init__(self, run_id: str, cache_dir: str = ".cache/pharmaguard"):
+    def __init__(self, run_id: str, cache_dir: str = ".cache/pharmaguard", config: Optional[AppConfig] = None):
         self.run_id = run_id
-        self.config = load_config()
+        self.config = config or load_config()
         self.cache = ToolCache(cache_dir=Path(cache_dir)) if self.config.cache.enabled else None
         self.prompt_loader = PromptLoader()
         self.tlog = TranscriptLogger(run_id=run_id)
@@ -292,6 +291,19 @@ class FixedPipelineAgent:
             # Informational confounding-by-indication assessment (DECISIONS.md §35)
             # Strictly scoring-inert: computed from drug + event alone with zero data dependency on scoring.
             ind_conc = self.indication_tool.check(drug, event)
+
+            # Optional indication concordance discount (DECISIONS.md §37)
+            # Gated behind indication_concordance.discount_enabled (default false)
+            ind_cfg = getattr(self.config, "indication_concordance", None)
+            if ind_cfg and getattr(ind_cfg, "discount_enabled", False):
+                df = getattr(ind_cfg, "discount_factor", 0.85)
+                discounted_prr_score = apply_indication_discount(s_out.prr_score, ind_conc.concordant, df)
+                if discounted_prr_score != s_out.prr_score:
+                    conf = compute_confidence(discounted_prr_score, eg_str, plaus_level)
+                    esc = derive_escalation(conf, ss_label)
+                    s_out.prr_score = discounted_prr_score
+                    t_out.confidence = conf
+                    t_out.escalation = esc
 
             report = TriageReport(
                 run_id=self.run_id,

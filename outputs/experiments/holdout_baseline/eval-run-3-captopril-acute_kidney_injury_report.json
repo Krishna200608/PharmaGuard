@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-3-captopril-acute_kidney_injury",
+  "timestamp": "2026-09-07T19:50:24.488563Z",
+  "prompts_version": "v1.1",
+  "drug": "captopril",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 2.6214518372288764,
+    "ror": 2.652903114071607,
+    "prr_lower_ci": 2.279377218041606,
+    "ror_lower_ci": 2.3004815926381226,
+    "report_count": 193,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-04T17:24:27.508812Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "ACE inhibitors reduce intraglomerular pressure by dilating the efferent arteriole. In patients with renal artery stenosis, volume depletion, or heart failure, this reduction in perfusion pressure can lead to a significant decline in glomerular filtration rate, manifesting as acute kidney injury.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"captopril\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 2,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42077598",
+      "28702139"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains language indicating an adverse event profile, qualifying for Grade B criteria. The second abstract is empty, resulting in no additional evidence."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.532,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": true,
+    "overlap_category": "Renal Dysfunction & Hemodynamic Azotemia",
+    "rationale": "Hemodynamic Perturbation in Compromised Patients: Diuretics and RAS inhibitors are indicated for hypertension, heart failure, and diabetic nephropathy where baseline renal hemodynamics are severely fragile.",
+    "rule_source": "Schoolwerth AC et al. (2001) Circulation 104(16):1985–1991; Moran SM, Myers BD. (1985) Kidney Int 27(6):928–937; Lapi F, Azoulay L, Yin H, Nessim SJ, Suissa S. (2013) BMJ 346:e8525."
+  },
+  "source_agreement": "DISCORDANT"
+}

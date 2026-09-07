@@ -25,11 +25,11 @@ from pharmaguard.tools.indication_concordance import IndicationConcordanceTool
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
     SignalStrength, EscalationDecision, PlausibilityLevel,
-    compute_prr_score, compute_prr_score_ci_based, compute_confidence, derive_escalation, EvidenceGrade, PlausibilitySource,
+    compute_prr_score, compute_prr_score_ci_based, compute_confidence, derive_escalation, apply_indication_discount, EvidenceGrade, PlausibilitySource,
     LeakageCritique
 
 )
-from pharmaguard.utils.config_loader import load_config
+from pharmaguard.utils.config_loader import load_config, AppConfig
 
 logger = logging.getLogger(__name__)
 
@@ -60,9 +60,9 @@ class AgentState(TypedDict):
     agent_reasoning_trace: list[str]
 
 class PharmaGuardAgent:
-    def __init__(self, run_id: str, cache_dir: str = ".cache/pharmaguard"):
+    def __init__(self, run_id: str, cache_dir: str = ".cache/pharmaguard", config: Optional[AppConfig] = None):
         self.run_id = run_id
-        self.config = load_config()
+        self.config = config or load_config()
         self.cache = ToolCache(cache_dir=Path(cache_dir)) if self.config.cache.enabled else None
         self.prompt_loader = PromptLoader()
         self.tlog = TranscriptLogger(run_id=run_id)
@@ -425,6 +425,19 @@ class PharmaGuardAgent:
         # Informational confounding-by-indication assessment (DECISIONS.md §35)
         # Strictly scoring-inert: computed from drug + event alone with zero data dependency on scoring.
         ind_conc = self.indication_tool.check(state["drug"], state["event"])
+
+        # Optional indication concordance discount (DECISIONS.md §37)
+        # Gated behind indication_concordance.discount_enabled (default false)
+        ind_cfg = getattr(self.config, "indication_concordance", None)
+        if ind_cfg and getattr(ind_cfg, "discount_enabled", False):
+            df = getattr(ind_cfg, "discount_factor", 0.85)
+            discounted_prr_score = apply_indication_discount(s_out.prr_score, ind_conc.concordant, df)
+            if discounted_prr_score != s_out.prr_score:
+                conf = compute_confidence(discounted_prr_score, eg_str, plaus)
+                esc = derive_escalation(conf, ss_label)
+                s_out.prr_score = discounted_prr_score
+                t_out.confidence = conf
+                t_out.escalation = esc
 
         return TriageReport(
             run_id=self.run_id,

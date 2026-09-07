@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-21-acetazolamide-hepatotoxicity",
+  "timestamp": "2026-09-07T19:59:20.058474Z",
+  "prompts_version": "v1.1",
+  "drug": "acetazolamide",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 0.45270860881151737,
+    "ror": 0.4524464960762738,
+    "prr_lower_ci": 0.14603341877698064,
+    "ror_lower_ci": 0.14586979100940983,
+    "report_count": 3,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:54:48.255735Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"acetazolamide\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 2,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "27906037",
+      "2049897"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The first abstract mentions 'nevirapine-associated adverse events, including hepatotoxicity' and the second abstract discusses 'adverse effects' of AED therapy. Since these abstracts contain language indicating adverse events but lack statistical significance (p-values, confidence intervals, etc.), they qualify for Grade B."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

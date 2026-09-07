@@ -1,0 +1,114 @@
+============================================================
+OMOP Holdout Discounted (discount_enabled=True, 0.85) Evaluation Report
+Pairs evaluated: 40 / 40
+============================================================
+
+--- STRICT METRICS (Primary) ---
+TP: 2, FP: 0, TN: 20, FN: 18
+Precision  : 1.000
+Recall     : 0.100
+Specificity: 1.000
+F1-Score   : 0.182
+
+--- LENIENT METRICS (Secondary) ---
+TP: 7, FP: 1, TN: 19, FN: 13
+Precision  : 0.875
+Recall     : 0.350
+Specificity: 0.950
+F1-Score   : 0.500
+
+--- 95% CONFIDENCE INTERVALS (Bootstrap B=1000, Seed=42 / Wilson Score) ---
+Strict:
+  Precision  : 1.000  [Bootstrap 95% CI: 0.000 - 1.000]  [Wilson Score: 0.342 - 1.000]
+  Recall     : 0.100  [Bootstrap 95% CI: 0.000 - 0.250]  [Wilson Score: 0.028 - 0.301]
+  Specificity: 1.000  [Bootstrap 95% CI: 1.000 - 1.000]  [Wilson Score: 0.839 - 1.000]
+  F1-Score   : 0.182  [Bootstrap 95% CI: 0.000 - 0.400]
+Lenient:
+  Precision  : 0.875  [Bootstrap 95% CI: 0.599 - 1.000]  [Wilson Score: 0.529 - 0.978]
+  Recall     : 0.350  [Bootstrap 95% CI: 0.150 - 0.556]  [Wilson Score: 0.181 - 0.567]
+  Specificity: 0.950  [Bootstrap 95% CI: 0.833 - 1.000]  [Wilson Score: 0.764 - 0.991]
+  F1-Score   : 0.500  [Bootstrap 95% CI: 0.240 - 0.692]
+
+--- CATEGORY BREAKDOWN ---
+
+Category: omop_confirmed_positive (Count: 20)
+  Strict -> TP: 2, FP: 0, TN: 0, FN: 18 | P: 1.00, R: 0.10, S: 0.00
+  Lenient-> TP: 7, FP: 0, TN: 0, FN: 13 | P: 1.00, R: 0.35, S: 0.00
+
+Category: omop_negative_control (Count: 20)
+  Strict -> TP: 0, FP: 0, TN: 20, FN: 0 | P: 0.00, R: 0.00, S: 1.00
+  Lenient-> TP: 0, FP: 1, TN: 19, FN: 0 | P: 0.00, R: 0.00, S: 0.95
+
+--- FAILURE MODES ---
+Over-Caution Rate (MONITOR on known negatives): 5.0% (1/20)
+
+--- DISAGREEMENTS (Expected != Actual) ---
+- candesartan::acute_kidney_injury (omop_confirmed_positive): Expected ESCALATE, Got MONITOR
+- clindamycin::gastrointestinal_haemorrhage (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- clopidogrel::gastrointestinal_haemorrhage (omop_confirmed_positive): Expected ESCALATE, Got MONITOR
+- diflunisal::gastrointestinal_haemorrhage (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- escitalopram::gastrointestinal_haemorrhage (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- etodolac::gastrointestinal_haemorrhage (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- capreomycin::acute_kidney_injury (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- acetazolamide::hepatotoxicity (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- alatrofloxacin::hepatotoxicity (omop_confirmed_positive): Expected ESCALATE, Got MONITOR
+- bortezomib::hepatotoxicity (omop_confirmed_positive): Expected ESCALATE, Got MONITOR
+- bosentan::hepatotoxicity (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- captopril::acute_kidney_injury (omop_confirmed_positive): Expected ESCALATE, Got MONITOR
+- almotriptan::myocardial_infarction (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- amoxapine::myocardial_infarction (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- bromocriptine::myocardial_infarction (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- desipramine::myocardial_infarction (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- diflunisal::myocardial_infarction (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- chlorothiazide::acute_kidney_injury (omop_confirmed_positive): Expected ESCALATE, Got DO_NOT_ESCALATE
+- benzonatate::acute_kidney_injury (omop_negative_control): Expected DO_NOT_ESCALATE, Got MONITOR
+
+============================================================
+--- THERAPEUTIC AREA STRATIFICATION -- ATC LEVEL 1 ---
+============================================================
+Code | Therapeutic Area                     |  n | Status       | Strict F1 | Strict (P/R/Sp)     | Lenient F1 | Lenient (P/R/Sp)
+------------------------------------------------------------------------------------------------------------------------
+A    | Alimentary tract and metabolism      |  2 | [Exploratory] | N/A       | N/A/N/A/1.00        | N/A        | N/A/N/A/1.00
+C    | Cardiovascular system                |  3 | [Exploratory] | 0.000     | N/A/0.00/1.00       | 1.000      | 1.00/1.00/1.00
+J    | Antiinfectives for systemic use      |  1 | [Exploratory] | 0.000     | N/A/0.00/N/A        | 0.000      | N/A/0.00/N/A
+M    | Musculo-skeletal system              |  1 | [Exploratory] | 1.000     | 1.00/1.00/N/A       | 1.000      | 1.00/1.00/N/A
+UNRESOLVED | Unresolved Area                      | 33 | [Reportable] | 0.111     | 1.00/0.06/1.00      | 0.435      | 0.83/0.29/0.94
+
+--- DETAILED STRATUM BREAKDOWN (Wilson 95% Confidence Intervals) ---
+
+Stratum A: Alimentary tract and metabolism (n=2) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 0, FP: 0, TN: 2, FN: 0 | Precision: N/A (Wilson: N/A), Recall: N/A (Wilson: N/A), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: N/A
+  Lenient-> TP: 0, FP: 0, TN: 2, FN: 0 | Precision: N/A (Wilson: N/A), Recall: N/A (Wilson: N/A), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: N/A
+
+Stratum C: Cardiovascular system (n=3) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 0, FP: 0, TN: 2, FN: 1 | Precision: N/A (Wilson: N/A), Recall: 0.000 (Wilson: [0.000 - 0.793]), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: 0.000
+  Lenient-> TP: 1, FP: 0, TN: 2, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: 1.000 (Wilson: [0.342 - 1.000]), F1: 1.000
+
+Stratum J: Antiinfectives for systemic use (n=1) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 0, FP: 0, TN: 0, FN: 1 | Precision: N/A (Wilson: N/A), Recall: 0.000 (Wilson: [0.000 - 0.793]), Specificity: N/A (Wilson: N/A), F1: 0.000
+  Lenient-> TP: 0, FP: 0, TN: 0, FN: 1 | Precision: N/A (Wilson: N/A), Recall: 0.000 (Wilson: [0.000 - 0.793]), Specificity: N/A (Wilson: N/A), F1: 0.000
+
+Stratum M: Musculo-skeletal system (n=1) [EXPLORATORY: n < 5 - interpret with caution]
+  Strict -> TP: 1, FP: 0, TN: 0, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: N/A (Wilson: N/A), F1: 1.000
+  Lenient-> TP: 1, FP: 0, TN: 0, FN: 0 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 1.000 (Wilson: [0.207 - 1.000]), Specificity: N/A (Wilson: N/A), F1: 1.000
+
+Stratum UNRESOLVED: Unresolved Area (n=33)
+  Strict -> TP: 1, FP: 0, TN: 16, FN: 16 | Precision: 1.000 (Wilson: [0.207 - 1.000]), Recall: 0.059 (Wilson: [0.010 - 0.270]), Specificity: 1.000 (Wilson: [0.806 - 1.000]), F1: 0.111
+  Lenient-> TP: 5, FP: 1, TN: 15, FN: 12 | Precision: 0.833 (Wilson: [0.436 - 0.970]), Recall: 0.294 (Wilson: [0.133 - 0.531]), Specificity: 0.938 (Wilson: [0.717 - 0.989]), F1: 0.435
+
+============================================================
+--- ATC ANNOTATION COVERAGE & MULTI-ATC PROVENANCE ---
+============================================================
+Total unique benchmark drugs        : 27
+Resolved via ChEMBL API             : 5
+Resolved via fallback (known gaps)  : 0 (None)
+Unresolved                          : 22
+Total resolution coverage           : 18.5%
+Drugs with multiple ATC codes       : 2
+Drugs spanning multiple Level 1s    : 1
+
+SCIENTIFIC METHODOLOGY NOTE:
+  ATC classification provides drug-class / therapeutic context. It does NOT identify
+  patient-level indication, why the patient was prescribed the drug, or actual duration.
+  Strata with n < 5 are marked [EXPLORATORY] to prevent spurious ranking of small samples.
+============================================================

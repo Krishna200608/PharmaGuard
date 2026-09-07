@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-29-ergotamine-hepatotoxicity",
+  "timestamp": "2026-09-07T19:59:24.084623Z",
+  "prompts_version": "v1.1",
+  "drug": "ergotamine",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 1.840242811801644,
+    "ror": 1.8418807120195808,
+    "prr_lower_ci": 0.25969699672203683,
+    "ror_lower_ci": 0.2589378967732882,
+    "report_count": 1,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:56:34.722031Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"ergotamine\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

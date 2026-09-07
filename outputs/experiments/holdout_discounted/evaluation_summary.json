@@ -1,0 +1,1797 @@
+{
+  "title": "OMOP Holdout Discounted (discount_enabled=True, 0.85)",
+  "pairs_evaluated": 40,
+  "pairs_total": 40,
+  "strict_metrics": {
+    "TP": 2,
+    "FP": 0,
+    "TN": 20,
+    "FN": 18,
+    "precision": 1.0,
+    "recall": 0.1,
+    "specificity": 1.0,
+    "f1": 0.18181818181818182,
+    "wilson_ci": {
+      "precision": [
+        0.3423811429771653,
+        1.0
+      ],
+      "recall": [
+        0.027866546182390844,
+        0.3010331406064425
+      ],
+      "specificity": [
+        0.8388753915139584,
+        1.0
+      ]
+    },
+    "bootstrap_ci": {
+      "precision": [
+        0.0,
+        1.0
+      ],
+      "recall": [
+        0.0,
+        0.25
+      ],
+      "specificity": [
+        1.0,
+        1.0
+      ],
+      "f1": [
+        0.0,
+        0.4
+      ]
+    }
+  },
+  "lenient_metrics": {
+    "TP": 7,
+    "FP": 1,
+    "TN": 19,
+    "FN": 13,
+    "precision": "0.833",
+    "recall": "0.294",
+    "specificity": "0.938",
+    "f1": "0.435",
+    "wilson_ci": {
+      "precision": [
+        0.5291125505820761,
+        0.9775824440946951
+      ],
+      "recall": [
+        0.18119207593203251,
+        0.5671453066137799
+      ],
+      "specificity": [
+        0.7638693265397754,
+        0.991118525822787
+      ]
+    },
+    "bootstrap_ci": {
+      "precision": [
+        0.5992857142857143,
+        1.0
+      ],
+      "recall": [
+        0.15,
+        0.5555555555555556
+      ],
+      "specificity": [
+        0.8333333333333334,
+        1.0
+      ],
+      "f1": [
+        0.24000000000000002,
+        0.6923076923076924
+      ]
+    }
+  },
+  "over_caution_rate": 0.05,
+  "category_metrics": {
+    "omop_confirmed_positive": {
+      "strict": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 0,
+        "FN": 18
+      },
+      "lenient": {
+        "TP": 7,
+        "FP": 0,
+        "TN": 0,
+        "FN": 13
+      },
+      "count": 20
+    },
+    "omop_negative_control": {
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 20,
+        "FN": 0
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 1,
+        "TN": 19,
+        "FN": 0
+      },
+      "count": 20
+    }
+  },
+  "therapeutic_area_metrics": {
+    "A": {
+      "code": "A",
+      "name": "Alimentary tract and metabolism",
+      "n": 2,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "records": [
+        "acarbose::gastrointestinal_haemorrhage",
+        "acarbose::myocardial_infarction"
+      ]
+    },
+    "C": {
+      "code": "C",
+      "name": "Cardiovascular system",
+      "n": 3,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 2,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.342,
+          1.0
+        ]
+      },
+      "records": [
+        "adenosine::gastrointestinal_haemorrhage",
+        "captopril::acute_kidney_injury",
+        "adenosine::acute_kidney_injury"
+      ]
+    },
+    "J": {
+      "code": "J",
+      "name": "Antiinfectives for systemic use",
+      "n": 1,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "clindamycin::gastrointestinal_haemorrhage"
+      ]
+    },
+    "M": {
+      "code": "M",
+      "name": "Musculo-skeletal system",
+      "n": 1,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": null,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": null,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "allopurinol::acute_kidney_injury"
+      ]
+    },
+    "UNRESOLVED": {
+      "code": "UNRESOLVED",
+      "name": "Unresolved Area",
+      "n": 33,
+      "is_exploratory": false,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 16,
+        "FN": 16,
+        "precision": 1.0,
+        "recall": 0.059,
+        "specificity": 1.0,
+        "f1": 0.111,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.01,
+          0.27
+        ],
+        "specificity_ci": [
+          0.806,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 5,
+        "FP": 1,
+        "TN": 15,
+        "FN": 12,
+        "precision": 0.833,
+        "recall": 0.294,
+        "specificity": 0.938,
+        "f1": 0.435,
+        "precision_ci": [
+          0.436,
+          0.97
+        ],
+        "recall_ci": [
+          0.133,
+          0.531
+        ],
+        "specificity_ci": [
+          0.717,
+          0.989
+        ]
+      },
+      "records": [
+        "candesartan::acute_kidney_injury",
+        "clopidogrel::gastrointestinal_haemorrhage",
+        "diflunisal::gastrointestinal_haemorrhage",
+        "escitalopram::gastrointestinal_haemorrhage",
+        "etodolac::gastrointestinal_haemorrhage",
+        "abacavir::gastrointestinal_haemorrhage",
+        "benzocaine::gastrointestinal_haemorrhage",
+        "benzonatate::gastrointestinal_haemorrhage",
+        "capreomycin::acute_kidney_injury",
+        "abacavir::hepatotoxicity",
+        "acetazolamide::hepatotoxicity",
+        "alatrofloxacin::hepatotoxicity",
+        "bortezomib::hepatotoxicity",
+        "bosentan::hepatotoxicity",
+        "almotriptan::hepatotoxicity",
+        "benzocaine::hepatotoxicity",
+        "benzonatate::hepatotoxicity",
+        "droperidol::hepatotoxicity",
+        "ergotamine::hepatotoxicity",
+        "almotriptan::myocardial_infarction",
+        "amoxapine::myocardial_infarction",
+        "bromocriptine::myocardial_infarction",
+        "desipramine::myocardial_infarction",
+        "diflunisal::myocardial_infarction",
+        "acetazolamide::myocardial_infarction",
+        "benzonatate::myocardial_infarction",
+        "bromfenac::myocardial_infarction",
+        "chlorambucil::myocardial_infarction",
+        "chlorothiazide::acute_kidney_injury",
+        "almotriptan::acute_kidney_injury",
+        "benzocaine::acute_kidney_injury",
+        "benzonatate::acute_kidney_injury",
+        "bromfenac::acute_kidney_injury"
+      ]
+    }
+  },
+  "atc_coverage": {
+    "total_unique_drugs": 27,
+    "chembl_resolved": 5,
+    "fallback_resolved": 0,
+    "unresolved": 22,
+    "resolution_percentage": 18.5,
+    "multi_atc_count": 2,
+    "multi_level1_count": 1
+  },
+  "disagreements": [
+    {
+      "pair": "candesartan::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "clindamycin::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "clopidogrel::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "diflunisal::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "escitalopram::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "etodolac::gastrointestinal_haemorrhage",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "capreomycin::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "acetazolamide::hepatotoxicity",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "alatrofloxacin::hepatotoxicity",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "bortezomib::hepatotoxicity",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "bosentan::hepatotoxicity",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "captopril::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "MONITOR"
+    },
+    {
+      "pair": "almotriptan::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "amoxapine::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "bromocriptine::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "desipramine::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "diflunisal::myocardial_infarction",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "chlorothiazide::acute_kidney_injury",
+      "category": "omop_confirmed_positive",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE"
+    },
+    {
+      "pair": "benzonatate::acute_kidney_injury",
+      "category": "omop_negative_control",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "MONITOR"
+    }
+  ],
+  "records": [
+    {
+      "pair": "allopurinol::acute_kidney_injury",
+      "drug": "allopurinol",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "M",
+      "therapeutic_area": "Musculo-skeletal system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "allopurinol",
+        "atc_codes": [
+          "M04AA01",
+          "M04AA51"
+        ],
+        "all_atc_codes": [
+          "M04AA01",
+          "M04AA51"
+        ],
+        "primary_atc": "M04AA01",
+        "selected_atc": "M04AA01",
+        "secondary_atc_codes": [
+          "M04AA51"
+        ],
+        "therapeutic_area_code": "M",
+        "therapeutic_area": "Musculo-skeletal system",
+        "pharmacological_subgroup_code": "M04",
+        "pharmacological_subgroup": "Antigout preparations",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as daily long-term urate-lowering therapy for gout prevention.",
+        "selection_method": "monotherapy_priority",
+        "selection_rationale": "Prioritized plain allopurinol monotherapy (M04AA01) over fixed-dose combination code (M04AA51).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "candesartan::acute_kidney_injury",
+      "drug": "candesartan",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "candesartan",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "clindamycin::gastrointestinal_haemorrhage",
+      "drug": "clindamycin",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "clindamycin",
+        "atc_codes": [
+          "G01AA10",
+          "D10AF01",
+          "J01FF01"
+        ],
+        "all_atc_codes": [
+          "G01AA10",
+          "D10AF01",
+          "J01FF01"
+        ],
+        "primary_atc": "J01FF01",
+        "selected_atc": "J01FF01",
+        "secondary_atc_codes": [
+          "G01AA10",
+          "D10AF01"
+        ],
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J01",
+        "pharmacological_subgroup": "Antibacterials for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "systemic_route_priority",
+        "selection_rationale": "Prioritized systemic lincosamide antibacterial (J01FF01) over topical anti-acne (D10AF01) and vaginal (G01AA10).",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "clopidogrel::gastrointestinal_haemorrhage",
+      "drug": "clopidogrel",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "clopidogrel",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "diflunisal::gastrointestinal_haemorrhage",
+      "drug": "diflunisal",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "diflunisal",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "escitalopram::gastrointestinal_haemorrhage",
+      "drug": "escitalopram",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "escitalopram",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "etodolac::gastrointestinal_haemorrhage",
+      "drug": "etodolac",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "etodolac",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "abacavir::gastrointestinal_haemorrhage",
+      "drug": "abacavir",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "abacavir",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "acarbose::gastrointestinal_haemorrhage",
+      "drug": "acarbose",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "acarbose",
+        "atc_codes": [
+          "A10BF01"
+        ],
+        "all_atc_codes": [
+          "A10BF01"
+        ],
+        "primary_atc": "A10BF01",
+        "selected_atc": "A10BF01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A10",
+        "pharmacological_subgroup": "Drugs used in diabetes",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term or lifelong glycemic management in diabetes mellitus.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "adenosine::gastrointestinal_haemorrhage",
+      "drug": "adenosine",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "adenosine",
+        "atc_codes": [
+          "C01EB10"
+        ],
+        "all_atc_codes": [
+          "C01EB10"
+        ],
+        "primary_atc": "C01EB10",
+        "selected_atc": "C01EB10",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C01",
+        "pharmacological_subgroup": "Cardiac therapy",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Adenosine is administered as an acute, rapid IV bolus for paroxysmal supraventricular tachycardia conversion or diagnostic imaging.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "benzocaine::gastrointestinal_haemorrhage",
+      "drug": "benzocaine",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "benzocaine",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "benzonatate::gastrointestinal_haemorrhage",
+      "drug": "benzonatate",
+      "event": "gastrointestinal_haemorrhage",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "benzonatate",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "capreomycin::acute_kidney_injury",
+      "drug": "capreomycin",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "capreomycin",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "abacavir::hepatotoxicity",
+      "drug": "abacavir",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "abacavir",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "acetazolamide::hepatotoxicity",
+      "drug": "acetazolamide",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "acetazolamide",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "alatrofloxacin::hepatotoxicity",
+      "drug": "alatrofloxacin",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "alatrofloxacin",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "bortezomib::hepatotoxicity",
+      "drug": "bortezomib",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "bortezomib",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "bosentan::hepatotoxicity",
+      "drug": "bosentan",
+      "event": "hepatotoxicity",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "bosentan",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "almotriptan::hepatotoxicity",
+      "drug": "almotriptan",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "almotriptan",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "benzocaine::hepatotoxicity",
+      "drug": "benzocaine",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "benzocaine",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "benzonatate::hepatotoxicity",
+      "drug": "benzonatate",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "benzonatate",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "droperidol::hepatotoxicity",
+      "drug": "droperidol",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "droperidol",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "ergotamine::hepatotoxicity",
+      "drug": "ergotamine",
+      "event": "hepatotoxicity",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "ergotamine",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "captopril::acute_kidney_injury",
+      "drug": "captopril",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "captopril",
+        "atc_codes": [
+          "C09AA01"
+        ],
+        "all_atc_codes": [
+          "C09AA01"
+        ],
+        "primary_atc": "C09AA01",
+        "selected_atc": "C09AA01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C09",
+        "pharmacological_subgroup": "Agents acting on the renin-angiotensin system",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure).",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "almotriptan::myocardial_infarction",
+      "drug": "almotriptan",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "almotriptan",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "amoxapine::myocardial_infarction",
+      "drug": "amoxapine",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "amoxapine",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "bromocriptine::myocardial_infarction",
+      "drug": "bromocriptine",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "bromocriptine",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "desipramine::myocardial_infarction",
+      "drug": "desipramine",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "desipramine",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "diflunisal::myocardial_infarction",
+      "drug": "diflunisal",
+      "event": "myocardial_infarction",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "diflunisal",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "acarbose::myocardial_infarction",
+      "drug": "acarbose",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "A",
+      "therapeutic_area": "Alimentary tract and metabolism",
+      "utilization_class": "CHRONIC",
+      "therapeutic_context": {
+        "drug_canonical": "acarbose",
+        "atc_codes": [
+          "A10BF01"
+        ],
+        "all_atc_codes": [
+          "A10BF01"
+        ],
+        "primary_atc": "A10BF01",
+        "selected_atc": "A10BF01",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "A",
+        "therapeutic_area": "Alimentary tract and metabolism",
+        "pharmacological_subgroup_code": "A10",
+        "pharmacological_subgroup": "Drugs used in diabetes",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term or lifelong glycemic management in diabetes mellitus.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "acetazolamide::myocardial_infarction",
+      "drug": "acetazolamide",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "acetazolamide",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "benzonatate::myocardial_infarction",
+      "drug": "benzonatate",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "benzonatate",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "bromfenac::myocardial_infarction",
+      "drug": "bromfenac",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "bromfenac",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "chlorambucil::myocardial_infarction",
+      "drug": "chlorambucil",
+      "event": "myocardial_infarction",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "chlorambucil",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "chlorothiazide::acute_kidney_injury",
+      "drug": "chlorothiazide",
+      "event": "acute_kidney_injury",
+      "expected": "ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_confirmed_positive",
+      "is_gt_positive": true,
+      "is_gt_negative": false,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "chlorothiazide",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "adenosine::acute_kidney_injury",
+      "drug": "adenosine",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "ACUTE",
+      "therapeutic_context": {
+        "drug_canonical": "adenosine",
+        "atc_codes": [
+          "C01EB10"
+        ],
+        "all_atc_codes": [
+          "C01EB10"
+        ],
+        "primary_atc": "C01EB10",
+        "selected_atc": "C01EB10",
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C01",
+        "pharmacological_subgroup": "Cardiac therapy",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Adenosine is administered as an acute, rapid IV bolus for paroxysmal supraventricular tachycardia conversion or diagnostic imaging.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
+      }
+    },
+    {
+      "pair": "almotriptan::acute_kidney_injury",
+      "drug": "almotriptan",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "almotriptan",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "benzocaine::acute_kidney_injury",
+      "drug": "benzocaine",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "benzocaine",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "benzonatate::acute_kidney_injury",
+      "drug": "benzonatate",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "MONITOR",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "benzonatate",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    },
+    {
+      "pair": "bromfenac::acute_kidney_injury",
+      "drug": "bromfenac",
+      "event": "acute_kidney_injury",
+      "expected": "DO_NOT_ESCALATE",
+      "actual": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "is_gt_positive": false,
+      "is_gt_negative": true,
+      "therapeutic_area_code": "UNRESOLVED",
+      "therapeutic_area": "Unresolved Area",
+      "utilization_class": "UNKNOWN",
+      "therapeutic_context": {
+        "drug_canonical": "bromfenac",
+        "atc_codes": [],
+        "all_atc_codes": [],
+        "primary_atc": null,
+        "selected_atc": null,
+        "secondary_atc_codes": [],
+        "therapeutic_area_code": null,
+        "therapeutic_area": null,
+        "pharmacological_subgroup_code": null,
+        "pharmacological_subgroup": null,
+        "utilization_class": "UNKNOWN",
+        "utilization_rationale": "",
+        "selection_method": "",
+        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "atc_source": "unresolved",
+        "is_resolved": false
+      }
+    }
+  ]
+}

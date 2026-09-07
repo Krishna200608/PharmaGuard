@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-9-bromfenac-acute_kidney_injury",
+  "timestamp": "2026-09-07T19:59:13.885943Z",
+  "prompts_version": "v1.1",
+  "drug": "bromfenac",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 0.7029299057959444,
+    "ror": 0.7014051662191915,
+    "prr_lower_ci": 0.3164357530735245,
+    "ror_lower_ci": 0.3144585188721751,
+    "report_count": 6,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:51:46.737477Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"bromfenac\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

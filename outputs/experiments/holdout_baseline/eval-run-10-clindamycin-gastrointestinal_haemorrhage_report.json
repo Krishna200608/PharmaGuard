@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-10-clindamycin-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-07T19:52:02.719411Z",
+  "prompts_version": "v1.1",
+  "drug": "clindamycin",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 1.2937465186286021,
+    "ror": 1.2957102603789108,
+    "prr_lower_ci": 1.1514929286845805,
+    "ror_lower_ci": 1.1523436042645043,
+    "report_count": 282,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:51:58.576087Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Gastrointestinal hemorrhage is not a recognized or common side effect of lincosamides like clindamycin. While these antibiotics are strongly associated with Clostridioides difficile-associated diarrhea and pseudomembranous colitis, which can involve mucosal inflammation and occasionally bloody stools, the drug itself does not directly cause hemorrhage through systemic mechanisms or direct mucosal toxicity in the absence of secondary infection.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"clindamycin\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

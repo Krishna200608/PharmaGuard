@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-24-bosentan-hepatotoxicity",
+  "timestamp": "2026-09-07T19:55:47.362482Z",
+  "prompts_version": "v1.1",
+  "drug": "bosentan",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 2.9172858558505013,
+    "ror": 2.92320949907146,
+    "prr_lower_ci": 2.1784711830863457,
+    "ror_lower_ci": 2.180928662313407,
+    "report_count": 45,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:55:40.312072Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"bosentan\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "39171365",
+      "38902469",
+      "38179676",
+      "32290885",
+      "29719121"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: Multiple abstracts (PMIDs 39171365, 38902469, 38179676) contain language indicating an association between the drug and adverse events (e.g., 'associated with adverse hepatic effects', 'concerns about their hepatotoxicity', 'adverse reaction'), but none of the abstracts provide statistical evidence (p-values, confidence intervals, or specific risk ratios) required for a Grade A classification."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.332,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

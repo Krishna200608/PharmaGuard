@@ -17,7 +17,12 @@ from pharmaguard.agent.fixed_pipeline import FixedPipelineAgent
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def run_evaluation_set(eval_file: Path = None, output_dir: Path = None):
+def run_evaluation_set(
+    eval_file: Path = None,
+    output_dir: Path = None,
+    discount_enabled: bool = None,
+    discount_factor: float = None,
+):
     load_dotenv()
     
     project_root = Path(__file__).resolve().parents[1]
@@ -37,8 +42,16 @@ def run_evaluation_set(eval_file: Path = None, output_dir: Path = None):
         return
         
     config = load_config()
+    if discount_enabled is not None:
+        config.indication_concordance.discount_enabled = discount_enabled
+    if discount_factor is not None:
+        config.indication_concordance.discount_factor = discount_factor
+
     mode = config.agent.mode
-    logger.info(f"Running in mode: {mode}")
+    logger.info(
+        f"Running in mode: {mode} | discount_enabled: {config.indication_concordance.discount_enabled} | "
+        f"discount_factor: {config.indication_concordance.discount_factor}"
+    )
     
     if output_dir is None:
         output_dir = project_root / config.paths.output_dir
@@ -53,9 +66,9 @@ def run_evaluation_set(eval_file: Path = None, output_dir: Path = None):
         logger.info(f"Testing Pair {i+1}/{len(pairs)}: {drug} + {event} -> run_id: {run_id}")
         
         if mode == "react":
-            agent = PharmaGuardAgent(run_id=run_id)
+            agent = PharmaGuardAgent(run_id=run_id, config=config)
         else:
-            agent = FixedPipelineAgent(run_id=run_id)
+            agent = FixedPipelineAgent(run_id=run_id, config=config)
             
         try:
             report = agent.run(drug, event)
@@ -71,5 +84,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run evaluation set against a ground truth file.")
     parser.add_argument("--eval-file", type=Path, default=None, help="Path to ground truth JSON file.")
     parser.add_argument("--output-dir", type=Path, default=None, help="Directory to save report JSON files.")
+    parser.add_argument("--discount-enabled", dest="discount_enabled", action="store_true", default=None, help="Force enable indication concordance discount.")
+    parser.add_argument("--no-discount", dest="discount_enabled", action="store_false", default=None, help="Force disable indication concordance discount.")
+    parser.add_argument("--discount-factor", type=float, default=None, help="Override discount factor (default: 0.85).")
     args = parser.parse_args()
-    run_evaluation_set(eval_file=args.eval_file, output_dir=args.output_dir)
+    run_evaluation_set(
+        eval_file=args.eval_file,
+        output_dir=args.output_dir,
+        discount_enabled=args.discount_enabled,
+        discount_factor=args.discount_factor,
+    )

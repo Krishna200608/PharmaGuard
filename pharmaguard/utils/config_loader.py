@@ -69,11 +69,17 @@ class SignalDetectionConfig(BaseModel):
     ci_based_gate: CiBasedGateConfig = Field(default_factory=CiBasedGateConfig)
 
 
+class IndicationConcordanceConfig(BaseModel):
+    discount_enabled: bool = False
+    discount_factor: float = 0.85
+
+
 class AppConfig(BaseModel):
     agent: AgentConfig
     plausibility: PlausibilityConfig
     confounding: ConfoundingConfig = Field(default_factory=ConfoundingConfig)
     signal_detection: SignalDetectionConfig = Field(default_factory=SignalDetectionConfig)
+    indication_concordance: IndicationConcordanceConfig = Field(default_factory=IndicationConcordanceConfig)
     confidence_weights: ConfidenceWeightsConfig
     cache: CacheConfig
     apis: ApisConfig

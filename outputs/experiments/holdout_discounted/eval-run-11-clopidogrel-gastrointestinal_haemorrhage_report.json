@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-11-clopidogrel-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-07T19:59:14.912488Z",
+  "prompts_version": "v1.1",
+  "drug": "clopidogrel",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 7.739512055613835,
+    "ror": 8.0085892280195,
+    "prr_lower_ci": 7.507875694600174,
+    "ror_lower_ci": 7.759808959905983,
+    "report_count": 4170,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:52:13.664926Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"clopidogrel\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "36263117",
+      "23997925",
+      "22204719",
+      "15461878",
+      "12381215"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts contain multiple mentions of adverse effects (e.g., 'gastrointestinal haemorrhage' associated with clopidogrel) and clinical associations, but they do not meet the Grade A criteria of having two or more abstracts providing statistical evidence (e.g., p-values, confidence intervals, or specific statistical significance statements) for a specific drug-adverse event pair."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.6,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

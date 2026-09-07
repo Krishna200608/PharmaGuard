@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-17-adenosine-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-07T19:59:18.053325Z",
+  "prompts_version": "v1.1",
+  "drug": "adenosine",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 1.5577124035384906,
+    "ror": 1.562210084212188,
+    "prr_lower_ci": 0.995336484495066,
+    "ror_lower_ci": 0.9946115430744766,
+    "report_count": 19,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:53:41.799896Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Adenosine receptor agonists primarily affect cardiovascular conduction and vasodilation. There is no established pharmacological mechanism linking these receptors to the induction of gastrointestinal hemorrhage, and such an adverse event is not a recognized clinical side effect of adenosine therapy.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"adenosine\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 2,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "10514023",
+      "8918275"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The retrieved abstracts mention 'adverse effects' and 'risk of clinical thrombotic events' in a clinical context, which qualifies for Grade B criteria. No abstracts provided statistical significance data (p-values, confidence intervals, or specific association metrics), so it does not meet the threshold for Grade A."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

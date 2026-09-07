@@ -199,6 +199,22 @@ def compute_confidence(
     )
 
 
+def apply_indication_discount(
+    prr_score: float, concordant: bool, discount_factor: float = 0.85
+) -> float:
+    """
+    Apply a pre-specified discount factor to the FAERS PRR sub-score
+    when confounding by indication is suspected (concordant=True).
+    (DECISIONS.md §37)
+
+    Returns prr_score unchanged if concordant=False,
+    else round(prr_score * discount_factor, 4).
+    """
+    if not concordant:
+        return prr_score
+    return round(prr_score * discount_factor, 4)
+
+
 def derive_escalation(confidence: float, signal_strength: SignalStrength) -> EscalationDecision:
     """
     Deterministic escalation decision from confidence score and signal strength label.

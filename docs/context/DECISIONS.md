@@ -1396,6 +1396,109 @@ indication_concordance:
    - The 32 Stage 1 OMOP pilot pairs;
    - The 40 held-out OMOP validation batch pairs curated in §36.
 2. **Pre-Validation Lock:** This design document formally pre-registers the discount factor mechanism.
-3. **Status:** **Phase 3 validation against the §36 held-out batch has not yet begun.** No code modifications have been committed to `fixed_pipeline.py` or `output_schema.py` for this discount factor, and no test runs have been executed.
+3. **Status:** Phase 2 complete. Proceeding to Phase 3 live validation against the §36 held-out batch.
+
+---
+
+## 38. Held-Out OMOP Validation Results: Indication-Concordance Discount Factor (Sprint 4 — Phase 3)
+
+**Context:** Following the pre-registered design of the uniform indication-concordance discount factor ($\delta = 0.85$, §37), Phase 3 executed an empirical validation run against the untouched 40-pair held-out OMOP validation batch curated in §36 (`pharmaguard/data/ground_truth_omop_validation_holdout.json`).
+
+Per the protocol, two parallel evaluation runs were executed into isolated directories:
+- **Baseline Run (`holdout_baseline`):** `discount_enabled: false` (production baseline, scoring-inert flag per §35).
+- **Discounted Run (`holdout_discounted`):** `discount_enabled: true`, `discount_factor: 0.85` (§37 experimental hypothesis).
+
+Both runs were evaluated using `scripts/evaluator.py` against the identical ground truth definitions.
+
+---
+
+### 1. Full Pair-by-Pair Comparison Table (40 Held-Out OMOP Pairs)
+
+| # | Drug | Target Event | Ground Truth | Concordance Flag | Base PRR Score | Disc PRR Score | Base Conf | Disc Conf | Delta Conf | Final Decision |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 1 | `allopurinol` | `acute_kidney_injury` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.8000 | 0.8000 | 0.0000 | `ESCALATE` |
+| 2 | `candesartan` | `acute_kidney_injury` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.6000 | 0.6000 | 0.0000 | `MONITOR` |
+| 3 | `capreomycin` | `acute_kidney_injury` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 4 | `captopril` | `acute_kidney_injury` | `ESCALATE` | Concordant | 0.3300 | 0.2805 | 0.5320 | 0.5122 | -0.0198 | `MONITOR` |
+| 5 | `chlorothiazide` | `acute_kidney_injury` | `ESCALATE` | Clear | 0.6600 | 0.6600 | 0.2640 | 0.2640 | 0.0000 | `DO_NOT_ESCALATE` |
+| 6 | `adenosine` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 0.3300 | 0.3300 | 0.3320 | 0.3320 | 0.0000 | `DO_NOT_ESCALATE` |
+| 7 | `almotriptan` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 8 | `benzocaine` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 0.6600 | 0.6600 | 0.2640 | 0.2640 | 0.0000 | `DO_NOT_ESCALATE` |
+| 9 | `benzonatate` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 1.0000 | 1.0000 | 0.4000 | 0.4000 | 0.0000 | `MONITOR` |
+| 10 | `bromfenac` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 11 | `clindamycin` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 12 | `clopidogrel` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.6000 | 0.6000 | 0.0000 | `MONITOR` |
+| 13 | `diflunisal` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 14 | `escitalopram` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 15 | `etodolac` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 0.6600 | 0.6600 | 0.2640 | 0.2640 | 0.0000 | `DO_NOT_ESCALATE` |
+| 16 | `abacavir` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 17 | `acarbose` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 18 | `adenosine` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.2000 | 0.2000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 19 | `benzocaine` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 20 | `benzonatate` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 21 | `abacavir` | `hepatotoxicity` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.8000 | 0.8000 | 0.0000 | `ESCALATE` |
+| 22 | `acetazolamide` | `hepatotoxicity` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.2000 | 0.2000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 23 | `alatrofloxacin` | `hepatotoxicity` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.6000 | 0.6000 | 0.0000 | `MONITOR` |
+| 24 | `bortezomib` | `hepatotoxicity` | `ESCALATE` | Clear | 0.6600 | 0.6600 | 0.4640 | 0.4640 | 0.0000 | `MONITOR` |
+| 25 | `bosentan` | `hepatotoxicity` | `ESCALATE` | Clear | 0.3300 | 0.3300 | 0.3320 | 0.3320 | 0.0000 | `DO_NOT_ESCALATE` |
+| 26 | `almotriptan` | `hepatotoxicity` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 27 | `benzocaine` | `hepatotoxicity` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 28 | `benzonatate` | `hepatotoxicity` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 29 | `droperidol` | `hepatotoxicity` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 30 | `ergotamine` | `hepatotoxicity` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 31 | `almotriptan` | `myocardial_infarction` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.2000 | 0.2000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 32 | `amoxapine` | `myocardial_infarction` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 33 | `bromocriptine` | `myocardial_infarction` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.4000 | 0.4000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 34 | `desipramine` | `myocardial_infarction` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 35 | `diflunisal` | `myocardial_infarction` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 36 | `acarbose` | `myocardial_infarction` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 37 | `acetazolamide` | `myocardial_infarction` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 38 | `benzonatate` | `myocardial_infarction` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 39 | `bromfenac` | `myocardial_infarction` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+| 40 | `chlorambucil` | `myocardial_infarction` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
+
+---
+
+### 2. Aggregate Metrics Comparison (Strict & Lenient)
+
+| Metric Dimension | Baseline (`discount_enabled: false`) | Discounted ($\delta = 0.85$) | Metric Delta ($\Delta$) |
+| :--- | :---: | :---: | :---: |
+| **Strict Confusion Matrix** | TP=2, FP=0, TN=20, FN=18 | TP=2, FP=0, TN=20, FN=18 | None |
+| **Strict Precision** | **1.000** [Wilson: 0.342 – 1.000] | **1.000** [Wilson: 0.342 – 1.000] | $\pm 0.000$ |
+| **Strict Recall** | **0.100** [Wilson: 0.028 – 0.301] | **0.100** [Wilson: 0.028 – 0.301] | $\pm 0.000$ |
+| **Strict Specificity** | **1.000** [Wilson: 0.839 – 1.000] | **1.000** [Wilson: 0.839 – 1.000] | $\pm 0.000$ |
+| **Strict $F_1$-Score** | **0.182** [Bootstrap: 0.000 – 0.400] | **0.182** [Bootstrap: 0.000 – 0.400] | $\pm 0.000$ |
+| **Lenient Confusion Matrix** | TP=7, FP=1, TN=19, FN=13 | TP=7, FP=1, TN=19, FN=13 | None |
+| **Lenient Precision** | **0.875** [Wilson: 0.529 – 0.978] | **0.875** [Wilson: 0.529 – 0.978] | $\pm 0.000$ |
+| **Lenient Recall** | **0.350** [Wilson: 0.181 – 0.567] | **0.350** [Wilson: 0.181 – 0.567] | $\pm 0.000$ |
+| **Lenient Specificity** | **0.950** [Wilson: 0.764 – 0.991] | **0.950** [Wilson: 0.764 – 0.991] | $\pm 0.000$ |
+| **Lenient $F_1$-Score** | **0.500** [Bootstrap: 0.240 – 0.692] | **0.500** [Bootstrap: 0.240 – 0.692] | $\pm 0.000$ |
+| **Over-Caution Rate** | **5.0%** (1/20 negatives in MONITOR) | **5.0%** (1/20 negatives in MONITOR) | $\pm 0.0\%$ |
+
+---
+
+### 3. Honest Empirical Findings & Verdict
+
+1. **Zero Escalation Shifts on the Held-Out Batch ($\Delta = 0$):**
+   - Across all 40 pairs, exactly one pair triggered an indication-concordance rule: `captopril::acute_kidney_injury` (matching **IND-CONF-06**, *Renal Dysfunction & Hemodynamic Azotemia* via ATC `C09AA01`).
+   - For `captopril::acute_kidney_injury`:
+     - Its PRR sub-score was discounted from $0.3300$ to $0.2805$ ($15\%$ reduction).
+     - Its composite confidence dropped from $0.5320$ down to $0.5122$ ($\Delta = -0.0198$).
+     - However, because $0.5122$ remains comfortably above the $0.35$ monitoring threshold, its escalation decision remained `MONITOR`.
+   - Across all 40 pairs, zero pairs shifted triage categories (0 shifts between `ESCALATE`, `MONITOR`, and `DO_NOT_ESCALATE`).
+2. **Safe Specificity Preservation (Zero Regressions):**
+   - The discount factor introduced zero false positives and did not drop any true positives to `DO_NOT_ESCALATE`.
+   - Specificity remained perfectly preserved at $100\%$ (Strict) and $95.0\%$ (Lenient).
+3. **Root Cause Analysis: The External ATC Resolution Bottleneck:**
+   - In §35, the rule table was verified descriptive on the 47 already-used pairs where ATC resolution coverage was high ($83\%+$) because those substances had curated ChEMBL IDs in `chembl_lookup.json`.
+   - On this genuinely untouched 40-pair holdout batch (spanning 27 unique generic drug substances), only 5 drugs resolved to WHO ATC codes in `DiseaseContextTool` (an **$18.5\%$ resolution rate**). 22 drugs (`candesartan`, `chlorothiazide`, `clopidogrel`, `diflunisal`, `escitalopram`, etc.) were missing from `chembl_lookup.json` and failed live ChEMBL API mapping.
+   - Because `IndicationConcordanceTool` relies on ATC Level 1/2 prefixes, unresolved drugs automatically evaluate to `concordant: False` (safe failure). Even though clinical indication overlap was present in pairs like `chlorothiazide::acute_kidney_injury` (diuretic) and `clopidogrel::gastrointestinal_haemorrhage` (antiplatelet), the absence of an ATC code prevented the rule from triggering.
+4. **Architectural & Methodological Takeaway:**
+   - The discount factor ($\delta = 0.85$) behaves as a mathematically sound, non-destructive regularizer when ATC codes are resolved.
+   - However, on external benchmarks without comprehensive ATC lookup infrastructure, its aggregate discriminative effect is negligible ($\Delta = 0.000$).
+5. **Anti-Overfitting Discipline (§15 Compliance):**
+   - We do **not** adjust the discount factor $\delta$ or alter escalation thresholds (e.g. raising 0.35 to 0.52 to force a shift on `captopril`) based on this outcome. The value was pre-registered in §37 and remains locked.
+   - **Production Baseline Decision:** In production, `indication_concordance.discount_enabled` remains **`false`** by default. The indication concordance flag serves as an informational triage annotation (§35 Proposal D), while the discount factor remains a validated, config-gated experimental tool.
+
 
 

@@ -29,6 +29,11 @@ signal_detection:
   ci_based_gate:
     enabled: false        # Gate for CI-based signal detection (DECISIONS.md §32, Evans et al. 2001)
 
+# --- Indication concordance discount ---
+indication_concordance:
+  discount_enabled: false # Gate for confounding-by-indication discount (DECISIONS.md §37)
+  discount_factor: 0.85
+
 
 
 # --- Confidence formula weights ---

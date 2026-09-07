@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.1",
+  "run_id": "eval-run-23-bortezomib-hepatotoxicity",
+  "timestamp": "2026-09-07T19:59:21.072549Z",
+  "prompts_version": "v1.1",
+  "drug": "bortezomib",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 3.66033352644184,
+    "ror": 3.6706227075229365,
+    "prr_lower_ci": 3.087646013842924,
+    "ror_lower_ci": 3.0942974985980984,
+    "report_count": 133,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-07T19:55:24.022378Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"bortezomib\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 3,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42653701",
+      "41063913",
+      "38886623"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The first abstract is empty. The second abstract provides a detailed case report of lenalidomide-associated hepatotoxicity, which qualifies as Grade B evidence. The third abstract discusses adverse events (neutropenia, fatigue, diarrhea, hepatotoxicity) in the context of duvelisib, but does not provide statistical significance language (e.g., p-values, confidence intervals) for the association, also qualifying as Grade B. Since there is only one abstract qualifying for Grade B (the second one) and no abstracts qualifying for Grade A, the overall grade is B."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.464,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}
