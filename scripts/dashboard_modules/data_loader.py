@@ -109,6 +109,7 @@ def build_df(reports: list, gt: dict) -> pd.DataFrame:
             'escalation': actual,
             'expected': expected,
             'match': actual == expected,
+            'indication_concordance': r.get('indication_concordance'),
             '_r': r,
             '_gt': entry,
         })

@@ -21,6 +21,7 @@ from pharmaguard.tools.signal_source import FaersLegacySource
 from pharmaguard.tools.chembl_tool import ChemblTool
 from pharmaguard.tools.pubmed_tool import PubMedTool
 from pharmaguard.tools.cache import ToolCache
+from pharmaguard.tools.indication_concordance import IndicationConcordanceTool
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
     SignalStrength, EscalationDecision, PlausibilityLevel,
@@ -112,6 +113,7 @@ class PharmaGuardAgent:
             prompt_loader=self.prompt_loader,
             llm_inference_fn=pubmed_llm_fn
         )
+        self.indication_tool = IndicationConcordanceTool(cache=self.cache)
         
         self.tools = [
             self._faers_tool(),
@@ -280,6 +282,7 @@ class PharmaGuardAgent:
             mechanism=m_out,
             literature=l_out,
             triage=t_out,
+            indication_concordance=None,
         )
 
     def run(self, drug: str, event: str) -> TriageReport:
@@ -419,6 +422,10 @@ class PharmaGuardAgent:
             agent_reasoning_trace=state.get("agent_reasoning_trace", [])
         )
         
+        # Informational confounding-by-indication assessment (DECISIONS.md §35)
+        # Strictly scoring-inert: computed from drug + event alone with zero data dependency on scoring.
+        ind_conc = self.indication_tool.check(state["drug"], state["event"])
+
         return TriageReport(
             run_id=self.run_id,
             prompts_version=self.prompt_loader.version,
@@ -427,5 +434,6 @@ class PharmaGuardAgent:
             signal_stats=s_out,
             mechanism=m_out,
             literature=l_out,
-            triage=t_out
+            triage=t_out,
+            indication_concordance=ind_conc,
         )

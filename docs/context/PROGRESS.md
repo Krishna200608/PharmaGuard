@@ -145,6 +145,8 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - **Two-Stage Term Canonicalization Layer (2026-09-03):** Implemented standalone opt-in `canonicalize_term()` in `pharmaguard/utils/canonicalize.py` per `CANONICALIZATION.md`; 51 unit tests in `tests/test_canonicalize.py` (148/148 suite passing); verified 100% exact match across all 47 ground truth pairs (documented in `DECISIONS.md §33`).
 - **CI-Based Gate Production Decision (2026-09-03):** Finalized decision to retain static PRR<2.0 gate as production default (`ci_based_gate.enabled: false`); CI-based gate established as validated opt-in alternative, rejected for production adoption due to benchmark asymmetry (Core F1 0.933->0.875 vs OMOP 0.720->0.815), small sample sizes, and §15 anti-overfitting discipline (documented in `DECISIONS.md §32.7`).
 - **ATC Therapeutic-Context Stratification (§34 Proposal C, 2026-09-04):** Implemented read-only `DiseaseContextTool` (WHO ATC via ChEMBL API + fallbacks) and stratified evaluation breakdown in `scripts/evaluator.py`; preserved 100% aggregate metric invariance across Core and OMOP benchmarks while exposing differential performance by therapeutic area.
+- **Indication Concordance Production Integration (§35 Phase 2, 2026-09-07):** Integrated `IndicationConcordanceTool` (7 clinical rules, IND-CONF-01–07) into production pipeline (`FixedPipelineAgent` & `PharmaGuardAgent`) and UI dashboard as a strictly informational, scoring-inert flag; passed scoring inertness unit tests with verified offline cache reproducibility; executed live 47-pair benchmark evaluations confirming 100% escalation invariance and zero drift in frozen reports.
+
 
 
 

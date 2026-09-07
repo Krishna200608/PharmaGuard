@@ -312,6 +312,29 @@ class LiteratureOutput(BaseModel):
     evidence_summary: str
 
 
+class IndicationConcordance(BaseModel):
+    """
+    Informational assessment of whether the adverse event category
+    overlaps with the drug's therapeutic indication class (confounding by indication).
+    Inert to scoring and escalation decisions.
+    """
+    concordant: bool = Field(
+        description="True if adverse event category overlaps with drug therapeutic indication class."
+    )
+    overlap_category: Optional[str] = Field(
+        default=None,
+        description="Standardized indication-overlap clinical domain (e.g., 'Cardiovascular & Cerebrovascular Ischemia')."
+    )
+    rationale: str = Field(
+        default="",
+        description="Pharmacoepidemiological rationale explaining the potential for confounding by indication or channeling bias."
+    )
+    rule_source: str = Field(
+        default="",
+        description="Peer-reviewed literature citation justifying the indication-event overlap rule."
+    )
+
+
 class TriageOutput(BaseModel):
     signal_strength: SignalStrength
     evidence_grade: EvidenceGrade
@@ -339,6 +362,12 @@ class TriageReport(BaseModel):
     # Final triage
     triage: TriageOutput
 
+    # Additive field (Proposal D / DECISIONS.md §35):
+    indication_concordance: Optional[IndicationConcordance] = Field(
+        default=None,
+        description="Informational confounding-by-indication assessment (inert to scoring and escalation)."
+    )
+
     @computed_field
     @property
     def source_agreement(self) -> Literal["CONCORDANT", "DISCORDANT"]:
@@ -350,3 +379,4 @@ class TriageReport(BaseModel):
 
     def to_json(self, indent: int = 2) -> str:
         return self.model_dump_json(indent=indent)
+

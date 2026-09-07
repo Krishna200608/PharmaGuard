@@ -14,6 +14,7 @@ from pharmaguard.tools.cache import ToolCache
 from pharmaguard.tools.signal_source import FaersLegacySource
 from pharmaguard.tools.chembl_tool import ChemblTool
 from pharmaguard.tools.pubmed_tool import PubMedTool
+from pharmaguard.tools.indication_concordance import IndicationConcordanceTool
 from pharmaguard.agent.output_schema import (
     TriageReport, TriageOutput, SignalStatsOutput, MechanismOutput, LiteratureOutput,
     compute_prr_score, compute_prr_score_ci_based, compute_confidence, derive_escalation, SignalStrength, EvidenceGrade, PlausibilityLevel, EscalationDecision, PlausibilitySource,
@@ -96,6 +97,7 @@ class FixedPipelineAgent:
             prompt_loader=self.prompt_loader,
             llm_inference_fn=pubmed_llm_fn
         )
+        self.indication_tool = IndicationConcordanceTool(cache=self.cache)
 
     def _build_error_fallback_report(self, drug: str, event: str, stage: str, error_msg: str) -> TriageReport:
         """
@@ -149,6 +151,7 @@ class FixedPipelineAgent:
             mechanism=m_out,
             literature=l_out,
             triage=t_out,
+            indication_concordance=None,
         )
 
     def run(self, drug: str, event: str) -> TriageReport:
@@ -286,6 +289,10 @@ class FixedPipelineAgent:
                 agent_reasoning_trace=reasoning
             )
             
+            # Informational confounding-by-indication assessment (DECISIONS.md §35)
+            # Strictly scoring-inert: computed from drug + event alone with zero data dependency on scoring.
+            ind_conc = self.indication_tool.check(drug, event)
+
             report = TriageReport(
                 run_id=self.run_id,
                 prompts_version=self.prompt_loader.version,
@@ -294,7 +301,8 @@ class FixedPipelineAgent:
                 signal_stats=s_out,
                 mechanism=m_out,
                 literature=l_out,
-                triage=t_out
+                triage=t_out,
+                indication_concordance=ind_conc,
             )
             
             self.tlog.log_final_answer("\n".join(reasoning))

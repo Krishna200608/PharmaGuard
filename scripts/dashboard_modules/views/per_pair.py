@@ -10,7 +10,7 @@ import re
 import pandas as pd
 import streamlit as st
 
-from ..components import cat_badge, esc_badge, grade_badge, render_conf_chart, signal_span, agreement_badge
+from ..components import cat_badge, esc_badge, grade_badge, render_conf_chart, signal_span, agreement_badge, concordance_badge
 
 
 def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
@@ -56,6 +56,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
         pc = plaus_colors.get(plaus, '#738096')
         flag = '<span style="color:#F2B84B;font-weight:700;margin-right:2px;" title="Disagreement">!</span> ' if not r['match'] else ''
         rc = r.get('report_count', 0)
+        ic_val = r.get('indication_concordance')
         table_rows_html.append(
             f'<tr>'
             f'<td class="pg-mono" style="color:var(--text-dim); text-align:center;">{flag}{r["idx"]}</td>'
@@ -66,6 +67,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
             f'<td style="text-align:center;">{grade_badge(r["grade"])}</td>'
             f'<td style="color:{pc}; font-weight:600; font-size:13px;">{plaus}</td>'
             f'<td style="text-align:center;">{agreement_badge(r.get("source_agreement", "CONCORDANT"))}</td>'
+            f'<td style="text-align:center;">{concordance_badge(ic_val, theme=theme)}</td>'
             f'<td class="pg-mono" style="text-align:right;">{conf_str}</td>'
             f'<td>{esc_badge(r["escalation"])}</td>'
             f'<td>{esc_badge(r["expected"])}</td>'
@@ -76,7 +78,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
         tbody_html = "".join(table_rows_html)
     else:
         tbody_html = (
-            '<tr><td colspan="11" style="text-align:center; padding:32px 16px; '
+            '<tr><td colspan="12" style="text-align:center; padding:32px 16px; '
             'color:var(--text-dim); font-size:13.5px; font-style:italic;">'
             'No drug–event pairs match the current filter selection.</td></tr>'
         )
@@ -93,6 +95,7 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
         '<th style="width:80px; min-width:80px; text-align:center;">PubMed</th>'
         '<th style="min-width:100px;">Plausibility</th>'
         '<th style="min-width:115px; text-align:center;">Agreement</th>'
+        '<th style="min-width:110px; text-align:center;">Indication</th>'
         '<th style="width:90px; min-width:90px; text-align:right;">Confidence</th>'
         '<th style="min-width:130px;">Escalation</th>'
         '<th style="min-width:130px;">Expected</th>'
@@ -159,3 +162,26 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
         )
         render_conf_chart(sel_rpt, key=f'table_conf_{sel_idx}', theme=theme)
         st.markdown('</div>', unsafe_allow_html=True)
+
+    # Indication Concordance Inspector Card (DECISIONS.md §35)
+    ic_data = sel_rpt.get('indication_concordance')
+    if ic_data:
+        is_conc = ic_data.get('concordant', False)
+        status_label = "⚠️ Flagged (Indication-Overlap Confounding)" if is_conc else "— Clear (No Indication Overlap)"
+        cat_text = ic_data.get('overlap_category') or 'None'
+        rat_text = ic_data.get('rationale') or 'No indication concordance identified under clinical rule table (IND-CONF-01 through 07).'
+        src_text = ic_data.get('rule_source') or 'General pharmacoepidemiological screening criteria.'
+
+        box_class = "pg-quote-box" if is_conc else "pg-conclusion-box"
+        st.markdown(
+            f'<div class="pg-card" style="margin-top:14px;">'
+            f'<div style="display:flex; justify-content:space-between; align-items:center;">'
+            f'<div class="pg-stat-label" style="margin:0;">Indication Concordance (DECISIONS.md §35 Informational Flag)</div>'
+            f'<div>{concordance_badge(ic_data, theme=theme)}</div>'
+            f'</div>'
+            f'<div style="font-size:13.5px; color:var(--text); margin-top:8px;"><b>Status:</b> {status_label} &nbsp;|&nbsp; <b>Domain:</b> {cat_text}</div>'
+            f'<div class="{box_class}" style="margin-top:8px;"><b>Pharmacoepidemiological Rationale:</b> {rat_text}</div>'
+            f'<div style="font-size:12px; color:var(--text-dim); margin-top:6px;"><b>Literature Citations:</b> {src_text}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )

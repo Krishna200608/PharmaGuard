@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 import streamlit as st
 
-from ..components import cat_badge, esc_badge, render_conf_chart
+from ..components import cat_badge, esc_badge, render_conf_chart, concordance_badge
 
 
 def view_disagreements(reports: list, outputs_dir: Path | None = None, theme: str = "light") -> None:
@@ -98,6 +98,9 @@ def view_disagreements(reports: list, outputs_dir: Path | None = None, theme: st
         ev_sum = re.sub(r'^Final Grade:\s*\w+\s*', '', ev_raw).strip()
         plaus_r = mech.get('plausibility_rationale', '')
 
+        ic_data = rpt.get('indication_concordance')
+        ic_badge_html = f'{concordance_badge(ic_data, theme=theme)} ' if ic_data else ''
+
         st.markdown(
             f'<div class="pg-hero-card" style="margin-bottom:16px;">'
             f'<div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">'
@@ -105,7 +108,7 @@ def view_disagreements(reports: list, outputs_dir: Path | None = None, theme: st
             f'<span style="font-size:22px; font-weight:700; color:var(--text);">{case["drug"]}</span> '
             f'<span style="font-size:16.5px; color:var(--text-secondary);">+ {case["event"]}</span>'
             f'</div>'
-            f'<div>{cat_badge(case["category"])}</div>'
+            f'<div style="display:flex; gap:8px; align-items:center;">{ic_badge_html}{cat_badge(case["category"])}</div>'
             f'</div>'
             f'<div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">'
             f'<span style="font-size:13px;color:var(--text-muted);">Expected:</span> {esc_badge(case["expected"])}'
@@ -140,6 +143,27 @@ def view_disagreements(reports: list, outputs_dir: Path | None = None, theme: st
                 f'<div style="height:10px;"></div>'
                 f'<div class="pg-stat-label">Why MONITOR Is Correct Here</div>'
                 f'<div class="pg-conclusion-box">{case["conclusion"]}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+        # Indication Concordance card for spotlight case (DECISIONS.md §35)
+        if ic_data and ic_data.get('concordant'):
+            st.markdown(
+                f'<div class="pg-card" style="margin-bottom:14px;">'
+                f'<div style="display:flex; justify-content:space-between; align-items:center;">'
+                f'<div class="pg-stat-label" style="margin:0;">Confounding by Indication Context (DECISIONS.md §35)</div>'
+                f'<div>{concordance_badge(ic_data, theme=theme)}</div>'
+                f'</div>'
+                f'<div style="font-size:13.5px; color:var(--text); margin-top:8px;">'
+                f'<b>Domain Category:</b> {ic_data.get("overlap_category", "")}'
+                f'</div>'
+                f'<div class="pg-quote-box" style="margin-top:8px;">'
+                f'<b>Pharmacoepidemiological Rationale:</b> {ic_data.get("rationale", "")}'
+                f'</div>'
+                f'<div style="font-size:12px; color:var(--text-dim); margin-top:6px;">'
+                f'<b>Literature Citations:</b> {ic_data.get("rule_source", "")}'
+                f'</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )

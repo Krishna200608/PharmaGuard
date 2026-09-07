@@ -41,6 +41,27 @@ def agreement_badge(agr: str) -> str:
     return f'<span class="{cls}" style="font-weight:600;font-size:11px;letter-spacing:0.02em;">{agr}</span>'
 
 
+def concordance_badge(ic: dict | None, theme: str = "light") -> str:
+    """Render colored badge for Indication Concordance (informational flag)."""
+    if not ic or not ic.get("concordant"):
+        return '<span class="b-dne" style="font-weight:500;font-size:11px;" title="No indication concordance identified">— Clear</span>'
+
+    cat = ic.get("overlap_category") or "Indication Overlap"
+    rat = ic.get("rationale") or ""
+    src = ic.get("rule_source") or ""
+    tooltip_parts = [f"Domain: {cat}"]
+    if rat:
+        tooltip_parts.append(f"Rationale: {rat}")
+    if src:
+        tooltip_parts.append(f"Citations: {src}")
+    tooltip = "&#10;&#10;".join(tooltip_parts).replace('"', '&quot;')
+
+    return (
+        f'<span class="b-zero" style="font-weight:700;font-size:11px;letter-spacing:0.02em;cursor:help;" '
+        f'title="{tooltip}">⚠️ Flagged</span>'
+    )
+
+
 def material_icon(name: str, size: int = 18, color: str = "currentColor", extra_style: str = "") -> str:
     """Render authentic Google Material Icon via inline SVG for instant, font-independent rendering."""
     paths = {

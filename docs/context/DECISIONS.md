@@ -1,4 +1,4 @@
-﻿Last updated: 2026-08-14 | Sprint: Sprint 3 (COMPLETED) | Updated by: Antigravity
+Last updated: 2026-08-14 | Sprint: Sprint 3 (COMPLETED) | Updated by: Antigravity
 
 # DECISIONS
 
@@ -1155,3 +1155,24 @@ Upon approval of Phase 1:
 **Effect on 47-pair flagging results:** Unchanged. These changes corrected the supporting literature metadata only; no event lists, rule logic, or MedDRA PT groupings were modified.
 
 ---
+
+### 9. Phase 2 Production Integration Status (September 2026)
+
+Phase 2 production pipeline integration of `IndicationConcordance` was completed per the pre-registered plan in §35.7:
+
+1. **Output Schema:** Added `IndicationConcordance` to `pharmaguard/agent/output_schema.py` matching §35.6 verbatim. Added optional `indication_concordance: Optional[IndicationConcordance] = None` to `TriageReport`. All 47 existing frozen reports in `outputs/core/` and `outputs/research/omop_pilot/` verified backward-compatible.
+2. **Clinical Rule Implementation:** Implemented `pharmaguard/tools/indication_concordance.py` transcribing the 7 audited clinical rules (IND-CONF-01 through 07) verbatim from §35.3, consuming `DiseaseContextTool`'s ATC Level 1 and Level 2 resolution.
+3. **Agent Pipeline Wiring:** Wired `IndicationConcordanceTool` into both `FixedPipelineAgent` and `PharmaGuardAgent` (ReAct mode). Computation runs independently on `(drug, event)` with zero read access or data dependency on `signal_stats`, `mechanism`, `literature`, or the confidence and escalation formulas.
+4. **Scoring Inertness & Offline Tests:** Unit tests in `tests/test_indication_concordance_inertness.py` passed with 100% success across 7 test cases, establishing scoring signature isolation, mathematical identity across all 47 frozen reports, and 100% offline reproducibility with live network access forbidden. Full test suite: 219 passed.
+5. **Dashboard Badging:** Added theme-aware `concordance_badge` component to `scripts/dashboard_modules/components.py`, displaying hover tooltips with category, rationale, and citations in the Per-Pair Table, deep-dive Evidence Inspector, and Disagreement Spotlight views.
+6. **Dual-Benchmark Live Execution:** Executed fresh live evaluations into isolated directories:
+   - `outputs/experiments/indication_concordance_core/` (15 pairs)
+   - `outputs/research/indication_concordance_omop/` (32 pairs)
+   - `git diff HEAD -- 'outputs/core/eval-run-*.json' 'outputs/research/omop_pilot/eval-run-*.json'` confirmed empty.
+7. **Empirical Invariant & Flag Verification:**
+   - OMOP: 32 / 32 pairs verified 100% byte-identical in confidence and escalation.
+   - Core: 14 / 15 pairs verified 100% byte-identical in confidence; 15 / 15 identical in escalation (`atorvastatin::dementia` confidence difference 0.500 → 0.300 reflects the temporal PubMed indexing shift documented in §32.4.A; escalation is identically `DO_NOT_ESCALATE`).
+   - Flag distribution: exactly 7 flagged / 40 clear reproduced across both cohorts with identical rule IDs (Core: 1/15, OMOP: 6/32).
+
+---
+
