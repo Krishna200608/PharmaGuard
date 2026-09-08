@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-6-almotriptan-acute_kidney_injury",
-  "timestamp": "2026-09-07T19:59:11.336166Z",
+  "timestamp": "2026-09-08T06:29:44.089894Z",
   "prompts_version": "v1.1",
   "drug": "almotriptan",
   "event": "acute_kidney_injury",

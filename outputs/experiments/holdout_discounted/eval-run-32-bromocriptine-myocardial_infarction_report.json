@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-32-bromocriptine-myocardial_infarction",
-  "timestamp": "2026-09-07T19:59:25.636021Z",
+  "timestamp": "2026-09-08T06:30:00.418226Z",
   "prompts_version": "v1.1",
   "drug": "bromocriptine",
   "event": "myocardial_infarction",

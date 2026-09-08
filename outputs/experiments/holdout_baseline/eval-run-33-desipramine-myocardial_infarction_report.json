@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-33-desipramine-myocardial_infarction",
-  "timestamp": "2026-09-07T19:57:35.388725Z",
+  "timestamp": "2026-09-08T06:29:27.175388Z",
   "prompts_version": "v1.1",
   "drug": "desipramine",
   "event": "myocardial_infarction",

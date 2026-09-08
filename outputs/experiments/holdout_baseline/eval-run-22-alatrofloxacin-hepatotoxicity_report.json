@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-22-alatrofloxacin-hepatotoxicity",
-  "timestamp": "2026-09-07T19:55:14.591322Z",
+  "timestamp": "2026-09-08T06:29:10.356978Z",
   "prompts_version": "v1.1",
   "drug": "alatrofloxacin",
   "event": "hepatotoxicity",

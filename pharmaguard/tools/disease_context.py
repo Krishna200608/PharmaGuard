@@ -20,7 +20,9 @@ Owner: Krishna Sikheriya (IIT2023139)
 
 import json
 import logging
+import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any, Literal, Optional
@@ -64,7 +66,9 @@ ATC_LEVEL_2_MAP: dict[str, str] = {
     "A10": "Drugs used in diabetes",
     "B01": "Antithrombotic agents",
     "C01": "Cardiac therapy",
+    "C02": "Antihypertensives",
     "C03": "Diuretics",
+    "C05": "Vasoprotectives",
     "C08": "Calcium channel blockers",
     "C09": "Agents acting on the renin-angiotensin system",
     "C10": "Lipid modifying agents",
@@ -82,10 +86,17 @@ ATC_LEVEL_2_MAP: dict[str, str] = {
     "M01": "Anti-inflammatory and antirheumatic products",
     "M02": "Topical products for joint and muscular pain",
     "M04": "Antigout preparations",
+    "N01": "Anesthetics",
+    "N02": "Analgesics",
     "N03": "Antiepileptics",
+    "N04": "Anti-parkinson drugs",
     "N05": "Psycholeptics",
     "N06": "Psychoanaleptics",
+    "N07": "Other nervous system drugs",
+    "R01": "Nasal preparations",
+    "R02": "Throat preparations",
     "R03": "Drugs for obstructive airway diseases",
+    "R05": "Cough and cold preparations",
     "R06": "Antihistamines for systemic use",
     "S01": "Ophthalmologicals",
     "S02": "Otologicals",
@@ -322,8 +333,8 @@ def derive_utilization_class(
 
     # 2. Level 2 / Group Categorizations
     # Cardiovascular & Metabolic Maintenance (Chronic)
-    if prefix2 in ("C08", "C09", "C10", "C03"):
-        return "CHRONIC", "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, dyslipidemia, heart failure)."
+    if prefix2 in ("C08", "C09", "C10", "C03", "C02"):
+        return "CHRONIC", "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, pulmonary hypertension, dyslipidemia, heart failure)."
     if prefix2 == "A10":
         return "CHRONIC", "Prescribed for long-term or lifelong glycemic management in diabetes mellitus."
     if prefix2 == "B01":
@@ -332,8 +343,8 @@ def derive_utilization_class(
         return "CHRONIC", "Prescribed as daily long-term urate-lowering therapy for gout prevention."
 
     # Central Nervous System Maintenance (Chronic)
-    if prefix2 in ("N03", "N05") and not prefix3.startswith("N05C"):
-        return "CHRONIC", "Prescribed as long-term continuous maintenance therapy for epilepsy, schizophrenia, or bipolar disorder."
+    if prefix2 in ("N03", "N04", "N05") and not prefix3.startswith("N05C"):
+        return "CHRONIC", "Prescribed as long-term continuous maintenance therapy for epilepsy, Parkinson's disease, schizophrenia, or bipolar disorder."
     if prefix3 == "N06A":
         return "CHRONIC", "Antidepressants are prescribed for continuous maintenance therapy (typically >=6-12 months) for depressive/anxiety disorders."
 
@@ -348,8 +359,8 @@ def derive_utilization_class(
         return "ACUTE", "Prescribed as finite therapeutic regimens (typically 2-12 weeks) for acute or subacute systemic fungal infections."
 
     # Mixed / Context-Dependent Durations
-    if prefix2 == "M01":
-        return "MIXED", "Bimodal utilization: short-term PRN use for acute pain/fever versus long-term daily use for inflammatory arthritis."
+    if prefix2 in ("M01", "N02"):
+        return "MIXED", "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions."
     if prefix2 == "J04":
         return "MIXED", "Intermediate subacute duration: 6-9 months regimen for tuberculosis prophylaxis or therapy."
     if prefix3 == "N05C":
@@ -386,9 +397,13 @@ class DiseaseContextTool:
         chembl_lookup_path: Optional[Path] = None,
         atc_lookup_path: Optional[Path] = _DEFAULT_ATC_LOOKUP,
         http_timeout: float = 10.0,
+        http_retries: int = 3,
+        http_backoff_base: float = 0.1,
     ):
         self._cache = cache
         self._http_timeout = http_timeout
+        self._http_retries = http_retries
+        self._http_backoff_base = http_backoff_base
         self._chembl_lookup_path = chembl_lookup_path or _DEFAULT_CHEMBL_LOOKUP
         self._atc_lookup_path = atc_lookup_path
         self._chembl_lookup: dict[str, Any] = {}
@@ -416,6 +431,52 @@ class DiseaseContextTool:
                 logger.warning("Failed to load ChEMBL lookup from %s: %s", self._chembl_lookup_path, e)
         else:
             logger.warning("ChEMBL lookup path %s does not exist", self._chembl_lookup_path)
+
+    def _http_get_json(self, url: str) -> dict[str, Any]:
+        """
+        Execute an HTTP GET request against the ChEMBL API with exponential backoff.
+
+        Loudly logs HTTP status codes and errors to prevent silent resolution drops.
+        """
+        req = urllib.request.Request(
+            url,
+            headers={"Accept": "application/json", "User-Agent": "PharmaGuard-Research/1.0"}
+        )
+        last_err: Optional[Exception] = None
+        for attempt in range(self._http_retries):
+            try:
+                with urllib.request.urlopen(req, timeout=self._http_timeout) as resp:
+                    return json.loads(resp.read().decode("utf-8"))
+            except urllib.error.HTTPError as e:
+                last_err = e
+                logger.warning(
+                    "ChEMBL API HTTP %s for URL %s (attempt %d/%d): %s",
+                    e.code, url, attempt + 1, self._http_retries, e.reason
+                )
+                if e.code in (429, 500, 502, 503, 504) and attempt < self._http_retries - 1:
+                    time.sleep(self._http_backoff_base * (2 ** attempt))
+                    continue
+                raise
+            except (urllib.error.URLError, TimeoutError) as e:
+                last_err = e
+                logger.warning(
+                    "ChEMBL API network error for URL %s (attempt %d/%d): %s",
+                    url, attempt + 1, self._http_retries, e
+                )
+                if attempt < self._http_retries - 1:
+                    time.sleep(self._http_backoff_base * (2 ** attempt))
+                    continue
+                raise
+            except Exception as e:
+                logger.warning(
+                    "ChEMBL API unexpected error for URL %s (attempt %d/%d): %s",
+                    url, attempt + 1, self._http_retries, e
+                )
+                raise
+
+        if last_err:
+            raise last_err
+        raise RuntimeError(f"Failed to fetch {url}")
 
     def resolve(self, drug_canonical: str) -> DiseaseContext:
         """
@@ -474,33 +535,58 @@ class DiseaseContextTool:
         # 4. Resolve via ChEMBL API
         drug_entry = self._chembl_lookup.get(drug_norm)
         chembl_id = drug_entry.get("chembl_id") if isinstance(drug_entry, dict) else None
-
-        if not chembl_id:
-            logger.info("Drug '%s' has no ChEMBL ID in lookup — cannot query ChEMBL ATC.", drug_canonical)
-            return DiseaseContext(
-                drug_canonical=drug_canonical,
-                atc_source="unresolved",
-                is_resolved=False,
-                selection_rationale="No ChEMBL ID found in local reference lookup.",
-            )
+        atc_codes: list[str] = []
+        resolved_cid: Optional[str] = chembl_id
 
         try:
-            url = f"https://www.ebi.ac.uk/chembl/api/data/molecule/{chembl_id}.json"
-            req = urllib.request.Request(
-                url,
-                headers={"Accept": "application/json", "User-Agent": "PharmaGuard-Research/1.0"}
-            )
-            with urllib.request.urlopen(req, timeout=self._http_timeout) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
+            if chembl_id:
+                # 4a. Query via pre-resolved ChEMBL ID
+                url = f"https://www.ebi.ac.uk/chembl/api/data/molecule/{chembl_id}.json"
+                data = self._http_get_json(url)
+                atc_codes = data.get("atc_classifications", [])
+            else:
+                # 4b. Query by canonical drug name via exact pref_name filter
+                quoted = urllib.parse.quote(drug_norm)
+                url = f"https://www.ebi.ac.uk/chembl/api/data/molecule.json?pref_name__iexact={quoted}"
+                data = self._http_get_json(url)
+                molecules = data.get("molecules", [])
+                if molecules:
+                    mol = molecules[0]
+                    resolved_cid = mol.get("molecule_chembl_id")
+                    atc_codes = mol.get("atc_classifications", [])
 
-            atc_codes = data.get("atc_classifications", [])
+                if not atc_codes:
+                    # 4c. Fallback free-text molecule search if pref_name did not yield ATC codes
+                    url = f"https://www.ebi.ac.uk/chembl/api/data/molecule/search.json?q={quoted}"
+                    data = self._http_get_json(url)
+                    molecules = data.get("molecules", [])
+                    for mol in molecules:
+                        pname = (mol.get("pref_name") or "").lower().strip()
+                        if pname == drug_norm and mol.get("atc_classifications"):
+                            resolved_cid = mol.get("molecule_chembl_id")
+                            atc_codes = mol.get("atc_classifications", [])
+                            break
+                    if not atc_codes and molecules:
+                        for mol in molecules:
+                            if mol.get("atc_classifications"):
+                                resolved_cid = mol.get("molecule_chembl_id")
+                                atc_codes = mol.get("atc_classifications", [])
+                                break
+
             if not atc_codes:
-                logger.info("ChEMBL returned empty ATC classifications for %s (%s)", drug_canonical, chembl_id)
+                logger.warning(
+                    "ChEMBL returned empty ATC classifications for '%s' (chembl_id=%s)",
+                    drug_canonical, resolved_cid
+                )
                 return DiseaseContext(
                     drug_canonical=drug_canonical,
                     atc_source="unresolved",
                     is_resolved=False,
-                    selection_rationale=f"ChEMBL molecule {chembl_id} contains no atc_classifications.",
+                    selection_rationale=(
+                        f"ChEMBL molecule {resolved_cid} contains no atc_classifications."
+                        if resolved_cid
+                        else f"No matching molecule with ATC classifications found in ChEMBL for '{drug_canonical}'."
+                    ),
                 )
 
             ctx = self._build_context(
@@ -512,7 +598,7 @@ class DiseaseContextTool:
             return ctx
 
         except Exception as e:
-            logger.warning("ChEMBL API query failed for %s (%s): %s", drug_canonical, chembl_id, e)
+            logger.error("ChEMBL API query failed for '%s' (chembl_id=%s): %s", drug_canonical, resolved_cid, e)
             return DiseaseContext(
                 drug_canonical=drug_canonical,
                 atc_source="unresolved",

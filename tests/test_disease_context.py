@@ -390,3 +390,77 @@ class TestCacheIntegration:
         args, kwargs = mock_cache.set.call_args
         assert args[0] == "atc::atorvastatin::v7"
         assert args[1]["selected_atc"] == "C10AA05"
+
+
+class TestLiveNameResolutionAndRetry:
+    """Verify live ChEMBL API resolution by drug name, retry backoff, and loud error logging."""
+
+    def test_unmapped_drug_resolves_via_chembl_pref_name_api(self):
+        """Verify that a drug NOT in chembl_lookup.json resolves via pref_name__iexact endpoint."""
+        tool = DiseaseContextTool(atc_lookup_path=None)
+        # Verify candesartan is NOT in the reference chembl_lookup
+        assert "candesartan" not in tool._chembl_lookup
+
+        mock_response = json.dumps({
+            "molecules": [{
+                "molecule_chembl_id": "CHEMBL1016",
+                "pref_name": "CANDESARTAN",
+                "atc_classifications": ["C09CA06"]
+            }]
+        }).encode("utf-8")
+
+        with patch("urllib.request.urlopen") as mock_url:
+            mock_url.return_value.__enter__.return_value.read.return_value = mock_response
+            ctx = tool.resolve("candesartan")
+
+        assert ctx.is_resolved is True
+        assert ctx.atc_source == "chembl_api"
+        assert ctx.primary_atc == "C09CA06"
+        assert ctx.therapeutic_area == "Cardiovascular system"
+        assert ctx.pharmacological_subgroup == "Agents acting on the renin-angiotensin system"
+        assert ctx.utilization_class == "CHRONIC"
+
+    def test_chembl_api_retry_on_429_succeeds(self):
+        """Verify that HTTP 429 triggers retry with exponential backoff and succeeds."""
+        tool = DiseaseContextTool(atc_lookup_path=None, http_backoff_base=0.01)
+        mock_success = json.dumps({
+            "atc_classifications": ["A10BA02"]
+        }).encode("utf-8")
+
+        mock_resp_obj = MagicMock()
+        mock_resp_obj.read.return_value = mock_success
+        mock_enter = MagicMock()
+        mock_enter.__enter__.return_value = mock_resp_obj
+
+        # 1st call fails with 429, 2nd call succeeds
+        with patch(
+            "urllib.request.urlopen",
+            side_effect=[urllib.error.HTTPError(None, 429, "Too Many Requests", None, None), mock_enter]
+        ) as mock_url:
+            ctx = tool.resolve("metformin")
+
+        assert ctx.is_resolved is True
+        assert ctx.primary_atc == "A10BA02"
+        assert mock_url.call_count == 2
+
+    def test_chembl_api_loud_warning_on_empty_atc(self, caplog):
+        """Verify loud warning is emitted when ChEMBL returns no ATC codes for an unmapped drug."""
+        import logging
+        tool = DiseaseContextTool(atc_lookup_path=None)
+        mock_response = json.dumps({
+            "molecules": [{
+                "molecule_chembl_id": "CHEMBL1201197",
+                "pref_name": "ALATROFLOXACIN",
+                "atc_classifications": []
+            }]
+        }).encode("utf-8")
+
+        with caplog.at_level(logging.WARNING):
+            with patch("urllib.request.urlopen") as mock_url:
+                mock_url.return_value.__enter__.return_value.read.return_value = mock_response
+                ctx = tool.resolve("alatrofloxacin")
+
+        assert ctx.is_resolved is False
+        assert ctx.atc_source == "unresolved"
+        assert any("empty ATC classifications" in record.message for record in caplog.records)
+

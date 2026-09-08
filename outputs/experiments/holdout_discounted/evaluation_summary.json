@@ -1,5 +1,5 @@
 {
-  "title": "OMOP Holdout Discounted (discount_enabled=True, 0.85)",
+  "title": "Holdout Discounted (0.85 Multiplier)",
   "pairs_evaluated": 40,
   "pairs_total": 40,
   "strict_metrics": {
@@ -49,10 +49,10 @@
     "FP": 1,
     "TN": 19,
     "FN": 13,
-    "precision": "0.833",
-    "recall": "0.294",
-    "specificity": "0.938",
-    "f1": "0.435",
+    "precision": "1.000",
+    "recall": "1.000",
+    "specificity": "N/A",
+    "f1": "1.000",
     "wilson_ci": {
       "precision": [
         0.5291125505820761,
@@ -162,38 +162,35 @@
         "acarbose::myocardial_infarction"
       ]
     },
-    "C": {
-      "code": "C",
-      "name": "Cardiovascular system",
-      "n": 3,
+    "B": {
+      "code": "B",
+      "name": "Blood and blood forming organs",
+      "n": 1,
       "is_exploratory": true,
       "strict": {
         "TP": 0,
         "FP": 0,
-        "TN": 2,
+        "TN": 0,
         "FN": 1,
         "precision": null,
         "recall": 0.0,
-        "specificity": 1.0,
+        "specificity": null,
         "f1": 0.0,
         "precision_ci": null,
         "recall_ci": [
           0.0,
           0.793
         ],
-        "specificity_ci": [
-          0.342,
-          1.0
-        ]
+        "specificity_ci": null
       },
       "lenient": {
         "TP": 1,
         "FP": 0,
-        "TN": 2,
+        "TN": 0,
         "FN": 0,
         "precision": 1.0,
         "recall": 1.0,
-        "specificity": 1.0,
+        "specificity": null,
         "f1": 1.0,
         "precision_ci": [
           0.207,
@@ -203,79 +200,437 @@
           0.207,
           1.0
         ],
+        "specificity_ci": null
+      },
+      "records": [
+        "clopidogrel::gastrointestinal_haemorrhage"
+      ]
+    },
+    "C": {
+      "code": "C",
+      "name": "Cardiovascular system",
+      "n": 9,
+      "is_exploratory": false,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 5,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.49
+        ],
         "specificity_ci": [
+          0.566,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 5,
+        "FN": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "specificity": 1.0,
+        "f1": 0.667,
+        "precision_ci": [
           0.342,
+          1.0
+        ],
+        "recall_ci": [
+          0.15,
+          0.85
+        ],
+        "specificity_ci": [
+          0.566,
           1.0
         ]
       },
       "records": [
+        "candesartan::acute_kidney_injury",
         "adenosine::gastrointestinal_haemorrhage",
+        "benzocaine::gastrointestinal_haemorrhage",
+        "bosentan::hepatotoxicity",
+        "benzocaine::hepatotoxicity",
         "captopril::acute_kidney_injury",
-        "adenosine::acute_kidney_injury"
+        "chlorothiazide::acute_kidney_injury",
+        "adenosine::acute_kidney_injury",
+        "benzocaine::acute_kidney_injury"
+      ]
+    },
+    "G": {
+      "code": "G",
+      "name": "Genito-urinary system and sex hormones",
+      "n": 1,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "bromocriptine::myocardial_infarction"
       ]
     },
     "J": {
       "code": "J",
       "name": "Antiinfectives for systemic use",
-      "n": 1,
+      "n": 4,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 1,
+        "FN": 2,
+        "precision": 1.0,
+        "recall": 0.333,
+        "specificity": 1.0,
+        "f1": 0.5,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.061,
+          0.792
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 1,
+        "FN": 2,
+        "precision": 1.0,
+        "recall": 0.333,
+        "specificity": 1.0,
+        "f1": 0.5,
+        "precision_ci": [
+          0.207,
+          1.0
+        ],
+        "recall_ci": [
+          0.061,
+          0.792
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
+      },
+      "records": [
+        "clindamycin::gastrointestinal_haemorrhage",
+        "abacavir::gastrointestinal_haemorrhage",
+        "capreomycin::acute_kidney_injury",
+        "abacavir::hepatotoxicity"
+      ]
+    },
+    "L": {
+      "code": "L",
+      "name": "Antineoplastic and immunomodulating agents",
+      "n": 2,
       "is_exploratory": true,
       "strict": {
         "TP": 0,
         "FP": 0,
-        "TN": 0,
+        "TN": 1,
         "FN": 1,
         "precision": null,
         "recall": 0.0,
-        "specificity": null,
+        "specificity": 1.0,
         "f1": 0.0,
         "precision_ci": null,
         "recall_ci": [
           0.0,
           0.793
         ],
-        "specificity_ci": null
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
       },
       "lenient": {
-        "TP": 0,
+        "TP": 1,
         "FP": 0,
-        "TN": 0,
-        "FN": 1,
-        "precision": null,
-        "recall": 0.0,
-        "specificity": null,
-        "f1": 0.0,
-        "precision_ci": null,
-        "recall_ci": [
-          0.0,
-          0.793
+        "TN": 1,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "f1": 1.0,
+        "precision_ci": [
+          0.207,
+          1.0
         ],
-        "specificity_ci": null
+        "recall_ci": [
+          0.207,
+          1.0
+        ],
+        "specificity_ci": [
+          0.207,
+          1.0
+        ]
       },
       "records": [
-        "clindamycin::gastrointestinal_haemorrhage"
+        "bortezomib::hepatotoxicity",
+        "chlorambucil::myocardial_infarction"
       ]
     },
     "M": {
       "code": "M",
       "name": "Musculo-skeletal system",
-      "n": 1,
+      "n": 2,
       "is_exploratory": true,
       "strict": {
         "TP": 1,
         "FP": 0,
         "TN": 0,
-        "FN": 0,
+        "FN": 1,
         "precision": 1.0,
-        "recall": 1.0,
+        "recall": 0.5,
         "specificity": null,
-        "f1": 1.0,
+        "f1": 0.667,
         "precision_ci": [
           0.207,
           1.0
         ],
         "recall_ci": [
+          0.095,
+          0.905
+        ],
+        "specificity_ci": null
+      },
+      "lenient": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "specificity": null,
+        "f1": 0.667,
+        "precision_ci": [
           0.207,
           1.0
+        ],
+        "recall_ci": [
+          0.095,
+          0.905
+        ],
+        "specificity_ci": null
+      },
+      "records": [
+        "allopurinol::acute_kidney_injury",
+        "etodolac::gastrointestinal_haemorrhage"
+      ]
+    },
+    "N": {
+      "code": "N",
+      "name": "Nervous system",
+      "n": 10,
+      "is_exploratory": false,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 4,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.39
+        ],
+        "specificity_ci": [
+          0.51,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 4,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.39
+        ],
+        "specificity_ci": [
+          0.51,
+          1.0
+        ]
+      },
+      "records": [
+        "diflunisal::gastrointestinal_haemorrhage",
+        "escitalopram::gastrointestinal_haemorrhage",
+        "almotriptan::hepatotoxicity",
+        "droperidol::hepatotoxicity",
+        "ergotamine::hepatotoxicity",
+        "almotriptan::myocardial_infarction",
+        "amoxapine::myocardial_infarction",
+        "desipramine::myocardial_infarction",
+        "diflunisal::myocardial_infarction",
+        "almotriptan::acute_kidney_injury"
+      ]
+    },
+    "R": {
+      "code": "R",
+      "name": "Respiratory system",
+      "n": 4,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 4,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "specificity": 1.0,
+        "f1": null,
+        "precision_ci": null,
+        "recall_ci": null,
+        "specificity_ci": [
+          0.51,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 1,
+        "TN": 3,
+        "FN": 0,
+        "precision": 0.0,
+        "recall": null,
+        "specificity": 0.75,
+        "f1": 0.0,
+        "precision_ci": [
+          0.0,
+          0.793
+        ],
+        "recall_ci": null,
+        "specificity_ci": [
+          0.301,
+          0.954
+        ]
+      },
+      "records": [
+        "benzonatate::gastrointestinal_haemorrhage",
+        "benzonatate::hepatotoxicity",
+        "benzonatate::myocardial_infarction",
+        "benzonatate::acute_kidney_injury"
+      ]
+    },
+    "S": {
+      "code": "S",
+      "name": "Sensory organs",
+      "n": 4,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 3,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": [
+          0.439,
+          1.0
+        ]
+      },
+      "lenient": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 3,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
+        ],
+        "specificity_ci": [
+          0.439,
+          1.0
+        ]
+      },
+      "records": [
+        "acetazolamide::hepatotoxicity",
+        "acetazolamide::myocardial_infarction",
+        "bromfenac::myocardial_infarction",
+        "bromfenac::acute_kidney_injury"
+      ]
+    },
+    "UNRESOLVED": {
+      "code": "UNRESOLVED",
+      "name": "Unresolved Area",
+      "n": 1,
+      "is_exploratory": true,
+      "strict": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": null,
+        "f1": 0.0,
+        "precision_ci": null,
+        "recall_ci": [
+          0.0,
+          0.793
         ],
         "specificity_ci": null
       },
@@ -299,103 +654,18 @@
         "specificity_ci": null
       },
       "records": [
-        "allopurinol::acute_kidney_injury"
-      ]
-    },
-    "UNRESOLVED": {
-      "code": "UNRESOLVED",
-      "name": "Unresolved Area",
-      "n": 33,
-      "is_exploratory": false,
-      "strict": {
-        "TP": 1,
-        "FP": 0,
-        "TN": 16,
-        "FN": 16,
-        "precision": 1.0,
-        "recall": 0.059,
-        "specificity": 1.0,
-        "f1": 0.111,
-        "precision_ci": [
-          0.207,
-          1.0
-        ],
-        "recall_ci": [
-          0.01,
-          0.27
-        ],
-        "specificity_ci": [
-          0.806,
-          1.0
-        ]
-      },
-      "lenient": {
-        "TP": 5,
-        "FP": 1,
-        "TN": 15,
-        "FN": 12,
-        "precision": 0.833,
-        "recall": 0.294,
-        "specificity": 0.938,
-        "f1": 0.435,
-        "precision_ci": [
-          0.436,
-          0.97
-        ],
-        "recall_ci": [
-          0.133,
-          0.531
-        ],
-        "specificity_ci": [
-          0.717,
-          0.989
-        ]
-      },
-      "records": [
-        "candesartan::acute_kidney_injury",
-        "clopidogrel::gastrointestinal_haemorrhage",
-        "diflunisal::gastrointestinal_haemorrhage",
-        "escitalopram::gastrointestinal_haemorrhage",
-        "etodolac::gastrointestinal_haemorrhage",
-        "abacavir::gastrointestinal_haemorrhage",
-        "benzocaine::gastrointestinal_haemorrhage",
-        "benzonatate::gastrointestinal_haemorrhage",
-        "capreomycin::acute_kidney_injury",
-        "abacavir::hepatotoxicity",
-        "acetazolamide::hepatotoxicity",
-        "alatrofloxacin::hepatotoxicity",
-        "bortezomib::hepatotoxicity",
-        "bosentan::hepatotoxicity",
-        "almotriptan::hepatotoxicity",
-        "benzocaine::hepatotoxicity",
-        "benzonatate::hepatotoxicity",
-        "droperidol::hepatotoxicity",
-        "ergotamine::hepatotoxicity",
-        "almotriptan::myocardial_infarction",
-        "amoxapine::myocardial_infarction",
-        "bromocriptine::myocardial_infarction",
-        "desipramine::myocardial_infarction",
-        "diflunisal::myocardial_infarction",
-        "acetazolamide::myocardial_infarction",
-        "benzonatate::myocardial_infarction",
-        "bromfenac::myocardial_infarction",
-        "chlorambucil::myocardial_infarction",
-        "chlorothiazide::acute_kidney_injury",
-        "almotriptan::acute_kidney_injury",
-        "benzocaine::acute_kidney_injury",
-        "benzonatate::acute_kidney_injury",
-        "bromfenac::acute_kidney_injury"
+        "alatrofloxacin::hepatotoxicity"
       ]
     }
   },
   "atc_coverage": {
     "total_unique_drugs": 27,
-    "chembl_resolved": 5,
+    "chembl_resolved": 26,
     "fallback_resolved": 0,
-    "unresolved": 22,
-    "resolution_percentage": 18.5,
-    "multi_atc_count": 2,
-    "multi_level1_count": 1
+    "unresolved": 1,
+    "resolution_percentage": 96.3,
+    "multi_atc_count": 6,
+    "multi_level1_count": 3
   },
   "disagreements": [
     {
@@ -562,26 +832,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "candesartan",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "C09CA06"
+        ],
+        "all_atc_codes": [
+          "C09CA06"
+        ],
+        "primary_atc": "C09CA06",
+        "selected_atc": "C09CA06",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C09",
+        "pharmacological_subgroup": "Agents acting on the renin-angiotensin system",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, pulmonary hypertension, dyslipidemia, heart failure).",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -635,26 +909,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "B",
+      "therapeutic_area": "Blood and blood forming organs",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "clopidogrel",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "B01AC04"
+        ],
+        "all_atc_codes": [
+          "B01AC04"
+        ],
+        "primary_atc": "B01AC04",
+        "selected_atc": "B01AC04",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "B",
+        "therapeutic_area": "Blood and blood forming organs",
+        "pharmacological_subgroup_code": "B01",
+        "pharmacological_subgroup": "Antithrombotic agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for long-term continuous antiplatelet or anticoagulant thromboprophylaxis.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -666,26 +944,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "diflunisal",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N02BA11"
+        ],
+        "all_atc_codes": [
+          "N02BA11"
+        ],
+        "primary_atc": "N02BA11",
+        "selected_atc": "N02BA11",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N02",
+        "pharmacological_subgroup": "Analgesics",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -697,26 +979,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "escitalopram",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N06AB10"
+        ],
+        "all_atc_codes": [
+          "N06AB10"
+        ],
+        "primary_atc": "N06AB10",
+        "selected_atc": "N06AB10",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N06",
+        "pharmacological_subgroup": "Psychoanaleptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Antidepressants are prescribed for continuous maintenance therapy (typically >=6-12 months) for depressive/anxiety disorders.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -728,26 +1014,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "M",
+      "therapeutic_area": "Musculo-skeletal system",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "etodolac",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "M01AB08"
+        ],
+        "all_atc_codes": [
+          "M01AB08"
+        ],
+        "primary_atc": "M01AB08",
+        "selected_atc": "M01AB08",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "M",
+        "therapeutic_area": "Musculo-skeletal system",
+        "pharmacological_subgroup_code": "M01",
+        "pharmacological_subgroup": "Anti-inflammatory and antirheumatic products",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -759,26 +1049,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
       "therapeutic_context": {
         "drug_canonical": "abacavir",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "J05AF06"
+        ],
+        "all_atc_codes": [
+          "J05AF06"
+        ],
+        "primary_atc": "J05AF06",
+        "selected_atc": "J05AF06",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J05",
+        "pharmacological_subgroup": "Antivirals for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -860,26 +1154,40 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "benzocaine",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
-        "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "atc_codes": [
+          "C05AD03",
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "all_atc_codes": [
+          "C05AD03",
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "primary_atc": "C05AD03",
+        "selected_atc": "C05AD03",
+        "secondary_atc_codes": [
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C05",
+        "pharmacological_subgroup": "Vasoprotectives",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix C05.",
+        "selection_method": "heterogeneous_multi_level1_first",
+        "selection_rationale": "Codes span multiple Level 1 areas (C, D, N, R); primary code selected, secondary codes preserved.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -891,26 +1199,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "R",
+      "therapeutic_area": "Respiratory system",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "benzonatate",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "R05DB01"
+        ],
+        "all_atc_codes": [
+          "R05DB01"
+        ],
+        "primary_atc": "R05DB01",
+        "selected_atc": "R05DB01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "R",
+        "therapeutic_area": "Respiratory system",
+        "pharmacological_subgroup_code": "R05",
+        "pharmacological_subgroup": "Cough and cold preparations",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix R05.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -922,26 +1234,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "capreomycin",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "J04AB30"
+        ],
+        "all_atc_codes": [
+          "J04AB30"
+        ],
+        "primary_atc": "J04AB30",
+        "selected_atc": "J04AB30",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J04",
+        "pharmacological_subgroup": "Antimycobacterials",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Intermediate subacute duration: 6-9 months regimen for tuberculosis prophylaxis or therapy.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -953,26 +1269,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "J",
+      "therapeutic_area": "Antiinfectives for systemic use",
+      "utilization_class": "ACUTE",
       "therapeutic_context": {
         "drug_canonical": "abacavir",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "J05AF06"
+        ],
+        "all_atc_codes": [
+          "J05AF06"
+        ],
+        "primary_atc": "J05AF06",
+        "selected_atc": "J05AF06",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "J",
+        "therapeutic_area": "Antiinfectives for systemic use",
+        "pharmacological_subgroup_code": "J05",
+        "pharmacological_subgroup": "Antivirals for systemic use",
+        "utilization_class": "ACUTE",
+        "utilization_rationale": "Prescribed as finite therapeutic courses (typically 3-14 days) for acute bacterial or viral infections.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -984,26 +1304,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "S",
+      "therapeutic_area": "Sensory organs",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "acetazolamide",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "S01EC01"
+        ],
+        "all_atc_codes": [
+          "S01EC01"
+        ],
+        "primary_atc": "S01EC01",
+        "selected_atc": "S01EC01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "S",
+        "therapeutic_area": "Sensory organs",
+        "pharmacological_subgroup_code": "S01",
+        "pharmacological_subgroup": "Ophthalmologicals",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix S01.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1032,7 +1356,7 @@
         "utilization_class": "UNKNOWN",
         "utilization_rationale": "",
         "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
+        "selection_rationale": "ChEMBL molecule CHEMBL1201197 contains no atc_classifications.",
         "atc_source": "unresolved",
         "is_resolved": false
       }
@@ -1046,26 +1370,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "L",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "bortezomib",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "L01XG01"
+        ],
+        "all_atc_codes": [
+          "L01XG01"
+        ],
+        "primary_atc": "L01XG01",
+        "selected_atc": "L01XG01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "L",
+        "therapeutic_area": "Antineoplastic and immunomodulating agents",
+        "pharmacological_subgroup_code": "L01",
+        "pharmacological_subgroup": "Antineoplastic agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for ongoing cyclical or continuous maintenance immunotherapy, targeted oncology, or immunosuppression.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1077,26 +1405,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "bosentan",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "C02KX01"
+        ],
+        "all_atc_codes": [
+          "C02KX01"
+        ],
+        "primary_atc": "C02KX01",
+        "selected_atc": "C02KX01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C02",
+        "pharmacological_subgroup": "Antihypertensives",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, pulmonary hypertension, dyslipidemia, heart failure).",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1108,26 +1440,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "almotriptan",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N02CC05"
+        ],
+        "all_atc_codes": [
+          "N02CC05"
+        ],
+        "primary_atc": "N02CC05",
+        "selected_atc": "N02CC05",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N02",
+        "pharmacological_subgroup": "Analgesics",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1139,26 +1475,40 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "benzocaine",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
-        "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "atc_codes": [
+          "C05AD03",
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "all_atc_codes": [
+          "C05AD03",
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "primary_atc": "C05AD03",
+        "selected_atc": "C05AD03",
+        "secondary_atc_codes": [
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C05",
+        "pharmacological_subgroup": "Vasoprotectives",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix C05.",
+        "selection_method": "heterogeneous_multi_level1_first",
+        "selection_rationale": "Codes span multiple Level 1 areas (C, D, N, R); primary code selected, secondary codes preserved.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1170,26 +1520,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "R",
+      "therapeutic_area": "Respiratory system",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "benzonatate",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "R05DB01"
+        ],
+        "all_atc_codes": [
+          "R05DB01"
+        ],
+        "primary_atc": "R05DB01",
+        "selected_atc": "R05DB01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "R",
+        "therapeutic_area": "Respiratory system",
+        "pharmacological_subgroup_code": "R05",
+        "pharmacological_subgroup": "Cough and cold preparations",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix R05.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1201,26 +1555,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "droperidol",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N05AD08"
+        ],
+        "all_atc_codes": [
+          "N05AD08"
+        ],
+        "primary_atc": "N05AD08",
+        "selected_atc": "N05AD08",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N05",
+        "pharmacological_subgroup": "Psycholeptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as long-term continuous maintenance therapy for epilepsy, Parkinson's disease, schizophrenia, or bipolar disorder.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1232,26 +1590,37 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "ergotamine",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
-        "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "atc_codes": [
+          "N02CA02",
+          "N02CA52",
+          "N02CA72"
+        ],
+        "all_atc_codes": [
+          "N02CA02",
+          "N02CA52",
+          "N02CA72"
+        ],
+        "primary_atc": "N02CA02",
+        "selected_atc": "N02CA02",
+        "secondary_atc_codes": [
+          "N02CA52",
+          "N02CA72"
+        ],
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N02",
+        "pharmacological_subgroup": "Analgesics",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions.",
+        "selection_method": "homogeneous_level1_first",
+        "selection_rationale": "All 3 codes belong to same therapeutic area (N); primary code selected.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1298,26 +1667,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "almotriptan",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N02CC05"
+        ],
+        "all_atc_codes": [
+          "N02CC05"
+        ],
+        "primary_atc": "N02CC05",
+        "selected_atc": "N02CC05",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N02",
+        "pharmacological_subgroup": "Analgesics",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1329,26 +1702,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "amoxapine",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N06AA17"
+        ],
+        "all_atc_codes": [
+          "N06AA17"
+        ],
+        "primary_atc": "N06AA17",
+        "selected_atc": "N06AA17",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N06",
+        "pharmacological_subgroup": "Psychoanaleptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Antidepressants are prescribed for continuous maintenance therapy (typically >=6-12 months) for depressive/anxiety disorders.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1360,26 +1737,34 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "G",
+      "therapeutic_area": "Genito-urinary system and sex hormones",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "bromocriptine",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
-        "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "atc_codes": [
+          "G02CB01",
+          "N04BC01"
+        ],
+        "all_atc_codes": [
+          "G02CB01",
+          "N04BC01"
+        ],
+        "primary_atc": "G02CB01",
+        "selected_atc": "G02CB01",
+        "secondary_atc_codes": [
+          "N04BC01"
+        ],
+        "therapeutic_area_code": "G",
+        "therapeutic_area": "Genito-urinary system and sex hormones",
+        "pharmacological_subgroup_code": "G02",
+        "pharmacological_subgroup": "Other gynecologicals",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix G02.",
+        "selection_method": "heterogeneous_multi_level1_first",
+        "selection_rationale": "Codes span multiple Level 1 areas (G, N); primary code selected, secondary codes preserved.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1391,26 +1776,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "desipramine",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N06AA01"
+        ],
+        "all_atc_codes": [
+          "N06AA01"
+        ],
+        "primary_atc": "N06AA01",
+        "selected_atc": "N06AA01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N06",
+        "pharmacological_subgroup": "Psychoanaleptics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Antidepressants are prescribed for continuous maintenance therapy (typically >=6-12 months) for depressive/anxiety disorders.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1422,26 +1811,30 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "diflunisal",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N02BA11"
+        ],
+        "all_atc_codes": [
+          "N02BA11"
+        ],
+        "primary_atc": "N02BA11",
+        "selected_atc": "N02BA11",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N02",
+        "pharmacological_subgroup": "Analgesics",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1488,26 +1881,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "S",
+      "therapeutic_area": "Sensory organs",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "acetazolamide",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "S01EC01"
+        ],
+        "all_atc_codes": [
+          "S01EC01"
+        ],
+        "primary_atc": "S01EC01",
+        "selected_atc": "S01EC01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "S",
+        "therapeutic_area": "Sensory organs",
+        "pharmacological_subgroup_code": "S01",
+        "pharmacological_subgroup": "Ophthalmologicals",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix S01.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1519,26 +1916,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "R",
+      "therapeutic_area": "Respiratory system",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "benzonatate",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "R05DB01"
+        ],
+        "all_atc_codes": [
+          "R05DB01"
+        ],
+        "primary_atc": "R05DB01",
+        "selected_atc": "R05DB01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "R",
+        "therapeutic_area": "Respiratory system",
+        "pharmacological_subgroup_code": "R05",
+        "pharmacological_subgroup": "Cough and cold preparations",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix R05.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1550,26 +1951,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "S",
+      "therapeutic_area": "Sensory organs",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "bromfenac",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "S01BC11"
+        ],
+        "all_atc_codes": [
+          "S01BC11"
+        ],
+        "primary_atc": "S01BC11",
+        "selected_atc": "S01BC11",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "S",
+        "therapeutic_area": "Sensory organs",
+        "pharmacological_subgroup_code": "S01",
+        "pharmacological_subgroup": "Ophthalmologicals",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix S01.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1581,26 +1986,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "L",
+      "therapeutic_area": "Antineoplastic and immunomodulating agents",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "chlorambucil",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "L01AA02"
+        ],
+        "all_atc_codes": [
+          "L01AA02"
+        ],
+        "primary_atc": "L01AA02",
+        "selected_atc": "L01AA02",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "L",
+        "therapeutic_area": "Antineoplastic and immunomodulating agents",
+        "pharmacological_subgroup_code": "L01",
+        "pharmacological_subgroup": "Antineoplastic agents",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed for ongoing cyclical or continuous maintenance immunotherapy, targeted oncology, or immunosuppression.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1612,26 +2021,34 @@
       "category": "omop_confirmed_positive",
       "is_gt_positive": true,
       "is_gt_negative": false,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
+      "utilization_class": "CHRONIC",
       "therapeutic_context": {
         "drug_canonical": "chlorothiazide",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
-        "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "atc_codes": [
+          "C03AA04",
+          "C03AH01"
+        ],
+        "all_atc_codes": [
+          "C03AA04",
+          "C03AH01"
+        ],
+        "primary_atc": "C03AA04",
+        "selected_atc": "C03AA04",
+        "secondary_atc_codes": [
+          "C03AH01"
+        ],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C03",
+        "pharmacological_subgroup": "Diuretics",
+        "utilization_class": "CHRONIC",
+        "utilization_rationale": "Prescribed as continuous, daily maintenance therapy for chronic cardiovascular conditions (hypertension, pulmonary hypertension, dyslipidemia, heart failure).",
+        "selection_method": "homogeneous_level1_first",
+        "selection_rationale": "All 2 codes belong to same therapeutic area (C); primary code selected.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1678,26 +2095,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
-      "utilization_class": "UNKNOWN",
+      "therapeutic_area_code": "N",
+      "therapeutic_area": "Nervous system",
+      "utilization_class": "MIXED",
       "therapeutic_context": {
         "drug_canonical": "almotriptan",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "N02CC05"
+        ],
+        "all_atc_codes": [
+          "N02CC05"
+        ],
+        "primary_atc": "N02CC05",
+        "selected_atc": "N02CC05",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
-        "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "therapeutic_area_code": "N",
+        "therapeutic_area": "Nervous system",
+        "pharmacological_subgroup_code": "N02",
+        "pharmacological_subgroup": "Analgesics",
+        "utilization_class": "MIXED",
+        "utilization_rationale": "Bimodal utilization: short-term PRN use for acute pain/fever/migraine versus long-term daily use for chronic inflammatory or pain conditions.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1709,26 +2130,40 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "C",
+      "therapeutic_area": "Cardiovascular system",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "benzocaine",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
-        "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "atc_codes": [
+          "C05AD03",
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "all_atc_codes": [
+          "C05AD03",
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "primary_atc": "C05AD03",
+        "selected_atc": "C05AD03",
+        "secondary_atc_codes": [
+          "D04AB04",
+          "N01BA05",
+          "R02AD01"
+        ],
+        "therapeutic_area_code": "C",
+        "therapeutic_area": "Cardiovascular system",
+        "pharmacological_subgroup_code": "C05",
+        "pharmacological_subgroup": "Vasoprotectives",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix C05.",
+        "selection_method": "heterogeneous_multi_level1_first",
+        "selection_rationale": "Codes span multiple Level 1 areas (C, D, N, R); primary code selected, secondary codes preserved.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1740,26 +2175,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "R",
+      "therapeutic_area": "Respiratory system",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "benzonatate",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "R05DB01"
+        ],
+        "all_atc_codes": [
+          "R05DB01"
+        ],
+        "primary_atc": "R05DB01",
+        "selected_atc": "R05DB01",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "R",
+        "therapeutic_area": "Respiratory system",
+        "pharmacological_subgroup_code": "R05",
+        "pharmacological_subgroup": "Cough and cold preparations",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix R05.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     },
     {
@@ -1771,26 +2210,30 @@
       "category": "omop_negative_control",
       "is_gt_positive": false,
       "is_gt_negative": true,
-      "therapeutic_area_code": "UNRESOLVED",
-      "therapeutic_area": "Unresolved Area",
+      "therapeutic_area_code": "S",
+      "therapeutic_area": "Sensory organs",
       "utilization_class": "UNKNOWN",
       "therapeutic_context": {
         "drug_canonical": "bromfenac",
-        "atc_codes": [],
-        "all_atc_codes": [],
-        "primary_atc": null,
-        "selected_atc": null,
+        "atc_codes": [
+          "S01BC11"
+        ],
+        "all_atc_codes": [
+          "S01BC11"
+        ],
+        "primary_atc": "S01BC11",
+        "selected_atc": "S01BC11",
         "secondary_atc_codes": [],
-        "therapeutic_area_code": null,
-        "therapeutic_area": null,
-        "pharmacological_subgroup_code": null,
-        "pharmacological_subgroup": null,
+        "therapeutic_area_code": "S",
+        "therapeutic_area": "Sensory organs",
+        "pharmacological_subgroup_code": "S01",
+        "pharmacological_subgroup": "Ophthalmologicals",
         "utilization_class": "UNKNOWN",
-        "utilization_rationale": "",
-        "selection_method": "",
-        "selection_rationale": "No ChEMBL ID found in local reference lookup.",
-        "atc_source": "unresolved",
-        "is_resolved": false
+        "utilization_rationale": "No standardized pharmacological utilization duration rule established for ATC prefix S01.",
+        "selection_method": "single_code",
+        "selection_rationale": "Single unambiguous ATC classification returned by source.",
+        "atc_source": "chembl_api",
+        "is_resolved": true
       }
     }
   ]

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-38-bromfenac-myocardial_infarction",
-  "timestamp": "2026-09-07T19:59:28.667943Z",
+  "timestamp": "2026-09-08T06:30:03.338964Z",
   "prompts_version": "v1.1",
   "drug": "bromfenac",
   "event": "myocardial_infarction",

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-1-candesartan-acute_kidney_injury",
-  "timestamp": "2026-09-07T19:50:04.641102Z",
+  "timestamp": "2026-09-08T06:28:37.558302Z",
   "prompts_version": "v1.1",
   "drug": "candesartan",
   "event": "acute_kidney_injury",
@@ -59,10 +59,10 @@
     ]
   },
   "indication_concordance": {
-    "concordant": false,
-    "overlap_category": null,
-    "rationale": "",
-    "rule_source": ""
+    "concordant": true,
+    "overlap_category": "Renal Dysfunction & Hemodynamic Azotemia",
+    "rationale": "Hemodynamic Perturbation in Compromised Patients: Diuretics and RAS inhibitors are indicated for hypertension, heart failure, and diabetic nephropathy where baseline renal hemodynamics are severely fragile.",
+    "rule_source": "Schoolwerth AC et al. (2001) Circulation 104(16):1985–1991; Moran SM, Myers BD. (1985) Kidney Int 27(6):928–937; Lapi F, Azoulay L, Yin H, Nessim SJ, Suissa S. (2013) BMJ 346:e8525."
   },
   "source_agreement": "DISCORDANT"
 }

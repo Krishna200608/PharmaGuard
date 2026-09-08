@@ -1398,8 +1398,6 @@ indication_concordance:
 2. **Pre-Validation Lock:** This design document formally pre-registers the discount factor mechanism.
 3. **Status:** Phase 2 complete. Proceeding to Phase 3 live validation against the §36 held-out batch.
 
----
-
 ## 38. Held-Out OMOP Validation Results: Indication-Concordance Discount Factor (Sprint 4 — Phase 3)
 
 **Context:** Following the pre-registered design of the uniform indication-concordance discount factor ($\delta = 0.85$, §37), Phase 3 executed an empirical validation run against the untouched 40-pair held-out OMOP validation batch curated in §36 (`pharmaguard/data/ground_truth_omop_validation_holdout.json`).
@@ -1412,15 +1410,86 @@ Both runs were evaluated using `scripts/evaluator.py` against the identical grou
 
 ---
 
-### 1. Full Pair-by-Pair Comparison Table (40 Held-Out OMOP Pairs)
+### 1. [ERRATUM / INVALIDATED] Initial Phase 3 Run (Commit `e27bcdb`)
 
-| # | Drug | Target Event | Ground Truth | Concordance Flag | Base PRR Score | Disc PRR Score | Base Conf | Disc Conf | Delta Conf | Final Decision |
+> [!WARNING]
+> **INITIAL RUN INVALIDATION NOTICE (Commit `e27bcdb`):**
+> The initial Phase 3 validation run executed in commit `e27bcdb` was found to be statistically invalid due to a defect in `DiseaseContextTool`:
+> Only 5 of the 27 unique drugs (18.5%) resolved WHO ATC codes. Drugs with well-documented ChEMBL records and established ATC codes (e.g. `candesartan` [ChEMBL1016, ATC `C09CA06`], `chlorothiazide` [ChEMBL842, ATC `C03AA04`], `clopidogrel` [ChEMBL1771, ATC `B01AC04`], `escitalopram` [ChEMBL1508, ATC `N06AB10`], and `etodolac` [ChEMBL622, ATC `M01AB08`]) failed resolution due to a missing live ChEMBL API query fallback when drugs were absent from `chembl_lookup.json`.
+> This produced false-negative concordance classifications (`concordant: False`) on 3 truly concordant pairs (`candesartan::acute_kidney_injury`, `chlorothiazide::acute_kidney_injury`, and `etodolac::gastrointestinal_haemorrhage`), artificially suppressing the discount mechanism.
+
+---
+
+### 2. Bug Diagnosis, Root Cause & Remediation
+
+#### 2.1 Direct Reproduction (Step 1)
+Calling `DiseaseContextTool.resolve()` in isolation on `candesartan` and `escitalopram` reproduced the exact failure mode:
+```text
+INFO:pharmaguard.tools.disease_context:Drug 'candesartan' has no ChEMBL ID in lookup — cannot query ChEMBL ATC.
+INFO:pharmaguard.tools.disease_context:Drug 'escitalopram' has no ChEMBL ID in lookup — cannot query ChEMBL ATC.
+{'is_resolved': False, 'atc_source': 'unresolved', 'selection_rationale': 'No ChEMBL ID found in local reference lookup.'}
+```
+**Failure Mode:** `DiseaseContextTool` strictly required an offline mapping in `chembl_lookup.json` (`self._chembl_lookup.get(drug_norm)`). If absent, it logged a quiet `INFO` line and returned `is_resolved=False` without making any HTTP request to ChEMBL.
+
+#### 2.2 Root Cause Analysis & Code Path Comparison (Step 2)
+1. **Original 46-Drug Corpus:** For the 46 drugs across the core benchmark and OMOP pilot, ChEMBL IDs had been pre-resolved into `chembl_lookup.json` during development via `scripts/dev/fetch_chembl.py`, and subsequently frozen into `atc_lookup.json`.
+2. **Holdout Batch:** The 40-pair holdout batch introduced 22 unseen generic drug substances that were absent from both `atc_lookup.json` and `chembl_lookup.json`. Because `DiseaseContextTool` lacked a drug-name search endpoint call, it aborted all 22 drugs locally.
+3. **Resiliency & Logging Gaps:** The original tool also lacked exponential backoff on retriable HTTP codes (429, 500, 502, 503, 504) and logged lookup misses quietly at `INFO` level.
+
+#### 2.3 Remediation in `DiseaseContextTool` (Step 3)
+1. **Live Name Resolution Fallback:** Added exact-name molecule lookup via `https://www.ebi.ac.uk/chembl/api/data/molecule.json?pref_name__iexact={drug_name}` with secondary fallback to `molecule/search.json?q={drug_name}`.
+2. **Exponential Backoff & Retries:** Added `_http_get_json()` with configurable retries (`http_retries=3`, `http_backoff_base=0.1`) catching `HTTPError` (429, 500, 502, 503, 504), `URLError`, and `TimeoutError`.
+3. **Loud Logging:** Emits explicit `logger.warning` / `logger.error` on unresolvable entries and HTTP errors.
+4. **Ontology & Utilization Duration Expansion:** Added standard WHO ATC Level 2 entries (C02, C05, N01, N02, N04, N07, R01, R02, R05) and clinical duration classifications for C02 (Antihypertensives: CHRONIC), N04 (Anti-parkinson: CHRONIC), and N02 (Analgesics: MIXED).
+
+#### 2.4 Holdout Batch Resolution Verification (Step 4)
+Resolution rate across the 27 unique holdout drugs jumped from **$18.5\%$ (5/27)** to **$96.3\%$ (26/27)**, matching the ~95.7% coverage on the original corpus:
+
+| Drug | Before Fix (`e27bcdb`) | After Fix | Primary ATC | Level 1 Therapeutic Area | Level 2 Pharmacological Subgroup | Utilization Class |
+| :--- | :---: | :---: | :---: | :--- | :--- | :---: |
+| `abacavir` | Unresolved | **Resolved** | `J05AF06` | J (Antiinfectives for systemic use) | J05 (Antivirals for systemic use) | `ACUTE` |
+| `acarbose` | Resolved | **Resolved** | `A10BF01` | A (Alimentary tract and metabolism) | A10 (Drugs used in diabetes) | `CHRONIC` |
+| `acetazolamide` | Unresolved | **Resolved** | `S01EC01` | S (Sensory organs) | S01 (Ophthalmologicals) | `UNKNOWN` |
+| `adenosine` | Resolved | **Resolved** | `C01EB10` | C (Cardiovascular system) | C01 (Cardiac therapy) | `ACUTE` |
+| `alatrofloxacin` | Unresolved | *Unresolved* | — | — | — | `UNKNOWN` |
+| `allopurinol` | Resolved | **Resolved** | `M04AA01` | M (Musculo-skeletal system) | M04 (Antigout preparations) | `CHRONIC` |
+| `almotriptan` | Unresolved | **Resolved** | `N02CC05` | N (Nervous system) | N02 (Analgesics) | `MIXED` |
+| `amoxapine` | Unresolved | **Resolved** | `N06AA17` | N (Nervous system) | N06 (Psychoanaleptics) | `CHRONIC` |
+| `benzocaine` | Unresolved | **Resolved** | `C05AD03` | C (Cardiovascular system) | C05 (Vasoprotectives) | `UNKNOWN` |
+| `benzonatate` | Unresolved | **Resolved** | `R05DB01` | R (Respiratory system) | R05 (Cough and cold preparations) | `UNKNOWN` |
+| `bortezomib` | Unresolved | **Resolved** | `L01XG01` | L (Antineoplastic / immunomodulating) | L01 (Antineoplastic agents) | `CHRONIC` |
+| `bosentan` | Unresolved | **Resolved** | `C02KX01` | C (Cardiovascular system) | C02 (Antihypertensives) | `CHRONIC` |
+| `bromfenac` | Unresolved | **Resolved** | `S01BC11` | S (Sensory organs) | S01 (Ophthalmologicals) | `UNKNOWN` |
+| `bromocriptine` | Unresolved | **Resolved** | `G02CB01` | G (Genito-urinary system and sex hormones) | G02 (Other gynecologicals) | `UNKNOWN` |
+| `candesartan` | Unresolved | **Resolved** | `C09CA06` | C (Cardiovascular system) | C09 (Agents acting on renin-angiotensin) | `CHRONIC` |
+| `capreomycin` | Unresolved | **Resolved** | `J04AB30` | J (Antiinfectives for systemic use) | J04 (Antimycobacterials) | `MIXED` |
+| `captopril` | Resolved | **Resolved** | `C09AA01` | C (Cardiovascular system) | C09 (Agents acting on renin-angiotensin) | `CHRONIC` |
+| `chlorambucil` | Unresolved | **Resolved** | `L01AA02` | L (Antineoplastic / immunomodulating) | L01 (Antineoplastic agents) | `CHRONIC` |
+| `chlorothiazide` | Unresolved | **Resolved** | `C03AA04` | C (Cardiovascular system) | C03 (Diuretics) | `CHRONIC` |
+| `clindamycin` | Resolved | **Resolved** | `J01FF01` | J (Antiinfectives for systemic use) | J01 (Antibacterials for systemic use) | `ACUTE` |
+| `clopidogrel` | Unresolved | **Resolved** | `B01AC04` | B (Blood and blood forming organs) | B01 (Antithrombotic agents) | `CHRONIC` |
+| `desipramine` | Unresolved | **Resolved** | `N06AA01` | N (Nervous system) | N06 (Psychoanaleptics) | `CHRONIC` |
+| `diflunisal` | Unresolved | **Resolved** | `N02BA11` | N (Nervous system) | N02 (Analgesics) | `MIXED` |
+| `droperidol` | Unresolved | **Resolved** | `N05AD08` | N (Nervous system) | N05 (Psycholeptics) | `CHRONIC` |
+| `ergotamine` | Unresolved | **Resolved** | `N02CA02` | N (Nervous system) | N02 (Analgesics) | `MIXED` |
+| `escitalopram` | Unresolved | **Resolved** | `N06AB10` | N (Nervous system) | N06 (Psychoanaleptics) | `CHRONIC` |
+| `etodolac` | Unresolved | **Resolved** | `M01AB08` | M (Musculo-skeletal system) | M01 (Anti-inflammatory / antirheumatic) | `MIXED` |
+
+*Note on `alatrofloxacin`:* Legitimate data absence in ChEMBL (CHEMBL1201197 is an intravenous prodrug of trovafloxacin whose record contains no WHO ATC classification; trovafloxacin is `J01MA13`). Resolving 26/27 (96.3%) without artificial hardcoding confirms tool integrity.
+
+---
+
+### 3. Corrected Phase 3 Full Pair-by-Pair Comparison Table (40 Held-Out OMOP Pairs)
+
+The corrected evaluation re-executed both `outputs/experiments/holdout_baseline/` and `outputs/experiments/holdout_discounted/` on the untouched holdout batch:
+
+| # | Drug | Target Event | Ground Truth | Concordance Flag & Rule | Base PRR Score | Disc PRR Score | Base Conf | Disc Conf | Delta Conf | Final Decision |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 1 | `allopurinol` | `acute_kidney_injury` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.8000 | 0.8000 | 0.0000 | `ESCALATE` |
-| 2 | `candesartan` | `acute_kidney_injury` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.6000 | 0.6000 | 0.0000 | `MONITOR` |
+| 2 | `candesartan` | `acute_kidney_injury` | `ESCALATE` | **Concordant (IND-CONF-05)** | 1.0000 | 0.8500 | 0.6000 | 0.5400 | -0.0600 | `MONITOR` |
 | 3 | `capreomycin` | `acute_kidney_injury` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
-| 4 | `captopril` | `acute_kidney_injury` | `ESCALATE` | Concordant | 0.3300 | 0.2805 | 0.5320 | 0.5122 | -0.0198 | `MONITOR` |
-| 5 | `chlorothiazide` | `acute_kidney_injury` | `ESCALATE` | Clear | 0.6600 | 0.6600 | 0.2640 | 0.2640 | 0.0000 | `DO_NOT_ESCALATE` |
+| 4 | `captopril` | `acute_kidney_injury` | `ESCALATE` | **Concordant (IND-CONF-05)** | 0.3300 | 0.2805 | 0.5320 | 0.5122 | -0.0198 | `MONITOR` |
+| 5 | `chlorothiazide` | `acute_kidney_injury` | `ESCALATE` | **Concordant (IND-CONF-05)** | 0.6600 | 0.5610 | 0.2640 | 0.2244 | -0.0396 | `DO_NOT_ESCALATE` |
 | 6 | `adenosine` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 0.3300 | 0.3300 | 0.3320 | 0.3320 | 0.0000 | `DO_NOT_ESCALATE` |
 | 7 | `almotriptan` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
 | 8 | `benzocaine` | `acute_kidney_injury` | `DO_NOT_ESCALATE` | Clear | 0.6600 | 0.6600 | 0.2640 | 0.2640 | 0.0000 | `DO_NOT_ESCALATE` |
@@ -1430,7 +1499,7 @@ Both runs were evaluated using `scripts/evaluator.py` against the identical grou
 | 12 | `clopidogrel` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 1.0000 | 1.0000 | 0.6000 | 0.6000 | 0.0000 | `MONITOR` |
 | 13 | `diflunisal` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
 | 14 | `escitalopram` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
-| 15 | `etodolac` | `gastrointestinal_haemorrhage` | `ESCALATE` | Clear | 0.6600 | 0.6600 | 0.2640 | 0.2640 | 0.0000 | `DO_NOT_ESCALATE` |
+| 15 | `etodolac` | `gastrointestinal_haemorrhage` | `ESCALATE` | **Concordant (IND-CONF-03)** | 0.6600 | 0.5610 | 0.2640 | 0.2244 | -0.0396 | `DO_NOT_ESCALATE` |
 | 16 | `abacavir` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
 | 17 | `acarbose` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | `DO_NOT_ESCALATE` |
 | 18 | `adenosine` | `gastrointestinal_haemorrhage` | `DO_NOT_ESCALATE` | Clear | 0.0000 | 0.0000 | 0.2000 | 0.2000 | 0.0000 | `DO_NOT_ESCALATE` |
@@ -1459,46 +1528,47 @@ Both runs were evaluated using `scripts/evaluator.py` against the identical grou
 
 ---
 
-### 2. Aggregate Metrics Comparison (Strict & Lenient)
+### 4. Corrected Aggregate Metrics Comparison (Strict & Lenient)
 
 | Metric Dimension | Baseline (`discount_enabled: false`) | Discounted ($\delta = 0.85$) | Metric Delta ($\Delta$) |
 | :--- | :---: | :---: | :---: |
 | **Strict Confusion Matrix** | TP=2, FP=0, TN=20, FN=18 | TP=2, FP=0, TN=20, FN=18 | None |
-| **Strict Precision** | **1.000** [Wilson: 0.342 – 1.000] | **1.000** [Wilson: 0.342 – 1.000] | $\pm 0.000$ |
-| **Strict Recall** | **0.100** [Wilson: 0.028 – 0.301] | **0.100** [Wilson: 0.028 – 0.301] | $\pm 0.000$ |
-| **Strict Specificity** | **1.000** [Wilson: 0.839 – 1.000] | **1.000** [Wilson: 0.839 – 1.000] | $\pm 0.000$ |
-| **Strict $F_1$-Score** | **0.182** [Bootstrap: 0.000 – 0.400] | **0.182** [Bootstrap: 0.000 – 0.400] | $\pm 0.000$ |
+| **Strict Precision** | **1.0000** [Wilson: 0.342 – 1.000] | **1.0000** [Wilson: 0.342 – 1.000] | $\pm 0.0000$ |
+| **Strict Recall** | **0.1000** [Wilson: 0.028 – 0.301] | **0.1000** [Wilson: 0.028 – 0.301] | $\pm 0.0000$ |
+| **Strict Specificity** | **1.0000** [Wilson: 0.839 – 1.000] | **1.0000** [Wilson: 0.839 – 1.000] | $\pm 0.0000$ |
+| **Strict $F_1$-Score** | **0.1818** [Bootstrap: 0.000 – 0.400] | **0.1818** [Bootstrap: 0.000 – 0.400] | $\pm 0.0000$ |
 | **Lenient Confusion Matrix** | TP=7, FP=1, TN=19, FN=13 | TP=7, FP=1, TN=19, FN=13 | None |
-| **Lenient Precision** | **0.875** [Wilson: 0.529 – 0.978] | **0.875** [Wilson: 0.529 – 0.978] | $\pm 0.000$ |
-| **Lenient Recall** | **0.350** [Wilson: 0.181 – 0.567] | **0.350** [Wilson: 0.181 – 0.567] | $\pm 0.000$ |
-| **Lenient Specificity** | **0.950** [Wilson: 0.764 – 0.991] | **0.950** [Wilson: 0.764 – 0.991] | $\pm 0.000$ |
-| **Lenient $F_1$-Score** | **0.500** [Bootstrap: 0.240 – 0.692] | **0.500** [Bootstrap: 0.240 – 0.692] | $\pm 0.000$ |
+| **Lenient Precision** | **0.8750** [Wilson: 0.529 – 0.978] | **0.8750** [Wilson: 0.529 – 0.978] | $\pm 0.0000$ |
+| **Lenient Recall** | **0.3500** [Wilson: 0.181 – 0.567] | **0.3500** [Wilson: 0.181 – 0.567] | $\pm 0.0000$ |
+| **Lenient Specificity** | **0.9500** [Wilson: 0.764 – 0.991] | **0.9500** [Wilson: 0.764 – 0.991] | $\pm 0.0000$ |
+| **Lenient $F_1$-Score** | **0.5000** [Bootstrap: 0.240 – 0.692] | **0.5000** [Bootstrap: 0.240 – 0.692] | $\pm 0.0000$ |
 | **Over-Caution Rate** | **5.0%** (1/20 negatives in MONITOR) | **5.0%** (1/20 negatives in MONITOR) | $\pm 0.0\%$ |
 
 ---
 
-### 3. Honest Empirical Findings & Verdict
+### 5. Honest Empirical Findings & Scientific Verdict
 
-1. **Zero Escalation Shifts on the Held-Out Batch ($\Delta = 0$):**
-   - Across all 40 pairs, exactly one pair triggered an indication-concordance rule: `captopril::acute_kidney_injury` (matching **IND-CONF-06**, *Renal Dysfunction & Hemodynamic Azotemia* via ATC `C09AA01`).
-   - For `captopril::acute_kidney_injury`:
-     - Its PRR sub-score was discounted from $0.3300$ to $0.2805$ ($15\%$ reduction).
-     - Its composite confidence dropped from $0.5320$ down to $0.5122$ ($\Delta = -0.0198$).
-     - However, because $0.5122$ remains comfortably above the $0.35$ monitoring threshold, its escalation decision remained `MONITOR`.
-   - Across all 40 pairs, zero pairs shifted triage categories (0 shifts between `ESCALATE`, `MONITOR`, and `DO_NOT_ESCALATE`).
-2. **Safe Specificity Preservation (Zero Regressions):**
-   - The discount factor introduced zero false positives and did not drop any true positives to `DO_NOT_ESCALATE`.
-   - Specificity remained perfectly preserved at $100\%$ (Strict) and $95.0\%$ (Lenient).
-3. **Root Cause Analysis: The External ATC Resolution Bottleneck:**
-   - In §35, the rule table was verified descriptive on the 47 already-used pairs where ATC resolution coverage was high ($83\%+$) because those substances had curated ChEMBL IDs in `chembl_lookup.json`.
-   - On this genuinely untouched 40-pair holdout batch (spanning 27 unique generic drug substances), only 5 drugs resolved to WHO ATC codes in `DiseaseContextTool` (an **$18.5\%$ resolution rate**). 22 drugs (`candesartan`, `chlorothiazide`, `clopidogrel`, `diflunisal`, `escitalopram`, etc.) were missing from `chembl_lookup.json` and failed live ChEMBL API mapping.
-   - Because `IndicationConcordanceTool` relies on ATC Level 1/2 prefixes, unresolved drugs automatically evaluate to `concordant: False` (safe failure). Even though clinical indication overlap was present in pairs like `chlorothiazide::acute_kidney_injury` (diuretic) and `clopidogrel::gastrointestinal_haemorrhage` (antiplatelet), the absence of an ATC code prevented the rule from triggering.
-4. **Architectural & Methodological Takeaway:**
-   - The discount factor ($\delta = 0.85$) behaves as a mathematically sound, non-destructive regularizer when ATC codes are resolved.
-   - However, on external benchmarks without comprehensive ATC lookup infrastructure, its aggregate discriminative effect is negligible ($\Delta = 0.000$).
-5. **Anti-Overfitting Discipline (§15 Compliance):**
-   - We do **not** adjust the discount factor $\delta$ or alter escalation thresholds (e.g. raising 0.35 to 0.52 to force a shift on `captopril`) based on this outcome. The value was pre-registered in §37 and remains locked.
-   - **Production Baseline Decision:** In production, `indication_concordance.discount_enabled` remains **`false`** by default. The indication concordance flag serves as an informational triage annotation (§35 Proposal D), while the discount factor remains a validated, config-gated experimental tool.
+1. **Successful Discount Attenuation across 4 Concordant Pairs:**
+   With ATC resolution fully restored (96.3%), exactly 4 of the 40 holdout pairs met the pre-registered clinical indication-concordance rules:
+   - `candesartan::acute_kidney_injury` (IND-CONF-05, C09): PRR score discounted from $1.0000 \to 0.8500$; confidence reduced from $0.6000 \to 0.5400$ ($\Delta = -0.0600$).
+   - `captopril::acute_kidney_injury` (IND-CONF-05, C09): PRR score discounted from $0.3300 \to 0.2805$; confidence reduced from $0.5320 \to 0.5122$ ($\Delta = -0.0198$).
+   - `chlorothiazide::acute_kidney_injury` (IND-CONF-05, C03): PRR score discounted from $0.6600 \to 0.5610$; confidence reduced from $0.2640 \to 0.2244$ ($\Delta = -0.0396$).
+   - `etodolac::gastrointestinal_haemorrhage` (IND-CONF-03, M01): PRR score discounted from $0.6600 \to 0.5610$; confidence reduced from $0.2640 \to 0.2244$ ($\Delta = -0.0396$).
 
+2. **Categorical Escalation Stability ($\Delta = 0$):**
+   Although confidence attenuated as mathematically designed in all 4 concordant cases, zero pairs shifted between the discrete triage escalation bands:
+   - For `candesartan` (conf $0.5400$) and `captopril` (conf $0.5122$), both remain within the `MONITOR` band ($[0.35, 0.70)$).
+   - For `chlorothiazide` (conf $0.2244$) and `etodolac` (conf $0.2244$), both remain within the `DO_NOT_ESCALATE` band ($< 0.35$).
+   - Consequently, aggregate Strict $F_1$ ($0.1818$) and Lenient $F_1$ ($0.5000$) are identical between baseline and discounted runs.
 
+3. **Robust Specificity & Safe Regularization (Zero Regressions):**
+   - The discount factor introduced zero false positives and did not drop true positives from `ESCALATE` to `DO_NOT_ESCALATE`.
+   - Strict specificity remained locked at $100\%$ and lenient specificity at $95.0\%$ (only 1 negative control, `benzonatate::acute_kidney_injury`, triggered `MONITOR` due to Grade B literature evidence, unchanged across both runs).
 
+4. **Anti-Overfitting Discipline (§15 Compliance):**
+   - We do **not** post-hoc tune $\delta = 0.85$ (e.g. lowering to $0.50$ to force `candesartan` or `captopril` below $0.35$), nor do we adjust escalation thresholds (e.g. raising $0.35$ to $0.55$).
+   - The discount was designed from literature principles (§37) prior to consulting the holdout data, and its empirical behavior is documented transparently as-is.
+
+5. **Production Architectural Decision:**
+   - In production, `indication_concordance.discount_enabled` remains **`false`** by default in `configs/config.yaml`.
+   - Indication concordance remains active in production as an informational, scoring-inert provenance annotation (§35), with the discount factor fully validated and config-gated for research and comparative pharmacovigilance benchmarking.

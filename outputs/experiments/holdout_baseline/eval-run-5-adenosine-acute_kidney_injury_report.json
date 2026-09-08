@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-5-adenosine-acute_kidney_injury",
-  "timestamp": "2026-09-07T19:50:58.575945Z",
+  "timestamp": "2026-09-08T06:28:43.172420Z",
   "prompts_version": "v1.1",
   "drug": "adenosine",
   "event": "acute_kidney_injury",

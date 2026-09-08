@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-14-etodolac-gastrointestinal_haemorrhage",
-  "timestamp": "2026-09-07T19:53:04.805251Z",
+  "timestamp": "2026-09-08T06:28:58.992070Z",
   "prompts_version": "v1.1",
   "drug": "etodolac",
   "event": "gastrointestinal_haemorrhage",
@@ -53,10 +53,10 @@
     ]
   },
   "indication_concordance": {
-    "concordant": false,
-    "overlap_category": null,
-    "rationale": "",
-    "rule_source": ""
+    "concordant": true,
+    "overlap_category": "Upper Gastrointestinal Ulceration & Hemorrhage",
+    "rationale": "Prescribing Channeling & Protopathic Bias: Acid-suppressive drugs are channeled to patients with active gastritis or ulcer diathesis; NSAID prescribing is channeled by baseline musculoskeletal pain severity.",
+    "rule_source": "García Rodríguez LA, Jick H. (1994) Lancet 343(8900):769–772; Petri H, Urquhart J. (1991) Stat Med 10(4):577–581; Hernández-Díaz S, García Rodríguez LA. (2000) Arch Intern Med 160(14):2093–2099."
   },
   "source_agreement": "DISCORDANT"
 }

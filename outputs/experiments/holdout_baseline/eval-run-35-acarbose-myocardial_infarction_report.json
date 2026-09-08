@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-35-acarbose-myocardial_infarction",
-  "timestamp": "2026-09-07T19:58:06.910159Z",
+  "timestamp": "2026-09-08T06:29:28.126123Z",
   "prompts_version": "v1.1",
   "drug": "acarbose",
   "event": "myocardial_infarction",

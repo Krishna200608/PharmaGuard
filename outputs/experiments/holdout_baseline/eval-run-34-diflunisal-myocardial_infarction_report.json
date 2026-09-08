@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-34-diflunisal-myocardial_infarction",
-  "timestamp": "2026-09-07T19:57:47.851600Z",
+  "timestamp": "2026-09-08T06:29:27.650048Z",
   "prompts_version": "v1.1",
   "drug": "diflunisal",
   "event": "myocardial_infarction",

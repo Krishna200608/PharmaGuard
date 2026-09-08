@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-37-benzonatate-myocardial_infarction",
-  "timestamp": "2026-09-07T19:59:28.175320Z",
+  "timestamp": "2026-09-08T06:30:02.863022Z",
   "prompts_version": "v1.1",
   "drug": "benzonatate",
   "event": "myocardial_infarction",

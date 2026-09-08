@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-36-acetazolamide-myocardial_infarction",
-  "timestamp": "2026-09-07T19:58:20.942363Z",
+  "timestamp": "2026-09-08T06:29:28.600577Z",
   "prompts_version": "v1.1",
   "drug": "acetazolamide",
   "event": "myocardial_infarction",

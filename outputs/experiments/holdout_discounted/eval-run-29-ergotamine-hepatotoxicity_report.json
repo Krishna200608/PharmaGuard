@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "run_id": "eval-run-29-ergotamine-hepatotoxicity",
-  "timestamp": "2026-09-07T19:59:24.084623Z",
+  "timestamp": "2026-09-08T06:29:58.916972Z",
   "prompts_version": "v1.1",
   "drug": "ergotamine",
   "event": "hepatotoxicity",
