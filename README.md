@@ -9,11 +9,12 @@
 
   <p>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.13-3776AB.svg?style=flat&logo=python&logoColor=white" alt="Python 3.13" /></a>
-    <a href="https://streamlit.io/"><img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B.svg?style=flat&logo=streamlit&logoColor=white" alt="Streamlit Dashboard" /></a>
+    <a href="https://streamlit.io/"><img src="https://img.shields.io/badge/Streamlit-Dashboard%20(6%20Views)-FF4B4B.svg?style=flat&logo=streamlit&logoColor=white" alt="Streamlit Dashboard" /></a>
     <a href="https://open.fda.gov/"><img src="https://img.shields.io/badge/Data-openFDA%20FAERS-0A85EA.svg?style=flat" alt="openFDA FAERS" /></a>
     <a href="https://www.ebi.ac.uk/chembl/"><img src="https://img.shields.io/badge/Data-ChEMBL%20v34-009688.svg?style=flat" alt="ChEMBL REST" /></a>
     <a href="https://pubmed.ncbi.nlm.nih.gov/"><img src="https://img.shields.io/badge/Data-PubMed%20NCBI-336699.svg?style=flat" alt="PubMed E-Utilities" /></a>
-    <img src="https://img.shields.io/badge/Benchmark-15%20Pairs%20Verified-success.svg?style=flat" alt="Benchmark Verified" />
+    <img src="https://img.shields.io/badge/Tests-229%20Passed-success.svg?style=flat" alt="Unit Tests Passed" />
+    <img src="https://img.shields.io/badge/Benchmarks-Core%20(15)%20%7C%20OMOP%20Pilot%20(32)-blue.svg?style=flat" alt="Benchmarks" />
   </p>
 </div>
 
@@ -85,33 +86,36 @@ $$\text{Confidence} = 0.40 \cdot S_{\text{FAERS}} + 0.40 \cdot S_{\text{PubMed}}
 ### 3. Dual-Metric Benchmark Framework (Strict vs. Lenient)
 Evaluating signal triage requires capturing both unhesitating escalation and safety-critical surveillance:
 - **Strict Metrics:** Treats only `ESCALATE` as True Positive. Captures epistemic caution when biological mechanism is unconfirmed (e.g. `montelukast::suicidal_ideation` $\to$ `MONITOR`, strictly recorded as `FN = 1`).
-- **Lenient Metrics:** Treats `ESCALATE` and `MONITOR` as True Positive. Confirms that no safety-critical signal is dropped (`Recall = 1.000`).
+- **Lenient Metrics:** Treats `ESCALATE` and `MONITOR` as True Positive. Confirms that no safety-critical signal is dropped (`Recall = 1.000` on Core 15 pairs).
 
 ### 4. Anti-Leakage & Memorization Probe Discipline
 Empirical probing revealed that unconstrained LLM plausibility derivation (`force_agent` mode) produced an artificial 1.000 Strict Recall by leaking regulatory memory (citing FDA Boxed Warnings) rather than performing biochemical reasoning (`DECISIONS.md §19`). PharmaGuard maintains a `lookup_first` configuration and treats agent-derived plausibility as **grounded pharmacological knowledge retrieval and pathway synthesis**, not de novo reasoning (`DECISIONS.md §17`).
 
 ### 5. High-Density Streamlit Dashboard (Zero Live API Calls)
-A presentation and clinical review dashboard engineered in Streamlit and Plotly with **zero live API dependencies at runtime**, reading exclusively from pre-committed evaluation reports with full confidence decomposition bar charts, inline report counts (`FAERS Signal (Count)`), and dynamic category filters.
+A clinical review dashboard engineered in Streamlit and Plotly with **zero live API dependencies at runtime** across **6 dedicated views** (Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison, Methodology Probes, and OMOP Pilot Benchmark), reading exclusively from pre-committed evaluation reports with full confidence decomposition waterfall and stacked bar charts, inline report count badges (`FAERS Signal (Count)`), and dynamic category filters.
+
+### 6. Disease-Context Reasoning & Scoring-Inert Indication Concordance
+To address confounding by indication—where a drug is prescribed for symptoms overlapping the suspected adverse event—PharmaGuard incorporates specialized clinical context modules:
+- **`DiseaseContextTool` & WHO ATC:** Queries the ChEMBL API and local registries (`atc_lookup.json`) for WHO Anatomical Therapeutic Chemical (ATC) classification codes (Levels 1–4) and indication records to contextualize disease space.
+- **`IndicationConcordanceTool`:** Evaluates semantic and pharmacological concordance between candidate adverse events and indicated pathologies using a 7-rule clinical heuristics cascade (`IND-CONF-01` to `IND-CONF-07`).
+- **Scoring-Inert by Design:** In production triage, indication concordance operates strictly as an **informational surveillance flag** without modifying composite numerical confidence or causing decision boundary crossings (`DECISIONS.md §35`). This deliberate scoring-inert separation provides clinical reviewers with vital confounding context while preserving the mathematical determinism and safety-gate integrity of the core triage engine.
 
 ---
 
-## Benchmark & Evaluation Results
+## Multi-Benchmark Performance Results
 
-PharmaGuard was benchmarked against a **15-pair ground truth dataset** (7 Confirmed Positives, 5 Genuine Negative Controls, 3 Zero-Report Controls) and compared directly against a **Single-Shot LLM Baseline** (Gemini Flash, zero tool access):
+PharmaGuard has been evaluated across two formal benchmark suites: the **Core 15-Pair Ground Truth Benchmark** (7 Confirmed Positives, 5 Genuine Negative Controls, 3 Zero-Report Controls) evaluated against a **Single-Shot LLM Baseline** (Gemini 3.1 Flash Lite, zero tool access), and the external **OMOP Pilot Benchmark** (32 pairs from the OHDSI MethodEvaluation reference set across 4 acute clinical outcomes: AMI, Acute Pancreatitis, Upper GI Bleed, and Acute Liver Injury):
 
-| Metric | PharmaGuard (Tool-Grounded) | Single-Shot LLM Baseline (No Tools) | Benchmark Meaning & Significance |
-| :--- | :---: | :---: | :--- |
-| **Strict Precision** | **1.000** [0.610 – 1.000] | 0.875 [0.529 – 0.978] | **FP = 0** on negative controls under PharmaGuard. |
-| **Strict Recall** | **0.857** (6/7) [0.487 – 0.974] | 1.000 (7/7) [0.646 – 1.000] | Strict FN = Montelukast (caution under unconfirmed mechanism). |
-| **Strict Specificity** | **1.000** [0.676 – 1.000] | 0.875 [0.529 – 0.978] | Baseline falsely escalated *liraglutide* on historical concern. |
-| **Strict F1 Score** | **0.923** [0.727 – 1.000] | 0.933 [0.769 – 1.000] | Robust F1 across strict binary escalation. |
-| **Lenient Precision** | **0.875** [0.529 – 0.978] | 0.700 [0.397 – 0.892] | Confounded Metformin polypharmacy appropriately monitored. |
-| **Lenient Recall** | **1.000** (7/7) [0.646 – 1.000] | 1.000 (7/7) [0.646 – 1.000] | **Zero safety signals missed** across both systems. |
-| **Lenient Specificity** | **0.875** [0.529 – 0.978] | 0.625 [0.306 – 0.863] | PharmaGuard avoids over-monitoring clean negatives. |
-| **Lenient F1 Score** | **0.933** [0.769 – 1.000] | 0.824 [0.615 – 0.941] | **+10.9% F1 gain** over single-shot baseline under lenient triage. |
-| **Over-Caution Rate (OCR)** | **12.5%** (1 of 8) | **25.0%** (2 of 8) | **50% reduction in unnecessary negative control alerts.** |
+| Benchmark & Evaluation Suite | Strict Precision | Strict Recall | Strict Specificity | Strict F1 | Lenient Precision | Lenient Recall | Lenient Specificity | Lenient F1 | Over-Caution Rate |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **PharmaGuard (Core 15-Pair)** | **1.000** [0.610 – 1.000] | **0.857** (6/7) [0.487 – 0.974] | **1.000** [0.676 – 1.000] | **0.923** [0.727 – 1.000] | **0.875** [0.529 – 0.978] | **1.000** (7/7) [0.646 – 1.000] | **0.875** [0.529 – 0.978] | **0.933** [0.769 – 1.000] | **12.5%** (1 of 8) |
+| **Single-Shot Baseline (Core 15-Pair)** | 0.875 [0.529 – 0.978] | 1.000 (7/7) [0.646 – 1.000] | 0.875 [0.529 – 0.978] | 0.933 [0.769 – 1.000] | 0.700 [0.397 – 0.892] | 1.000 (7/7) [0.646 – 1.000] | 0.625 [0.306 – 0.863] | 0.824 [0.615 – 0.941] | 25.0% (2 of 8) |
+| **PharmaGuard (OMOP Pilot 32-Pair)** | **1.000** (1/1) [0.207 – 1.000] | **0.063** (1/16) [0.011 – 0.270] | **1.000** (16/16) [0.806 – 1.000] | **0.118** [0.024 – 0.426] | **0.846** (11/13) [0.578 – 0.957] | **0.688** (11/16) [0.444 – 0.858] | **0.813** (13/16) [0.570 – 0.934] | **0.720** [0.540 – 0.850] | **18.8%** (3 of 16) |
 
-*Note on Statistical CIs:* Non-parametric Bootstrap ($B=1000, \text{seed}=42$) and exact Wilson score 95% confidence intervals are reported. At $n=15$, the bootstrap $[1.000, 1.000]$ interval for strict precision/specificity is a mathematical $0/N$ boundary artifact; the Wilson interval ($[0.610, 1.000]$) reflects true small-sample uncertainty (`PROGRESS.md`, `DECISIONS.md §16`).
+*Statistical Confidence Intervals:* Wilson score and non-parametric Bootstrap ($B=1000, \text{seed}=42$) 95% confidence intervals are reported. Under strict triage on OMOP Pilot, PharmaGuard achieved **100% Specificity (16/16 negative controls correctly suppressed)**. Under lenient triage, it captured **68.8% Recall (11/16 positive controls placed under surveillance)** with only a minor 18.8% over-caution rate.
+
+> **Exploratory 40-Pair Held-Out OMOP Validation Batch:**
+> In addition to the primary benchmarks above, an exploratory batch of 40 held-out OMOP pairs (20 positive controls, 20 negative controls) was curated to evaluate whether an active indication-concordance discount factor ($\delta = 0.85$) would safely attenuate confounded disproportionality signals without destabilizing decision thresholds. In this batch, concordance criteria triggered on only 4 of the 40 pairs (10.0%)—far too few to establish statistically powered conclusions regarding the discount's generalization across broad clinical phenotypes. While the discount lowered confidence sub-scores as mathematically designed without violating any hard safety gates, it caused zero decision boundary crossings ($\Delta = 0$). The experiment and full per-pair audit are documented as an exploratory negative result in [`docs/context/DECISIONS.md §38`](docs/context/DECISIONS.md#38-independent-verification-and-factual-correction-of-the-40-pair-held-out-omop-validation-batch).
 
 ---
 
@@ -149,77 +153,46 @@ PharmaGuard was benchmarked against a **15-pair ground truth dataset** (7 Confir
 
 ```
 PharmaGuard/
-├── .agents/skills/                   # Antigravity agent skills
-│   ├── developing-with-streamlit/    # Streamlit UI & component patterns
-│   ├── pharmacovigilance-evaluation/ # Codified statistical evaluation protocols
-│   ├── academic-paper-writer/        # Academic manuscript drafting scaffold
-│   └── presentation-deck-builder/    # 16:9 defense slide deck scaffold
-├── .streamlit/
-│   └── config.toml                   # Streamlit server and theme configuration
+├── .agents/skills/                   # Antigravity agent skills & evaluation protocols
 ├── assets/
 │   ├── Logos/                        # Vector and raster brand identity assets
-│   └── Screenshots/                  # High-resolution dashboard verification captures
-│       ├── Light/                    # Light mode UI captures across all 5 views
-│       └── Dark/                     # Dark mode UI captures across all 5 views
+│   └── Screenshots/                  # High-resolution dashboard verification captures (Light & Dark)
 ├── configs/
-│   └── config.yaml                   # Central pipeline & cache configuration
+│   └── config.yaml                   # Central pipeline, model, scoring, and cache configuration
 ├── docs/
-│   ├── context/
+│   ├── context/                      # Core architectural, historical, and engineering documentation
 │   │   ├── UNDERSTAND.md             # Canonical plain-language project overview
-│   │   ├── DECISIONS.md              # 29-section chronological record of architectural decisions
-│   │   ├── PROGRESS.md               # Sprint log, verified metrics & reproduction steps
-│   │   ├── ARCHITECTURE.md           # Technical system & Pydantic schema specifications
-│   │   ├── CONTRIBUTION.md           # Grounded project contribution claims (9 verified findings)
-│   │   ├── CONVENTIONS.md            # Coding standards & git workflow
-│   │   ├── GROUND_TRUTH_CANDIDATES.md# Ground truth sourcing & FAERS evidence
-│   │   └── NOTES.md                  # Design constraints & escalation thresholds
-│   └── proposals/                    # Project proposals & institutional briefs
-│       └── archive/pre-pivot-oncoswarm/ # Archived pre-pivot tumor-board proposal files
+│   │   ├── DECISIONS.md              # 38-section chronological record of architectural decisions
+│   │   ├── PROGRESS.md               # Sprint changelog, verified metrics & reproduction steps
+│   │   └── ARCHITECTURE.md           # Exhaustive technical system & Pydantic schema specifications
+│   ├── meetings/                     # Weekly stakeholder progress updates and briefing memos
+│   └── proposals/                    # Formal capstone proposals & institutional briefs
 ├── outputs/
-│   ├── eval-run-*_report.json        # 15 production pipeline evaluation JSON reports
-│   ├── evaluation_summary.txt        # Production benchmark summary with 95% CIs
-│   ├── baseline/                     # Single-shot LLM baseline reports & summary
-│   ├── ablation/                     # force_agent mode ablation reports & comparison
-│   ├── react_agent/                  # ReAct LangGraph agent evaluation reports
-│   ├── stability/                    # Leave-One-Out cross-validation outputs (loo_analysis.json)
-│   ├── critic_probe/                 # Adversarial leakage critic probe audit results
-│   ├── confounding_probe/            # Confounding self-probe & Metformin discount reports
-│   ├── paper_figures/                # High-resolution publication-ready figures & vector assets
-│   └── probe/                        # Obscure-pair memorization probe reports
+│   ├── core/                         # Frozen production TriageReport JSONs (15 pairs) + summary
+│   ├── experiments/                  # Isolated experimental conditions (baseline/, react_agent/, and several isolated experiment directories)
+│   └── research/                     # Formal research benchmarks & artifacts (omop_pilot/, stability/, paper_figures/, and reproducibility manifests)
 ├── pharmaguard/
-│   ├── agent/                        # ReAct & Fixed Pipeline agents
-│   ├── data/
-│   │   ├── ground_truth.json         # 15 curated benchmark evaluation pairs
-│   │   ├── plausibility_ratings.json # Human-curated plausibility ratings (v1.0)
-│   │   └── chembl_lookup.json        # Pre-resolved ChEMBL compound registry
+│   ├── agent/                        # Fixed Pipeline & ReAct LangGraph orchestrators, schemas
+│   ├── data/                         # Benchmark pairs, plausibility ratings, ChEMBL & ATC registries
 │   ├── prompts/                      # Versioned system prompts & grading rubrics
-│   │   ├── confounding_assessment.txt# Polypharmacy confounding evaluator prompt
-│   │   └── leakage_critic.txt        # Adversarial maker-checker critic prompt
-│   ├── tools/                        # OpenFDA, ChEMBL, PubMed & diskcache tools
-│   │   └── confounding.py            # Polypharmacy ConfoundingTool & ConfoundingAssessment
-│   └── utils/                        # Config loaders, normalizers & metrics
+│   ├── tools/                        # FAERS, ChEMBL, PubMed, Confounding, DiseaseContext, IndicationConcordance tools & cache
+│   └── utils/                        # Config loaders, normalizers & evaluation metrics
 ├── scripts/
-│   ├── dashboard.py                  # Streamlit evaluation dashboard driver (5 views)
+│   ├── dashboard.py                  # Streamlit evaluation dashboard driver (6 views)
 │   ├── dashboard_modules/            # Modular dashboard package (views, components, styles)
-│   │   └── views/probes.py           # Methodology Probes tab (critic, confounding, waterfalls)
-│   ├── run_eval.py                   # 15-pair benchmark evaluation runner
+│   ├── run_eval.py                   # Production 15-pair benchmark evaluation runner
 │   ├── evaluator.py                  # Strict & Lenient metric calculator with Bootstrap/Wilson CIs
 │   ├── baseline.py                   # Single-shot LLM baseline evaluation runner
-│   ├── stability_analysis.py         # 15-fold Leave-One-Out (LOO) stability analysis
-│   ├── run_critic_probe.py           # Adversarial mechanistic leakage critic probe runner
-│   ├── run_confounding_probe.py      # Confounding 4-pair self-probe harness
-│   ├── run_confounding_evaluation.py # Confounding-enabled full evaluation runner
-│   ├── export_paper_figures.py       # Publication-ready figure & asset exporter
-│   ├── verify_react_agreement.py     # ReAct stated vs. reported escalation divergence audit
-│   ├── run_probe.py                  # Memorization probe runner
-│   ├── check_albuterol.py            # FAERS verification diagnostic
-│   ├── verify_reports.py             # Output schema & UTF-8 integrity diagnostic
-│   └── dev/                          # Historical diagnostic & curation developer utilities
-├── tests/                            # 51 pytest unit & regression tests
+│   ├── dev/                          # Developer diagnostic and verification utilities
+│   └── research/                     # Specialized research runners (OMOP pilot, probes, stability, ablation)
+├── tests/                            # 229 pytest unit & regression tests (all passing)
 ├── requirements.txt                  # Pinned project dependencies
-├── README.md                         # Project entry point & overview
-└── UNDERSTAND.md                     # Root pointer to docs/context/UNDERSTAND.md
+├── NOTICE.md                         # Third-party licenses (CC BY-SA 3.0, Apache 2.0) & citations
+├── LICENSE                           # Project MIT License
+└── README.md                         # Project entry point & overview
 ```
+
+*(For an exhaustive breakdown of all output subdirectories, research harnesses, and JSON schemas, see [`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md).)*
 
 ---
 
@@ -255,7 +228,7 @@ cp .env.example .env
 python scripts/run_eval.py
 
 # Compute Strict and Lenient evaluation metrics with 95% CIs
-python scripts/evaluator.py --outputs-dir outputs --title "PharmaGuard Final"
+python scripts/evaluator.py --outputs-dir outputs/core --title "PharmaGuard Final"
 
 # Run single-shot baseline evaluation
 python scripts/baseline.py
@@ -266,13 +239,14 @@ python scripts/baseline.py
 ```bash
 streamlit run scripts/dashboard.py
 ```
-*The dashboard opens at `http://localhost:8501`, rendering all 5 views (Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison, Methodology Probes) with zero live network calls.*
+*The dashboard opens at `http://localhost:8501`, rendering all 6 views (Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison, Methodology Probes, and OMOP Pilot Benchmark) with zero live network calls.*
 
 ### 4. Run Unit Tests
 
 ```bash
 pytest -v
 ```
+*(All 229 tests pass across 18 test modules in ~48s).*
 
 ---
 
@@ -281,9 +255,9 @@ pytest -v
 | Document | Purpose & Description |
 | :--- | :--- |
 | **[`docs/context/UNDERSTAND.md`](docs/context/UNDERSTAND.md)** | **Start here.** Plain-language guide covering system mechanics, data streams, and the dual-metric philosophy. |
-| **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 29-section chronological record of all architectural decisions, MedDRA PT audits, and memorization probe findings. |
-| **[`docs/context/PROGRESS.md`](docs/context/PROGRESS.md)** | Sprint changelog, exact Wilson/Bootstrap confidence interval tables, and clean reproduction verification. |
-| **[`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md)** | Formal technical architecture, component interactions, scoring equations, and JSON schemas. |
+| **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 38-section chronological record of all architectural decisions, MedDRA PT audits, probe findings, and benchmark validations. |
+| **[`docs/context/PROGRESS.md`](docs/context/PROGRESS.md)** | Sprint changelog, multi-benchmark results, exact Wilson/Bootstrap confidence interval tables, and reproduction verification. |
+| **[`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md)** | Exhaustive technical system architecture, data flows, Pydantic schemas, mathematical scoring equations, and directory tree. |
 | **[`docs/context/CONTRIBUTION.md`](docs/context/CONTRIBUTION.md)** | Grounded claims of project contributions, empirical findings, and architectural comparisons. |
 | **[`docs/proposals/PharmaGuard_Proposal_2026-08-18.md`](docs/proposals/PharmaGuard_Proposal_2026-08-18.md)** | Formal Capstone Project Proposal (18 August 2026) submitted to Dr. Nikhilanand Arya. |
 
@@ -304,9 +278,10 @@ pytest -v
 ## License & Third-Party Notices
 
 - **Software & Code:** PharmaGuard's original software, agent orchestration, evaluation harnesses, and documentation are licensed under the [MIT License](LICENSE).
-- **Third-Party Data:** Certain pharmacological registries and benchmark datasets distributed in `pharmaguard/data/` are governed by separate open licenses:
-  - `pharmaguard/data/chembl_lookup.json` is derived from ChEMBL and licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) (Creative Commons Attribution-ShareAlike 3.0 Unported). In accordance with the ShareAlike clause, this data file remains subject to CC BY-SA 3.0 and is not covered by the repo's MIT license.
-  - `pharmaguard/data/external/omopReferenceSet.rda` and derived `ground_truth_omop_pilot.json` are distributed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) (OHDSI MethodEvaluation).
+- **Third-Party Data & Lookups:** Certain pharmacological registries and benchmark datasets distributed in `pharmaguard/data/` are governed by open third-party licenses:
+  - `pharmaguard/data/chembl_lookup.json` and `pharmaguard/data/atc_lookup.json` are derived from the EMBL-EBI ChEMBL database and licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) (Creative Commons Attribution-ShareAlike 3.0 Unported). In accordance with the ShareAlike clause, these data files remain subject to CC BY-SA 3.0 and are not covered by the repo's MIT license.
+  - `pharmaguard/data/external/omopReferenceSet.rda` and the derived benchmark files `pharmaguard/data/ground_truth_omop_pilot.json` and `pharmaguard/data/ground_truth_omop_validation_holdout.json` are distributed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) (OHDSI MethodEvaluation).
 
 See **[`NOTICE.md`](NOTICE.md)** for full third-party license texts, copyright notices, and required academic citations.
+
 

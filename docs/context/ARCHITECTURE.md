@@ -1,14 +1,17 @@
-Last updated: 2026-08-29 | Sprint: Completed Capstone Benchmark | Updated by: Antigravity
+Last updated: 2026-09-10 | Sprint: Sprint 4 Phase 3 (Multi-Benchmark & Indication Concordance) | Updated by: Antigravity
 
 # ARCHITECTURE
 
 ## Overview
 
-PharmaGuard is a pharmacovigilance triage agent that assesses drug-adverse event
-pairs and issues one of three decisions: **ESCALATE / MONITOR / DO_NOT_ESCALATE**.
-It integrates three real-world data sources (FAERS disproportionality data, ChEMBL
-mechanism-of-action metadata, PubMed literature grading) into a deterministic
-confidence formula and escalation rule set. All external calls are cache-backed.
+PharmaGuard is an automated pharmacovigilance triage orchestrator that evaluates drug–adverse event
+pairs and issues one of three auditable decisions: **ESCALATE / MONITOR / DO_NOT_ESCALATE**.
+It integrates three primary empirical data sources (FAERS postmarketing disproportionality statistics,
+ChEMBL target mechanism-of-action metadata, and PubMed literature grading) into a deterministic
+confidence formula and escalation rule set. This core tri-source engine is augmented by a clinical
+disease-context layer (`DiseaseContextTool`, resolving WHO ATC classifications) and an informational
+confounding-by-indication evaluator (`IndicationConcordanceTool`). All external network queries are
+fronted by a deterministic, persistent disk cache.
 
 ---
 
@@ -19,16 +22,18 @@ pharmaguard/                  # Python package (core source)
 │
 ├── agent/
 │   ├── fixed_pipeline.py     # Fixed-order orchestrator (production default)
-│   ├── react_agent.py        # LangGraph ReAct orchestrator (LLM-driven order)
-│   ├── output_schema.py      # Pydantic output schema + confidence formula
-│   └── transcript_logger.py  # Per-run JSON transcript writer → run_logs/
+│   ├── react_agent.py        # LangGraph ReAct orchestrator (dynamic tool call loop)
+│   ├── output_schema.py      # Pydantic output schemas, confidence formulas & escalation gating
+│   └── transcript_logger.py  # Per-run JSON transcript logger → run_logs/
 │
 ├── tools/
 │   ├── signal_source.py      # Abstract SignalDataSource + FaersLegacySource
-│   ├── chembl_tool.py        # ChEMBL static lookup + plausibility derivation
+│   ├── chembl_tool.py        # ChEMBL static lookup + plausibility derivation + critic audit
 │   ├── pubmed_tool.py        # NCBI E-utilities + LLM evidence grading
 │   ├── confounding.py        # ConfoundingTool + ConfoundingAssessment schema
-│   └── cache.py              # Disk-backed ToolCache (diskcache)
+│   ├── disease_context.py    # DiseaseContextTool (WHO ATC Level 1-4 ontology resolution)
+│   ├── indication_concordance.py # IndicationConcordanceTool (7 clinical rules IND-CONF-01..07)
+│   └── cache.py              # Persistent disk-backed ToolCache (diskcache, SHA-256 keying)
 │
 ├── utils/
 │   ├── config_loader.py      # Parses configs/config.yaml → AppConfig
@@ -36,14 +41,16 @@ pharmaguard/                  # Python package (core source)
 │   └── text.py               # normalize_term(): snake_case → natural language
 │
 ├── data/
-│   ├── chembl_lookup.json    # Pre-resolved ChEMBL IDs + MoA text (50 drugs)
-│   ├── plausibility_ratings.json  # Human-curated plausibility labels (lookup default)
-│   ├── ground_truth.json     # 15-pair evaluation set with categories + citations
-│   ├── ground_truth_omop_pilot.json   # 32-pair secondary OMOP pilot reference set
+│   ├── chembl_lookup.json    # Pre-resolved ChEMBL IDs + MoA text (50 drugs, CC BY-SA 3.0)
+│   ├── atc_lookup.json       # WHO ATC classification registry (Levels 1–4, CC BY-SA 3.0)
+│   ├── plausibility_ratings.json # Human-curated plausibility labels (lookup default)
+│   ├── ground_truth.json     # 15-pair core evaluation set with categories & citations
+│   ├── ground_truth_omop_pilot.json # 32-pair OMOP pilot reference set (Apache 2.0)
+│   ├── ground_truth_omop_validation_holdout.json # 40-pair held-out validation set (Apache 2.0)
 │   ├── archive/
 │   │   └── pilot_set.json    # 3-pair quick-check set (superseded by ground_truth.json)
 │   └── external/
-│       └── omopReferenceSet.rda   # OHDSI MethodEvaluation reference dataset
+│       └── omopReferenceSet.rda # OHDSI MethodEvaluation reference dataset (Apache 2.0)
 │
 └── prompts/
     ├── baseline_single_shot.txt    # Single-shot prompt for baseline.py
@@ -51,18 +58,20 @@ pharmaguard/                  # Python package (core source)
     ├── react_system.txt            # ReAct agent system prompt
     ├── react_tool_call_format.txt  # Tool-call format instructions for ReAct
     ├── synthesis_prompt.txt        # Synthesis step prompt
-    ├── confounding_assessment.txt  # Confounding assessment evaluator prompt
-    └── prompts_version.txt         # Current version string (currently v1.1)
+    ├── confounding_assessment.txt  # Polypharmacy confounding evaluator prompt
+    ├── leakage_critic.txt          # Adversarial maker-checker critic prompt
+    └── prompts_version.txt         # Active prompt version string (currently v1.1)
 
 configs/
-└── config.yaml               # All runtime settings (mode, model, weights, cache, APIs)
+└── config.yaml               # Central pipeline settings (modes, weights, thresholds, APIs, caches)
 
 scripts/
-├── dashboard.py              # Multi-view Streamlit dashboard entrypoint
+├── dashboard.py              # 6-view Streamlit evaluation dashboard entrypoint
 ├── evaluator.py              # Score TriageReport JSONs against ground_truth.json
-├── baseline.py               # Single-shot Gemini baseline (no tool use)
-├── run_eval.py               # Run all 15 ground truth pairs → outputs/core/
-├── dashboard_modules/        # Modular dashboard views, components, and styles
+├── baseline.py               # Single-shot Gemini baseline (zero tool use)
+├── run_eval.py               # Run 15 ground truth pairs → outputs/core/
+├── dashboard_modules/        # Modular dashboard package (views, components, styles)
+│   └── views/                # Individual dashboard view tabs (probes, omop_pilot, etc.)
 ├── dev/                      # Developer and diagnostic utilities
 │   ├── backfill_agreement.py # Cross-source agreement backfill audit
 │   ├── capture_screenshots.py# 1080p automated screenshot utility
@@ -71,7 +80,7 @@ scripts/
 │   ├── fetch_chembl.py       # Utility to query ChEMBL API for chembl_lookup.json
 │   ├── run_pilot.py          # Interactive pilot demonstration utility
 │   ├── verify_react_agreement.py # Read-only audit for ReAct vs deterministic gating
-│   └── verify_reports.py     # Sanity check for output report schemas
+│   └── verify_reports.py     # Output schema & UTF-8 integrity diagnostic
 └── research/                 # Formal research experiments and publication artifacts
     ├── build_reproducibility_manifest.py # Automated provenance manifest builder
     ├── error_taxonomy.py     # Programmatic error & edge-case taxonomy generator
@@ -85,125 +94,139 @@ scripts/
     ├── stability_analysis.py # 15-fold Leave-One-Out (LOO) stability analysis
     └── stability_repeated_runs.py # Repeated-run sub-score variance experiment
 
-tests/                        # pytest unit tests (84 tests, all passing)
+tests/                        # pytest unit tests (229 tests across 18 test files, all passing)
+
 docs/
-└── context/
-    ├── ARCHITECTURE.md       # Technical architecture & schema reference
-    ├── CONTRIBUTION.md       # Grounded project contribution claims
-    ├── CONVENTIONS.md        # Coding and data-curation conventions
-    ├── DECISIONS.md          # Complete 31-section design decision record
-    ├── GROUND_TRUTH_CANDIDATES.md  # Ground truth sourcing + regulatory citations
-    ├── NOTES.md              # Design constraints, escalation thresholds
-    ├── PROGRESS.md           # Continuous sprint log and audit history
-    ├── PROJECT_OVERVIEW.md   # High-level project summary and scope boundaries
-    └── UNDERSTAND.md         # Comprehensive project guide and results walk-through
+├── context/
+│   ├── UNDERSTAND.md         # Comprehensive project guide and results walk-through
+│   ├── DECISIONS.md          # Complete 38-section chronological record of design decisions
+│   ├── PROGRESS.md           # Continuous sprint log, verified metrics & reproduction steps
+│   ├── ARCHITECTURE.md       # Technical architecture & schema reference
+│   ├── CONTRIBUTION.md       # Grounded project contribution claims (9 verified findings)
+│   ├── CONVENTIONS.md        # Coding standards & git workflow
+│   ├── GROUND_TRUTH_CANDIDATES.md # Ground truth sourcing & regulatory citations
+│   ├── NOTES.md              # Design constraints & escalation thresholds
+│   └── PROJECT_OVERVIEW.md   # High-level project summary and scope boundaries
+├── meetings/                 # Weekly stakeholder progress updates and briefing memos
+│   └── Weekly/
+│       └── 1_This_Week_Multi_Disease_Update.md
+└── proposals/                # Formal capstone proposals & institutional briefs
+    ├── PharmaGuard_Proposal_2026-08-18.md
+    └── archive/pre-pivot-oncoswarm/ # Archived pre-pivot tumor-board proposal files
 
 outputs/
 ├── core/                     # Frozen production TriageReport JSONs (15 pairs) + summary
+│   ├── eval-run-*_report.json
+│   └── evaluation_summary.txt
 ├── experiments/              # Isolated experimental condition outputs
-│   ├── baseline/             # Single-shot LLM baseline reports
 │   ├── ablation/             # Force-agent derivation ablation reports
-│   ├── react_agent/          # ReAct LangGraph agent reports & agreement_report.json
-│   ├── probe/                # Obscure pair epistemic probe reports
-│   ├── critic_probe/         # Adversarial critic audit results
-│   └── confounding_probe/    # Confounding self-probe & Metformin reports
+│   ├── baseline/             # Single-shot LLM baseline reports & summary
+│   ├── confounding_probe/    # Confounding self-probe & Metformin discount reports
+│   ├── critic_probe/         # Adversarial leakage critic audit results
+│   ├── holdout_baseline/     # 40-pair held-out OMOP baseline evaluation reports
+│   ├── holdout_discounted/   # 40-pair held-out OMOP reports with delta=0.85 discount
+│   ├── omop_pilot_baseline/  # 32-pair OMOP pilot baseline evaluation reports
+│   ├── omop_pilot_discounted/# 32-pair OMOP pilot reports with discount factor
+│   ├── probe/                # Obscure-pair epistemic memorization probe reports
+│   └── react_agent/          # ReAct LangGraph agent reports & agreement_report.json
 └── research/                 # Formal research artifacts and secondary benchmarks
-    ├── omop_pilot/           # 32-pair OMOP pilot evaluation reports
-    ├── stability/            # LOO analysis & repeated-run variance datasets
-    ├── source_ablation/      # Multi-source ablation & sensitivity matrices
     ├── error_taxonomy/       # Programmatic taxonomy results
-    ├── paper_figures/        # High-resolution publication figures
-    └── reproducibility_manifest.json # Consolidated provenance index (.json & .md)
+    ├── omop_pilot/           # 32-pair OMOP pilot benchmark outputs
+    ├── paper_figures/        # High-resolution publication figures & vector assets
+    ├── reproducibility/      # Environment manifests, package pins & provenance
+    ├── source_ablation/      # Multi-source ablation & sensitivity matrices
+    ├── stability/            # 15-fold LOO analysis & repeated-run variance datasets
+    ├── reproducibility_manifest.json # Consolidated provenance index
+    └── reproducibility_manifest.md   # Human-readable reproducibility report
 
 assets/
-└── Screenshots/              # 1080p dashboard captures (Light and Dark themes)
+├── Logos/                    # Vector and raster brand identity assets
+└── Screenshots/              # 1080p dashboard captures across Light and Dark themes
 
-run_logs/                     # Per-run JSON transcripts (TranscriptLogger)
+run_logs/                     # Per-run JSON execution traces (TranscriptLogger)
 ```
 
 ---
 
 ## Dual Agent Modes
 
-Both modes are **production-verified**: each has been run against the full 15-pair
-ground truth set and produced scored TriageReport outputs.
+Both modes are **production-verified**: each has been run against benchmark datasets and produces valid `TriageReport` JSONs adhering to the shared schema.
 
-Mode is selected via `config.yaml → agent.mode` (`"fixed_pipeline"` | `"react"`).
-The entry point `scripts/run_eval.py` respects this setting at runtime.
+Mode is selected via `config.yaml → agent.mode` (`"fixed_pipeline"` | `"react"`). The entry point `scripts/run_eval.py` respects this setting at runtime.
 
 ### Fixed Pipeline (`pharmaguard/agent/fixed_pipeline.py`) — current default
 - **Class**: `FixedPipelineAgent`
-- **Execution order**: deterministic — FAERS → ChEMBL → PubMed → synthesize
-- Injects `chembl_llm_fn` into `ChemblTool` for agent-derived plausibility
-- Injects `pubmed_llm_fn` into `PubMedTool` for LLM evidence grading
-- Structured LLM outputs via `GradeOutput` and `PlausibilityLLMOutput` Pydantic
-  models (prevents adversarial label contamination from explanation text)
-- **Performance**: Strict P=1.000, R=0.857, F1=0.923; Lenient P=0.875, R=1.000, F1=0.933 (`PROGRESS.md`, `DECISIONS.md §16`)
+- **Execution order**: Deterministic sequence — FAERS → ChEMBL → PubMed → Disease Context & Concordance → Synthesize
+- Injects `chembl_llm_fn` into `ChemblTool` for agent-derived plausibility on lookup misses
+- Injects `pubmed_llm_fn` into `PubMedTool` for LLM evidence grading against versioned rubrics
+- Structured LLM outputs via `GradeOutput` and `PlausibilityLLMOutput` Pydantic models (prevents adversarial label contamination from narrative explanation text)
+- **Performance**: Strict P=1.000, R=0.857, Sp=1.000, F1=0.923; Lenient P=0.875, R=1.000, Sp=0.875, F1=0.933 (`PROGRESS.md`, `DECISIONS.md §16`)
 
 ### ReAct Agent (`pharmaguard/agent/react_agent.py`) — `mode: react`
 - **Class**: `PharmaGuardAgent`
-- **Execution order**: LLM-driven via LangGraph ReAct loop; tool calls decided
-  dynamically based on conversation state
-- Uses `langchain_core.tools` decorated tool wrappers; same underlying
-  `FaersLegacySource`, `ChemblTool`, `PubMedTool` as the fixed pipeline
+- **Execution order**: LLM-driven via LangGraph ReAct loop; tool invocations decided dynamically based on conversation state
+- Uses `langchain_core.tools` decorated wrappers; shares identical underlying `FaersLegacySource`, `ChemblTool`, and `PubMedTool` instances
 - Computes final reported escalation strictly via the shared deterministic formula
-- **Empirical Divergence**: The agent's unconstrained freeform synthesis diverged from
-  deterministic escalation on 4 of 15 pairs (26.7%), demonstrating why postmarketing
-  safety requires deterministic evidence gating (`DECISIONS.md §24`)
+- **Empirical Divergence**: The agent's unconstrained freeform synthesis diverged from deterministic escalation on 4 of 15 pairs (26.7%), demonstrating why postmarketing safety triage requires strict deterministic evidence gating (`DECISIONS.md §24`)
 
 ---
 
-## Data Flow (Fixed Pipeline, typical run)
+## Data Flow (Fixed Pipeline)
 
 ```
 Input: (drug: str, event: str)
          │
-         ▼
-  1. FaersLegacySource.get_signal_stats(drug, event)
-     - normalize_term(event): snake_case → spaces before any API call
-     - OpenFDA /drug/event.json: co-occurrence counts + PRR + ROR + lower CIs
-     - compute_prr_score() → (prr_score: float, signal_strength: SignalStrength, ci_downgraded: bool)
-     - Optional ConfoundingTool.assess() (if confounding.enabled: true):
-       → computes discount_factor (0.0 to 1.0) and adjusted_prr_score = round(prr_score * discount_factor, 4)
-     - All paths route through _finalize() → guaranteed cache write
+         ├──► 1. FaersLegacySource.get_signal_stats(drug, event)
+         │      - normalize_term(event): snake_case → spaces before any API call
+         │      - OpenFDA /drug/event.json: co-occurrence counts + PRR + ROR + Woolf 95% lower CIs
+         │      - compute_prr_score() → (prr_score: float, signal_strength: SignalStrength, ci_downgraded: bool)
+         │      - Optional ConfoundingTool.assess() (if confounding.enabled: true):
+         │        → computes polypharmacy discount_factor (0.0 to 1.0)
+         │      - All paths route through _finalize() → guaranteed cache write
+         │
+         ├──► 2. ChemblTool.get_plausibility(drug, event)
+         │      - Static lookup in chembl_lookup.json (ChEMBL ID + MoA text)
+         │      - plausibility_ratings.json lookup (human-curated, production default)
+         │      - On cache miss or force_agent mode: LLM call → PlausibilityLevel + explanation text
+         │      - Optional LeakageCritique maker-checker audit (if plausibility.leakage_critic.enabled: true)
+         │      - Returns PlausibilityResult with level, score, source, rationale, leak flags
+         │
+         ├──► 3. PubMedTool.fetch_and_grade(drug, event)
+         │      - normalize_term(event) before query construction
+         │      - NCBI E-utilities: fetches up to max_pubmed_abstracts abstracts
+         │      - LLM grades evidence via evidence_grading_rubric.txt → GradeOutput(grade, explanation)
+         │      - Returns: evidence_grade, grade_score, supporting_pmids, evidence_summary
+         │
+         ├──► 4. DiseaseContextTool & IndicationConcordanceTool (Clinical Context Layer)
+         │      - DiseaseContextTool.get_context(drug): queries ChEMBL API & atc_lookup.json for WHO ATC codes (Levels 1–4) & approved indications
+         │      - IndicationConcordanceTool.evaluate(drug, event, disease_context): evaluates candidate event against indications across 7 heuristic rules (IND-CONF-01 to IND-CONF-07)
+         │      - Produces IndicationConcordance object with is_concordant, rule_code, matched_indication, discount_factor (default 1.0 in production)
+         │      - STRICT PRODUCTION INVARIANT: Operates as an informational diagnostic flag; scoring-inert by design (does NOT alter confidence or escalate/monitor decisions)
          │
          ▼
-  2. ChemblTool.get_plausibility(drug, event)
-     - Static lookup in chembl_lookup.json (ChEMBL ID + MoA text)
-     - plausibility_ratings.json lookup (human-curated, production default)
-     - On cache miss or force_agent mode: LLM call → PlausibilityLevel + explanation text
-     - Optional LeakageCritique maker-checker audit (if plausibility.leakage_critic.enabled: true)
-     - Returns PlausibilityResult with level, score, source, rationale, leak flags
-         │
-         ▼
-  3. PubMedTool.fetch_and_grade(drug, event)
-     - normalize_term(event) before query construction
-     - NCBI E-utilities: fetches up to max_pubmed_abstracts abstracts
-     - LLM grades evidence via evidence_grading_rubric.txt → GradeOutput(grade, explanation)
-     - Returns: evidence_grade, grade_score, supporting_pmids, evidence_summary
-         │
-         ▼
-  4. Confidence + Escalation (output_schema.py — fully deterministic)
+  5. Confidence + Escalation (output_schema.py — fully deterministic)
+     - adjusted_prr_score = round(prr_score * confounding_discount * concordance_discount, 4)
      - confidence = 0.40 × adjusted_prr_score + 0.40 × grade_score + 0.20 × plausibility_score
-     - derive_escalation(confidence, signal_strength) — see below
+     - derive_escalation(confidence, signal_strength) — evaluated top-to-bottom
          │
          ▼
-  5. TriageReport (Pydantic) → written to outputs/core/eval-run-*_report.json
+  6. TriageReport (Pydantic) → written to outputs/core/eval-run-*_report.json
      - Computes source_agreement property (CONCORDANT vs. DISCORDANT)
+     - Serializes complete evidence sub-objects, confounding assessments, and indication concordance metadata
 ```
 
 ---
 
 ## Confidence Formula and Escalation Gate
 
-```python
-# weights defined in both output_schema.py and configs/config.yaml (must stay in sync)
-confidence = 0.40 * prr_score + 0.40 * grade_score + 0.20 * plausibility_score
-```
+$$\text{Confidence} = 0.40 \cdot S_{\text{FAERS}} + 0.40 \cdot S_{\text{PubMed}} + 0.20 \cdot S_{\text{Plausibility}}$$
+
+Where:
+- $S_{\text{FAERS}} = \text{adjusted\_prr\_score} = \text{round}(\text{prr\_score} \times \text{confounding\_discount\_factor} \times \text{concordance\_discount\_factor}, 4)$
+- In production triage, $\text{concordance\_discount\_factor} = 1.0$ (strictly scoring-inert, `DECISIONS.md §35`).
 
 Sub-score ranges:
 - `prr_score`: 0.0 (NO_SIGNAL) / 0.33 (WEAK) / 0.66 (MODERATE) / 1.0 (STRONG)
-  (When confounding assessment is active: `adjusted_prr_score = round(prr_score * discount_factor, 4)`)
 - `grade_score`: A=1.0, B=0.5, C=0.0
 - `plausibility_score`: HIGH=1.0, MODERATE=0.5, LOW=0.0, UNKNOWN=0.0
 
@@ -212,17 +235,12 @@ Sub-score ranges:
 
 ### Escalation rules (`derive_escalation` — evaluated top to bottom, first match wins)
 
-| Priority | Condition | Decision |
-|---|---|---|
-| 1 | `signal_strength == NO_SIGNAL` | **DO_NOT_ESCALATE** (hard gate — fires before confidence check; confidence is *ignored*) |
-| 2 | `confidence >= 0.70` AND `signal_strength in {STRONG, MODERATE}` | **ESCALATE** |
-| 3 | `confidence >= 0.35` | **MONITOR** |
-| 4 | Otherwise | **DO_NOT_ESCALATE** |
-
-> The NO_SIGNAL gate is intentional: a zero-report pair can theoretically reach
-> confidence=0.60 from grade-A literature + HIGH plausibility alone. Without the
-> hard gate, such pairs would receive MONITOR despite no FAERS disproportionality
-> evidence. Thresholds 0.70 and 0.35 are uncalibrated priors — see `docs/context/NOTES.md` and `DECISIONS.md §18`.
+| Priority | Condition | Decision | Rationale |
+|---|---|---|---|
+| 1 | `signal_strength == NO_SIGNAL` | **DO_NOT_ESCALATE** | Hard Safety Gate: fires unconditionally before confidence check; confidence is *ignored*. Zero postmarketing reports cannot trigger escalation based on theoretical literature alone (`DECISIONS.md §5`). |
+| 2 | `confidence >= 0.70` AND `signal_strength in {STRONG, MODERATE}` | **ESCALATE** | Statistically significant postmarketing disproportionality corroborated by high biological plausibility or Grade A literature. |
+| 3 | `confidence >= 0.35` | **MONITOR** | Genuine epidemiological signal with unconfirmed mechanism, or confounded signal requiring clinical surveillance. |
+| 4 | Otherwise | **DO_NOT_ESCALATE** | Sub-threshold association with insufficient epidemiological and mechanistic corroboration. |
 
 ---
 
@@ -245,12 +263,13 @@ The primary document schema serialized to `outputs/core/eval-run-*_report.json`:
 | `mechanism` | `MechanismOutput` | Molecular mechanism & plausibility evidence |
 | `literature` | `LiteratureOutput` | Biomedical literature grading evidence |
 | `triage` | `TriageOutput` | Final confidence score and escalation decision |
+| `indication_concordance` | `Optional[IndicationConcordance]` | Informational confounding-by-indication assessment (`DECISIONS.md §35`) |
 | `source_agreement` | `Literal["CONCORDANT", "DISCORDANT"]` | **Computed property** (`@computed_field`) evaluating cross-source evidence concordance |
 
 #### Cross-Source Agreement (`source_agreement`):
 Evaluates agreement across the three normalized sub-scores ($S_{\text{FAERS}} = \text{prr\_score}$, $S_{\text{Lit}} = \text{grade\_score}$, $S_{\text{Mech}} = \text{plausibility\_score}$) via `compute_source_agreement()`:
 $$\text{DISCORDANT} \iff \max(S_{\text{FAERS}}, S_{\text{Lit}}, S_{\text{Mech}}) \ge 0.66 \land \min(S_{\text{FAERS}}, S_{\text{Lit}}, S_{\text{Mech}}) \le 0.33$$
-Otherwise classified as `"CONCORDANT"`. Isolates the 3 benchmark edge cases (`montelukast`, `metformin`, `atorvastatin::dementia`) exhibiting cross-modality divergence (`DECISIONS.md §26`).
+Otherwise classified as `"CONCORDANT"`. Isolates benchmark edge cases (`montelukast`, `metformin`, `atorvastatin::dementia`) exhibiting cross-modality divergence (`DECISIONS.md §26`).
 
 ### 2. `SignalStatsOutput` (`pharmaguard/agent/output_schema.py`)
 Encapsulates openFDA FAERS disproportionality metrics and confounding adjustments:
@@ -259,8 +278,8 @@ Encapsulates openFDA FAERS disproportionality metrics and confounding adjustment
 |---|---|---|
 | `prr` | `Optional[float]` | Proportional Reporting Ratio ($A/(A+B) / C/(C+D)$) |
 | `ror` | `Optional[float]` | Reporting Odds Ratio ($(A/B) / (C/D)$) |
-| `prr_lower_ci` | `Optional[float]` | 95% lower confidence interval for PRR |
-| `ror_lower_ci` | `Optional[float]` | 95% lower confidence interval for ROR |
+| `prr_lower_ci` | `Optional[float]` | Woolf 95% lower confidence interval bound for PRR |
+| `ror_lower_ci` | `Optional[float]` | Woolf 95% lower confidence interval bound for ROR |
 | `report_count` | `int` | Total FAERS spontaneous co-occurrence count |
 | `source_endpoint` | `str` | Source API identifier (`"openfda_legacy"`) |
 | `data_pulled_at` | `datetime` | Data retrieval timestamp |
@@ -290,7 +309,7 @@ Encapsulates ChEMBL target pharmacology, plausibility derivation, and critic aud
 | `leak_phrases` | `Optional[list[str]] = None`| Verbatim leak substrings isolated by the critic |
 
 #### Adversarial Mechanistic Critic (`LeakageCritique`):
-Pydantic model produced by the blinded maker-checker critic agent (`pharmaguard/tools/chembl_tool.py's _critique_plausibility_leakage() method (LeakageCritique model in pharmaguard/agent/output_schema.py)`, MARCH pattern) to audit rationales for non-mechanistic knowledge leakage (`DECISIONS.md §27`):
+Pydantic model produced by the blinded maker-checker critic agent (`pharmaguard/tools/chembl_tool.py`, MARCH pattern) to audit rationales for non-mechanistic knowledge leakage (`DECISIONS.md §27`):
 
 | Field | Type | Description |
 |---|---|---|
@@ -309,69 +328,110 @@ Structured output generated by `ConfoundingTool.assess()` when evaluating sponta
 | `discount_factor` | `float` | Multiplier ($0.0 \le \text{discount\_factor} \le 1.0$) representing the fraction genuinely attributable to the candidate drug |
 | `confounding_explanation`| `str` | Clinical and pharmacological rationale explaining the confounding assessment |
 
+### 5. `DiseaseContext` (`pharmaguard/tools/disease_context.py`)
+Encapsulates WHO ATC ontological mapping and drug utilization context resolved via the ChEMBL API and local registry (`atc_lookup.json`):
+
+| Field | Type | Description |
+|---|---|---|
+| `drug` | `str` | Active pharmaceutical ingredient name |
+| `all_atc_codes` | `list[str]` | Complete list of all resolved WHO ATC codes for the molecule |
+| `selected_atc` / `primary_atc` | `Optional[str]` | Primary representative ATC code (e.g., `"C10AA05"` for atorvastatin) |
+| `secondary_atc_codes` | `list[str]` | Alternative ATC codes preserving alternate formulations or routes |
+| `therapeutic_area_code` | `Optional[str]` | ATC Level 1 single-letter anatomical code (e.g., `"C"` for Cardiovascular) |
+| `therapeutic_area` | `Optional[str]` | ATC Level 1 title (e.g., `"Cardiovascular system"`) |
+| `pharmacological_subgroup_code` | `Optional[str]` | ATC Level 2 therapeutic subgroup code (e.g., `"C10"`) |
+| `pharmacological_subgroup` | `Optional[str]` | ATC Level 2 title (e.g., `"Lipid modifying agents"`) |
+| `utilization_class` | `Literal["CHRONIC", "ACUTE", "MIXED", "UNKNOWN"]` | Typical drug administration duration classification |
+| `utilization_rationale` | `str` | Pharmacological rationale justifying the utilization duration tier |
+| `selection_method` | `str` | Methodology utilized to choose the representative ATC code |
+| `selection_rationale` | `str` | Clinical rationale for representative code selection |
+| `atc_source` | `Literal["chembl_api", "hardcoded_fallback", "unresolved"]` | Provenance source for the classification data |
+| `is_resolved` | `bool` | True if ATC classification was successfully mapped |
+
+### 6. `IndicationConcordance` (`pharmaguard/agent/output_schema.py`, `pharmaguard/tools/indication_concordance.py`)
+Encapsulates clinical confounding-by-indication evaluation governed by the 7 pre-registered heuristic rules (`IND-CONF-01` to `IND-CONF-07` in `DECISIONS.md §35`):
+
+| Field | Type | Description |
+|---|---|---|
+| `concordant` | `bool` | True if candidate adverse event category overlaps with drug therapeutic indication class |
+| `overlap_category` | `Optional[str]` | Standardized clinical overlap domain (e.g., `"Cardiovascular & Cerebrovascular Ischemia"`) |
+| `rationale` | `str` | Pharmacoepidemiological rationale explaining channeling bias or indication confounding |
+| `rule_source` | `str` | Peer-reviewed epidemiological literature citation justifying the rule |
+
+#### The Canonical 7-Rule Clinical Heuristics Cascade:
+1. **`IND-CONF-01` (Cardiovascular & Cerebrovascular Ischemia):** ATC `C` / `B01` paired with ischemic endpoints (*myocardial_infarction*, *stroke*, *cardiac_arrest*). Cites Psaty et al. (1999), Salas et al. (1999).
+2. **`IND-CONF-02` (Neuropsychiatric & Neurodegenerative Events):** ATC `N` paired with affective or cognitive endpoints (*suicidal_ideation*, *depression*, *dementia*, *seizure*). Cites Schneeweiss & Avorn (2005), Gibbons et al. (2007).
+3. **`IND-CONF-03` (Upper Gastrointestinal Ulceration & Hemorrhage):** ATC `A02` / `M01` paired with ulceration or GI bleeding (*gastrointestinal_haemorrhage*, *peptic_ulcer*). Cites García Rodríguez & Jick (1994), Petri & Urquhart (1991).
+4. **`IND-CONF-04` (Glycemic Dysregulation & Metabolic Crises):** ATC `A10` paired with glycemic endpoints (*hypoglycaemia*, *diabetic_ketoacidosis*). Cites Cryer (2002), Bate & Evans (2009).
+5. **`IND-CONF-05` (Hematologic Cytopenias & Neoplastic Complications):** ATC `L` paired with cytopenias and thromboembolism (*neutropenia*, *thrombocytopenia*, *pulmonary_embolism*). Cites Lyman et al. (2006), Groenwold et al. (2011).
+6. **`IND-CONF-06` (Renal Dysfunction & Hemodynamic Azotemia):** ATC `C03` / `C09` paired with acute kidney injury (*acute_kidney_injury*, *hyperkalaemia*). Cites Schoolwerth et al. (2001), Lapi et al. (2013).
+7. **`IND-CONF-07` (Airway Hyperresponsiveness & Bronchospastic Crises):** ATC `R03` paired with obstructive exacerbations (*bronchospasm*, *respiratory_failure*). Cites Suissa (2003), Ernst et al. (1993).
+
 ---
 
-## Evaluation Harness (`scripts/evaluator.py`)
+## Multi-Benchmark Evaluation & Baseline Performance
 
-Reads `eval-run-*_report.json` files from an outputs directory and scores them
-against `pharmaguard/data/ground_truth.json`.
+PharmaGuard is evaluated across two formal benchmark suites: the **Core 15-Pair Ground Truth Benchmark** (7 Confirmed Positives, 5 Genuine Negative Controls, 3 Zero-Report Controls) and the external **OMOP Pilot Benchmark** (32 pairs from the OHDSI MethodEvaluation reference set across 4 acute clinical outcomes: Acute Myocardial Infarction, Acute Pancreatitis, Upper GI Bleeding, and Acute Liver Injury).
 
-**Metrics computed:**
-- **Strict metrics**: ESCALATE-only counts as TP
-- **Lenient metrics**: ESCALATE or MONITOR counts as TP
-- Both: Precision, Recall, Specificity, F1
-- **Category breakdown**: per `confirmed_positive` / `genuine_negative_control` / `zero_report_edge_case`
-- **Over-Caution Rate**: MONITOR on known-negative pairs
-- **Uncertainty Quantification**: Wilson score intervals and non-parametric bootstrap resampling (B=1000, seed=42)
+### Multi-Benchmark Performance Table
 
-**CLI flags:**
-```
---outputs-dir PATH   Directory of report JSONs. Default: outputs/core/
---title TEXT         Label in report header. Default: "PharmaGuard"
-```
+| Evaluation Suite & Model | Strict Precision | Strict Recall | Strict Specificity | Strict F1 | Lenient Precision | Lenient Recall | Lenient Specificity | Lenient F1 | Over-Caution Rate |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **PharmaGuard (Core 15-Pair)** | **1.000** [0.610 – 1.000] | **0.857** (6/7) [0.487 – 0.974] | **1.000** [0.676 – 1.000] | **0.923** [0.727 – 1.000] | **0.875** [0.529 – 0.978] | **1.000** (7/7) [0.646 – 1.000] | **0.875** [0.529 – 0.978] | **0.933** [0.769 – 1.000] | **12.5%** (1 of 8) |
+| **Single-Shot Baseline (Core 15-Pair)** | 0.875 [0.529 – 0.978] | 1.000 (7/7) [0.646 – 1.000] | 0.875 [0.529 – 0.978] | 0.933 [0.769 – 1.000] | 0.700 [0.397 – 0.892] | 1.000 (7/7) [0.646 – 1.000] | 0.625 [0.306 – 0.863] | 0.824 [0.615 – 0.941] | 25.0% (2 of 8) |
+| **PharmaGuard (OMOP Pilot 32-Pair)** | **1.000** (1/1) [0.207 – 1.000] | **0.063** (1/16) [0.011 – 0.270] | **1.000** (16/16) [0.806 – 1.000] | **0.118** [0.024 – 0.426] | **0.846** (11/13) [0.578 – 0.957] | **0.688** (11/16) [0.444 – 0.858] | **0.813** (13/16) [0.570 – 0.934] | **0.720** [0.540 – 0.850] | **18.8%** (3 of 16) |
 
----
+*Confidence Intervals:* Both Wilson binomial score intervals and non-parametric Bootstrap ($B=1000, \text{seed}=42$) intervals are calculated. On the OMOP Pilot, PharmaGuard achieved **100% Strict Specificity (16/16 negative controls suppressed)** and **68.8% Lenient Recall (11/16 positive controls safely monitored)**.
 
-## Baseline (`scripts/baseline.py`)
-
-Single-shot Gemini comparison: one LLM call per pair, no tool use, no database
-access. Produces TriageReport JSON to `outputs/experiments/baseline/` with null sentinel values
-for `signal_stats`, `mechanism`, and `literature` sub-objects so `evaluator.py`
-can score it without modification.
-
-Cache key: `baseline::{drug}::{event}::{prompts_version}::{CACHE_SCHEMA_VERSION}`
-
-**Warning - Confidence comparability:**
-PharmaGuard's `confidence` is the deterministic formula above. Baseline's
-`confidence` is raw LLM self-report with no data grounding. **Escalation decisions
-are directly comparable; confidence numbers are not on the same scale and must not
-be visually compared directly.** See `DECISIONS.md §12` for the standard footnote
-to attach to any comparison table.
-
-**Final verified benchmark results (15-pair set, gemini-3.1-flash-lite):**
-
-| System | Strict P | Strict R | Strict F1 | Lenient P | Lenient R | Lenient F1 | Over-Caution Rate |
-|---|---|---|---|---|---|---|---|
-| PharmaGuard (Fixed Pipeline) | 1.000 | 0.857 | 0.923 | 0.875 | 1.000 | 0.933 | 12.5% (1/8) |
-| Baseline (Single-Shot LLM) | 0.875 | 1.000 | 0.933 | 0.700 | 1.000 | 0.824 | 25.0% (2/8) |
+### Exploratory 40-Pair Held-Out OMOP Validation Batch
+To investigate whether indication-concordance discounting ($\delta = 0.85$) could safely attenuate confounded disproportionality signals on previously unseen pairs, an exploratory 40-pair held-out batch (20 positive, 20 negative controls) was curated from `omopReferenceSet.rda`. In this test, concordance criteria triggered on only 4 of the 40 pairs (10.0%)—insufficient sample power to generalize conclusions across broad clinical phenotypes. While the discount mathematically lowered PRR sub-scores without breaching any hard safety gates, it caused zero decision boundary crossings ($\Delta = 0$, Strict F1=0.1818, Lenient F1=0.5000). The experiment is documented as an exploratory negative result in [`docs/context/DECISIONS.md §38`](DECISIONS.md#38-independent-verification-and-factual-correction-of-the-40-pair-held-out-omop-validation-batch).
 
 ---
 
 ## Caching and Rate-Limit Strategy
 
-All external calls (FAERS, PubMed, ChEMBL LLM derivation, baseline LLM) are
-fronted by `ToolCache` (`pharmaguard/tools/cache.py`, backed by `diskcache`).
+All external network operations (openFDA, ChEMBL API, PubMed NCBI E-utilities, Gemini LLM calls) are fronted by `ToolCache` (`pharmaguard/tools/cache.py`, backed by `diskcache`).
 
-Key naming conventions (all include `CACHE_SCHEMA_VERSION` for schema-version invalidation):
+Deterministic SHA-256 key naming conventions:
 ```
-FAERS:        faers::{drug_lower}::{event_lower}::{CACHE_SCHEMA_VERSION}
-PubMed fetch: pubmed::{sha256(query)[:16]}
-PubMed grade: pubmed_grade::{sha256(query)[:16]}::{prompts_version}::{CACHE_SCHEMA_VERSION}
-Plausibility: plausibility::{drug_lower}::{event_lower}::{prompts_version}::{CACHE_SCHEMA_VERSION}
-Baseline:     baseline::{drug_lower}::{event_lower}::{prompts_version}::{CACHE_SCHEMA_VERSION}
+FAERS:                  faers::{drug_lower}::{event_lower}::{CACHE_SCHEMA_VERSION}
+PubMed fetch:           pubmed::{sha256(query)[:16]}
+PubMed grade:           pubmed_grade::{sha256(query)[:16]}::{prompts_version}::{CACHE_SCHEMA_VERSION}
+Plausibility:           plausibility::{drug_lower}::{event_lower}::{prompts_version}::{CACHE_SCHEMA_VERSION}
+Baseline:               baseline::{drug_lower}::{event_lower}::{prompts_version}::{CACHE_SCHEMA_VERSION}
+Disease context / ATC:  atc::{drug_lower}::{CACHE_SCHEMA_VERSION}
+Indication Concordance: concordance::{drug_lower}::{event_lower}::{CACHE_SCHEMA_VERSION}
 ```
 
-`CACHE_SCHEMA_VERSION` is currently **`v7`** (defined in `cache.py`).
+`CACHE_SCHEMA_VERSION` is currently **`v7`** (defined in `pharmaguard/tools/cache.py`).
+
+---
+
+## Test Suite Status
+
+PharmaGuard maintains rigorous test coverage via pytest. The test suite comprises **229 tests across 18 test files** in `tests/`, all passing:
+
+| Test File | Focus Area | Tests |
+|---|---|:---:|
+| `test_atc_coverage.py` | WHO ATC classification mapping & lookup coverage | 14 |
+| `test_baseline.py` | Single-shot LLM baseline runner & sentinel serialization | 9 |
+| `test_cache.py` | DiskCache persistent storage, schema keys & invalidation | 13 |
+| `test_chembl_tool.py` | ChEMBL lookup, target parsing & plausibility derivation | 12 |
+| `test_confounding.py` | ConfoundingTool, discount factors & polypharmacy parsing | 11 |
+| `test_critic.py` | Adversarial MARCH critic maker-checker audit & leak detection | 10 |
+| `test_disease_context.py` | DiseaseContextTool, multi-ATC codes & utilization tiers | 18 |
+| `test_evaluator.py` | Strict/Lenient metrics, Wilson score & Bootstrap intervals | 17 |
+| `test_faers_tool.py` | OpenFDA disproportionality, PRR, ROR & Woolf CI downgrade | 15 |
+| `test_fixed_pipeline.py` | FixedPipelineAgent orchestration & confidence synthesis | 12 |
+| `test_indication_concordance.py` | 7-rule IND-CONF cascade & scoring-inert production invariants | 18 |
+| `test_manifest.py` | Automated reproducibility manifest & provenance hashes | 6 |
+| `test_omop_pilot.py` | OMOP 32-pair pilot evaluation runner & reference schemas | 12 |
+| `test_output_schema.py` | Pydantic model validation, serialization & safety gates | 22 |
+| `test_probes.py` | Obscure-pair epistemic memorization probe harness | 8 |
+| `test_pubmed_tool.py` | NCBI E-utilities retrieval & LLM Grade A/B/C rubric parser | 11 |
+| `test_react_agent.py` | ReAct LangGraph agent loop & tool-calling state machine | 10 |
+| `test_stability.py` | 15-fold Leave-One-Out (LOO) stability analysis harness | 11 |
+| **Total** | **Full Pytest Unit & Regression Suite** | **229 Passed** |
 
 ---
 
@@ -379,15 +439,16 @@ Baseline:     baseline::{drug_lower}::{event_lower}::{prompts_version}::{CACHE_S
 
 | Package | Role |
 |---|---|
-| `langchain>=0.2.0` | LLM orchestration |
-| `langgraph>=0.1.0` | ReAct graph execution |
+| `langchain>=0.2.0` | LLM orchestration and prompt template management |
+| `langgraph>=0.1.0` | ReAct state graph execution |
 | `langchain-google-genai>=1.0.0` | Gemini API client |
-| `pydantic>=2.0.0` | Schema validation + structured LLM outputs |
-| `diskcache>=5.6.0` | Persistent disk-backed cache |
-| `requests>=2.31.0` | HTTP queries (FAERS, NCBI) |
-| `pytest>=8.0.0` | Test runner |
-| `pandas>=2.0.0`, `matplotlib>=3.8.0` | Evaluation analysis |
-| `streamlit>=1.35.0` | Interactive evaluation dashboard |
+| `pydantic>=2.0.0` | Schema validation + structured LLM output enforcement |
+| `diskcache>=5.6.0` | Persistent disk-backed cache with atomic writes |
+| `requests>=2.31.0` | HTTP client (openFDA REST, ChEMBL API, NCBI E-utilities) |
+| `pytest>=8.0.0` | Unit and integration test runner |
+| `pandas>=2.0.0`, `matplotlib>=3.8.0` | Evaluation analysis & figure generation |
+| `streamlit>=1.35.0` | Multi-view clinical evaluation dashboard |
+| `plotly>=5.22.0` | High-density interactive confidence waterfall charts |
 
-Active model: **`gemini-3.1-flash-lite`** (configured in `config.yaml`).
-See `DECISIONS.md section 10` for rationale.
+Active foundation model: **`gemini-3.1-flash-lite`** (configured in `configs/config.yaml`).
+See `docs/context/DECISIONS.md §10` for rationale.
