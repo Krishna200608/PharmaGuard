@@ -246,7 +246,7 @@ streamlit run scripts/dashboard.py
 ```bash
 pytest -v
 ```
-*(All 229 tests pass across 18 test modules in ~48s).*
+*(All 229 tests pass across 16 active test modules / 18 test files in ~42s).*
 
 ---
 

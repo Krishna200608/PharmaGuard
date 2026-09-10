@@ -36,6 +36,7 @@ pharmaguard/                  # Python package (core source)
 │   └── cache.py              # Persistent disk-backed ToolCache (diskcache, SHA-256 keying)
 │
 ├── utils/
+│   ├── canonicalize.py       # Entity normalization & synonym resolution
 │   ├── config_loader.py      # Parses configs/config.yaml → AppConfig
 │   ├── prompt_loader.py      # Loads versioned prompt files from pharmaguard/prompts/
 │   └── text.py               # normalize_term(): snake_case → natural language
@@ -50,17 +51,19 @@ pharmaguard/                  # Python package (core source)
 │   ├── archive/
 │   │   └── pilot_set.json    # 3-pair quick-check set (superseded by ground_truth.json)
 │   └── external/
-│       └── omopReferenceSet.rda # OHDSI MethodEvaluation reference dataset (Apache 2.0)
+│       ├── omopReferenceSet.rda # OHDSI MethodEvaluation reference dataset (Apache 2.0)
+│       └── README.md         # Reference provenance notes
 │
 └── prompts/
     ├── baseline_single_shot.txt    # Single-shot prompt for baseline.py
+    ├── confounding_assessment.txt  # Polypharmacy confounding evaluator prompt
     ├── evidence_grading_rubric.txt # Grade A/B/C rubric for PubMed LLM grading
+    ├── leakage_critic.txt          # Adversarial maker-checker critic prompt
+    ├── plausibility_rubric.txt     # Plausibility level grading guidelines
+    ├── prompts_version.txt         # Active prompt version string (currently v1.1)
     ├── react_system.txt            # ReAct agent system prompt
     ├── react_tool_call_format.txt  # Tool-call format instructions for ReAct
-    ├── synthesis_prompt.txt        # Synthesis step prompt
-    ├── confounding_assessment.txt  # Polypharmacy confounding evaluator prompt
-    ├── leakage_critic.txt          # Adversarial maker-checker critic prompt
-    └── prompts_version.txt         # Active prompt version string (currently v1.1)
+    └── synthesis_prompt.txt        # Synthesis step prompt
 
 configs/
 └── config.yaml               # Central pipeline settings (modes, weights, thresholds, APIs, caches)
@@ -70,10 +73,11 @@ scripts/
 ├── evaluator.py              # Score TriageReport JSONs against ground_truth.json
 ├── baseline.py               # Single-shot Gemini baseline (zero tool use)
 ├── run_eval.py               # Run 15 ground truth pairs → outputs/core/
-├── dashboard_modules/        # Modular dashboard package (views, components, styles)
-│   └── views/                # Individual dashboard view tabs (probes, omop_pilot, etc.)
+├── dashboard_modules/        # Modular dashboard package (components, styles, views)
+│   └── views/                # Individual dashboard view tabs (baseline, omop_pilot, probes, etc.)
 ├── dev/                      # Developer and diagnostic utilities
 │   ├── backfill_agreement.py # Cross-source agreement backfill audit
+│   ├── build_project_update_docx.py # Project update Word document generator
 │   ├── capture_screenshots.py# 1080p automated screenshot utility
 │   ├── check_ablation.py     # Diagnostic script for ablation agreement
 │   ├── check_albuterol.py    # Diagnostic probe for albuterol
@@ -82,6 +86,8 @@ scripts/
 │   ├── verify_react_agreement.py # Read-only audit for ReAct vs deterministic gating
 │   └── verify_reports.py     # Output schema & UTF-8 integrity diagnostic
 └── research/                 # Formal research experiments and publication artifacts
+    ├── temporal_faers/       # Temporal FAERS partition ingestion and snapshot engine
+    ├── temporal_pubmed/      # Temporal PubMed evidence retrieval and filtering
     ├── build_reproducibility_manifest.py # Automated provenance manifest builder
     ├── error_taxonomy.py     # Programmatic error & edge-case taxonomy generator
     ├── export_paper_figures.py # Publication-ready figure generator
@@ -94,7 +100,7 @@ scripts/
     ├── stability_analysis.py # 15-fold Leave-One-Out (LOO) stability analysis
     └── stability_repeated_runs.py # Repeated-run sub-score variance experiment
 
-tests/                        # pytest unit tests (229 tests across 18 test files, all passing)
+tests/                        # pytest unit tests (229 tests across 16 active test modules / 18 test files, all passing)
 
 docs/
 ├── context/
@@ -102,42 +108,56 @@ docs/
 │   ├── DECISIONS.md          # Complete 38-section chronological record of design decisions
 │   ├── PROGRESS.md           # Continuous sprint log, verified metrics & reproduction steps
 │   ├── ARCHITECTURE.md       # Technical architecture & schema reference
+│   ├── CANONICALIZATION.md   # Event & drug term canonicalization protocols
 │   ├── CONTRIBUTION.md       # Grounded project contribution claims (9 verified findings)
 │   ├── CONVENTIONS.md        # Coding standards & git workflow
 │   ├── GROUND_TRUTH_CANDIDATES.md # Ground truth sourcing & regulatory citations
 │   ├── NOTES.md              # Design constraints & escalation thresholds
 │   └── PROJECT_OVERVIEW.md   # High-level project summary and scope boundaries
 ├── meetings/                 # Weekly stakeholder progress updates and briefing memos
-│   └── Weekly/
-│       └── 1_This_Week_Multi_Disease_Update.md
+│   ├── Weekly/
+│   │   ├── 1_PharmaGuard — Weekly Progress Update.md
+│   │   └── PharmaGuard - Weekly Progress Update.pdf
+│   ├── PharmaGuard_Project_Update_Group07.docx
+│   ├── Project_Brief.md
+│   └── PROJECT_UPDATE_MEETING_BRIEF.md
+├── presentation/             # Capstone defense slides and presentation notes
+│   ├── PharmaGuard_Midsem_Defense.pptx
+│   └── SLIDE_DECK_NOTES.md
 └── proposals/                # Formal capstone proposals & institutional briefs
+    ├── 7th_Semester_Project_Proposals.pdf
+    ├── Context_Prompt.md
+    ├── pharmaguard_build_brief.md
+    ├── PharmaGuard_Capstone_Proposal.pdf
     ├── PharmaGuard_Proposal_2026-08-18.md
     └── archive/pre-pivot-oncoswarm/ # Archived pre-pivot tumor-board proposal files
 
 outputs/
 ├── core/                     # Frozen production TriageReport JSONs (15 pairs) + summary
 │   ├── eval-run-*_report.json
+│   ├── evaluation_summary.json
 │   └── evaluation_summary.txt
 ├── experiments/              # Isolated experimental condition outputs
 │   ├── ablation/             # Force-agent derivation ablation reports
 │   ├── baseline/             # Single-shot LLM baseline reports & summary
+│   ├── ci_gate_core/         # CI-based gate dual-benchmark validation reports (Core 15 pairs, §32)
 │   ├── confounding_probe/    # Confounding self-probe & Metformin discount reports
 │   ├── critic_probe/         # Adversarial leakage critic audit results
 │   ├── holdout_baseline/     # 40-pair held-out OMOP baseline evaluation reports
 │   ├── holdout_discounted/   # 40-pair held-out OMOP reports with delta=0.85 discount
-│   ├── omop_pilot_baseline/  # 32-pair OMOP pilot baseline evaluation reports
-│   ├── omop_pilot_discounted/# 32-pair OMOP pilot reports with discount factor
+│   ├── indication_concordance_core/ # §35 production wiring dual-benchmark validation reports (Core 15 pairs)
 │   ├── probe/                # Obscure-pair epistemic memorization probe reports
 │   └── react_agent/          # ReAct LangGraph agent reports & agreement_report.json
 └── research/                 # Formal research artifacts and secondary benchmarks
-    ├── error_taxonomy/       # Programmatic taxonomy results
+    ├── ci_gate_omop/         # CI-based gate dual-benchmark validation reports (OMOP 32 pairs, §32)
+    ├── error_taxonomy/       # Programmatic error & edge-case taxonomy results
+    ├── indication_concordance_omop/ # §35 production wiring dual-benchmark validation reports (OMOP 32 pairs)
     ├── omop_pilot/           # 32-pair OMOP pilot benchmark outputs
     ├── paper_figures/        # High-resolution publication figures & vector assets
-    ├── reproducibility/      # Environment manifests, package pins & provenance
     ├── source_ablation/      # Multi-source ablation & sensitivity matrices
     ├── stability/            # 15-fold LOO analysis & repeated-run variance datasets
-    ├── reproducibility_manifest.json # Consolidated provenance index
-    └── reproducibility_manifest.md   # Human-readable reproducibility report
+    ├── reproducibility_manifest.json # Consolidated provenance index (.json)
+    └── reproducibility_manifest.md   # Consolidated provenance report (.md)
 
 assets/
 ├── Logos/                    # Vector and raster brand identity assets
@@ -409,28 +429,26 @@ Indication Concordance: concordance::{drug_lower}::{event_lower}::{CACHE_SCHEMA_
 
 ## Test Suite Status
 
-PharmaGuard maintains rigorous test coverage via pytest. The test suite comprises **229 tests across 18 test files** in `tests/`, all passing:
+PharmaGuard maintains rigorous test coverage via pytest. The test suite comprises **229 tests across 16 active test modules (18 test files)** in `tests/`, all passing:
 
 | Test File | Focus Area | Tests |
 |---|---|:---:|
-| `test_atc_coverage.py` | WHO ATC classification mapping & lookup coverage | 14 |
-| `test_baseline.py` | Single-shot LLM baseline runner & sentinel serialization | 9 |
-| `test_cache.py` | DiskCache persistent storage, schema keys & invalidation | 13 |
-| `test_chembl_tool.py` | ChEMBL lookup, target parsing & plausibility derivation | 12 |
-| `test_confounding.py` | ConfoundingTool, discount factors & polypharmacy parsing | 11 |
-| `test_critic.py` | Adversarial MARCH critic maker-checker audit & leak detection | 10 |
-| `test_disease_context.py` | DiseaseContextTool, multi-ATC codes & utilization tiers | 18 |
-| `test_evaluator.py` | Strict/Lenient metrics, Wilson score & Bootstrap intervals | 17 |
-| `test_faers_tool.py` | OpenFDA disproportionality, PRR, ROR & Woolf CI downgrade | 15 |
-| `test_fixed_pipeline.py` | FixedPipelineAgent orchestration & confidence synthesis | 12 |
-| `test_indication_concordance.py` | 7-rule IND-CONF cascade & scoring-inert production invariants | 18 |
-| `test_manifest.py` | Automated reproducibility manifest & provenance hashes | 6 |
-| `test_omop_pilot.py` | OMOP 32-pair pilot evaluation runner & reference schemas | 12 |
-| `test_output_schema.py` | Pydantic model validation, serialization & safety gates | 22 |
-| `test_probes.py` | Obscure-pair epistemic memorization probe harness | 8 |
-| `test_pubmed_tool.py` | NCBI E-utilities retrieval & LLM Grade A/B/C rubric parser | 11 |
-| `test_react_agent.py` | ReAct LangGraph agent loop & tool-calling state machine | 10 |
-| `test_stability.py` | 15-fold Leave-One-Out (LOO) stability analysis harness | 11 |
+| `test_agent_parsers.py` | Agent tool call parsing & validation | 2 |
+| `test_cache.py` | DiskCache persistent storage, schema keys & invalidation | 7 |
+| `test_canonicalize.py` | Drug & reaction name normalization and canonicalization | 51 |
+| `test_chembl_tool.py` | ChEMBL lookup, target parsing & plausibility derivation | 5 |
+| `test_confounding.py` | ConfoundingTool, discount factors & polypharmacy parsing | 7 |
+| `test_disease_context.py` | DiseaseContextTool, WHO ATC codes & therapeutic stratification | 52 |
+| `test_error_taxonomy.py` | Programmatic triage error taxonomy & failure categorization | 10 |
+| `test_indication_concordance_inertness.py` | 7-rule IND-CONF cascade & scoring-inert production invariants | 7 |
+| `test_indication_discount.py` | Indication-concordance discount factor math & gating logic | 7 |
+| `test_output_schema.py` | Pydantic model validation, PRR score, Woolf CI & safety gates | 38 |
+| `test_pubmed_tool.py` | NCBI E-utilities retrieval & LLM Grade A/B/C rubric parser | 3 |
+| `test_reproducibility_manifest.py` | Automated reproducibility manifest & provenance hashes | 5 |
+| `test_signal_source.py` | Signal data source abstraction, mock fixtures & legacy FAERS | 9 |
+| `test_source_ablation.py` | Tri-source evidence ablation & threshold sensitivity sweeps | 4 |
+| `test_stability_repeated_runs.py` | Repeated-run variance, Wilson intervals & rank correlation | 7 |
+| `test_stratified_evaluation.py` | Stratified metrics computation, benchmark isolation & Wilson CIs | 15 |
 | **Total** | **Full Pytest Unit & Regression Suite** | **229 Passed** |
 
 ---
