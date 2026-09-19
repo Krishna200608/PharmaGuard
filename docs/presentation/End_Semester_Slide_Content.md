@@ -155,7 +155,7 @@ Before building slides in Canva or presenting, review and fill in the following 
 
 ### Slide Content
 - **1. Core 15-Pair Golden Benchmark (Primary Ground Truth):**
-  - **7 Confirmed Positives:** Established regulatory signals backed by FDA Boxed Warnings and clinical trials (e.g., *rofecoxib::MI*, *rosiglitazone::MI*, *montelukast::suicidal_ideation*, *clozapine::agranulocytosis*).
+  - **7 Confirmed Positives:** Established regulatory signals backed by FDA Boxed Warnings and clinical trials (e.g., *montelukast::suicidal_ideation*, *ciprofloxacin::tendon_rupture*, *clozapine::agranulocytosis*, *rosiglitazone::myocardial_infarction*).
   - **5 Genuine Negative Controls:** Formally investigated and dismissed signals or monotherapy controls (e.g., *metformin::hypoglycaemia*, *liraglutide::pancreatic_cancer*, *atorvastatin::dementia*).
   - **3 Zero-Report Edge Cases:** Zero FAERS co-occurrences (*albuterol::suicidal_ideation*, *amoxicillin::tendon_rupture*, *adalimumab::frostbite*) to test hard safety gate short-circuiting.
 - **2. OMOP Reference Set Pilot (32-Pair External Validation):**
