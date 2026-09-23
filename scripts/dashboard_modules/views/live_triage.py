@@ -283,6 +283,15 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
                 )
 
                 try:
+                    import importlib
+                    import pharmaguard.tools.chembl_tool
+                    import pharmaguard.tools.pubmed_tool
+                    import pharmaguard.agent.fixed_pipeline
+                    importlib.reload(pharmaguard.tools.chembl_tool)
+                    importlib.reload(pharmaguard.tools.pubmed_tool)
+                    importlib.reload(pharmaguard.agent.fixed_pipeline)
+                    from pharmaguard.agent.fixed_pipeline import FixedPipelineAgent
+
                     agent = FixedPipelineAgent(
                         run_id=run_id,
                         cache_dir=cache_dir,
