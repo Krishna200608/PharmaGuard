@@ -120,7 +120,8 @@ def evaluate_batch(
 
         safe_drug = drug.replace(" ", "_")
         safe_event = event.replace(" ", "_")
-        run_id = f"omop-exp-{i:03d}-{safe_drug}-{safe_event}"
+        prefix = "top-bw" if "top_prescribed" in eval_file.stem else "omop-exp"
+        run_id = f"{prefix}-{i:03d}-{safe_drug}-{safe_event}"
 
         logger.info(
             "[%d/%d] Pair: %s + %s (Expected: %s, Endpoint: %s)",
