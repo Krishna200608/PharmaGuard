@@ -134,7 +134,7 @@ def view_probes(repo_root: Path | None = None, theme: str = "light") -> None:
                     f'</tr>'
                 )
 
-                st.markdown(
+            st.markdown(
                 f'<div class="pg-table-container">'
                 f'<table class="pg-data-table">'
                 f'<thead><tr>'
