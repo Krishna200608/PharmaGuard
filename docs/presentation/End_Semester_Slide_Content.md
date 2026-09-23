@@ -158,20 +158,20 @@ Before building slides in Canva or presenting, review and fill in the following 
   - **7 Confirmed Positives:** Established regulatory signals backed by FDA Boxed Warnings and clinical trials (e.g., *montelukast::suicidal_ideation*, *ciprofloxacin::tendon_rupture*, *clozapine::agranulocytosis*, *rosiglitazone::myocardial_infarction*).
   - **5 Genuine Negative Controls:** Formally investigated and dismissed signals or monotherapy controls (e.g., *metformin::hypoglycaemia*, *liraglutide::pancreatic_cancer*, *atorvastatin::dementia*).
   - **3 Zero-Report Edge Cases:** Zero FAERS co-occurrences (*albuterol::suicidal_ideation*, *amoxicillin::tendon_rupture*, *adalimumab::frostbite*) to test hard safety gate short-circuiting.
-- **2. OMOP Reference Set Pilot (32-Pair External Validation):**
-  - 16 Positive and 16 Negative Controls from the OHDSI MethodEvaluation reference set (`omopReferenceSet.rda`, Ryan et al. 2013 *Drug Safety*, Apache 2.0 license).
-  - Covers 4 acute clinical outcomes: Acute Myocardial Infarction (AMI), Acute Liver Injury, Acute Kidney Injury (AKI), and Upper GI Bleeding.
-- **3. Exploratory Held-Out OMOP Validation Batch (40 Pairs, §36):**
-  - 20 Positive and 20 Negative Controls (27 unique drugs, 4 endpoints, lexicographic split).
-  - Programmatically audited for **zero overlap** with the 47 prior pairs.
+- **2. Top Prescribed Blockbuster Benchmark (50-Pair Outpatient Scale):**
+  - **25 Confirmed Positive Controls:** High-mortality, confirmed FDA Boxed Warnings across Statins, ACEi/ARBs, Antibiotics, Antidepressants, Opioids, Anticonvulsants, and Anticoagulants.
+  - **25 Balanced Negative Controls:** Widely prescribed outpatient therapies paired with safe outcomes to evaluate clinical specificity.
+- **3. OMOP Expanded Reference Standard (100-Pair Gold Standard):**
+  - 50 Positive and 50 Negative Controls from the OHDSI MethodEvaluation reference set (Ryan et al. 2013 *Drug Safety*, Apache 2.0 license).
+  - Covers 4 acute clinical organ-failure phenotypes: Acute Myocardial Infarction (AMI), Acute Liver Injury, Acute Kidney Injury (AKI), and Upper GI Bleeding.
 - **Data Integrity & Licensing:** 100% public domain / open access (FDA public records, ChEMBL CC BY-SA 3.0, OHDSI Apache 2.0). Zero MedDRA MSSO licensing dependencies (`NOTICE.md`).
 
 ### Speaker Script & Talking Points
-> "To evaluate PharmaGuard with regulatory rigor, we utilized three benchmark suites. 
-> First, our golden Core 15-pair benchmark across 3 clinical cohorts: 7 confirmed positives, 5 negative controls, and 3 zero-report controls to test safety gate cutoffs. 
-> Second, a 32-pair external pilot from the Ryan et al. 2013 OMOP reference set across 4 acute endpoints. 
-> Third, an untouched 40-pair held-out OMOP validation batch with zero overlap. 
-> In strict compliance with open-science standards, our pipeline uses exclusively public data—avoiding proprietary MedDRA licensing hurdles."
+> "To evaluate PharmaGuard with true regulatory rigor, we constructed three standardized multi-scale benchmark cohorts totaling 165 pairs. 
+> First, our golden Core 15-pair benchmark across 3 clinical classes: confirmed positives, negative controls, and zero-report edge cases. 
+> Second, our 50-pair Top Prescribed Blockbuster benchmark testing everyday outpatient medications against confirmed FDA Boxed Warnings. 
+> Third, the 100-pair OHDSI OMOP Expanded Reference Standard across 4 acute organ-failure phenotypes. 
+> In strict compliance with open-science standards, all data is 100% open-access and fully reproducible without proprietary licensing hurdles."
 
 ---
 
@@ -354,14 +354,14 @@ Before building slides in Canva or presenting, review and fill in the following 
 - **Pillar #3: Two-Round Independent Citation Audit Discipline**
   - Methodological rigor in clinical AI: independently verified all 21 supporting clinical citations against PubMed/NIH, correcting 13 venue/year errors and eliminating general editorial over-extensions. Every rule is traceable to verified medical literature.
 - **Pillar #4: End-to-End Reproducibility & Dual-Metric Philosophy**
-  - Enforces complete offline testability (persistent SHA-256 disk caching, frozen benchmark invariance proofs, 229 passing pytest unit tests) alongside a dual strict/lenient evaluation framework that distinguishes regulatory escalation from safety surveillance.
+  - Enforces complete offline testability (persistent SHA-256 disk caching, frozen benchmark invariance proofs, 242 passing pytest unit tests) alongside a dual strict/lenient evaluation framework that distinguishes regulatory escalation from safety surveillance.
 
 ### Speaker Script & Talking Points
 > "Slide 16 outlines PharmaGuard's four core novelties. 
 > First, our scoring-inert architecture: decoupling clinical context from numerical scoring establishes a robust design pattern against overfitting. 
 > Second, we prove that public APIs and WHO ATC ontologies can provide disease-context reasoning without restricted hospital records. 
 > Third, we introduced rigorous citation auditing, independently verifying every supporting paper against PubMed. 
-> Fourth, complete reproducibility: 229 automated tests, zero live network dependencies at evaluation, and dual-metric evaluation."
+> Fourth, complete reproducibility: 242 automated tests, zero live network dependencies at evaluation, and dual-metric evaluation."
 
 ---
 
@@ -376,12 +376,12 @@ Before building slides in Canva or presenting, review and fill in the following 
 - **Future Roadmap (Semester 8 & Publication Target):**
   - **Multi-Jurisdiction Safety Ingestion:** Expanding beyond US FAERS to ingest EMA EudraVigilance, PMDA JADER, and WHO VigiBase.
   - **Automated MedDRA Hierarchical Roll-Up:** Mapping Preferred Terms to High-Level Group Terms (HLGT) and System Organ Classes (SOC).
-  - **Conference Paper Submission:** Final manuscript drafting formally gated on supervisor review and approval (`DECISIONS.md §25`).
+  - **Conference Paper Submission:** Complete 9-section conference paper manuscript drafted (`docs/paper/PharmaGuard_Conference_Paper.md`), targeted for IEEE BIBM / ACM CHIL / JAMIA submission upon supervisor final venue selection.
 
 ### Speaker Script & Talking Points
 > "In Slide 17, we honestly characterize our limitations and future roadmap. Our primary limitations include a single-curator golden set, heuristic linear weights, and low statistical power on our holdout discount test. In addition, ATC codes only capture primary drug indications, missing off-label use. 
 > In Semester 8, we plan to expand data ingestion to European and Japanese pharmacovigilance databases and implement MedDRA hierarchical roll-up. 
-> Finally, our conference paper draft is prepared and awaits Dr. Arya's formal review and green light."
+> Finally, our full conference paper draft is complete and ready for submission pending Dr. Arya's final venue recommendation."
 
 ---
 
@@ -400,7 +400,7 @@ Before building slides in Canva or presenting, review and fill in the following 
   - `diskcache` persistent disk-backed cache with deterministic SHA-256 keying (`faers::`, `pubmed_grade::`, `atc::`, `concordance::`).
   - Guarantees **zero live network calls** during evaluation runs; prevents rate limits and API drift.
 - **Automated Testing & Code Health:**
-  - 229 passing unit and regression tests in `pytest`.
+  - 242 passing unit and regression tests in `pytest`.
   - Invariant assertion tests guaranteeing byte-identical report outputs across pipeline runs.
 - **High-Density Clinical Dashboard (`scripts/dashboard.py`):**
   - **Global Benchmark Cohort Switcher:** Instant top-bar toggling between `Core Showcase [15]`, `Top Prescribed [50]`, and `OMOP Expanded [100]`, dynamically driving Overview metrics and Per-Pair evidence drill-downs.
@@ -410,7 +410,7 @@ Before building slides in Canva or presenting, review and fill in the following 
 ### Speaker Script & Talking Points
 > "Slide 18 details our engineering stack and system architecture. In addition to cloud LLMs, PharmaGuard now runs fully offline on local Ollama using qwen2.5:7b—allowing zero-cost, unmetered evaluations. 
 > To ensure auditability and prevent API drift, every tool call is cached on disk using deterministic SHA-256 keys. 
-> Our codebase contains 229 automated unit and regression tests. 
+> Our codebase contains 242 automated unit and regression tests. 
 > Finally, our Streamlit evaluation dashboard features a Global Benchmark Cohort Switcher, allowing safety teams and defense evaluators to toggle dynamically between our 15-pair Core showcase, 50-pair Top Prescribed blockbusters, and 100-pair OMOP reference set with live evidence inspection."
 
 ---
@@ -442,7 +442,7 @@ Before building slides in Canva or presenting, review and fill in the following 
   - **1. Evidence-Grounded Triage:** Replaced ungrounded LLM hallucination with deterministic tri-source evidence fusion.
   - **2. Perfect Specificity:** Preserved 100% Strict Precision across all benchmarks, eliminating false alarms on negative controls.
   - **3. Disease-Context Reasoning:** Implemented WHO ATC indication concordance using public APIs as an accessible alternative to restricted EHR models.
-  - **4. Engineering Rigor:** 229 pytest unit tests, two-round citation audits, and a zero-latency clinical dashboard.
+  - **4. Engineering Rigor:** 242 pytest unit tests, two-round citation audits, and a zero-latency clinical dashboard.
 - **Project Repository:** [`github.com/Krishna200608/PharmaGuard`](https://github.com/Krishna200608/PharmaGuard)
 - **Acknowledgments:** Dr. Nikhilanand Arya, Department of Information Technology, IIIT Allahabad.
 - **Floor Open for Questions & Evaluation Committee Discussion.**

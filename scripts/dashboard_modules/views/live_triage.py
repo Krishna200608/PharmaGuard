@@ -21,6 +21,7 @@ from pharmaguard.agent.fixed_pipeline import FixedPipelineAgent
 from pharmaguard.agent.output_schema import TriageReport, EscalationDecision
 from pharmaguard.utils.config_loader import load_config
 from pharmaguard.utils.llm_factory import check_ollama_status
+from scripts.dashboard_modules.reports import generate_clinical_dossier_markdown
 
 logger = logging.getLogger(__name__)
 
@@ -366,6 +367,34 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
             unsafe_allow_html=True,
         )
 
+        clinical_dossier_md = generate_clinical_dossier_markdown(report)
+
+        # ── Clinical Dossier Quick-Export Toolbar ──
+        c_exp1, c_exp2, c_exp_space = st.columns([1.35, 1.25, 2.4], gap="small")
+        with c_exp1:
+            st.download_button(
+                label="Download Clinical Dossier (.md)",
+                data=clinical_dossier_md,
+                file_name=f"PharmaGuard_{report.drug.lower()}_{report.event.lower()}_dossier.md",
+                mime="text/markdown",
+                icon=":material/clinical_notes:",
+                type="primary",
+                width="stretch",
+                help="Download full regulatory clinical briefing in Markdown format",
+            )
+        with c_exp2:
+            st.download_button(
+                label="Export Audit JSON",
+                data=st.session_state["current_report_json"],
+                file_name=f"{report.run_id}_report.json",
+                mime="application/json",
+                icon=":material/data_object:",
+                width="stretch",
+                help="Export machine-readable JSON schema for programmatic audit",
+            )
+
+        st.markdown('<div style="height: 10px;"></div>', unsafe_allow_html=True)
+
         # 4 Pillar Metric Cards
         c_p1, c_p2, c_p3, c_p4 = st.columns(4, gap="medium")
 
@@ -486,17 +515,12 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
             for step in report.triage.agent_reasoning_trace:
                 st.markdown(f"- `{step}`")
 
-        with st.expander("TriageReport JSON & Export", expanded=False, icon=":material/data_object:"):
-            c_dl, _ = st.columns([0.25, 0.75])
-            with c_dl:
-                st.download_button(
-                    label="Download Report JSON",
-                    data=st.session_state["current_report_json"],
-                    file_name=f"{report.run_id}_report.json",
-                    mime="application/json",
-                    icon=":material/download:",
-                )
-            st.code(st.session_state["current_report_json"], language="json")
+        with st.expander("Clinical Dossier Preview & Full Audit Artifacts", expanded=False, icon=":material/description:"):
+            tab_dossier, tab_json = st.tabs(["Clinical Briefing Dossier", "Machine-Readable JSON"])
+            with tab_dossier:
+                st.markdown(clinical_dossier_md)
+            with tab_json:
+                st.code(st.session_state["current_report_json"], language="json")
 
     # ── Session Run History ──
     if st.session_state["live_history"]:
