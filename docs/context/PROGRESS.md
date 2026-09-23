@@ -146,7 +146,26 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - **CI-Based Gate Production Decision (2026-09-03):** Finalized decision to retain static PRR<2.0 gate as production default (`ci_based_gate.enabled: false`); CI-based gate established as validated opt-in alternative, rejected for production adoption due to benchmark asymmetry (Core F1 0.933->0.875 vs OMOP 0.720->0.815), small sample sizes, and §15 anti-overfitting discipline (documented in `DECISIONS.md §32.7`).
 - **ATC Therapeutic-Context Stratification (§34 Proposal C, 2026-09-04):** Implemented read-only `DiseaseContextTool` (WHO ATC via ChEMBL API + fallbacks) and stratified evaluation breakdown in `scripts/evaluator.py`; preserved 100% aggregate metric invariance across Core and OMOP benchmarks while exposing differential performance by therapeutic area.
 - **Indication Concordance Production Integration (§35 Phase 2, 2026-09-07):** Integrated `IndicationConcordanceTool` (7 clinical rules, IND-CONF-01–07) into production pipeline (`FixedPipelineAgent` & `PharmaGuardAgent`) and UI dashboard as a strictly informational, scoring-inert flag; passed scoring inertness unit tests with verified offline cache reproducibility; executed live 47-pair benchmark evaluations confirming 100% escalation invariance and zero drift in frozen reports.
-- **Indication Concordance Discount Factor & Held-Out OMOP Validation (§37 & §38, 2026-09-08):** Designed uniform 0.85 PRR discount factor (§37) and validated against 40-pair held-out OMOP benchmark (§38); diagnosed and resolved ATC resolution defect in `DiseaseContextTool` (missing live ChEMBL API name-search fallback, restoring holdout resolution from 18.5% to 96.3% [26/27]); corrected validation re-run identified 4/40 concordant pairs (`candesartan`, `captopril`, `chlorothiazide` with AKI, `etodolac` with GI bleed), applying 15% PRR discount and attenuating confidence with zero categorical shifts ($\Delta = 0.000$, Strict F1 0.1818, Lenient F1 0.5000); confirmed 100% strict specificity preservation and locked `discount_enabled: false` as production default.
+---
+
+## Multi-Scale Benchmark Expansion & Academic Synchronization (2026-09-23)
+
+- **Local Ollama Integration (`qwen2.5:7b`):** Integrated full local LLM inferencing support via Ollama daemon (`http://localhost:11434`), eliminating rate limit ceilings and API costs.
+- **Top Prescribed Blockbuster Benchmark ($n=50$, Phase 2):** Created `pharmaguard/data/ground_truth_top_prescribed_boxed_warnings.json` (25 high-mortality FDA Boxed Warnings vs. 25 balanced negative controls across Statins, ACEi/ARBs, Antibiotics, Antidepressants, Opioids, Anticonvulsants). Evaluated completely offline via Ollama (`outputs/research/top_prescribed/`):
+  - **Lenient $F_1$:** **0.9388** | **Recall:** **0.9200** (23/25 Boxed Warnings caught) | **Specificity:** **0.9600** (24/25 cleared) | **Strict Precision:** **1.0000** (10/10).
+- **OMOP Expanded Reference Standard ($n=100$, Phase 1):** Created `pharmaguard/data/ground_truth_omop_expanded.json` (50 positive vs. 50 negative controls across Acute Liver Injury, Acute Renal Failure, Myocardial Infarction, Upper GI Bleeding). Evaluated completely offline via Ollama (`outputs/research/omop_expanded/`):
+  - **Strict Specificity:** **1.0000** (50/50 negative controls completely rejected; zero false alarms) | **Lenient Specificity:** **0.9800** (49/50 cleared) | **Lenient Precision:** **0.9333** (14/15).
+  - Empirically proved PRR denominator dilution under chronic high-utilization therapies.
+- **Evaluation Dashboard Multi-Cohort Switcher (Phase 3 & Option 2):**
+  - Integrated top-bar Global Benchmark Cohort Switcher in `scripts/dashboard.py` toggling between `Core Showcase [15]`, `Top Prescribed [50]`, and `OMOP Expanded [100]`.
+  - Added Live Signal Triage playground with 151 searchable benchmark presets.
+  - Dynamically drives Overview metrics and Per-Pair evidence drill-downs. Verified via browser subagent with high-resolution screenshot artifacts.
+- **Academic Conference Paper Manuscript (Option 3):**
+  - Authored complete 9-section conference paper draft at `docs/paper/PharmaGuard_Conference_Paper.md` targeting IEEE BIBM / ACM CHIL / JAMIA venues.
+  - Formulated multi-cohort empirical results across all 165 pairs with Wilson 95% confidence intervals, real case study analyses, and anti-leakage audit findings.
+- **Capstone Presentation Deck Update (Option 3):**
+  - Synchronized `docs/presentation/End_Semester_Slide_Content.md` and `docs/presentation/SLIDE_DECK_NOTES.md` with the 165-pair multi-cohort benchmark data, updated master tables, and live multi-cohort dashboard demo narrative.
+
 
 
 
