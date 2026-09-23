@@ -331,3 +331,51 @@ class TestOMOPExpandedBenchmarkDataset:
         assert category_counts["omop_confirmed_positive"] == 50
         assert category_counts["omop_negative_control"] == 50
 
+
+class TestTopPrescribedBoxedWarningsDataset:
+    """Validation test suite for the 50-pair Top Prescribed FDA Boxed Warnings dataset."""
+
+    def test_top_prescribed_dataset_integrity(self):
+        from pathlib import Path
+        import json
+        from collections import Counter
+
+        dataset_path = (
+            Path(__file__).resolve().parents[1]
+            / "pharmaguard"
+            / "data"
+            / "ground_truth_top_prescribed_boxed_warnings.json"
+        )
+        assert dataset_path.exists(), f"Missing ground_truth_top_prescribed_boxed_warnings.json at {dataset_path}"
+
+        with open(dataset_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        assert data.get("schema_version") == "1.1"
+        pairs = data.get("pairs", [])
+        assert len(pairs) == 50, f"Expected 50 pairs, found {len(pairs)}"
+
+        allowed_escalations = {"ESCALATE", "DO_NOT_ESCALATE"}
+        category_counts = Counter()
+
+        for p in pairs:
+            assert "drug_canonical" in p and len(p["drug_canonical"]) > 0
+            assert "event_meddra_pt" in p and len(p["event_meddra_pt"]) > 0
+            assert p["expected_escalation"] in allowed_escalations
+            assert "drug_class" in p and len(p["drug_class"]) > 0
+            assert "source_url" in p and "http" in p["source_url"]
+            assert "rationale" in p and len(p["rationale"]) > 0
+            assert isinstance(p.get("boxed_warning"), bool)
+
+            category_counts[p["category"]] += 1
+
+            if p["category"] == "fda_boxed_warning_positive":
+                assert p["boxed_warning"] is True
+                assert p["expected_escalation"] == "ESCALATE"
+            elif p["category"] == "blockbuster_negative_control":
+                assert p["boxed_warning"] is False
+                assert p["expected_escalation"] == "DO_NOT_ESCALATE"
+
+        assert category_counts["fda_boxed_warning_positive"] == 25
+        assert category_counts["blockbuster_negative_control"] == 25
+

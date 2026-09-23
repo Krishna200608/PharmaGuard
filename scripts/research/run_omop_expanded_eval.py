@@ -192,7 +192,7 @@ def evaluate_batch(
     l_f1 = calc_f1(l_prec, l_rec)
 
     summary = {
-        "benchmark": "omop_expanded_100",
+        "benchmark": eval_file.stem,
         "total_evaluated": len(results),
         "strict": {
             "TP": strict_tp, "FP": strict_fp, "TN": strict_tn, "FN": strict_fn,

@@ -40,9 +40,30 @@ CORE_SHOWCASE_PRESETS = [
 
 @st.cache_data
 def _get_all_presets() -> list[tuple[str, str, str]]:
-    """Return unified list of showcase and 100 OMOP expanded presets."""
+    """Return unified list of showcase, top prescribed boxed warnings, and 100 OMOP expanded presets."""
     presets = list(CORE_SHOWCASE_PRESETS)
-    omop_file = Path(__file__).resolve().parents[3] / "pharmaguard" / "data" / "ground_truth_omop_expanded.json"
+    data_dir = Path(__file__).resolve().parents[3] / "pharmaguard" / "data"
+
+    # 1. Ingest FDA Boxed Warnings for Top Prescribed Blockbuster Drugs
+    top_bw_file = data_dir / "ground_truth_top_prescribed_boxed_warnings.json"
+    if top_bw_file.exists():
+        try:
+            with open(top_bw_file, "r", encoding="utf-8") as f:
+                bw_data = json.load(f)
+            for p in bw_data.get("pairs", []):
+                d = p["drug_canonical"]
+                e = p["event_meddra_pt"]
+                is_bw = p.get("boxed_warning", False)
+                tag = "[Boxed Warning]" if is_bw else "[Top Prescribed]"
+                status = "Positive" if is_bw else "Negative"
+                label = f"{tag} {d.title()} — {e.replace('_', ' ').title()} ({status})"
+                if not any(x[1].lower() == d.lower() and x[2].lower() == e.replace('_', ' ').lower() for x in presets):
+                    presets.append((label, d, e.replace("_", " ")))
+        except Exception as exc:
+            logger.warning("Could not load Top Prescribed Boxed Warnings presets: %s", exc)
+
+    # 2. Ingest OMOP Expanded 100-Pair Reference Set
+    omop_file = data_dir / "ground_truth_omop_expanded.json"
     if omop_file.exists():
         try:
             with open(omop_file, "r", encoding="utf-8") as f:
@@ -59,7 +80,6 @@ def _get_all_presets() -> list[tuple[str, str, str]]:
                 cat = "Positive" if "positive" in p.get("category", "") else "Negative"
                 ep_short = endpoint_labels.get(e, e.replace("_", " ").title())
                 label = f"[{ep_short}] {d.title()} — {e.replace('_', ' ').title()} ({cat})"
-                # Prevent duplicate entries if already in showcase
                 if not any(x[1].lower() == d.lower() and x[2].lower() == e.replace('_', ' ').lower() for x in presets):
                     presets.append((label, d, e.replace("_", " ")))
         except Exception as exc:
