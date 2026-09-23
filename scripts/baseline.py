@@ -14,12 +14,13 @@ Usage:
     python scripts/baseline.py
 """
 
+import hashlib
 import json
 import logging
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Optional
 
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
@@ -68,11 +69,21 @@ class BaselineOutput(BaseModel):
 # Cache key for baseline calls
 # ---------------------------------------------------------------------------
 
-def baseline_cache_key(drug: str, event: str, prompts_version: str) -> str:
+def baseline_cache_key(drug: str, event: str, prompts_version: str, model_name: Optional[str] = None) -> str:
     """
     Distinct prefix so baseline results never collide with pipeline cache entries.
     Includes CACHE_SCHEMA_VERSION so bumping it invalidates baseline too.
+    Optionally namespaces by model_name for cross-model cache isolation.
     """
+    if model_name:
+        model_slug = hashlib.sha256(model_name.encode()).hexdigest()[:8]
+        return (
+            f"baseline::{drug.lower().strip()}"
+            f"::{event.lower().strip()}"
+            f"::{prompts_version}"
+            f"::{model_slug}"
+            f"::{CACHE_SCHEMA_VERSION}"
+        )
     return (
         f"baseline::{drug.lower().strip()}"
         f"::{event.lower().strip()}"
@@ -152,21 +163,28 @@ def run_baseline():
         return
 
     config = load_config()
-    cache = ToolCache() if config.cache.enabled else None
+    # Cache isolation: if using Ollama, route to isolated cache directory unless explicit
+    if config.agent.llm_provider.lower() == "ollama":
+        cache_dir = Path(".cache/pharmaguard_ollama")
+        cache = ToolCache(cache_dir=cache_dir) if config.cache.enabled else None
+    else:
+        cache = ToolCache() if config.cache.enabled else None
+
     prompt_loader = PromptLoader()
     prompts_version = prompt_loader.version
     prompt_template = prompt_loader.get("baseline_single_shot")
 
     # Lazy-import langchain to keep startup fast
-    from langchain_google_genai import ChatGoogleGenerativeAI
     from langchain_core.messages import HumanMessage
+    from pharmaguard.utils.llm_factory import get_llm
 
-    llm = ChatGoogleGenerativeAI(model=config.agent.llm_model, temperature=0.0)
+    llm = get_llm(config, temperature=0.0)
     structured_llm = llm.with_structured_output(BaselineOutput)
+    active_model = config.agent.ollama_model if config.agent.llm_provider.lower() == "ollama" else config.agent.llm_model
 
     logger.info(
-        "Running baseline on %d pairs | model=%s | prompts_version=%s | cache=%s",
-        len(pairs), config.agent.llm_model, prompts_version,
+        "Running baseline on %d pairs | provider=%s | model=%s | prompts_version=%s | cache=%s",
+        len(pairs), config.agent.llm_provider, active_model, prompts_version,
         "enabled" if cache else "disabled",
     )
 
@@ -184,7 +202,7 @@ def run_baseline():
         cached_result = None
         cache_key = None
         if cache:
-            cache_key = baseline_cache_key(drug, event, prompts_version)
+            cache_key = baseline_cache_key(drug, event, prompts_version, model_name=active_model)
             cached_result = cache.get(cache_key)
 
         if cached_result:

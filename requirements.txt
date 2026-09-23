@@ -4,6 +4,7 @@
 # Core agent framework
 langchain>=0.2.0
 langchain-google-genai>=1.0.0   # Gemini Flash backend
+langchain-ollama>=0.1.0         # Local Ollama backend
 langgraph>=0.1.0
 
 # Data validation / output schema

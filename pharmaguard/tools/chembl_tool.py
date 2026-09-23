@@ -146,8 +146,12 @@ class ChemblTool:
               2. Also load human-curated entry if it exists.
               3. Populate curated_reference and agreement on the result.
         """
-        lookup_key = f"{drug_canonical.lower()}::{event_meddra_pt.lower()}"
+        norm_event = event_meddra_pt.lower().strip()
+        lookup_key = f"{drug_canonical.lower().strip()}::{norm_event}"
         curated_entry = self._plausibility_ratings.get(lookup_key)
+        if not curated_entry:
+            alt_event = norm_event.replace(" ", "_") if " " in norm_event else norm_event.replace("_", " ")
+            curated_entry = self._plausibility_ratings.get(f"{drug_canonical.lower().strip()}::{alt_event}")
 
         if self._force_agent:
             return self._derive_plausibility_with_comparison(

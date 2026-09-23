@@ -57,3 +57,24 @@ def test_cache_stats(tmp_cache):
     stats = tmp_cache.stats()
     assert stats["entry_count"] == 1
     assert "cache_dir" in stats
+
+
+def test_plausibility_key_model_isolation():
+    key_gemini = ToolCache.plausibility_key("semaglutide", "pancreatitis", "v1.0", model_name="gemini-3.1-flash-lite")
+    key_qwen = ToolCache.plausibility_key("semaglutide", "pancreatitis", "v1.0", model_name="qwen2.5:7b")
+    key_default = ToolCache.plausibility_key("semaglutide", "pancreatitis", "v1.0")
+
+    assert key_gemini != key_qwen
+    assert key_gemini != key_default
+    assert key_qwen != key_default
+
+
+def test_pubmed_grade_key_model_isolation():
+    key_gemini = ToolCache.pubmed_grade_key("query", "v1.0", model_name="gemini-3.1-flash-lite")
+    key_qwen = ToolCache.pubmed_grade_key("query", "v1.0", model_name="qwen2.5:7b")
+    key_default = ToolCache.pubmed_grade_key("query", "v1.0")
+
+    assert key_gemini != key_qwen
+    assert key_gemini != key_default
+    assert key_qwen != key_default
+

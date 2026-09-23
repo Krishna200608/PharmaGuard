@@ -21,8 +21,8 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from langchain_core.messages import HumanMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
+from pharmaguard.utils.llm_factory import get_llm
 
 from pharmaguard.agent.output_schema import LeakageCritique
 from pharmaguard.utils.config_loader import load_config
@@ -92,7 +92,7 @@ def run_critic_probe():
     prompt_loader = PromptLoader()
 
     critic_prompt_template = prompt_loader.get("leakage_critic")
-    llm = ChatGoogleGenerativeAI(model=config.agent.llm_model, temperature=0.0)
+    llm = get_llm(config, temperature=0.0)
     structured_critic = llm.with_structured_output(LeakageCritique)
 
     probe_results = []

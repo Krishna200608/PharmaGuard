@@ -15,7 +15,11 @@ _CONFIG_PATH = _PROJECT_ROOT / "configs" / "config.yaml"
 
 class AgentConfig(BaseModel):
     mode: str = Field(pattern="^(react|fixed_pipeline)$")
-    llm_model: str
+    llm_provider: str = Field(default="google", pattern="^(google|gemini|ollama)$")
+    llm_model: str = Field(default="gemini-3.1-flash-lite")
+    ollama_model: str = Field(default="qwen2.5:7b")
+    ollama_base_url: str = Field(default="http://localhost:11434")
+    temperature: float = Field(default=0.0)
 
 
 class LeakageCriticConfig(BaseModel):

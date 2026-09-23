@@ -27,7 +27,7 @@ def get_theme_css(theme: str = "light") -> str:
         shadow         = "0 4px 16px rgba(0,0,0,0.4)"
         shadow_sm      = "0 1px 4px rgba(0,0,0,0.3)"
         quote_bg       = "rgba(18,27,41,0.8)"
-        quote_bd       = "#263245"
+        quote_bd       = "#818CF8"
         quote_txt      = "#D5DBE5"
         callout_bg     = "rgba(21,31,46,0.7)"
         callout_bd     = "#818CF8"
@@ -41,9 +41,17 @@ def get_theme_css(theme: str = "light") -> str:
         opt_hover      = "#182335"
         opt_sel_bg     = "rgba(102, 114, 255, 0.22)"
         opt_sel_txt    = "#FFFFFF"
-        code_bg        = "rgba(129,140,248,0.12)"
-        code_txt       = "#A5B4FC"
-        code_bd        = "rgba(129,140,248,0.28)"
+        code_block_bg  = "#0A0F18"
+        code_bg        = "rgba(129,140,248,0.16)"
+        code_txt       = "#C7D2FE"
+        code_bd        = "rgba(129,140,248,0.35)"
+        link_hover     = "#A5B4FC"
+        token_prop     = "#7DD3FC"
+        token_str      = "#86EFAC"
+        token_num      = "#FCA5A5"
+        token_bool     = "#FCD34D"
+        token_punct    = "#94A3B8"
+        token_op       = "#C084FC"
         # Toggle / Button Group
         toggle_tray       = "#101824"
         toggle_tray_bd    = "#263245"
@@ -82,7 +90,7 @@ def get_theme_css(theme: str = "light") -> str:
         shadow         = "0 4px 14px rgba(15,23,42,0.06)"
         shadow_sm      = "0 1px 3px rgba(15,23,42,0.05)"
         quote_bg       = "#F2F5F9"
-        quote_bd       = "#D9E1EA"
+        quote_bd       = "#4F46E5"
         quote_txt      = "#334155"
         callout_bg     = "#F8FAFC"
         callout_bd     = "#4F46E5"
@@ -96,9 +104,17 @@ def get_theme_css(theme: str = "light") -> str:
         opt_hover      = "#F2F5F9"
         opt_sel_bg     = "#EEF2FF"
         opt_sel_txt    = "#4F46E5"
-        code_bg        = "#F2F5F9"
-        code_txt       = "#334155"
-        code_bd        = "#D9E1EA"
+        code_block_bg  = "#F8FAFC"
+        code_bg        = "#EEF2FF"
+        code_txt       = "#3730A3"
+        code_bd        = "#C7D2FE"
+        link_hover     = "#312E81"
+        token_prop     = "#0284C7"
+        token_str      = "#15803D"
+        token_num      = "#DC2626"
+        token_bool     = "#D97706"
+        token_punct    = "#64748B"
+        token_op       = "#9333EA"
         # Toggle / Button Group
         toggle_tray       = "#EAEFF5"
         toggle_tray_bd    = "#D9E1EA"
@@ -145,6 +161,12 @@ def get_theme_css(theme: str = "light") -> str:
 }}
 
 /* ── Base Reset & App Background ── */
+:root, .stApp, html body {{
+    --primary-color: {primary} !important;
+    --background-color: {bg} !important;
+    --secondary-background-color: {surface} !important;
+    --text-color: {text} !important;
+}}
 html, body {{
     background-color: {bg} !important;
     color: {text} !important;
@@ -154,6 +176,29 @@ html, body {{
 }}
 .stApp, .stApp p, .stApp span, .stApp div, .stApp label, .stApp h1, .stApp h2, .stApp h3 {{
     color: {text};
+}}
+/* ── Links & Citation Pills ── */
+a, a:visited, .stApp a, .stApp a:visited {{
+    color: {primary} !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}}
+a:hover, .stApp a:hover {{
+    color: {link_hover} !important;
+    text-decoration: underline !important;
+}}
+a code, a > code, .stApp a code, .stApp a > code {{
+    color: {primary} !important;
+    background-color: {code_bg} !important;
+    border: 1px solid {code_bd} !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    transition: all 0.15s ease !important;
+}}
+a:hover code, a:hover > code, .stApp a:hover code, .stApp a:hover > code {{
+    color: #FFFFFF !important;
+    background-color: {primary} !important;
+    border-color: {primary} !important;
 }}
 .block-container {{
     padding-top: 1.5rem !important;
@@ -449,6 +494,150 @@ button[data-testid='stTab'][aria-selected='true'] div {{
     font-weight: 700 !important;
 }}
 
+/* ── Text Inputs & Textareas ── */
+div[data-testid='stTextInput'] input,
+div[data-testid='stTextArea'] textarea,
+div[data-baseweb='input'],
+div[data-baseweb='base-input'],
+div[data-baseweb='input'] > input,
+div[data-baseweb='base-input'] > input,
+html body div[data-baseweb='input'] input,
+html body div[data-baseweb='base-input'] input {{
+    background: {input_bg} !important;
+    background-color: {input_bg} !important;
+    border: 1px solid {input_bd} !important;
+    border-radius: 8px !important;
+    color: {text} !important;
+    -webkit-text-fill-color: {text} !important;
+    font-size: 13.5px !important;
+}}
+div[data-baseweb='input'] input::placeholder,
+div[data-baseweb='base-input'] input::placeholder,
+html body div[data-baseweb='input'] input::placeholder {{
+    color: {text_muted} !important;
+    -webkit-text-fill-color: {text_muted} !important;
+    opacity: 0.7 !important;
+}}
+div[data-baseweb='input']:focus-within,
+div[data-baseweb='base-input']:focus-within {{
+    border-color: {primary} !important;
+    box-shadow: 0 0 0 1px {primary} !important;
+}}
+
+/* ── Expanders ── */
+div[data-testid='stExpander'],
+details[data-testid='stExpander'],
+details {{
+    background: {surface} !important;
+    background-color: {surface} !important;
+    border: 1px solid {border} !important;
+    border-radius: 9px !important;
+    color: {text} !important;
+    overflow: hidden !important;
+    margin-bottom: 12px !important;
+}}
+summary[data-testid='stExpanderSummary'],
+div[data-testid='stExpander'] summary,
+details summary {{
+    background: {surface} !important;
+    background-color: {surface} !important;
+    color: {text} !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+}}
+summary[data-testid='stExpanderSummary']:hover,
+div[data-testid='stExpander'] summary:hover,
+details summary:hover {{
+    background: {surface2} !important;
+    background-color: {surface2} !important;
+    color: {text} !important;
+}}
+summary[data-testid='stExpanderSummary'] p,
+summary[data-testid='stExpanderSummary'] span,
+summary[data-testid='stExpanderSummary'] div,
+div[data-testid='stExpander'] summary span,
+div[data-testid='stExpander'] summary p {{
+    color: {text} !important;
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+}}
+summary[data-testid='stExpanderSummary'] svg,
+div[data-testid='stExpander'] summary svg {{
+    fill: {text_sec} !important;
+    color: {text_sec} !important;
+}}
+div[data-testid='stExpanderDetails'],
+div[data-testid='stExpander'] > div[role='region'],
+div[data-testid='stExpander'] > div:nth-child(2) {{
+    background: {surface} !important;
+    background-color: {surface} !important;
+    border-top: 1px solid {divider} !important;
+    color: {text} !important;
+    padding: 14px 16px !important;
+}}
+
+/* ── Buttons ── */
+button[kind='primary'],
+div[data-testid='stButton'] > button[kind='primary'] {{
+    background: {primary} !important;
+    background-color: {primary} !important;
+    border: 1px solid {primary} !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: 8px 18px !important;
+    font-size: 13.5px !important;
+    transition: all 0.15s ease !important;
+}}
+button[kind='primary']:hover,
+div[data-testid='stButton'] > button[kind='primary']:hover {{
+    opacity: 0.9 !important;
+    box-shadow: {shadow_sm} !important;
+}}
+button[kind='primary'] p,
+button[kind='primary'] span,
+button[kind='primary'] div {{
+    color: #FFFFFF !important;
+}}
+button[kind='secondary'],
+div[data-testid='stButton'] > button[kind='secondary'] {{
+    background: {surface} !important;
+    background-color: {surface} !important;
+    border: 1px solid {border} !important;
+    color: {text} !important;
+    border-radius: 8px !important;
+    font-size: 13.5px !important;
+    transition: all 0.15s ease !important;
+}}
+button[kind='secondary']:hover,
+div[data-testid='stButton'] > button[kind='secondary']:hover {{
+    background: {surface2} !important;
+    background-color: {surface2} !important;
+    border-color: {border_hover} !important;
+}}
+button[kind='secondary'] p,
+button[kind='secondary'] span,
+button[kind='secondary'] div {{
+    color: {text} !important;
+}}
+
+/* ── Status Container & Alerts ── */
+div[data-testid='stStatusWidget'],
+div[data-testid='stAlert'] {{
+    background: {surface} !important;
+    background-color: {surface} !important;
+    border: 1px solid {border} !important;
+    border-radius: 8px !important;
+    color: {text} !important;
+}}
+div[data-testid='stAlert'] p,
+div[data-testid='stAlert'] span,
+div[data-testid='stAlert'] div {{
+    color: {text} !important;
+}}
+
+
+
 /* ═══════════════════════════════════════════════════════════════════
    CUSTOM PHARMAGUARD ELEMENTS
    ═══════════════════════════════════════════════════════════════════ */
@@ -510,6 +699,75 @@ button[data-testid='stTab'][aria-selected='true'] div {{
 
 /* ── Inline code ── */
 code {{ background-color: {code_bg} !important; color: {code_txt} !important; border: 1px solid {code_bd} !important; padding: 2px 6px !important; border-radius: 4px !important; font-family: 'JetBrains Mono', monospace !important; font-size: 12.5px !important; }}
+
+/* ── Code Blocks (st.code) ── */
+div[data-testid='stCodeBlock'],
+div[data-testid='stCodeBlock'] > div,
+div[data-testid='stCodeBlock'] pre,
+div.stCodeBlock,
+div.stCodeBlock pre,
+.stCodeBlock,
+pre {{
+    background: {code_block_bg} !important;
+    background-color: {code_block_bg} !important;
+    border: 1px solid {border} !important;
+    border-radius: 8px !important;
+    color: {text} !important;
+}}
+div[data-testid='stCodeBlock'] pre code,
+div.stCodeBlock pre code,
+.stCodeBlock pre code,
+pre code {{
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    color: {text} !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 13px !important;
+}}
+div[data-testid='stCodeBlock'] button,
+.stCodeBlock button {{
+    background: {surface2} !important;
+    color: {text_sec} !important;
+    border: 1px solid {border} !important;
+    border-radius: 6px !important;
+}}
+div[data-testid='stCodeBlock'] button:hover,
+.stCodeBlock button:hover {{
+    background: {surface} !important;
+    color: {text} !important;
+    border-color: {border_hover} !important;
+}}
+
+/* ── Syntax Highlighting Tokens (JSON / Code) ── */
+div[data-testid='stCodeBlock'] .token.property,
+div[data-testid='stCodeBlock'] .token.key,
+.stCodeBlock .token.property,
+.stCodeBlock .token.key {{ color: {token_prop} !important; }}
+
+div[data-testid='stCodeBlock'] .token.string,
+.stCodeBlock .token.string {{ color: {token_str} !important; }}
+
+div[data-testid='stCodeBlock'] .token.number,
+.stCodeBlock .token.number {{ color: {token_num} !important; }}
+
+div[data-testid='stCodeBlock'] .token.boolean,
+.stCodeBlock .token.boolean {{ color: {token_bool} !important; }}
+
+div[data-testid='stCodeBlock'] .token.punctuation,
+.stCodeBlock .token.punctuation {{ color: {token_punct} !important; }}
+
+div[data-testid='stCodeBlock'] .token.operator,
+.stCodeBlock .token.operator {{ color: {token_op} !important; }}
+
+/* ── Canvas Data Grid / Table Fallback ── */
+div[data-testid='stDataFrame'],
+div[data-testid='stTable'] {{
+    background: {surface} !important;
+    background-color: {surface} !important;
+    border: 1px solid {border} !important;
+    border-radius: 9px !important;
+}}
 </style>
 """
     return css

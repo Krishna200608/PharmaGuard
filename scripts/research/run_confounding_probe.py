@@ -21,8 +21,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
+from pharmaguard.utils.llm_factory import get_llm
 
 from pharmaguard.tools.confounding import ConfoundingTool, ConfoundingAssessment
 from pharmaguard.tools.signal_source import FaersLegacySource
@@ -67,7 +67,7 @@ def run_confounding_self_probe():
     faers = FaersLegacySource(cache=cache)
     chembl = ChemblTool(cache=cache, prompts_version=prompt_loader.version)
 
-    llm = ChatGoogleGenerativeAI(model=config.agent.llm_model, temperature=0.0)
+    llm = get_llm(config, temperature=0.0)
     c_tool = ConfoundingTool(llm=llm, prompt_loader=prompt_loader)
 
     probe_results = []

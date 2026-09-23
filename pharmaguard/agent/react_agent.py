@@ -11,7 +11,7 @@ import operator
 
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, ToolMessage, SystemMessage
 from langchain_core.tools import tool
-from langchain_google_genai import ChatGoogleGenerativeAI
+from pharmaguard.utils.llm_factory import get_llm
 from langgraph.graph import StateGraph, END
 
 
@@ -63,11 +63,14 @@ class PharmaGuardAgent:
     def __init__(self, run_id: str, cache_dir: str = ".cache/pharmaguard", config: Optional[AppConfig] = None):
         self.run_id = run_id
         self.config = config or load_config()
-        self.cache = ToolCache(cache_dir=Path(cache_dir)) if self.config.cache.enabled else None
+        resolved_cache_dir = cache_dir
+        if getattr(self.config.agent, "llm_provider", "google") == "ollama" and cache_dir == ".cache/pharmaguard":
+            resolved_cache_dir = ".cache/pharmaguard_ollama"
+        self.cache = ToolCache(cache_dir=Path(resolved_cache_dir)) if self.config.cache.enabled else None
         self.prompt_loader = PromptLoader()
         self.tlog = TranscriptLogger(run_id=run_id)
         
-        self.llm = ChatGoogleGenerativeAI(model=self.config.agent.llm_model, temperature=0.0)
+        self.llm = get_llm(self.config)
         
         # We need LLM fns for the tools
         def pubmed_llm_fn(abstracts: list[str], pmids: list[str], rubric: str):

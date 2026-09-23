@@ -22,6 +22,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 import requests
+from dotenv import find_dotenv, load_dotenv
 
 from pharmaguard.tools.cache import ToolCache
 from pharmaguard.utils.prompt_loader import PromptLoader
@@ -52,6 +53,7 @@ class PubMedTool:
     """
 
     def __init__(self, cache: ToolCache, prompt_loader: PromptLoader, llm_inference_fn=None):
+        load_dotenv(find_dotenv())
         self._cache = cache
         self._prompt_loader = prompt_loader
         self._api_key = os.getenv("NCBI_API_KEY", "")

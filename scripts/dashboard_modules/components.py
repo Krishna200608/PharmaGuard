@@ -57,8 +57,8 @@ def concordance_badge(ic: dict | None, theme: str = "light") -> str:
     tooltip = "&#10;&#10;".join(tooltip_parts).replace('"', '&quot;')
 
     return (
-        f'<span class="b-zero" style="font-weight:700;font-size:11px;letter-spacing:0.02em;cursor:help;" '
-        f'title="{tooltip}">⚠️ Flagged</span>'
+        f'<span class="b-zero" style="font-weight:700;font-size:11px;letter-spacing:0.02em;cursor:help;display:inline-flex;align-items:center;gap:3px;" '
+        f'title="{tooltip}"><span class="material-symbols-outlined" style="font-size:13px;">warning</span>Flagged</span>'
     )
 
 

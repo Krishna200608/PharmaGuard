@@ -35,23 +35,22 @@ class PlausibilityLLMOutput(BaseModel):
 def extract_text(content) -> str:
     if isinstance(content, str): return content
     if isinstance(content, list): return " ".join([part.get("text", "") for part in content if isinstance(part, dict) and "text" in part])
-    return str(content)
-
 class FixedPipelineAgent:
     def __init__(self, run_id: str, cache_dir: str = ".cache/pharmaguard", config: Optional[AppConfig] = None):
         self.run_id = run_id
         self.config = config or load_config()
-        self.cache = ToolCache(cache_dir=Path(cache_dir)) if self.config.cache.enabled else None
+        resolved_cache_dir = cache_dir
+        if getattr(self.config.agent, "llm_provider", "google") == "ollama" and cache_dir == ".cache/pharmaguard":
+            resolved_cache_dir = ".cache/pharmaguard_ollama"
+        self.cache = ToolCache(cache_dir=Path(resolved_cache_dir)) if self.config.cache.enabled else None
         self.prompt_loader = PromptLoader()
         self.tlog = TranscriptLogger(run_id=run_id)
         
-        # In fixed pipeline we can either use the exact same LLM fn or mock it 
-        # based on config. We assume we still want to use LLM for PubMed grading.
-        from langchain_google_genai import ChatGoogleGenerativeAI
         from langchain_core.messages import SystemMessage, HumanMessage
+        from pharmaguard.utils.llm_factory import get_llm
         import json
         
-        self.llm = ChatGoogleGenerativeAI(model=self.config.agent.llm_model, temperature=0.0)
+        self.llm = get_llm(self.config)
         
         def pubmed_llm_fn(abstracts: list[str], pmids: list[str], rubric: str):
             sys_msg = SystemMessage(content=rubric)

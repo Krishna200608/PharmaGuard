@@ -7,8 +7,11 @@
 # --- Agent mode ---
 agent:
   mode: "fixed_pipeline"
+  llm_provider: "google"        # "google" (Gemini API) | "ollama" (Local open-source models)
   llm_model: "gemini-3.1-flash-lite"
-                          # Change to fixed_pipeline by week 6 if ReAct reliability is shaky (see build brief §checkpoints)
+  ollama_model: "qwen2.5:7b"   # Default local model: qwen2.5:7b (or llama3.1:8b, llama3.2:3b)
+  ollama_base_url: "http://localhost:11434"
+  temperature: 0.0
 
 # --- Plausibility source ---
 plausibility:

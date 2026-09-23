@@ -18,6 +18,9 @@ import streamlit as st
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS_DIR = Path(__file__).resolve().parent
+from dotenv import load_dotenv
+
+load_dotenv(REPO_ROOT / ".env")
 
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
@@ -58,6 +61,10 @@ from dashboard_modules.views.probes import view_probes
 import dashboard_modules.views.omop_pilot as _v_omop_pilot
 importlib.reload(_v_omop_pilot)
 from dashboard_modules.views.omop_pilot import view_omop_pilot
+
+import dashboard_modules.views.live_triage as _v_live_triage
+importlib.reload(_v_live_triage)
+from dashboard_modules.views.live_triage import view_live_triage
 
 # ---------------------------------------------------------------------------
 # Paths & Page Configuration
@@ -135,14 +142,17 @@ def main() -> None:
         st.stop()
 
     # ── Tabs & Views ──
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-        "Overview",
-        "Per-Pair Table",
-        "Disagreement Spotlight",
-        "Baseline Comparison",
-        "Methodology Probes",
-        "OMOP Pilot",
+    tab_live, tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        ":material/bolt: Live Signal Triage",
+        ":material/analytics: Overview",
+        ":material/table_chart: Per-Pair Table",
+        ":material/warning: Disagreement Spotlight",
+        ":material/compare_arrows: Baseline Comparison",
+        ":material/biotech: Methodology Probes",
+        ":material/dataset: OMOP Pilot",
     ])
+    with tab_live:
+        view_live_triage(theme=active_theme, repo_root=REPO_ROOT)
     with tab1:
         view_overview(LOGO_PATH, STABILITY_PATH, theme=active_theme)
     with tab2:

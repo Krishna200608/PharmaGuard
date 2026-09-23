@@ -53,10 +53,10 @@ class ToolCache:
 
     def __init__(
         self,
-        cache_dir: Optional[Path] = None,
+        cache_dir: Optional[Any] = None,
         ttl: int = DEFAULT_TTL_SECONDS,
     ):
-        self._dir = cache_dir or DEFAULT_CACHE_DIR
+        self._dir = Path(cache_dir) if cache_dir else DEFAULT_CACHE_DIR
         self._dir.mkdir(parents=True, exist_ok=True)
         self._cache = diskcache.Cache(str(self._dir))
         self._ttl = ttl
@@ -77,17 +77,30 @@ class ToolCache:
         return f"pubmed::{digest}"
 
     @staticmethod
-    def pubmed_grade_key(query: str, prompts_version: str) -> str:
+    def pubmed_grade_key(query: str, prompts_version: str, model_name: Optional[str] = None) -> str:
         """Cache the LLM grading step separately to avoid re-fetching abstracts."""
         digest = hashlib.sha256(query.encode()).hexdigest()[:16]
+        if model_name:
+            model_slug = hashlib.sha256(model_name.encode()).hexdigest()[:8]
+            return f"pubmed_grade::{digest}::{prompts_version}::{model_slug}::{CACHE_SCHEMA_VERSION}"
         return f"pubmed_grade::{digest}::{prompts_version}::{CACHE_SCHEMA_VERSION}"
 
     @staticmethod
-    def plausibility_key(drug: str, event: str, prompts_version: str) -> str:
+    def plausibility_key(drug: str, event: str, prompts_version: str, model_name: Optional[str] = None) -> str:
         """
         Includes prompts_version and CACHE_SCHEMA_VERSION so rubric/logic updates auto-invalidate cached
         agent-derived plausibility scores without touching FAERS/PubMed cache.
+        Optionally namespaces by model_name for cross-model cache isolation.
         """
+        if model_name:
+            model_slug = hashlib.sha256(model_name.encode()).hexdigest()[:8]
+            return (
+                f"plausibility::{drug.lower().strip()}"
+                f"::{event.lower().strip()}"
+                f"::{prompts_version}"
+                f"::{model_slug}"
+                f"::{CACHE_SCHEMA_VERSION}"
+            )
         return (
             f"plausibility::{drug.lower().strip()}"
             f"::{event.lower().strip()}"

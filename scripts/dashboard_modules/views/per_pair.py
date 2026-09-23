@@ -167,7 +167,11 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
     ic_data = sel_rpt.get('indication_concordance')
     if ic_data:
         is_conc = ic_data.get('concordant', False)
-        status_label = "⚠️ Flagged (Indication-Overlap Confounding)" if is_conc else "— Clear (No Indication Overlap)"
+        status_label = (
+            '<span class="material-symbols-outlined" style="font-size:15px; vertical-align:-2px; color:#D97706;">warning</span> <strong>Flagged</strong> (Indication-Overlap Confounding)'
+            if is_conc else
+            '<span class="material-symbols-outlined" style="font-size:15px; vertical-align:-2px; color:#10B981;">check_circle</span> <strong>Clear</strong> (No Indication Overlap)'
+        )
         cat_text = ic_data.get('overlap_category') or 'None'
         rat_text = ic_data.get('rationale') or 'No indication concordance identified under clinical rule table (IND-CONF-01 through 07).'
         src_text = ic_data.get('rule_source') or 'General pharmacoepidemiological screening criteria.'

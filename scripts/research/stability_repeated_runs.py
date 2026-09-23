@@ -40,6 +40,7 @@ from typing import Literal
 
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from pharmaguard.utils.llm_factory import get_llm
 
 from pharmaguard.utils.config_loader import load_config
 from pharmaguard.utils.prompt_loader import PromptLoader
@@ -254,7 +255,10 @@ def run_repeated_stability_experiment(
     scratch_cache = ToolCache(cache_dir=scratch_dir)
 
     # Instantiate tools pointing exclusively to scratch_cache
-    llm = ChatGoogleGenerativeAI(model=config.agent.llm_model, temperature=0.0)
+    if getattr(config.agent, "llm_provider", "google").lower() == "ollama":
+        llm = get_llm(config, temperature=0.0)
+    else:
+        llm = ChatGoogleGenerativeAI(model=config.agent.llm_model, temperature=0.0)
 
     def pubmed_llm_fn(abstracts: list[str], pmids: list[str], rubric: str):
         if not abstracts:
