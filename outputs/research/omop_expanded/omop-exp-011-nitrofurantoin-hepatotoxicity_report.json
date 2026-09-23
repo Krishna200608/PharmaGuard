@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-011-nitrofurantoin-hepatotoxicity",
+  "timestamp": "2026-09-23T08:38:59.968392Z",
+  "prompts_version": "v1.1",
+  "drug": "nitrofurantoin",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 3.362215301123744,
+    "ror": 3.3706221948609802,
+    "prr_lower_ci": 2.6556494823763863,
+    "ror_lower_ci": 2.660060361042687,
+    "report_count": 69,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:37:41.062814Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The mechanism of action (MoA) of nitrofuran antibacterials involves their reduction by bacterial flavoproteins into reactive intermediates that can attack bacterial ribosomal proteins, DNA, RNA, and metabolic enzymes. While this mechanism primarily targets bacteria, it is plausible that these reactive intermediates could also interact with host cell components, including hepatocytes, potentially leading to hepatotoxicity. However, the primary target of nitrofurans is bacteria, and they are not typically used in high enough concentrations in the body to cause significant hepatotoxicity. Nonetheless, there have been reports of hepatotoxicity associated with nitrofurantoin, a nitrofuran derivative, which supports the potential for this adverse effect. Therefore, the plausibility of hepatotoxicity is moderate.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"nitrofurantoin\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42544326",
+      "38992407",
+      "37665362",
+      "36603570",
+      "30779552"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract qualifies for Grade B as it contains case report/association language without statistical significance."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.564,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

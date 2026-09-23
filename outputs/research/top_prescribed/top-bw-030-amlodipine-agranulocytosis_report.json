@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-030-amlodipine-agranulocytosis",
+  "timestamp": "2026-09-23T08:09:30.958027Z",
+  "prompts_version": "v1.1",
+  "drug": "amlodipine",
+  "event": "agranulocytosis",
+  "signal_stats": {
+    "prr": 1.6846592190474796,
+    "ror": 1.6856656216982455,
+    "prr_lower_ci": 1.5473389801861928,
+    "ror_lower_ci": 1.5480722131139113,
+    "report_count": 547,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:08:50.444632Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Agranulocytosis is a condition characterized by a severe reduction in the number of neutrophils, a type of white blood cell, in the blood. It is typically associated with certain drugs, particularly those that affect bone marrow function or cause immune-mediated destruction of neutrophils. Dihydropyridine L-type calcium channel blockers, such as amlodipine, nifedipine, and felodipine, are primarily used to treat hypertension and angina by relaxing the smooth muscles of blood vessels, leading to vasodilation. These drugs do not have a known mechanism that would directly affect bone marrow function or immune-mediated destruction of neutrophils. Therefore, the plausibility of agranulocytosis as a side effect of dihydropyridine L-type calcium channel blockers is LOW.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"amlodipine\"[tiab] AND \"agranulocytosis\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

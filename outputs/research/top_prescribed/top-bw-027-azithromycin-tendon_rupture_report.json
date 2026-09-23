@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-027-azithromycin-tendon_rupture",
+  "timestamp": "2026-09-23T08:05:24.542285Z",
+  "prompts_version": "v1.1",
+  "drug": "azithromycin",
+  "event": "tendon_rupture",
+  "signal_stats": {
+    "prr": 0.8406013816505448,
+    "ror": 0.840522199058541,
+    "prr_lower_ci": 0.6139062612106289,
+    "ror_lower_ci": 0.6137525488491236,
+    "report_count": 39,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:04:36.549845Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"azithromycin\"[tiab] AND \"tendon rupture\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 3,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "36065683",
+      "11549787",
+      "8730972"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains statistical association language (p < 0.05 for nausea, headache, etc.), and another abstract contains case report/association language without statistical significance."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "B",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

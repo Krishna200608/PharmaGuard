@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-008-chlorpromazine-hepatotoxicity",
+  "timestamp": "2026-09-23T08:35:15.772826Z",
+  "prompts_version": "v1.1",
+  "drug": "chlorpromazine",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 3.3688440089061693,
+    "ror": 3.3773020828113993,
+    "prr_lower_ci": 2.342018479814655,
+    "ror_lower_ci": 2.3448555509977065,
+    "report_count": 29,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:32:54.961833Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"chlorpromazine\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "39469476",
+      "27344345",
+      "24486436",
+      "24211272",
+      "23238562"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains statistical association language, while the others do not. The abstract with statistical association language is: 'Previously we reported a gene expression signature in rat liver for detecting a specific type of oxidative stress (OS) related to reactive metabolites (RM). High doses of the drugs disulfiram, ethinyl estradiol and nimesulide were used with another dozen paradigm OS/RM compounds, and three other drugs flutamide, phenacetin and sulindac were identified by this signature. In a second study, antiepileptic drugs were compared for covalent binding and their effects on OS/RM; felbamate, carbamazepine, and phenobarbital produced robust OS/RM gene expression. In the present study, liver RNA samples from drug-treated rats from more recent experiments were examined for statistical fit to the OS/RM signature. Of all 97 drugs examined, in addition to the nine drugs noted above, 19 more were identified as OS/RM-producing compounds-chlorpromazine, clozapine, cyproterone acetate, dantrolene, dipyridamole, glibenclamide, isoniazid, ketoconazole, methapyrilene, naltrexone, nifedipine, sulfamethoxazole, tamoxifen, coumarin, ritonavir, amitriptyline, valproic acid, enalapril, and chloramphenicol. Importantly, all of the OS/RM drugs listed above have been linked to idiosyncratic hepatotoxicity, excepting chloramphenicol, which does not have a package label for hepatotoxicity, but does have a black box warning for idiosyncratic bone marrow suppression. Most of these drugs are not acutely toxic in the rat. The OS/RM signature should be useful to avoid idiosyncratic hepatotoxicity of drug candidates.' This abstract contains the phrase 'statistically fit to the OS/RM signature', which implies a statistical association. The other abstracts do not contain any qualifying language for Grade A or Grade B. Therefore, the overall grade is B."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.464,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

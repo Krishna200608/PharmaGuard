@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-007-fluoxetine-suicidal_ideation",
+  "timestamp": "2026-09-23T07:37:24.511523Z",
+  "prompts_version": "v1.1",
+  "drug": "fluoxetine",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 6.475350327603108,
+    "ror": 6.631138830473297,
+    "prr_lower_ci": 6.2223139917418235,
+    "ror_lower_ci": 6.364957774710929,
+    "report_count": 2417,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:36:23.464233Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Selective Serotonin Reuptake Inhibitors (SSRIs) are commonly prescribed for various mood disorders, including depression. They work by increasing the levels of serotonin in the synaptic cleft, which can help improve mood and reduce symptoms of depression. However, while SSRIs are generally effective, they can also have side effects, including an increase in suicidal ideation, particularly in the early stages of treatment or in individuals under 25 years of age. This is a well-documented phenomenon, and it is important for healthcare providers to monitor patients closely during the initial phase of SSRI treatment. Therefore, the plausibility of suicidal ideation with SSRIs is moderate due to the known association between the medication and an increased risk of suicidal thoughts, especially in certain patient populations.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"fluoxetine\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 4,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42227535",
+      "41062142",
+      "31644235",
+      "40430521",
+      "39885564"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract qualifies for Grade B criteria, as it mentions 'adverse events' and 'specific adverse events (AEs)', which are relevant to the adverse event of interest (suicide risk) without statistical significance."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.7,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": true,
+    "overlap_category": "Neuropsychiatric & Neurodegenerative Events",
+    "rationale": "Protopathic & Confounding by Severity: Treated psychiatric and neurological cohorts exhibit high baseline hazards for affective crises and neurocognitive decline.",
+    "rule_source": "Schneeweiss S, Avorn J. (2005) J Clin Epidemiol 58(4):323–337; Gibbons RD et al. (2007) Am J Psychiatry 164(7):1044–1049; Horwitz RI, Feinstein AR. (1980) Am J Med 68(2):255–258."
+  },
+  "source_agreement": "CONCORDANT"
+}

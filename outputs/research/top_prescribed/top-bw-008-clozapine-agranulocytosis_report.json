@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-008-clozapine-agranulocytosis",
+  "timestamp": "2026-09-23T07:39:21.437651Z",
+  "prompts_version": "v1.1",
+  "drug": "clozapine",
+  "event": "agranulocytosis",
+  "signal_stats": {
+    "prr": 28.601996194972905,
+    "ror": 29.244636239927033,
+    "prr_lower_ci": 27.274678401289272,
+    "ror_lower_ci": 27.85971603645205,
+    "report_count": 1855,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:37:39.140697Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Agranulocytosis is a condition characterized by a severe reduction in the number of neutrophils (a type of white blood cell) in the blood, which can lead to increased susceptibility to infections. Atypical antipsychotics, particularly those that are 5-HT2A and D2 receptor antagonists, have been associated with a risk of agranulocytosis. While not all atypical antipsychotics carry this risk, several, including olanzapine, quetiapine, and clozapine, have been linked to this adverse effect. Additionally, muscarinic acetylcholine receptor antagonism can also contribute to this risk, as muscarinic receptors play a role in the regulation of neutrophil function. However, the risk is generally considered low for most atypical antipsychotics, and agranulocytosis is not a common side effect. Therefore, the plausibility of agranulocytosis in this context is MODERATE.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"clozapine\"[tiab] AND \"agranulocytosis\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42710553",
+      "42525238",
+      "42483438",
+      "42403189",
+      "42306391"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains statistical association language, but no abstracts meet the criteria for Grade A."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.7,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

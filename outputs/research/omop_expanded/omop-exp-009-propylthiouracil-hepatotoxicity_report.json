@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-009-propylthiouracil-hepatotoxicity",
+  "timestamp": "2026-09-23T08:36:10.590033Z",
+  "prompts_version": "v1.1",
+  "drug": "propylthiouracil",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 15.798717186492746,
+    "ror": 16.049657853724746,
+    "prr_lower_ci": 11.474527047602288,
+    "ror_lower_ci": 11.593843039602328,
+    "report_count": 37,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:35:28.752142Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"propylthiouracil\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42471277",
+      "41925323",
+      "41743172",
+      "35271661",
+      "33779553"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains statistical association language, and one abstract contains case report/association language without statistical significance."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.6,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

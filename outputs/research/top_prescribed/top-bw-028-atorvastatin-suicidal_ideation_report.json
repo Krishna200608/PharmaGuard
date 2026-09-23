@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-028-atorvastatin-suicidal_ideation",
+  "timestamp": "2026-09-23T08:06:18.369374Z",
+  "prompts_version": "v1.1",
+  "drug": "atorvastatin",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 0.7384225869204204,
+    "ror": 0.737571823208899,
+    "prr_lower_ci": 0.6961394335844189,
+    "ror_lower_ci": 0.6952034595450147,
+    "report_count": 1115,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:05:38.945504Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Suicidal ideation is a complex psychological condition that is not typically associated with the pharmacological effects of HMG-CoA reductase inhibitors, such as statins. These drugs are primarily known for their effects on cholesterol synthesis and lipid metabolism. The mechanism of action you provided (competitively inhibiting hepatic cholesterol synthesis and increasing LDL receptor expression) does not have a direct link to psychiatric symptoms like suicidal ideation. Statins are generally well-tolerated, and while they can cause side effects such as muscle pain, liver enzyme elevation, and in rare cases, cognitive changes, there is no strong evidence linking statins to an increased risk of suicidal ideation. Therefore, the plausibility of suicidal ideation as an adverse effect of HMG-CoA reductase inhibitors is LOW.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"atorvastatin\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

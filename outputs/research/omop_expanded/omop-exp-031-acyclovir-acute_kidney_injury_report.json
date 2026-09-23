@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-031-acyclovir-acute_kidney_injury",
+  "timestamp": "2026-09-23T08:57:03.862907Z",
+  "prompts_version": "v1.1",
+  "drug": "acyclovir",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 3.0885709598846223,
+    "ror": 3.1359329109177216,
+    "prr_lower_ci": 2.9723716517659002,
+    "ror_lower_ci": 3.015359544751509,
+    "report_count": 2600,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:55:38.365756Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Acute kidney injury (AKI) can be a potential side effect of acyclovir, which is used to treat herpesvirus infections. Acyclovir is converted to acyclovir triphosphate by the viral thymidine kinase, which inhibits viral DNA polymerase. However, the drug can also be metabolized by human enzymes, and this can lead to the formation of toxic metabolites that may cause nephrotoxicity. Additionally, the use of acyclovir can lead to fluid and electrolyte imbalances, which can contribute to AKI. While the primary mechanism of action is through viral inhibition, the drug's pharmacokinetics and potential for nephrotoxicity make AKI a plausible complication. However, the risk is generally considered moderate and is more commonly associated with high-dose administration or in patients with pre-existing renal impairment.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"acyclovir\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "41475795",
+      "41205930",
+      "40922834",
+      "40447999",
+      "39776713"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains language indicating a potential association between acyclovir and acute kidney injury (AKI) without statistical significance. The abstract mentions 'acute renal impairment' and 'acute kidney failure' in the context of acyclovir treatment, which aligns with the Grade B criteria."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.564,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

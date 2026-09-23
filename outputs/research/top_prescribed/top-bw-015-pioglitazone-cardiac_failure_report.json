@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-015-pioglitazone-cardiac_failure",
+  "timestamp": "2026-09-23T07:47:47.202741Z",
+  "prompts_version": "v1.1",
+  "drug": "pioglitazone",
+  "event": "cardiac_failure",
+  "signal_stats": {
+    "prr": 4.067384100998115,
+    "ror": 4.171886293170616,
+    "prr_lower_ci": 3.7280493968099795,
+    "ror_lower_ci": 3.8125266789639682,
+    "report_count": 491,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:46:48.245266Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Thiazolidinediones, such as pioglitazone and rosiglitazone, are known to enhance insulin sensitivity in peripheral tissues by acting as potent and selective agonists of peroxisome proliferator-activated receptor gamma (PPAR-γ). While these drugs are generally well-tolerated, they can have some adverse effects, including fluid retention and weight gain, which can potentially lead to or exacerbate cardiac failure. However, the direct link between thiazolidinedione use and cardiac failure is not as strong as with other antidiabetic drugs like insulin or certain sulfonylureas. Therefore, the plausibility of cardiac failure as an adverse effect of thiazolidinediones is MODERATE.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"pioglitazone\"[tiab] AND \"cardiac failure\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [
+      "39810462",
+      "26511368",
+      "21609444",
+      "19922476",
+      "19827910"
+    ],
+    "evidence_summary": "Final Grade: C\nExplanation: None of the abstracts contain language indicating a statistically significant association between the drug and the adverse event. The abstracts discuss the general use, benefits, and studies related to PPAR-γ agonists and TZDs, but do not provide evidence of a statistically significant association with adverse events."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "C",
+    "escalation": "MONITOR",
+    "confidence": 0.364,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

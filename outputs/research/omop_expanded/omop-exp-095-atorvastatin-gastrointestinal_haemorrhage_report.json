@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-095-atorvastatin-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-23T09:11:31.481928Z",
+  "prompts_version": "v1.1",
+  "drug": "atorvastatin",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 2.582097105879364,
+    "ror": 2.6028070497026987,
+    "prr_lower_ci": 2.506169217533386,
+    "ror_lower_ci": 2.5253088671699495,
+    "report_count": 4444,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T09:11:00.639436Z",
+    "null_reason": null,
+    "prr_score": 0.33,
+    "prr_score_label": "WEAK",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Gastrointestinal hemorrhage is an uncommon side effect associated with HMG-CoA reductase inhibitors, which are commonly known as statins. These drugs are primarily used to lower cholesterol by competitively inhibiting the enzyme HMG-CoA reductase in the liver, thereby reducing cholesterol synthesis. Additionally, they can increase the expression of LDL receptors, promoting the removal of LDL cholesterol from the bloodstream. The primary gastrointestinal side effects of statins are generally mild and include symptoms such as constipation, diarrhea, and abdominal discomfort. More severe gastrointestinal issues, such as gastrointestinal hemorrhage, are not typically reported as a common adverse effect of these medications. Therefore, the plausibility of gastrointestinal hemorrhage as a side effect of HMG-CoA reductase inhibitors is considered low.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"atorvastatin\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "WEAK",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.132,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

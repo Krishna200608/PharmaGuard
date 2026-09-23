@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-000-metformin-lactic_acidosis",
+  "timestamp": "2026-09-23T07:28:47.153913Z",
+  "prompts_version": "v1.1",
+  "drug": "metformin",
+  "event": "lactic_acidosis",
+  "signal_stats": {
+    "prr": 81.62979618347381,
+    "ror": 85.56196598588954,
+    "prr_lower_ci": 79.79881375049088,
+    "ror_lower_ci": 83.60887738162664,
+    "report_count": 20130,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T06:57:55.799091Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "Metformin inhibits mitochondrial complex I, impairing lactate oxidation in hepatocytes. In patients with renal impairment, accumulation leads to elevated lactate levels. Well-established pharmacological mechanism.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"metformin\"[tiab] AND \"lactic acidosis\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42234904",
+      "42178010",
+      "42164410",
+      "42147805",
+      "42075647"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains statistical association language (Grade A criteria not met), and another abstract contains case report/association language without statistical significance (Grade B criteria met)."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.8,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

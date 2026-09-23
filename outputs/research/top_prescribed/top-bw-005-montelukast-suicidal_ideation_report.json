@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-005-montelukast-suicidal_ideation",
+  "timestamp": "2026-09-23T07:34:00.980558Z",
+  "prompts_version": "v1.1",
+  "drug": "montelukast",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 3.3698178679361135,
+    "ror": 3.404895348272084,
+    "prr_lower_ci": 3.188837136902947,
+    "ror_lower_ci": 3.2194251252078994,
+    "report_count": 1260,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:34:00.971159Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "CysLT1 receptors are primarily targeted in the peripheral airways. While leukotrienes may have some role in neuroinflammation, direct causal mechanisms linking antagonism to suicidal ideation are not well established pharmacologically.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"montelukast\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42745939",
+      "41644790",
+      "40553531",
+      "40413828",
+      "36228771"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: The abstracts contain statistical associations with neuropsychiatric adverse events (pAEs) associated with montelukast, which meets the criteria for Grade B. Here's the breakdown of the abstracts and their grades based on the provided criteria:"
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "B",
+    "escalation": "MONITOR",
+    "confidence": 0.464,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

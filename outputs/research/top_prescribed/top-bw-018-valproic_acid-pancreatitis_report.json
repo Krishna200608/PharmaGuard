@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-018-valproic_acid-pancreatitis",
+  "timestamp": "2026-09-23T07:52:53.836183Z",
+  "prompts_version": "v1.1",
+  "drug": "valproic_acid",
+  "event": "pancreatitis",
+  "signal_stats": {
+    "prr": 3.497370720897576,
+    "ror": 3.531806056582727,
+    "prr_lower_ci": 3.1889157376483137,
+    "ror_lower_ci": 3.216233114773032,
+    "report_count": 447,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:51:41.137711Z",
+    "null_reason": null,
+    "prr_score": 0.66,
+    "prr_score_label": "MODERATE",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Pancreatitis is primarily associated with factors such as gallstones, alcohol use, and certain medications that can cause inflammation of the pancreas. The mechanisms listed (Histone deacetylase inhibitor, Succinate semialdehyde dehydrogenase inhibitor, GABA transaminase inhibitor, and sodium channel blocker) do not directly indicate a high risk of pancreatitis. While some of these mechanisms could potentially affect the body in ways that might indirectly influence pancreatic health, there is no strong, direct link between these mechanisms and the development of pancreatitis. Therefore, based on the given information, the plausibility of pancreatitis is considered LOW.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"valproic acid\"[tiab] AND \"pancreatitis\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "42548750",
+      "42448984",
+      "42104823",
+      "41700275",
+      "41066918"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: Two abstracts contain language indicating a statistically significant association between valproic acid (VPA) and adverse events, specifically acute pancreatitis. The abstracts with PMIDs 42548750 and 41700275 both contain statistical significance language."
+  },
+  "triage": {
+    "signal_strength": "MODERATE",
+    "evidence_grade": "A",
+    "escalation": "MONITOR",
+    "confidence": 0.664,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

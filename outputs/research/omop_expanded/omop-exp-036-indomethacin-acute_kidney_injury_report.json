@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-036-indomethacin-acute_kidney_injury",
+  "timestamp": "2026-09-23T08:57:53.997180Z",
+  "prompts_version": "v1.1",
+  "drug": "indomethacin",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:57:20.652639Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Acute kidney injury (AKI) can be a potential side effect of nonsteroidal anti-inflammatory drugs (NSAIDs) like the one described. NSAIDs, including those that non-selectively inhibit both COX-1 and COX-2 enzymes, can lead to AKI through several mechanisms. These include direct renal vasoconstriction, reduced renal blood flow, and the production of thromboxanes, which can cause renal vasoconstriction. Additionally, NSAIDs can interfere with prostaglandin synthesis, which has a protective role in the kidneys, leading to reduced renal blood flow and potential damage. However, the risk of AKI is generally considered moderate and depends on factors such as the dose, duration of use, and individual patient characteristics. Therefore, while the risk is present, it is not as high as with some other drugs known to have a higher risk of causing AKI.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"indomethacin\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.1,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-015-methenamine-hepatotoxicity",
+  "timestamp": "2026-09-23T08:43:03.432042Z",
+  "prompts_version": "v1.1",
+  "drug": "methenamine",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:42:35.886962Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Based on the given mechanism of action (MoA) for the substance, which involves hydrolysis in acidic urine to formaldehyde and ammonia, the primary site of action is the urinary tract. Formaldehyde and ammonia are known to have broad-spectrum bactericidal properties, which are non-specific and can affect bacteria in the urinary tract. However, there is no direct evidence or mechanism provided that suggests these compounds would cause significant hepatotoxicity. The liver is not the primary target organ for this antibacterial agent, and the metabolism or systemic absorption of formaldehyde and ammonia in the urinary tract is unlikely to significantly impact liver function. Therefore, the plausibility of hepatotoxicity is low.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"methenamine\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

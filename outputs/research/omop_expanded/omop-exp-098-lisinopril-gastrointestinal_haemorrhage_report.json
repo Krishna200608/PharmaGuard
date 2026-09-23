@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-098-lisinopril-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-23T09:13:30.010879Z",
+  "prompts_version": "v1.1",
+  "drug": "lisinopril",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 4556,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T09:12:46.553137Z",
+    "null_reason": "Insufficient data for disproportionality calculation.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Angiotensin-converting enzyme (ACE) inhibitors are primarily known for their effects on the renin-angiotensin-aldosterone system (RAAS), which helps to regulate blood pressure and fluid balance. These medications are commonly used to treat hypertension, heart failure, and certain kidney diseases. While they can have various side effects, gastrointestinal hemorrhage is not typically associated with ACE inhibitors. The most common side effects of ACE inhibitors include cough, hypotension, and renal impairment, but gastrointestinal bleeding is not a primary concern. Therefore, the plausibility of gastrointestinal hemorrhage as a side effect of ACE inhibitors is considered low.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"lisinopril\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

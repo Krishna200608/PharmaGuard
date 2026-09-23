@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-080-indomethacin-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-23T09:07:53.702094Z",
+  "prompts_version": "v1.1",
+  "drug": "indomethacin",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T09:07:27.039382Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "HIGH",
+    "plausibility_score": 1.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Gastrointestinal hemorrhage is a plausible side effect of nonsteroidal anti-inflammatory drugs (NSAIDs) like the one described. NSAIDs, including those that non-selectively inhibit both COX-1 and COX-2 enzymes, can lead to irritation and damage to the gastric mucosa. COX-1 is primarily responsible for the production of protective prostaglandins in the stomach lining, and inhibiting it can reduce this protection, making the stomach more susceptible to damage from acid and pepsin. This can result in ulcers, bleeding, and, in severe cases, gastrointestinal hemorrhage. Therefore, the risk of gastrointestinal hemorrhage is high with this type of NSAID.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"indomethacin\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.2,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": true,
+    "overlap_category": "Upper Gastrointestinal Ulceration & Hemorrhage",
+    "rationale": "Prescribing Channeling & Protopathic Bias: Acid-suppressive drugs are channeled to patients with active gastritis or ulcer diathesis; NSAID prescribing is channeled by baseline musculoskeletal pain severity.",
+    "rule_source": "García Rodríguez LA, Jick H. (1994) Lancet 343(8900):769–772; Petri H, Urquhart J. (1991) Stat Med 10(4):577–581; Hernández-Díaz S, García Rodríguez LA. (2000) Arch Intern Med 160(14):2093–2099."
+  },
+  "source_agreement": "DISCORDANT"
+}

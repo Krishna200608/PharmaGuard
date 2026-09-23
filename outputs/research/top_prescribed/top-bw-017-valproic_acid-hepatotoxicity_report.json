@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-017-valproic_acid-hepatotoxicity",
+  "timestamp": "2026-09-23T07:51:09.693617Z",
+  "prompts_version": "v1.1",
+  "drug": "valproic_acid",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 5.478925303558576,
+    "ror": 5.5048316838490825,
+    "prr_lower_ci": 4.749927731544223,
+    "ror_lower_ci": 4.768475423517836,
+    "report_count": 189,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:50:08.365932Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Hepatotoxicity, or liver toxicity, can be caused by a variety of mechanisms, including direct damage to liver cells, interference with liver metabolism, and the production of toxic metabolites. Let's analyze the given mechanisms of action (MoA) to determine the plausibility of hepatotoxicity:",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"valproic acid\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 3,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [
+      "42548750",
+      "42001774",
+      "30000370",
+      "30000333",
+      "41939835"
+    ],
+    "evidence_summary": "Final Grade: C\nExplanation: None of the provided abstracts contain language indicating a statistically significant association between valproic acid (VPA) and adverse events. The abstracts discuss the therapeutic potential, mechanisms of action, and potential adverse effects of VPA, but do not provide evidence that meets the criteria for grades A or B."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "C",
+    "escalation": "MONITOR",
+    "confidence": 0.5,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

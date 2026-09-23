@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-003-ciprofloxacin-tendon_rupture",
+  "timestamp": "2026-09-23T07:32:17.785654Z",
+  "prompts_version": "v1.1",
+  "drug": "ciprofloxacin",
+  "event": "tendon_rupture",
+  "signal_stats": {
+    "prr": 23.672758322189196,
+    "ror": 23.965804880614225,
+    "prr_lower_ci": 22.263222186822073,
+    "ror_lower_ci": 22.52250562849244,
+    "report_count": 1108,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:32:05.301547Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "human_curated",
+    "plausibility_rationale": "While primarily targeting bacterial DNA gyrase and Topoisomerase IV, fluoroquinolones are known to exert off-target toxic effects on mammalian cells, potentially altering collagen synthesis and upregulating matrix metalloproteinases in tendocytes.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"ciprofloxacin\"[tiab] AND \"tendon rupture\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "C",
+    "escalation": "MONITOR",
+    "confidence": 0.5,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

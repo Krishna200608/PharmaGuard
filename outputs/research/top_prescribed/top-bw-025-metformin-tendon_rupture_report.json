@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-025-metformin-tendon_rupture",
+  "timestamp": "2026-09-23T08:02:59.010487Z",
+  "prompts_version": "v1.1",
+  "drug": "metformin",
+  "event": "tendon_rupture",
+  "signal_stats": {
+    "prr": 1.122045253248856,
+    "ror": 1.1221259372376153,
+    "prr_lower_ci": 0.9979156331900624,
+    "ror_lower_ci": 0.9979102403295145,
+    "report_count": 286,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:02:27.761702Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The given MoA (Mechanism of Action) describes an AMPK activator that inhibits mitochondrial complex I, which in turn reduces hepatic gluconeogenesis and activates the AMPK pathway. This mechanism primarily affects metabolic processes in the liver and does not directly involve the musculoskeletal system, which includes tendons. Tendon rupture is typically associated with mechanical stress, trauma, or degenerative changes, rather than metabolic disruptions. Therefore, the plausibility of tendon rupture as a side effect of an AMPK activator is low, as there is no direct evidence or mechanism linking AMPK activation or inhibition of mitochondrial complex I to tendon integrity.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"metformin\"[tiab] AND \"tendon rupture\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

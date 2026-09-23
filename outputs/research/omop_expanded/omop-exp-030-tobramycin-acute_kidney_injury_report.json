@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-030-tobramycin-acute_kidney_injury",
+  "timestamp": "2026-09-23T08:55:25.960703Z",
+  "prompts_version": "v1.1",
+  "drug": "tobramycin",
+  "event": "acute_kidney_injury",
+  "signal_stats": {
+    "prr": 6.604434556138018,
+    "ror": 6.885617431844452,
+    "prr_lower_ci": 6.156657066049551,
+    "ror_lower_ci": 6.396303693406196,
+    "report_count": 746,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:53:52.192762Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "UNKNOWN",
+    "plausibility_score": 0.0,
+    "plausibility_source": "unknown",
+    "plausibility_rationale": "Drug not found in ChEMBL lookup or LLM not configured.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"tobramycin\"[tiab] AND \"acute kidney injury\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [
+      "42425587",
+      "34815325",
+      "27885969",
+      "26056733",
+      "24836205"
+    ],
+    "evidence_summary": "Final Grade: C\nExplanation: The provided abstracts and PMIDs do not contain any direct evidence or data that would allow for a high or moderate grade of recommendation. The abstracts are case reports, case series, and observational studies, which are typically considered lower levels of evidence in the medical literature. The PMIDs provided are not directly linked to the abstracts and do not provide additional high-quality evidence. Therefore, the overall grade is C, indicating low to moderate quality evidence."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "C",
+    "escalation": "MONITOR",
+    "confidence": 0.4,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "DISCORDANT"
+}

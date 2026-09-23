@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-091-albuterol-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-23T09:09:51.769671Z",
+  "prompts_version": "v1.1",
+  "drug": "albuterol",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T09:09:20.398249Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Beta-2 adrenergic receptor agonists are typically used to treat conditions such as asthma, chronic obstructive pulmonary disease (COPD), and bronchospasm. These drugs work by relaxing the smooth muscles in the airways, thereby improving airflow. Common examples include albuterol (salbutamol) and formoterol. The primary side effects of these medications are generally related to the respiratory system, such as tremors, palpitations, and rarely, paradoxical bronchospasm. Gastrointestinal hemorrhage is not a common or expected side effect of beta-2 adrenergic receptor agonists. While any medication can have rare, unpredictable side effects, gastrointestinal hemorrhage is not typically associated with this class of drugs. Therefore, the plausibility of gastrointestinal hemorrhage as a side effect of a beta-2 adrenergic receptor agonist is considered low.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"albuterol\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

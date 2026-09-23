@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-096-metformin-gastrointestinal_haemorrhage",
+  "timestamp": "2026-09-23T09:12:08.080010Z",
+  "prompts_version": "v1.1",
+  "drug": "metformin",
+  "event": "gastrointestinal_haemorrhage",
+  "signal_stats": {
+    "prr": 1.7057036388742461,
+    "ror": 1.7118486715157035,
+    "prr_lower_ci": 1.6511557771591092,
+    "ror_lower_ci": 1.656642236943235,
+    "report_count": 3737,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T09:11:43.249313Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "The given mechanism of action (MoA) for the AMPK activator involves inhibiting mitochondrial complex I, which reduces hepatic gluconeogenesis and activates the AMPK pathway. There is no direct or well-established link between these mechanisms and gastrointestinal hemorrhage. Gastrointestinal hemorrhage is typically associated with issues such as ulcers, inflammation, or vascular abnormalities in the gastrointestinal tract, which are not directly related to the metabolic effects of AMPK activation or inhibition of mitochondrial complex I. Therefore, the plausibility of gastrointestinal hemorrhage as a side effect of this AMPK activator is LOW.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"metformin\"[tiab] AND \"gastrointestinal haemorrhage\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

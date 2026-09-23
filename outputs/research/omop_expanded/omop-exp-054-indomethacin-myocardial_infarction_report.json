@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-054-indomethacin-myocardial_infarction",
+  "timestamp": "2026-09-23T09:01:02.708838Z",
+  "prompts_version": "v1.1",
+  "drug": "indomethacin",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T09:00:32.673214Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Nonsteroidal anti-inflammatory drugs (NSAIDs) like the one described (potent, non-selective COX-1 and COX-2 inhibitor) can increase the risk of myocardial infarction (MI) or heart attack. This risk is primarily due to their inhibition of COX-1 enzymes, which are responsible for producing prostaglandins that have protective effects on the cardiovascular system, such as maintaining the integrity of the vascular endothelium and inhibiting platelet aggregation. By non-selectively inhibiting both COX-1 and COX-2, these drugs can reduce the protective prostaglandins and increase the risk of thrombosis and other cardiovascular events, including myocardial infarction. Therefore, the plausibility of myocardial infarction in this context is moderate.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"indomethacin\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.1,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

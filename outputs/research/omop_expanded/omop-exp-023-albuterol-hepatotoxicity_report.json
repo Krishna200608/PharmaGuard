@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "omop-exp-023-albuterol-hepatotoxicity",
+  "timestamp": "2026-09-23T08:47:53.687090Z",
+  "prompts_version": "v1.1",
+  "drug": "albuterol",
+  "event": "hepatotoxicity",
+  "signal_stats": {
+    "prr": 0.719300820233933,
+    "ror": 0.719086518638694,
+    "prr_lower_ci": 0.6224228701600224,
+    "ror_lower_ci": 0.6221684873814155,
+    "report_count": 185,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:47:22.865994Z",
+    "null_reason": null,
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Beta-2 adrenergic receptor agonists are primarily used to treat respiratory conditions such as asthma and chronic obstructive pulmonary disease (COPD). These drugs work by relaxing the smooth muscles in the airways, thereby reducing bronchospasm and improving airflow. The primary side effects associated with these drugs include tremors, increased heart rate, and rarely, cardiovascular effects such as arrhythmias. Hepatotoxicity, or liver toxicity, is not a commonly reported adverse effect of beta-2 adrenergic receptor agonists. While some systemic effects can occur, particularly with high systemic exposure, the liver is not a primary target for these drugs. Therefore, the plausibility of hepatotoxicity as an adverse effect of beta-2 adrenergic receptor agonists is considered low.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"albuterol\"[tiab] AND \"hepatotoxicity\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

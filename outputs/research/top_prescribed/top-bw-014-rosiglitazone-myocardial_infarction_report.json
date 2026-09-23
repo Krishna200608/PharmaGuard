@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-014-rosiglitazone-myocardial_infarction",
+  "timestamp": "2026-09-23T07:46:00.401755Z",
+  "prompts_version": "v1.1",
+  "drug": "rosiglitazone",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": 23.12294245322757,
+    "ror": 29.5515359906215,
+    "prr_lower_ci": 21.846784103085383,
+    "ror_lower_ci": 27.46604348805244,
+    "report_count": 929,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:45:31.190719Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Peroxisome proliferator-activated receptor gamma (PPAR-γ) agonists are a class of drugs primarily used to treat type 2 diabetes by improving insulin sensitivity. However, they can also have effects on lipid metabolism and inflammation, which are relevant to cardiovascular health. While PPAR-γ agonists are generally well-tolerated, they have been associated with an increased risk of myocardial infarction (MI) in some studies. This risk is thought to be related to their effects on lipid metabolism, potentially leading to an increase in triglycerides and a decrease in HDL cholesterol, which can contribute to atherosclerosis and the risk of MI. Therefore, the plausibility of myocardial infarction in patients treated with PPAR-γ agonists is MODERATE.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"rosiglitazone\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "A",
+    "grade_score": 1.0,
+    "supporting_pmids": [
+      "40246234",
+      "40011379",
+      "39810462",
+      "37921061",
+      "36625492"
+    ],
+    "evidence_summary": "Final Grade: A\nExplanation: Two abstracts contain language indicating a statistically significant association between the drug and the adverse event."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "A",
+    "escalation": "ESCALATE",
+    "confidence": 0.9,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

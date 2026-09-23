@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-038-hydrochlorothiazide-myocardial_infarction",
+  "timestamp": "2026-09-23T08:16:18.405441Z",
+  "prompts_version": "v1.1",
+  "drug": "hydrochlorothiazide",
+  "event": "myocardial_infarction",
+  "signal_stats": {
+    "prr": null,
+    "ror": null,
+    "prr_lower_ci": null,
+    "ror_lower_ci": null,
+    "report_count": 0,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T08:15:23.683227Z",
+    "null_reason": "Zero co-occurrences found in FAERS.",
+    "prr_score": 0.0,
+    "prr_score_label": "NO_SIGNAL",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "LOW",
+    "plausibility_score": 0.0,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Thiazide diuretics are commonly used to manage hypertension and edema by inhibiting the sodium-chloride cotransporter (NCCT/SLC12A3) in the distal convoluted tubules of the kidney. This mechanism primarily affects sodium and chloride reabsorption, leading to increased sodium excretion and diuresis. While thiazide diuretics can have various effects on the cardiovascular system, including a modest reduction in blood pressure, they are generally not associated with an increased risk of myocardial infarction (MI). The primary risks associated with thiazide diuretics are more commonly related to electrolyte imbalances, such as hypokalemia, and other side effects like hyperuricemia or gout, rather than directly causing myocardial infarction. Therefore, the plausibility of myocardial infarction as a direct consequence of thiazide diuretic use is considered low.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"hydrochlorothiazide\"[tiab] AND \"myocardial infarction\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 0,
+    "evidence_grade": "C",
+    "grade_score": 0.0,
+    "supporting_pmids": [],
+    "evidence_summary": "No abstracts retrieved from PubMed for this query."
+  },
+  "triage": {
+    "signal_strength": "NO_SIGNAL",
+    "evidence_grade": "C",
+    "escalation": "DO_NOT_ESCALATE",
+    "confidence": 0.0,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": true,
+    "overlap_category": "Cardiovascular & Cerebrovascular Ischemia",
+    "rationale": "Channeling Bias in Ischemic Cohorts: Patients prescribed cardiovascular or antithrombotic therapy possess high baseline vascular pathology; subsequent ischemic events reflect progression of underlying disease.",
+    "rule_source": "Psaty BM et al. (1999) J Am Geriatr Soc 47(6):749–754; Salas M, Hofman A, Stricker BH. (1999) Am J Epidemiol 149(11):981–983; Walker AM. (1996) Epidemiology 7(4):335–336."
+  },
+  "source_agreement": "CONCORDANT"
+}

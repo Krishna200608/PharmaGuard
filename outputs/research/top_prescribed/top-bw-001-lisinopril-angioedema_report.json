@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-001-lisinopril-angioedema",
+  "timestamp": "2026-09-23T07:28:50.522028Z",
+  "prompts_version": "v1.1",
+  "drug": "lisinopril",
+  "event": "angioedema",
+  "signal_stats": {
+    "prr": 11.695794230234874,
+    "ror": 11.98558276347112,
+    "prr_lower_ci": 11.43155068398212,
+    "ror_lower_ci": 11.708591703519136,
+    "report_count": 8524,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:09:49.072714Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Angioedema is a plausible adverse effect of angiotensin-converting enzyme (ACE) inhibitors. ACE inhibitors work by inhibiting the conversion of angiotensin I to angiotensin II, which leads to a reduction in vasoconstriction and aldosterone production. However, this mechanism can also affect the levels of bradykinin, a vasodilator and potent vasodilatory peptide. Increased levels of bradykinin can lead to vasodilation and increased vascular permeability, which are key factors in the development of angioedema. While angioedema is less common than other side effects like hypotension or renal impairment, it is a known potential adverse effect of ACE inhibitors, particularly in the absence of angiotensin II receptor blockers (ARBs). Therefore, the plausibility of angioedema in patients taking ACE inhibitors is moderate.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"lisinopril\"[tiab] AND \"angioedema\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42226836",
+      "42194666",
+      "42077598",
+      "41945136",
+      "41035577"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains statistical association language, but no abstracts meet the criteria for Grade A. The abstract with statistical association language is: \n\n\"Angiotensin-converting enzyme inhibitors are first-line therapies for hypertension and related cardiovascular and renal conditions. The study aimed to characterize the adverse event profile of ACE inhibitors using the U.S. Food and Drug Administration Adverse Event Reporting System.\" \n\nThis abstract mentions the adverse event profile of ACE inhibitors, which is relevant, but does not contain any statistical significance language. The other abstracts are case reports or provide general information about ACE inhibitors and their adverse effects, but do not meet the criteria for Grade A."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.7,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": false,
+    "overlap_category": null,
+    "rationale": "",
+    "rule_source": ""
+  },
+  "source_agreement": "CONCORDANT"
+}

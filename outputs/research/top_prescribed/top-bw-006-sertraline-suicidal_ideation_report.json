@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "run_id": "top-bw-006-sertraline-suicidal_ideation",
+  "timestamp": "2026-09-23T07:35:58.071006Z",
+  "prompts_version": "v1.1",
+  "drug": "sertraline",
+  "event": "suicidal_ideation",
+  "signal_stats": {
+    "prr": 5.476237326272618,
+    "ror": 5.582588573192176,
+    "prr_lower_ci": 5.293193169534757,
+    "ror_lower_ci": 5.391767518322192,
+    "report_count": 3375,
+    "source_endpoint": "openfda_legacy",
+    "data_pulled_at": "2026-09-23T07:34:27.968528Z",
+    "null_reason": null,
+    "prr_score": 1.0,
+    "prr_score_label": "STRONG",
+    "ci_downgraded": false,
+    "discount_factor": null,
+    "is_confounded": null,
+    "confounding_drugs": null,
+    "confounding_explanation": null
+  },
+  "mechanism": {
+    "chembl_id": null,
+    "moa": null,
+    "biological_plausibility": "MODERATE",
+    "plausibility_score": 0.5,
+    "plausibility_source": "agent_derived",
+    "plausibility_rationale": "Selective Serotonin Reuptake Inhibitors (SSRIs) are commonly prescribed for various mood and anxiety disorders, including depression. While they are effective in treating these conditions, they can sometimes have adverse effects, including an increase in suicidal ideation, particularly in younger individuals. This phenomenon is well-documented in the literature and is a known side effect of SSRIs. The mechanism by which SSRIs can lead to suicidal ideation is not fully understood, but it is thought to be related to the initial increase in serotonin levels in the brain, which can sometimes be perceived as a stressor by the individual, especially if they are already vulnerable to mood disturbances. Therefore, the plausibility of suicidal ideation as a side effect of SSRIs is considered MODERATE.",
+    "curated_reference": null,
+    "plausibility_agreement": null,
+    "leak_detected": null,
+    "leak_phrases": null
+  },
+  "literature": {
+    "pubmed_query": "\"sertraline\"[tiab] AND \"suicidal ideation\"[tiab] AND \"adverse\"[tiab]",
+    "abstracts_retrieved": 5,
+    "evidence_grade": "B",
+    "grade_score": 0.5,
+    "supporting_pmids": [
+      "42763277",
+      "42227535",
+      "41788094",
+      "41062142",
+      "39976951"
+    ],
+    "evidence_summary": "Final Grade: B\nExplanation: One abstract contains language indicating a statistically significant association between the drug and adverse events, but no abstracts explicitly mention Vanzacaftor-tezacaftor-deutivacaftor (VTD) or its adverse effects. The abstract from PMID 42763277 discusses the safety profiles of SSRIs, which are not VTD, but mentions serious adverse events (SAEs) which could be relevant to psychiatric adverse events. However, it does not provide specific evidence for VTD."
+  },
+  "triage": {
+    "signal_strength": "STRONG",
+    "evidence_grade": "B",
+    "escalation": "ESCALATE",
+    "confidence": 0.7,
+    "prompts_version": "v1.1",
+    "agent_reasoning_trace": [
+      "Determined using fixed deterministic pipeline: FAERS -> ChEMBL -> PubMed"
+    ]
+  },
+  "indication_concordance": {
+    "concordant": true,
+    "overlap_category": "Neuropsychiatric & Neurodegenerative Events",
+    "rationale": "Protopathic & Confounding by Severity: Treated psychiatric and neurological cohorts exhibit high baseline hazards for affective crises and neurocognitive decline.",
+    "rule_source": "Schneeweiss S, Avorn J. (2005) J Clin Epidemiol 58(4):323–337; Gibbons RD et al. (2007) Am J Psychiatry 164(7):1044–1049; Horwitz RI, Feinstein AR. (1980) Am J Med 68(2):255–258."
+  },
+  "source_agreement": "CONCORDANT"
+}
