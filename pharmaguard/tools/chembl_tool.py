@@ -95,8 +95,8 @@ class ChemblTool:
 
     def __init__(
         self,
-        cache: ToolCache,
-        prompts_version: str,
+        cache: Optional[ToolCache] = None,
+        prompts_version: str = "v1.0",
         force_agent_derivation: bool = False,
         llm_inference_fn=None,         # callable(moa: str, event: str) -> tuple[PlausibilityLevel, str]
         leakage_critic_enabled: bool = False,
@@ -194,12 +194,17 @@ class ChemblTool:
         LLM-derived plausibility from ChEMBL MoA text.
         Routes through the cache layer — same rate-limit protection as all tools.
         """
-        cache_key = self._cache.plausibility_key(
-            drug_canonical, event_meddra_pt, self._prompts_version
+        cache_key = (
+            ToolCache.plausibility_key(
+                drug_canonical, event_meddra_pt, self._prompts_version
+            )
+            if self._cache
+            else None
         )
-        cached = self._cache.get(cache_key)
-        if cached:
-            return PlausibilityResult(**cached, plausibility_source="agent_derived")
+        if self._cache and cache_key:
+            cached = self._cache.get(cache_key)
+            if cached:
+                return PlausibilityResult(**cached, plausibility_source="agent_derived")
 
         entry = self.get_drug_entry(drug_canonical)
         if entry is None or self._llm_fn is None:
@@ -237,7 +242,8 @@ class ChemblTool:
             "leak_detected": leak_detected,
             "leak_phrases": leak_phrases,
         }
-        self._cache.set(cache_key, result_data)
+        if self._cache and cache_key:
+            self._cache.set(cache_key, result_data)
         return PlausibilityResult(**result_data, plausibility_source="agent_derived")
 
     def _derive_plausibility_with_comparison(

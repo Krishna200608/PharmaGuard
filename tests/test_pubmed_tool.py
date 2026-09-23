@@ -47,3 +47,18 @@ def test_grade_evidence_a(pubmed_tool):
     assert grade == "A"
     assert "1" in supporting
     assert "2" in supporting
+
+
+def test_pubmed_tool_without_cache(monkeypatch):
+    loader = PromptLoader()
+
+    def mock_llm(abstracts, pmids, rubric):
+        return "B", pmids, "Found case reports"
+
+    tool = PubMedTool(cache=None, prompt_loader=loader, llm_inference_fn=mock_llm)
+    monkeypatch.setattr(tool, "_esearch", lambda q: ["12345"])
+    monkeypatch.setattr(tool, "_efetch_abstracts", lambda pmids: ["Lisinopril adverse effect case report."])
+
+    res = tool.search_and_grade("lisinopril", "cough")
+    assert res.evidence_grade == "B"
+    assert res.pmids == ["12345"]

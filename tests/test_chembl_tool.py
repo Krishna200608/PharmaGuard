@@ -54,3 +54,27 @@ def test_force_agent_mode(tmp_path):
     assert result.level == PlausibilityLevel.LOW
     assert result.curated_reference == PlausibilityLevel.HIGH
     assert result.agreement is False
+
+
+def test_chembl_tool_without_cache():
+    def mock_llm(moa, event):
+        return PlausibilityLevel.HIGH, "Mock derivation without cache."
+
+    tool = ChemblTool(
+        cache=None,
+        prompts_version="v1.0",
+        force_agent_derivation=False,
+        llm_inference_fn=mock_llm,
+    )
+    result = tool.get_plausibility("lisinopril", "cough")
+    assert result.plausibility_source == "agent_derived"
+    assert result.level == PlausibilityLevel.HIGH
+    assert result.score == 1.0
+
+
+def test_chembl_tool_unknown_drug_without_cache():
+    tool = ChemblTool(cache=None, prompts_version="v1.0")
+    result = tool.get_plausibility("completely_unknown_drug", "cough")
+    assert result.plausibility_source == "unknown"
+    assert result.level == PlausibilityLevel.UNKNOWN
+    assert result.score == 0.0

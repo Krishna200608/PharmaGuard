@@ -52,10 +52,10 @@ class PubMedTool:
     and grades the evidence using the loaded rubric.
     """
 
-    def __init__(self, cache: ToolCache, prompt_loader: PromptLoader, llm_inference_fn=None):
+    def __init__(self, cache: Optional[ToolCache] = None, prompt_loader: Optional[PromptLoader] = None, llm_inference_fn=None):
         load_dotenv(find_dotenv())
         self._cache = cache
-        self._prompt_loader = prompt_loader
+        self._prompt_loader = prompt_loader or PromptLoader()
         self._api_key = os.getenv("NCBI_API_KEY", "")
         self._llm_fn = llm_inference_fn
         if not self._api_key:
@@ -74,10 +74,11 @@ class PubMedTool:
         Results are cache-backed by query hash.
         """
         query = self._build_query(drug, event)
-        cache_key = self._cache.pubmed_key(query)
-        cached = self._cache.get(cache_key)
-        if cached:
-            return PubMedResult(**cached)
+        cache_key = ToolCache.pubmed_key(query) if self._cache else None
+        if self._cache and cache_key:
+            cached = self._cache.get(cache_key)
+            if cached:
+                return PubMedResult(**cached)
 
         pmids = self._esearch(query)
         abstracts = self._efetch_abstracts(pmids[:MAX_ABSTRACTS])
@@ -92,7 +93,8 @@ class PubMedTool:
             supporting_pmids=supporting_pmids,
             evidence_summary=summary,
         )
-        self._cache.set(cache_key, result.__dict__)
+        if self._cache and cache_key:
+            self._cache.set(cache_key, result.__dict__)
         return result
 
     # ------------------------------------------------------------------
@@ -201,10 +203,15 @@ class PubMedTool:
         if not abstracts:
             return "C", [], "No abstracts retrieved from PubMed for this query."
 
-        cache_key = self._cache.pubmed_grade_key(query, self._prompt_loader.version)
-        cached = self._cache.get(cache_key)
-        if cached:
-            return cached["grade"], cached["supporting"], cached["summary"]
+        cache_key = (
+            ToolCache.pubmed_grade_key(query, self._prompt_loader.version)
+            if self._cache
+            else None
+        )
+        if self._cache and cache_key:
+            cached = self._cache.get(cache_key)
+            if cached:
+                return cached["grade"], cached["supporting"], cached["summary"]
 
         if self._llm_fn is None:
             # Fallback for testing if LLM is not provided
@@ -224,6 +231,7 @@ class PubMedTool:
             "supporting": supporting,
             "summary": summary
         }
-        self._cache.set(cache_key, result_data)
+        if self._cache and cache_key:
+            self._cache.set(cache_key, result_data)
         logger.info("Evidence grade (LLM derived): %s | supporting PMIDs: %s", grade, supporting)
         return grade, supporting, summary
