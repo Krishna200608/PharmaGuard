@@ -13,21 +13,20 @@ import streamlit as st
 from ..components import cat_badge, esc_badge, grade_badge, render_conf_chart, signal_span, agreement_badge, concordance_badge
 
 
-def view_per_pair(df: pd.DataFrame, theme: str = "light") -> None:
+def view_per_pair(df: pd.DataFrame, theme: str = "light", cohort_name: str = "Core Benchmark") -> None:
     """Render the Per-Pair evaluation table and drill-down evidence inspector."""
     st.markdown(
         '<div class="pg-header">'
-        '<div class="pg-title">Per-Pair Evaluation</div>'
-        '<div class="pg-subtitle">All 15 evaluated drug–event pairs · dense aligned data table with full evidence inspection</div>'
+        f'<div class="pg-title">Per-Pair Evaluation — {cohort_name}</div>'
+        f'<div class="pg-subtitle">All {len(df)} evaluated drug–event pairs · dense aligned data table with full evidence inspection</div>'
         '</div>',
         unsafe_allow_html=True,
     )
 
-    fc1, fc2, fc3 = st.columns([1.2, 1.2, 1.6])
+    fc1, fc2, fc3 = st.columns([1.4, 1.2, 1.4])
+    cat_options = ['All'] + sorted([c for c in df['category'].dropna().unique() if c])
     with fc1:
-        cat_f = st.selectbox('Category Filter', ['All', 'confirmed_positive',
-                                                 'genuine_negative_control', 'zero_report_edge_case'],
-                             label_visibility='collapsed')
+        cat_f = st.selectbox('Category Filter', cat_options, label_visibility='collapsed')
     with fc2:
         esc_f = st.selectbox('Escalation Filter', ['All', 'ESCALATE', 'MONITOR', 'DO_NOT_ESCALATE'],
                              label_visibility='collapsed')

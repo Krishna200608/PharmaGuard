@@ -46,13 +46,13 @@ OMOP_METRICS = {
 
 def run_idx(name: str) -> int:
     """Extract evaluation run index from filename."""
-    m = re.search(r'eval-run-(\d+)-', name)
+    m = re.search(r'(?:eval-run|top-bw|omop-exp)-(\d+)-', name)
     return int(m.group(1)) if m else 999
 
 
 @st.cache_data
 def load_ground_truth(path: Path) -> dict:
-    """Load curated 15-pair ground truth dataset."""
+    """Load curated ground truth dataset."""
     if not path.exists():
         return {}
     with open(path, encoding='utf-8') as fh:
@@ -66,8 +66,10 @@ def load_ground_truth(path: Path) -> dict:
 @st.cache_data
 def load_reports(directory: Path) -> list:
     """Load evaluation JSON reports sorted by run index."""
+    if not directory.exists():
+        return []
     reports = []
-    for path in sorted(directory.glob('eval-run-*_report.json'), key=lambda p: run_idx(p.name)):
+    for path in sorted(directory.glob('*_report.json'), key=lambda p: run_idx(p.name)):
         try:
             with open(path, encoding='utf-8') as fh:
                 rpt = json.load(fh)
@@ -76,6 +78,47 @@ def load_reports(directory: Path) -> list:
         except (json.JSONDecodeError, OSError):
             pass
     return reports
+
+
+@st.cache_data
+def load_cohort_metrics(summary_path: Path) -> dict:
+    """Load pre-computed cohort evaluation metrics from evaluation_summary.json."""
+    if not summary_path.exists():
+        return {}
+    try:
+        with open(summary_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        s = data.get("strict", {})
+        l = data.get("lenient", {})
+        tn = s.get("TN", 0)
+        fp = s.get("FP", 0)
+        l_fp = l.get("FP", 0)
+        neg_total = tn + fp
+        ocr = (l_fp / neg_total * 100.0) if neg_total > 0 else 0.0
+        return {
+            's_prec': s.get('precision', 0.0),
+            's_rec': s.get('recall', 0.0),
+            's_spec': s.get('specificity', 0.0),
+            's_f1': s.get('f1', 0.0),
+            's_tp': s.get('TP', 0),
+            's_fp': s.get('FP', 0),
+            's_tn': s.get('TN', 0),
+            's_fn': s.get('FN', 0),
+            's_ci': s.get('recall_wilson_ci', [0.0, 0.0]),
+            'l_prec': l.get('precision', 0.0),
+            'l_rec': l.get('recall', 0.0),
+            'l_spec': l.get('specificity', 0.0),
+            'l_f1': l.get('f1', 0.0),
+            'l_tp': l.get('TP', 0),
+            'l_fp': l.get('FP', 0),
+            'l_tn': l.get('TN', 0),
+            'l_fn': l.get('FN', 0),
+            'l_ci': l.get('recall_wilson_ci', [0.0, 0.0]),
+            'ocr': round(ocr, 1),
+            'total': data.get('total_evaluated', 0),
+        }
+    except Exception:
+        return {}
 
 
 @st.cache_data
@@ -113,6 +156,8 @@ def build_df(reports: list, gt: dict) -> pd.DataFrame:
             '_r': r,
             '_gt': entry,
         })
+    if not rows:
+        return pd.DataFrame()
     return pd.DataFrame(rows).sort_values('idx').reset_index(drop=True)
 
 

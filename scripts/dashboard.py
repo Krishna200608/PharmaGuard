@@ -36,7 +36,7 @@ importlib.reload(_comp_mod)
 
 import dashboard_modules.data_loader as _data_mod
 importlib.reload(_data_mod)
-from dashboard_modules.data_loader import build_df, load_ground_truth, load_reports
+from dashboard_modules.data_loader import build_df, load_ground_truth, load_reports, load_cohort_metrics
 
 import dashboard_modules.views.overview as _v_overview
 importlib.reload(_v_overview)
@@ -74,6 +74,15 @@ BASELINE_DIR = REPO_ROOT / "outputs" / "experiments" / "baseline"
 OMOP_DIR = REPO_ROOT / "outputs" / "research" / "omop_pilot"
 STABILITY_PATH = REPO_ROOT / "outputs" / "research" / "stability" / "loo_analysis.json"
 GROUND_TRUTH_PATH = REPO_ROOT / "pharmaguard" / "data" / "ground_truth.json"
+
+TOP_PRESCRIBED_DIR = REPO_ROOT / "outputs" / "research" / "top_prescribed"
+TOP_PRESCRIBED_GT = REPO_ROOT / "pharmaguard" / "data" / "ground_truth_top_prescribed_boxed_warnings.json"
+TOP_PRESCRIBED_SUMMARY = TOP_PRESCRIBED_DIR / "evaluation_summary.json"
+
+OMOP_EXPANDED_DIR = REPO_ROOT / "outputs" / "research" / "omop_expanded"
+OMOP_EXPANDED_GT = REPO_ROOT / "pharmaguard" / "data" / "ground_truth_omop_expanded.json"
+OMOP_EXPANDED_SUMMARY = OMOP_EXPANDED_DIR / "evaluation_summary.json"
+
 FAVICON_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_1.png"
 LOGO_PATH = REPO_ROOT / "assets" / "Logos" / "Logo_2.png"
 
@@ -96,6 +105,12 @@ THEME_MAP = {
     ":material/desktop_windows: System": "light",
 }
 
+COHORT_OPTIONS = [
+    ":material/stars: Core Showcase (15 Pairs)",
+    ":material/verified: Top Prescribed Boxed Warnings (50 Pairs)",
+    ":material/dataset: OMOP Expanded Reference (100 Pairs)",
+]
+
 
 def main() -> None:
     """Load data and render tabbed evaluation views."""
@@ -106,8 +121,16 @@ def main() -> None:
     if st.session_state.get("theme_widget") is None:
         st.session_state["theme_widget"] = st.session_state["theme_choice"]
 
-    # ── Top bar with theme switcher ──
-    _, c_theme = st.columns([0.65, 0.35])
+    # ── Top bar with cohort & theme switchers ──
+    c_cohort, _, c_theme = st.columns([0.48, 0.17, 0.35], vertical_alignment="center")
+    with c_cohort:
+        cohort_sel = st.selectbox(
+            "Benchmark Cohort",
+            options=COHORT_OPTIONS,
+            key="cohort_choice",
+            label_visibility="collapsed",
+            help="Switch benchmark cohort for Overview and Per-Pair Table.",
+        )
     with c_theme:
         theme_sel = st.segmented_control(
             "Theme",
@@ -127,12 +150,12 @@ def main() -> None:
     # ── Inject themed CSS ──
     inject_dashboard_styles(theme=active_theme)
 
-    # ── Load evaluation dataset ──
-    gt = load_ground_truth(GROUND_TRUTH_PATH)
+    # ── Load Core evaluation dataset ──
+    gt_core = load_ground_truth(GROUND_TRUTH_PATH)
     prod_reports = load_reports(OUTPUTS_DIR)
     base_reports = load_reports(BASELINE_DIR)
-    omop_reports = load_reports(OMOP_DIR)
-    df = build_df(prod_reports, gt)
+    omop_pilot_reports = load_reports(OMOP_DIR)
+    df_core = build_df(prod_reports, gt_core)
 
     if not prod_reports:
         st.error(
@@ -140,6 +163,43 @@ def main() -> None:
             "Run 'python scripts/run_eval.py' first to generate evaluation outputs."
         )
         st.stop()
+
+    # ── Load Secondary evaluation cohorts ──
+    gt_top = load_ground_truth(TOP_PRESCRIBED_GT)
+    top_reports = load_reports(TOP_PRESCRIBED_DIR)
+    df_top = build_df(top_reports, gt_top)
+    m_top = load_cohort_metrics(TOP_PRESCRIBED_SUMMARY)
+
+    gt_omop = load_ground_truth(OMOP_EXPANDED_GT)
+    omop_exp_reports = load_reports(OMOP_EXPANDED_DIR)
+    df_omop = build_df(omop_exp_reports, gt_omop)
+    m_omop = load_cohort_metrics(OMOP_EXPANDED_SUMMARY)
+
+    # Determine active cohort context
+    if "Top Prescribed" in cohort_sel:
+        active_df = df_top
+        active_reports = top_reports
+        active_metrics = m_top
+        active_cohort_name = "Top Prescribed Blockbusters (50 Pairs)"
+        active_cohort_desc = "50 blockbuster outpatient medications · 25 FDA Boxed Warnings · 25 balanced negative controls"
+        active_reports_dir = TOP_PRESCRIBED_DIR
+        active_gt_path = TOP_PRESCRIBED_GT
+    elif "OMOP Expanded" in cohort_sel:
+        active_df = df_omop
+        active_reports = omop_exp_reports
+        active_metrics = m_omop
+        active_cohort_name = "OMOP Expanded Reference (100 Pairs)"
+        active_cohort_desc = "100 reference pairs from OHDSI OMOP · 4 severe organ toxicity phenotypes · 50 positive & 50 negative controls"
+        active_reports_dir = OMOP_EXPANDED_DIR
+        active_gt_path = OMOP_EXPANDED_GT
+    else:
+        active_df = df_core
+        active_reports = prod_reports
+        active_metrics = None  # defaults to PROD_METRICS
+        active_cohort_name = "Core Benchmark (15 Pairs)"
+        active_cohort_desc = "Sprint 3 final benchmark · 15 drug–event pairs · plausibility ratings v1.0"
+        active_reports_dir = OUTPUTS_DIR
+        active_gt_path = GROUND_TRUTH_PATH
 
     # ── Tabs & Views ──
     tab_live, tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
@@ -154,9 +214,18 @@ def main() -> None:
     with tab_live:
         view_live_triage(theme=active_theme, repo_root=REPO_ROOT)
     with tab1:
-        view_overview(LOGO_PATH, STABILITY_PATH, theme=active_theme)
+        view_overview(
+            LOGO_PATH,
+            STABILITY_PATH,
+            theme=active_theme,
+            metrics=active_metrics,
+            cohort_name=active_cohort_name,
+            cohort_desc=active_cohort_desc,
+            reports_dir=active_reports_dir,
+            gt_path=active_gt_path,
+        )
     with tab2:
-        view_per_pair(df, theme=active_theme)
+        view_per_pair(active_df, theme=active_theme, cohort_name=active_cohort_name)
     with tab3:
         view_disagreements(prod_reports, OUTPUTS_DIR, theme=active_theme)
     with tab4:
@@ -164,7 +233,7 @@ def main() -> None:
     with tab5:
         view_probes(REPO_ROOT, theme=active_theme)
     with tab6:
-        view_omop_pilot(omop_reports, OMOP_DIR, theme=active_theme, repo_root=REPO_ROOT)
+        view_omop_pilot(omop_pilot_reports, OMOP_DIR, theme=active_theme, repo_root=REPO_ROOT)
 
 
 if __name__ == "__main__":
