@@ -282,3 +282,52 @@ class TestDeriveEscalation:
         """Regression: confidence=0.0 + NO_SIGNAL -- gate fires, not coincidental fallthrough."""
         decision = derive_escalation(0.0, SignalStrength.NO_SIGNAL)
         assert decision == EscalationDecision.DO_NOT_ESCALATE
+
+
+class TestOMOPExpandedBenchmarkDataset:
+    """Validation test suite for the 100-pair OMOP expanded benchmark dataset."""
+
+    def test_omop_expanded_dataset_integrity(self):
+        from pathlib import Path
+        import json
+        from collections import Counter
+
+        dataset_path = Path(__file__).resolve().parents[1] / "pharmaguard" / "data" / "ground_truth_omop_expanded.json"
+        assert dataset_path.exists(), f"Missing ground_truth_omop_expanded.json at {dataset_path}"
+
+        with open(dataset_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        assert data.get("schema_version") == "1.1"
+        pairs = data.get("pairs", [])
+        assert len(pairs) == 100, f"Expected 100 pairs, found {len(pairs)}"
+
+        # Validate required fields and allowed values
+        allowed_escalations = {"ESCALATE", "DO_NOT_ESCALATE"}
+        allowed_endpoints = {
+            "hepatotoxicity",
+            "acute_kidney_injury",
+            "myocardial_infarction",
+            "gastrointestinal_haemorrhage",
+        }
+
+        endpoint_counts = Counter()
+        category_counts = Counter()
+
+        for p in pairs:
+            assert "drug_canonical" in p and len(p["drug_canonical"]) > 0
+            assert "event_meddra_pt" in p and p["event_meddra_pt"] in allowed_endpoints
+            assert p["expected_escalation"] in allowed_escalations
+            assert "source_url" in p and "http" in p["source_url"]
+            assert "rationale" in p and len(p["rationale"]) > 0
+
+            endpoint_counts[p["event_meddra_pt"]] += 1
+            category_counts[p["category"]] += 1
+
+        # Check balanced distribution: 25 per endpoint, 50 positive / 50 negative
+        for ep in allowed_endpoints:
+            assert endpoint_counts[ep] == 25, f"Endpoint {ep} has {endpoint_counts[ep]} pairs, expected 25"
+
+        assert category_counts["omop_confirmed_positive"] == 50
+        assert category_counts["omop_negative_control"] == 50
+

@@ -24,7 +24,7 @@ from pharmaguard.utils.llm_factory import check_ollama_status
 
 logger = logging.getLogger(__name__)
 
-PRESET_PAIRS = [
+CORE_SHOWCASE_PRESETS = [
     ("-- Select Benchmark Preset --", "", ""),
     ("Montelukast — Suicidal Ideation (Boxed Warning)", "montelukast", "suicidal ideation"),
     ("Ciprofloxacin — Tendon Rupture (Boxed Warning)", "ciprofloxacin", "tendon rupture"),
@@ -36,6 +36,35 @@ PRESET_PAIRS = [
     ("Aspirin — GI Haemorrhage (Known Bleeding)", "aspirin", "gastrointestinal haemorrhage"),
     ("Diphenhydramine — Somnolence (Sedation Control)", "diphenhydramine", "somnolence"),
 ]
+
+
+@st.cache_data
+def _get_all_presets() -> list[tuple[str, str, str]]:
+    """Return unified list of showcase and 100 OMOP expanded presets."""
+    presets = list(CORE_SHOWCASE_PRESETS)
+    omop_file = Path(__file__).resolve().parents[3] / "pharmaguard" / "data" / "ground_truth_omop_expanded.json"
+    if omop_file.exists():
+        try:
+            with open(omop_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            endpoint_labels = {
+                "hepatotoxicity": "Liver",
+                "acute_kidney_injury": "Kidney",
+                "myocardial_infarction": "MI",
+                "gastrointestinal_haemorrhage": "GI Bleed",
+            }
+            for p in data.get("pairs", []):
+                d = p["drug_canonical"]
+                e = p["event_meddra_pt"]
+                cat = "Positive" if "positive" in p.get("category", "") else "Negative"
+                ep_short = endpoint_labels.get(e, e.replace("_", " ").title())
+                label = f"[{ep_short}] {d.title()} — {e.replace('_', ' ').title()} ({cat})"
+                # Prevent duplicate entries if already in showcase
+                if not any(x[1].lower() == d.lower() and x[2].lower() == e.replace('_', ' ').lower() for x in presets):
+                    presets.append((label, d, e.replace("_", " ")))
+        except Exception as exc:
+            logger.warning("Could not load OMOP expanded presets: %s", exc)
+    return presets
 
 
 def _format_decision_badge(decision: EscalationDecision | str, theme: str = "light") -> str:
@@ -167,7 +196,8 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
     st.markdown('<div style="height: 6px;"></div>', unsafe_allow_html=True)
 
     # ── Input Interface ──
-    preset_labels = [p[0] for p in PRESET_PAIRS]
+    all_presets = _get_all_presets()
+    preset_labels = [p[0] for p in all_presets]
     selected_preset = st.selectbox(
         "Benchmark Presets",
         options=preset_labels,
@@ -177,7 +207,7 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
 
     default_drug = ""
     default_event = ""
-    for label, drug, event in PRESET_PAIRS:
+    for label, drug, event in all_presets:
         if label == selected_preset and drug:
             default_drug = drug
             default_event = event

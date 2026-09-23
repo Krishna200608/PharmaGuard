@@ -1,0 +1,807 @@
+{
+  "schema_version": "1.1",
+  "description": "Expanded 100-pair secondary benchmark derived from the OHDSI OMOP Reference Set (Ryan et al. 2013). Evaluates 4 high-mortality clinical endpoints: Acute Liver Injury (hepatotoxicity), Acute Renal Failure (acute_kidney_injury), Acute Myocardial Infarction (myocardial_infarction), and Upper Gastrointestinal Bleeding (gastrointestinal_haemorrhage). Balanced 50 confirmed positives and 50 negative controls.",
+  "total_pairs": 100,
+  "pairs": [
+    {
+      "drug_canonical": "carbamazepine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Well-documented idiosyncratic liver injury; OMOP reference positive control."
+    },
+    {
+      "drug_canonical": "isoniazid",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Classic antitubercular hepatotoxin; OMOP reference positive control."
+    },
+    {
+      "drug_canonical": "allopurinol",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Known severe cutaneous and hepatic adverse drug reaction; OMOP positive control."
+    },
+    {
+      "drug_canonical": "captopril",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Known ACEi-associated cholestatic and hepatocellular injury; OMOP positive control."
+    },
+    {
+      "drug_canonical": "methotrexate",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Known cumulative dose-dependent hepatic fibrosis; OMOP positive control."
+    },
+    {
+      "drug_canonical": "ketoconazole",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Black box warning for severe hepatotoxicity; OMOP positive control."
+    },
+    {
+      "drug_canonical": "amiodarone",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Known cumulative hepatotoxicity and lipidosis; OMOP positive control."
+    },
+    {
+      "drug_canonical": "diclofenac",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "NSAID with highest relative risk for liver injury; OMOP positive control."
+    },
+    {
+      "drug_canonical": "chlorpromazine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Classic prototypical drug-induced cholestatic jaundice; OMOP positive control."
+    },
+    {
+      "drug_canonical": "propylthiouracil",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Severe hepatic necrosis warning; OMOP positive control."
+    },
+    {
+      "drug_canonical": "minocycline",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Autoimmune-like drug-induced liver injury; OMOP positive control."
+    },
+    {
+      "drug_canonical": "nitrofurantoin",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Chronic active hepatitis and cholestasis; OMOP positive control."
+    },
+    {
+      "drug_canonical": "tamoxifen",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Steatohepatitis and hepatic cirrhosis; OMOP positive control."
+    },
+    {
+      "drug_canonical": "adenosine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Negligible hepatic metabolism, ultra-short half-life; OMOP negative control."
+    },
+    {
+      "drug_canonical": "sucralfate",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Minimally absorbed gastrointestinal protective agent; OMOP negative control."
+    },
+    {
+      "drug_canonical": "methenamine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Urinary antiseptic without hepatic toxicity; OMOP negative control."
+    },
+    {
+      "drug_canonical": "colchicine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Gout therapeutic without primary hepatotoxicity signal; OMOP negative control."
+    },
+    {
+      "drug_canonical": "terbutaline",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Beta-2 agonist with no hepatotoxic liability; OMOP negative control."
+    },
+    {
+      "drug_canonical": "chlorpheniramine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Antihistamine negative control in OMOP reference benchmark."
+    },
+    {
+      "drug_canonical": "diphenhydramine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "H1 antihistamine with no liver toxicity signal; OMOP negative control."
+    },
+    {
+      "drug_canonical": "guaifenesin",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Expectorant with established hepatic safety; OMOP negative control."
+    },
+    {
+      "drug_canonical": "pseudoephedrine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Sympathomimetic decongestant; OMOP negative control."
+    },
+    {
+      "drug_canonical": "atropine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Anticholinergic agent with no hepatic toxicity; OMOP negative control."
+    },
+    {
+      "drug_canonical": "albuterol",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Inhaled bronchodilator with no hepatotoxicity; OMOP negative control."
+    },
+    {
+      "drug_canonical": "loratadine",
+      "event_meddra_pt": "hepatotoxicity",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Second-generation antihistamine with benign hepatic profile; OMOP negative control."
+    },
+    {
+      "drug_canonical": "gentamicin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Classic aminoglycoside acute tubular necrosis; OMOP positive control."
+    },
+    {
+      "drug_canonical": "cisplatin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Prototypical direct proximal tubular toxicity; OMOP positive control."
+    },
+    {
+      "drug_canonical": "cefepime",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Cephalosporin-induced acute interstitial nephritis; OMOP positive control."
+    },
+    {
+      "drug_canonical": "furosemide",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Loop diuretic prerenal and interstitial nephropathy; OMOP positive control."
+    },
+    {
+      "drug_canonical": "amphotericin b",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Severe renal vasoconstriction and tubular injury; OMOP positive control."
+    },
+    {
+      "drug_canonical": "tobramycin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Aminoglycoside nephrotoxicity; OMOP positive control."
+    },
+    {
+      "drug_canonical": "acyclovir",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Intratubular crystal precipitation leading to AKI; OMOP positive control."
+    },
+    {
+      "drug_canonical": "vancomycin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Glycopeptide-induced acute tubular injury; OMOP positive control."
+    },
+    {
+      "drug_canonical": "methotrexate",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "High-dose crystalline nephropathy and tubular damage; OMOP positive control."
+    },
+    {
+      "drug_canonical": "cyclosporine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Calcineurin-inhibitor acute and chronic nephrotoxicity; OMOP positive control."
+    },
+    {
+      "drug_canonical": "tacrolimus",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Arteriolar vasoconstriction and acute renal impairment; OMOP positive control."
+    },
+    {
+      "drug_canonical": "indomethacin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Potent prostaglandin inhibition leading to acute renal failure; OMOP positive control."
+    },
+    {
+      "drug_canonical": "colchicine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Non-nephrotoxic active comparator; OMOP negative control."
+    },
+    {
+      "drug_canonical": "pravastatin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Hydrophilic statin without primary renal toxicity; OMOP negative control."
+    },
+    {
+      "drug_canonical": "terbutaline",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Beta-2 agonist without nephrotoxic profile; OMOP negative control."
+    },
+    {
+      "drug_canonical": "chlorpheniramine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "First-generation antihistamine; OMOP negative control."
+    },
+    {
+      "drug_canonical": "diazepam",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Benzodiazepine with no direct nephrotoxicity; OMOP negative control."
+    },
+    {
+      "drug_canonical": "loratadine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Nonsedating antihistamine with clean renal profile; OMOP negative control."
+    },
+    {
+      "drug_canonical": "metformin",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Contraindicated in severe renal impairment but does not cause acute tubular injury; OMOP negative control."
+    },
+    {
+      "drug_canonical": "famotidine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "H2 receptor antagonist with benign renal profile; OMOP negative control."
+    },
+    {
+      "drug_canonical": "pantoprazole",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "PPI comparator with no primary tubular necrosis; OMOP negative control."
+    },
+    {
+      "drug_canonical": "fluoxetine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "SSRI antidepressant with no nephrotoxicity; OMOP negative control."
+    },
+    {
+      "drug_canonical": "cetirizine",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Peripherally acting antihistamine; OMOP negative control."
+    },
+    {
+      "drug_canonical": "albuterol",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Selective beta-2 agonist; OMOP negative control."
+    },
+    {
+      "drug_canonical": "propranolol",
+      "event_meddra_pt": "acute_kidney_injury",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Nonselective beta-blocker without intrinsic nephrotoxicity; OMOP negative control."
+    },
+    {
+      "drug_canonical": "rofecoxib",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "COX-2 selective inhibitor withdrawn for severe atherothrombotic MI; OMOP positive control."
+    },
+    {
+      "drug_canonical": "celecoxib",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Selective COX-2 inhibitor with recognized cardiovascular boxed warning; OMOP positive control."
+    },
+    {
+      "drug_canonical": "rosiglitazone",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Thiazolidinedione associated with increased myocardial ischemic events; OMOP positive control."
+    },
+    {
+      "drug_canonical": "valdecoxib",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "COX-2 inhibitor with severe thrombotic cardiovascular risk; OMOP positive control."
+    },
+    {
+      "drug_canonical": "indomethacin",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Nonselective NSAID with platelet/prostacyclin imbalance; OMOP positive control."
+    },
+    {
+      "drug_canonical": "meloxicam",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "NSAID with documented cardiovascular thrombotic risk; OMOP positive control."
+    },
+    {
+      "drug_canonical": "diclofenac",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Highest CV thrombotic risk among traditional NSAIDs; OMOP positive control."
+    },
+    {
+      "drug_canonical": "etoricoxib",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Selective COX-2 inhibitor associated with hypertension and MI; OMOP positive control."
+    },
+    {
+      "drug_canonical": "piroxicam",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Potent NSAID with prolonged half-life and CV risk; OMOP positive control."
+    },
+    {
+      "drug_canonical": "naproxen",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Cardiovascular safety signal benchmark positive control in OMOP set."
+    },
+    {
+      "drug_canonical": "ibuprofen",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Prostacyclin suppression contributing to CV events; OMOP positive control."
+    },
+    {
+      "drug_canonical": "methylprednisolone",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "High-dose corticosteroid promoting atherosclerosis and fluid retention; OMOP positive control."
+    },
+    {
+      "drug_canonical": "estrogen",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Exogenous hormone therapy associated with coronary thromboembolism; OMOP positive control."
+    },
+    {
+      "drug_canonical": "acetaminophen",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Non-thrombotic analgesic negative control; OMOP negative control."
+    },
+    {
+      "drug_canonical": "diazepam",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Benzodiazepine anxiolytic without atherothrombotic risk; OMOP negative control."
+    },
+    {
+      "drug_canonical": "esomeprazole",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Proton pump inhibitor without direct myocardial ischemic signal; OMOP negative control."
+    },
+    {
+      "drug_canonical": "amoxicillin",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Broad-spectrum aminopenicillin; OMOP negative control."
+    },
+    {
+      "drug_canonical": "ciprofloxacin",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Fluoroquinolone antibiotic without primary atherothrombotic signal; OMOP negative control."
+    },
+    {
+      "drug_canonical": "metformin",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Antidiabetic with cardiovascular neutrality/protection; OMOP negative control."
+    },
+    {
+      "drug_canonical": "atorvastatin",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Lipid-lowering HMG-CoA reductase inhibitor (protective against MI); OMOP negative control."
+    },
+    {
+      "drug_canonical": "citalopram",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "SSRI antidepressant without atherothrombotic liability; OMOP negative control."
+    },
+    {
+      "drug_canonical": "sertraline",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "SSRI with established post-infarction cardiovascular safety (SADHART); OMOP negative control."
+    },
+    {
+      "drug_canonical": "paroxetine",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "SSRI antidepressant; OMOP negative control."
+    },
+    {
+      "drug_canonical": "albuterol",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Beta-2 agonist without atherothrombotic coronary occlusion; OMOP negative control."
+    },
+    {
+      "drug_canonical": "loratadine",
+      "event_meddra_pt": "myocardial_infarction",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Antihistamine without coronary thrombosis risk; OMOP negative control."
+    },
+    {
+      "drug_canonical": "ketorolac",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Injectable/oral NSAID with highest relative risk of mucosal ulceration and hemorrhage; OMOP positive control."
+    },
+    {
+      "drug_canonical": "naproxen",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Nonselective COX inhibition suppressing cytoprotective prostaglandins; OMOP positive control."
+    },
+    {
+      "drug_canonical": "warfarin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Anticoagulant causing hemorrhagic transformation of subclinical lesions; OMOP positive control."
+    },
+    {
+      "drug_canonical": "ibuprofen",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Traditional NSAID causing gastric erosions and mucosal bleeding; OMOP positive control."
+    },
+    {
+      "drug_canonical": "aspirin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Irreversible COX-1 inhibition and antiplatelet effect leading to GI bleeding; OMOP positive control."
+    },
+    {
+      "drug_canonical": "indomethacin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Severe gastric mucosal toxicity and ulceration; OMOP positive control."
+    },
+    {
+      "drug_canonical": "piroxicam",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "High ulcerogenic potential among nonselective NSAIDs; OMOP positive control."
+    },
+    {
+      "drug_canonical": "meloxicam",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Preferential COX-2 inhibitor with dose-dependent GI bleed risk; OMOP positive control."
+    },
+    {
+      "drug_canonical": "prednisone",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Systemic glucocorticoid impairing mucosal healing and tissue repair; OMOP positive control."
+    },
+    {
+      "drug_canonical": "dexamethasone",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Potent corticosteroid potentiating ulceration in polypharmacy; OMOP positive control."
+    },
+    {
+      "drug_canonical": "diclofenac",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "NSAID causing topical and systemic mucosal toxicity; OMOP positive control."
+    },
+    {
+      "drug_canonical": "heparin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "ESCALATE",
+      "category": "omop_confirmed_positive",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Systemic anticoagulant potentiating severe gastrointestinal bleeding; OMOP positive control."
+    },
+    {
+      "drug_canonical": "ceftriaxone",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Cephalosporin antibiotic without gastrointestinal bleeding signal; OMOP negative control."
+    },
+    {
+      "drug_canonical": "salmeterol",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Inhaled long-acting beta-2 agonist; OMOP negative control."
+    },
+    {
+      "drug_canonical": "loratadine",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Antihistamine without gastrointestinal ulceration risk; OMOP negative control."
+    },
+    {
+      "drug_canonical": "amoxicillin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Oral penicillin without intrinsic mucosal ulceration risk; OMOP negative control."
+    },
+    {
+      "drug_canonical": "albuterol",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Inhaled bronchodilator; OMOP negative control."
+    },
+    {
+      "drug_canonical": "montelukast",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Leukotriene receptor antagonist without antiplatelet or ulcerogenic properties; OMOP negative control."
+    },
+    {
+      "drug_canonical": "diazepam",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Benzodiazepine without gastrointestinal hemorrhagic risk; OMOP negative control."
+    },
+    {
+      "drug_canonical": "cetirizine",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Second-generation antihistamine; OMOP negative control."
+    },
+    {
+      "drug_canonical": "atorvastatin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Statin with neutral gastrointestinal bleeding risk; OMOP negative control."
+    },
+    {
+      "drug_canonical": "metformin",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Causes nausea/diarrhea but not mucosal ulceration or bleeding; OMOP negative control."
+    },
+    {
+      "drug_canonical": "atenolol",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Cardioselective beta-blocker without mucosal ulceration signal; OMOP negative control."
+    },
+    {
+      "drug_canonical": "lisinopril",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "ACE inhibitor without direct gastrointestinal bleeding liability; OMOP negative control."
+    },
+    {
+      "drug_canonical": "fluoxetine",
+      "event_meddra_pt": "gastrointestinal_haemorrhage",
+      "expected_escalation": "DO_NOT_ESCALATE",
+      "category": "omop_negative_control",
+      "source_url": "https://raw.githubusercontent.com/OHDSI/MethodEvaluation/master/data/omopReferenceSet.rda; https://doi.org/10.1007/s40264-013-0097-8",
+      "rationale": "Non-NSAID comparator in OMOP reference benchmark; negative control."
+    }
+  ]
+}
