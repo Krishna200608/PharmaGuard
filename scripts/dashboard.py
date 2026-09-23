@@ -106,9 +106,9 @@ THEME_MAP = {
 }
 
 COHORT_OPTIONS = [
-    ":material/stars: Core Showcase (15 Pairs)",
-    ":material/verified: Top Prescribed Boxed Warnings (50 Pairs)",
-    ":material/dataset: OMOP Expanded Reference (100 Pairs)",
+    ":material/stars: Core Showcase (15)",
+    ":material/verified: Top Prescribed (50)",
+    ":material/dataset: OMOP Expanded (100)",
 ]
 
 
@@ -121,13 +121,18 @@ def main() -> None:
     if st.session_state.get("theme_widget") is None:
         st.session_state["theme_widget"] = st.session_state["theme_choice"]
 
+    # ── Persistent cohort state ──
+    if "cohort_choice" not in st.session_state:
+        st.session_state["cohort_choice"] = COHORT_OPTIONS[0]
+
     # ── Top bar with cohort & theme switchers ──
-    c_cohort, _, c_theme = st.columns([0.48, 0.17, 0.35], vertical_alignment="center")
+    c_cohort, _, c_theme = st.columns([0.65, 0.05, 0.30], vertical_alignment="center")
     with c_cohort:
-        cohort_sel = st.selectbox(
+        cohort_sel = st.segmented_control(
             "Benchmark Cohort",
             options=COHORT_OPTIONS,
-            key="cohort_choice",
+            default=st.session_state["cohort_choice"],
+            key="cohort_widget",
             label_visibility="collapsed",
             help="Switch benchmark cohort for Overview and Per-Pair Table.",
         )
@@ -140,6 +145,11 @@ def main() -> None:
         )
 
     # Protect against None deselect state
+    if cohort_sel in COHORT_OPTIONS:
+        st.session_state["cohort_choice"] = cohort_sel
+    else:
+        cohort_sel = st.session_state["cohort_choice"]
+
     if theme_sel in THEME_OPTIONS:
         st.session_state["theme_choice"] = theme_sel
     else:
