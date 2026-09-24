@@ -181,7 +181,6 @@ Quantitative signal disproportionality evaluates spontaneous adverse event repor
 | Statistical Parameter | Observed Value | Regulatory / Reference Standard | Status / Compliance |
 |---|:---:|---|:---:|
 | **Spontaneous Report Count ($a$)** | **{n_reports}** | Signal Floor: a ≥ 3 reports | {'Meets Floor' if report_count >= 3 else 'Sub-Threshold'} |
-
 | **Proportional Reporting Ratio (PRR)** | **{prr_str}** | Evans et al. (2001) threshold: PRR ≥ 2.0 | {'Signal Detected' if prr is not None and prr >= 2.0 else 'Below Threshold'} |
 | **PRR 95% Lower Confidence Bound** | **{prr_ci_str}** | Woolf log-scale standard error: Lower Bound > 1.0 | {'Significant' if prr_lower_ci is not None and prr_lower_ci > 1.0 else 'Inconclusive'} |
 | **Reporting Odds Ratio (ROR)** | **{ror_str}** | van Puijenbroek et al. (2002) disproportionality odds | Signal Detected if ROR ≥ 2.0 |
