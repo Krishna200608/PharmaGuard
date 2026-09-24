@@ -13,17 +13,29 @@ from datetime import datetime, timezone
 from pharmaguard.agent.output_schema import TriageReport, EscalationDecision
 
 
-def generate_clinical_dossier_markdown(report: TriageReport) -> str:
+_GRADE_SCORE_MAP = {"A": 1.0, "B": 0.5, "C": 0.0}
+
+
+def generate_clinical_dossier_markdown(report: TriageReport | dict) -> str:
     """
     Generate an exhaustive, publication-grade Clinical Safety Briefing & Triage Dossier
     suitable for regulatory pharmacovigilance review, clinical safety boards, or paper exhibits.
+    Accepts either a validated TriageReport model or a raw serialized report dict.
     """
+    if isinstance(report, dict):
+        report = TriageReport.model_validate(report)
+
     drug_name = report.drug.title()
     event_name = report.event.title()
     decision_val = report.triage.escalation.value
     confidence_val = report.triage.confidence
     run_id = report.run_id
     timestamp_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+
+    # Numeric sub-scores for mathematical decomposition
+    prr_score_val = report.signal_stats.prr_score if report.signal_stats.prr_score is not None else 0.0
+    grade_score_val = _GRADE_SCORE_MAP.get(report.triage.evidence_grade.value, 0.0)
+    plaus_score_val = report.mechanism.plausibility_score if report.mechanism.plausibility_score is not None else 0.0
 
     # Verification hash of key fields for provenance
     audit_payload = f"{drug_name}|{event_name}|{decision_val}|{confidence_val:.4f}|{run_id}"
@@ -181,7 +193,8 @@ Evaluates whether the reported adverse event overlaps with the underlying diseas
 ### Closed-Form Confidence Calculation:
 $$\\\\text{{Confidence}} = 0.40 \\\\cdot S_{{\\\\text{{FAERS}}}} + 0.40 \\\\cdot S_{{\\\\text{{PubMed}}}} + 0.20 \\\\cdot S_{{\\\\text{{ChEMBL}}}}$$
 
-$$\\\\text{{Confidence}} = 0.40 \\\\cdot ({report.signal_stats.prr_score:.2f}) + 0.40 \\\\cdot ({report.triage.evidence_grade.value}) + 0.20 \\\\cdot ({report.mechanism.plausibility_score:.2f}) = \\\\mathbf{{{confidence_val:.4f}}}$$
+$$\\\\text{{Confidence}} = 0.40 \\\\cdot ({prr_score_val:.2f}) + 0.40 \\\\cdot ({grade_score_val:.2f}) + 0.20 \\\\cdot ({plaus_score_val:.2f}) = \\\\mathbf{{{confidence_val:.4f}}}$$
+*(Evidence Grade: {report.triage.evidence_grade.value} $\\\\implies$ Sub-score: {grade_score_val:.2f})*
 
 ### Gate Execution Trace:
 """

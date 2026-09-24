@@ -188,3 +188,39 @@ def view_per_pair(df: pd.DataFrame, theme: str = "light", cohort_name: str = "Co
             f'</div>',
             unsafe_allow_html=True,
         )
+
+    # ── Selected Pair Clinical Dossier Quick-Export ──
+    try:
+        from ..reports import generate_clinical_dossier_markdown
+        pair_dossier_md = generate_clinical_dossier_markdown(sel_rpt)
+        drug_slug = str(sel_row['drug']).lower().replace(' ', '_')
+        event_slug = str(sel_row['event']).lower().replace(' ', '_')
+
+        st.markdown('<div style="height: 12px;"></div>', unsafe_allow_html=True)
+        c_exp1, c_exp2, c_exp_space = st.columns([1.35, 1.25, 2.4], gap="small")
+        with c_exp1:
+            st.download_button(
+                label="Download Clinical Dossier (.md)",
+                data=pair_dossier_md,
+                file_name=f"PharmaGuard_{drug_slug}_{event_slug}_dossier.md",
+                mime="text/markdown",
+                icon=":material/clinical_notes:",
+                type="primary",
+                width="stretch",
+                key=f"dl_dossier_{cohort_name}_{sel_idx}",
+                help="Download full regulatory clinical safety briefing for this benchmark pair",
+            )
+        with c_exp2:
+            import json
+            st.download_button(
+                label="Export Audit JSON",
+                data=json.dumps(sel_rpt, indent=2, default=str),
+                file_name=f"{sel_rpt.get('run_id', 'pair')}_{drug_slug}_{event_slug}.json",
+                mime="application/json",
+                icon=":material/data_object:",
+                width="stretch",
+                key=f"dl_json_{cohort_name}_{sel_idx}",
+                help="Export machine-readable JSON schema for programmatic audit",
+            )
+    except Exception as exc:
+        st.caption(f"Clinical dossier export unavailable for this record: {exc}")

@@ -1,5 +1,5 @@
 # PharmaGuard — Weekly Progress Update #2
-### Multi-Scale Benchmark Expansion (165 Pairs), Local LLM Integration, Conference Paper Manuscript, and Interactive Dashboard
+### Multi-Scale Benchmark Expansion (165 Pairs), Local LLM Integration, and Interactive Evaluation Dashboard
 
 **Submitted to:** Dr. Nikhilanand Arya  
 **Group 07:** Krishna Sikheriya (IIT2023139), Lokesh Bawariya, Naitik Jain  
@@ -13,9 +13,8 @@ In our previous meeting and update, we established the following key directions:
 
 1. **Scoring-Inert Clinical Context:** Following our 40-pair test of the indication concordance layer (which yielded a low-power null result of 4/40 triggers without metric movement), we agreed to maintain the disease-context layer as an **explicit, scoring-inert provenance flag** on reports rather than applying ungrounded numerical scalar penalties.
 2. **Scale & Rigorous Benchmarking:** You advised moving beyond small-sample toy evaluation (15 pairs) to test whether PharmaGuard's triage gates and tri-source fusion hold up under large-scale, real-world postmarketing surveillance conditions.
-3. **Conference Paper Drafting:** We received the go-ahead to transition our literature review, methodology, and empirical findings into a formal academic manuscript targeting IEEE / ACM / JAMIA health informatics venues.
 
-This document summarizes our major progress across all three directives.
+This document summarizes our major progress across these key directives.
 
 ---
 
@@ -33,7 +32,7 @@ To rigorously stress-test the system, we expanded evaluation from our original 1
 While evaluating the 100-pair OMOP reference standard, we made an important empirical observation that directly explains a major challenge in modern pharmacovigilance:
 - **The Observation:** On chronic, high-utilization medications (such as long-term statins or PPIs), raw disproportionality metrics like PRR often drop below the classical Evans threshold of $2.0$, despite significant clinical literature and confirmed biological mechanisms.
 - **Why this happens:** When tens of millions of patients take a drug continuously, the sheer volume of incidental background reports inflates the denominator of the 2x2 contingency table, artificially depressing the PRR statistic.
-- **Why this matters for PharmaGuard:** A purely statistical tool will drop these real signals. However, PharmaGuard's **tri-source fusion** uses ChEMBL receptor pharmacology and PubMed literature grading to prevent them from being discarded, routing them safely to `MONITOR` rather than `DO_NOT_ESCALATE`. This provides strong empirical justification for our dual-metric (Strict vs. Lenient) evaluation framework in the paper.
+- **Why this matters for PharmaGuard:** A purely statistical tool will drop these real signals. However, PharmaGuard's **tri-source fusion** uses ChEMBL receptor pharmacology and PubMed literature grading to prevent them from being discarded, routing them safely to `MONITOR` rather than `DO_NOT_ESCALATE`. This provides strong empirical justification for our dual-metric (Strict vs. Lenient) evaluation framework.
 
 ---
 
@@ -49,25 +48,7 @@ Executing 165 multi-source pipeline runs against commercial cloud APIs (like Goo
 
 ---
 
-## 4. Complete Academic Conference Paper Manuscript (Drafted)
-
-We have completed the full first-draft manuscript of our conference paper, targeted for submission to **IEEE BIBM (International Conference on Bioinformatics and Biomedicine)**, **ACM CHIL (Conference on Health, Inference, and Learning)**, or **JAMIA**:
-
-- **Location:** `docs/paper/PharmaGuard_Conference_Paper.md` (336 lines, ~8,500 words).
-- **Structure (9 Formal Sections):**
-  1. **Title & Abstract:** Formulates the postmarketing signal triage problem, triage bottleneck, and summary of 165-pair empirical results.
-  2. **Introduction:** Contrasts spontaneous reporting realities against pre-approval RCT limitations; details the failure modes of ungrounded LLMs (hallucinated confidence, historical regulatory confusion, parametric leakage).
-  3. **Related Work:** Thoroughly positions PharmaGuard against Evans PRR/ROR statistical baselines, modern agentic architectures (ReAct, PSEBench, DruGagent), and EHR-dependent causal AI (Toonsi et al.), highlighting our public-API accessibility advantage.
-  4. **System Architecture & Methodology:** Mathematical definitions of the closed-form confidence fusion formula, Gate 1 empirical safety stop, ChEMBL MoA retrieval, PubMed clinical rubric v1.0, and the scoring-inert ATC indication isolation wall.
-  5. **Experimental Setup:** Master table of all three benchmark cohorts ($N=165$), ground-truth curation standards, and the dual-metric evaluation framework (Strict vs. Lenient).
-  6. **Results:** Comprehensive tables reporting TP, FP, TN, FN, Precision, Recall, Specificity, and $F_1$ with exact **Wilson 95% Confidence Intervals** across all three cohorts.
-  7. **Clinical Case Studies:** In-depth case walkthroughs on *Montelukast* (suicidal ideation), *Metformin* (lactic acidosis vs. hypoglycaemia polypharmacy), *Lisinopril* (cough), and *Albuterol* (paradoxical bronchospasm).
-  8. **Discussion & Limitations:** Analysis of PRR denominator dilution, the MARCH adversarial critic anti-leakage audit, and current boundary conditions.
-  9. **Conclusion & Reproducibility:** Availability statement for code, datasets, Docker deployment, and Streamlit evaluation dashboard.
-
----
-
-## 5. Evaluation Dashboard Multi-Cohort Integration & Live Signal Triage
+## 4. Evaluation Dashboard Multi-Cohort Integration & Live Signal Triage
 
 We significantly upgraded the Streamlit evaluation dashboard (`scripts/dashboard.py` / `dashboard/app.py` running at `http://localhost:8501`):
 
@@ -90,39 +71,42 @@ We significantly upgraded the Streamlit evaluation dashboard (`scripts/dashboard
    - Replaced raw emojis with official Google Material Symbols across all tabs and badges.
    - Fixed a `NoneType` caching exception in `ChemblTool` and `PubMedTool` when disk caching is toggled off.
    - Added automatic module hot-reloading (`importlib.reload`) in `live_triage.py` to prevent persistent Streamlit memory from retaining stale bytecode.
-   - Verified that all **242 / 242 unit tests** pass with 100% green status via pytest.
+   - Verified that all **245 / 245 unit tests** pass with 100% green status via pytest.
 
 ---
 
-## 6. Capstone Presentation Deck Synchronization
+## 5. Capstone Presentation Deck Synchronization
 
 We fully synchronized the mid/end-semester capstone presentation materials with the 165-pair benchmark scale:
 
-- **Slide Outline (`docs/presentation/End_Semester_Slide_Content.md`):** Updated the 18-slide presentation deck to reflect the multi-cohort evaluation, PRR denominator dilution findings, local Ollama integration, and live dashboard demo flow.
+- **Slide Outline (`docs/presentation/End_Semester_Slide_Content.md`):** Updated the 20-slide presentation deck to reflect the multi-cohort evaluation, PRR denominator dilution findings, local Ollama integration, and live dashboard demo flow.
+- **PowerPoint & Marp Decks:** Generated automated 16:9 widescreen presentation deck (`docs/presentation/PharmaGuard_Defense_Deck.pptx`) and Marp markdown slides (`docs/presentation/PharmaGuard_Defense_Deck_Marp.md`).
 - **Delivery Notes (`docs/presentation/SLIDE_DECK_NOTES.md`):** Updated presenter cue cards, timing checkpoints (15-minute budget), and anticipated defense/viva defense questions (e.g., explaining why OMOP strict recall is lower due to chronic utilization, and defending why the indication concordance layer is scoring-inert).
 
 ---
 
-## 7. Summary of Completed Milestones
+## 6. Summary of Completed Milestones
 
 | Target Area | Status | Deliverables / Evidence |
 |---|---|---|
 | **Benchmark Scaling** | **COMPLETE** | 165 total drug–event pairs evaluated across 3 stratified cohorts (15 Core, 50 Blockbusters, 100 OMOP). |
 | **Local LLM Backend** | **COMPLETE** | Zero-cost Ollama `qwen2.5:7b` integration; fully tested and reproducible offline. |
-| **Academic Manuscript** | **COMPLETE (DRAFT)** | 9-section conference paper manuscript at `docs/paper/PharmaGuard_Conference_Paper.md`. |
 | **Interactive Dashboard** | **COMPLETE & LIVE** | Multi-cohort switcher, 151 live triage presets, and methodology probes running on `localhost:8501`. |
-| **Defense Slide Deck** | **COMPLETE** | 18-slide end-semester presentation deck and speaker notes synchronized with 165-pair data. |
-| **Code Quality & Tests** | **COMPLETE** | 242/242 pytest unit tests passing cleanly; clean git tree on `origin/main`. |
+| **Defense Slide Deck** | **COMPLETE** | 20-slide end-semester presentation deck (.pptx & Marp) and speaker notes synchronized with 165-pair data. |
+| **Code Quality & Tests** | **COMPLETE** | 245/245 pytest unit tests passing cleanly; clean git tree on `origin/main`. |
+| **Academic Manuscript** | **FUTURE WORK** | Conference paper drafting scheduled for post-midsem targeting IEEE BIBM / ACM CHIL / JAMIA. |
 
 ---
 
-## 8. Discussion Points & Next Steps for Your Guidance
+## 7. Future Work & Discussion Points for Your Guidance
 
-We would appreciate your feedback and advice on the following points:
+### Planned Future Works (Post-Midsem Focus)
+1. **Academic Conference Paper Drafting:** Following mid-semester evaluations, we plan to draft the formal conference paper for submission to **IEEE BIBM (International Conference on Bioinformatics and Biomedicine)**, **ACM CHIL (Conference on Health, Inference, and Learning)**, or **JAMIA**. We will seek your guidance on target venue selection.
+2. **Multi-Jurisdiction Ingestion:** Expanding beyond US FDA FAERS to incorporate European EudraVigilance, Japanese JADER, and WHO VigiBase.
+3. **Exposure-Adjusted Bayesian Gating:** Conditioning signal thresholds on prescription volume to address the chronic therapy PRR dilution phenomenon.
 
-1. **Target Publication Venue:**
-   - The manuscript is currently budgeted for a 6–8 page double-column conference format (ideal for **IEEE BIBM 2026** or **ACM CHIL 2026**) or can be extended into a full journal paper for **JAMIA (Journal of the American Medical Informatics Association)**. What venue would you prefer us to format the submission for first?
-2. **Manuscript Review:**
-   - Would you like to review the markdown manuscript directly (`docs/paper/PharmaGuard_Conference_Paper.md`), or should we compile it into the formal IEEE/ACM LaTeX template with embedded vector PDF figures for your review?
-3. **Capstone Defense Preparation:**
+### Discussion Points for This Meeting
+1. **Capstone Defense Preparation:**
    - For our upcoming capstone presentation, would you like us to conduct a 10-minute dry-run presentation and live dashboard demonstration during our next meeting?
+2. **Benchmark Scale & Clinical Focus:**
+   - Are there specific additional drug–event pairs or therapeutic classes you would recommend prioritizing for further analysis?

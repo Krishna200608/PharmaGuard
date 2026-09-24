@@ -1,0 +1,124 @@
+name: PharmaGuard CI & Rigor Audit
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.13"
+  # Mock API keys to ensure test suite executes safely in offline sandboxed environments
+  GOOGLE_API_KEY: "ci-mock-gemini-key"
+  NCBI_API_KEY: "ci-mock-ncbi-key"
+  CI: "true"
+
+jobs:
+  lint-and-syntax:
+    name: Code Quality & Syntax Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            pyproject.toml
+
+      - name: Install Linting Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Bytecode Compilation Check (All Modules)
+        run: |
+          python -m compileall -q pharmaguard/ scripts/ tests/
+
+      - name: Critical Syntax & Import Integrity (Ruff)
+        run: |
+          # Fails immediately on syntax errors, undefined names, and fatal bugs
+          ruff check --select E9,F63,F7,F82 pharmaguard/ tests/
+
+      - name: Code Style & Quality Diagnostic (Advisory)
+        run: |
+          # Reports style, import ordering, and modernization opportunities without failing CI
+          ruff check pharmaguard/ tests/ --exit-zero
+
+  test-and-coverage:
+    name: Pytest Test Suite & Coverage (242+ Tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [lint-and-syntax]
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            pyproject.toml
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-cov
+
+      - name: Run Full Test Suite (242 Unit & Integration Tests)
+        run: |
+          pytest -v --durations=10 --cov=pharmaguard --cov-report=term-missing --cov-report=xml:coverage.xml
+
+      - name: Verify Reproducibility Manifest & Cache Integrity
+        run: |
+          pytest tests/test_reproducibility_manifest.py tests/test_output_schema.py -v
+
+      - name: Upload Test Coverage Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage.xml
+          if-no-files-found: ignore
+          retention-days: 14
+
+  smoke-test-dashboard:
+    name: Streamlit Dashboard Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [test-and-coverage]
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate Dashboard Imports & Module Wiring
+        run: |
+          python -c "import scripts.dashboard; import scripts.dashboard_modules.reports; print('Dashboard module imports verified cleanly.')"
