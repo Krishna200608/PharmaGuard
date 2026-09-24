@@ -142,16 +142,19 @@ def sample_monitor_report() -> TriageReport:
 def test_generate_dossier_escalate(sample_escalate_report):
     """Verify markdown dossier for high-priority escalation."""
     md = generate_clinical_dossier_markdown(sample_escalate_report)
-    assert "# 🛡️ PharmaGuard — Clinical Safety Briefing & Triage Dossier" in md
+    assert "# PharmaGuard Clinical Safety Briefing & Signal Triage Dossier" in md
     assert "Ciprofloxacin" in md
     assert "Tendon Rupture" in md
     assert "ESCALATE" in md
-    assert "🚨 HIGH-PRIORITY REGULATORY ESCALATION" in md
+    assert "[ESCALATE] - PRIORITY 1: REGULATORY SIGNAL ESCALATION" in md
     assert "0.8000" in md
     assert "SHA256:" in md
     assert "PMID 12345678" in md
     assert "0.40 * (A)" not in md
     assert "1.00" in md  # Grade A numeric sub-score
+    # Verify strict absence of raw emojis
+    for emoji in ["🚨", "👁️", "✅", "🛡️", "⚠️"]:
+        assert emoji not in md
 
 
 def test_generate_dossier_monitor(sample_monitor_report):
@@ -160,9 +163,11 @@ def test_generate_dossier_monitor(sample_monitor_report):
     assert "Montelukast" in md
     assert "Suicidal Ideation" in md
     assert "MONITOR" in md
-    assert "👁️ ACTIVE PHARMACOVIGILANCE WATCHLIST SURVEILLANCE" in md
+    assert "[MONITOR] - PRIORITY 2: ACTIVE WATCHLIST SURVEILLANCE" in md
     assert "0.6640" in md
     assert "DISCORDANT" in md
+    for emoji in ["🚨", "👁️", "✅", "🛡️", "⚠️"]:
+        assert emoji not in md
 
 
 def test_generate_dossier_from_dict(sample_escalate_report):
@@ -173,3 +178,4 @@ def test_generate_dossier_from_dict(sample_escalate_report):
     assert "Ciprofloxacin" in md
     assert "ESCALATE" in md
     assert "SHA256:" in md
+
