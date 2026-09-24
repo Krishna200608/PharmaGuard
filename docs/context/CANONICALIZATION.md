@@ -39,23 +39,29 @@ Following proven biomedical NLP intake patterns (such as PVLens and CTG-DB), Pha
 
 The canonical target vocabularies are derived from PharmaGuard's verified ground truth datasets and ChEMBL lookup tables:
 
-### 3.1 Canonical Event Vocabulary ($N = 15$ MedDRA PT Targets)
-Extracted directly from the union of `pharmaguard/data/ground_truth.json` (13 events) and `pharmaguard/data/ground_truth_omop_pilot.json` (4 events):
+### 3.1 Canonical Event Vocabulary ($N = 21$ MedDRA PT Targets)
+Extracted directly from the union of `pharmaguard/data/ground_truth.json` (13 events), `pharmaguard/data/ground_truth_omop_pilot.json` (4 events), and key postmarketing safety benchmark reactions:
 1. `acute_kidney_injury`
 2. `agranulocytosis`
-3. `common_cold`
-4. `dementia`
-5. `frostbite`
-6. `gastrointestinal_haemorrhage`
-7. `hepatotoxicity`
-8. `hypoglycaemia`
-9. `myocardial_infarction`
-10. `pancreatic_cancer`
-11. `pneumonitis`
-12. `suicidal_ideation`
-13. `tendon_rupture`
-14. `teratogenicity`
-15. `tooth_eruption`
+3. `angioedema`
+4. `common_cold`
+5. `cough`
+6. `dementia`
+7. `frostbite`
+8. `gastrointestinal_haemorrhage`
+9. `hepatotoxicity`
+10. `hyperkalaemia`
+11. `hypoglycaemia`
+12. `lactic_acidosis`
+13. `myocardial_infarction`
+14. `pancreatic_cancer`
+15. `pancreatitis`
+16. `pneumonitis`
+17. `rhabdomyolysis`
+18. `suicidal_ideation`
+19. `tendon_rupture`
+20. `teratogenicity`
+21. `tooth_eruption`
 
 ### 3.2 Canonical Drug Vocabulary ($N = 50$ Target Active Ingredients)
 Extracted from `pharmaguard/data/ground_truth.json` (14 drugs), `ground_truth_omop_pilot.json` (32 drugs), and the 4 probe drugs in `pharmaguard/data/chembl_lookup.json`:
@@ -115,19 +121,26 @@ Before evaluating any dictionary or sequence comparison, the raw string undergoe
 #### Curated Event Alias Table:
 * **`acute_kidney_injury`:** `"kidney failure"`, `"renal failure"`, `"acute renal failure"`, `"renal injury"`, `"acute kidney failure"`, `"aki"`, `"acute renal impairment"`
 * **`agranulocytosis`:** `"neutropenia"`, `"severe neutropenia"`, `"low white blood cells"`, `"granulocytopenia"`
+* **`angioedema`:** `"angioneurotic oedema"`, `"angioneurotic edema"`, `"swelling"`, `"facial swelling"`, `"tongue swelling"`, `"lip swelling"`, `"swollen tongue"`, `"swollen lips"`, `"quincke edema"`, `"quincke oedema"`
 * **`common_cold`:** `"cold"`, `"nasopharyngitis"`, `"rhinovirus"`, `"upper respiratory infection"`, `"acute nasopharyngitis"`
+* **`cough`:** `"dry cough"`, `"ace inhibitor cough"`, `"persistent cough"`, `"chronic cough"`
 * **`dementia`:** `"cognitive decline"`, `"memory loss"`, `"alzheimers"`, `"alzheimer's"`, `"dementia alzheimer's type"`
 * **`frostbite`:** `"frost bite"`, `"cold-induced necrosis"`
 * **`gastrointestinal_haemorrhage`:** `"gi bleed"`, `"gi bleeding"`, `"gastrointestinal hemorrhage"`, `"gi hemorrhage"`, `"stomach bleed"`, `"intestinal bleeding"`, `"upper gi bleed"`, `"rectal bleeding"`, `"melena"`
 * **`hepatotoxicity`:** `"liver failure"`, `"liver damage"`, `"liver injury"`, `"acute liver injury"`, `"hepatic injury"`, `"drug induced liver injury"`, `"dili"`, `"hepatic failure"`, `"toxic hepatitis"`
+* **`hyperkalaemia`:** `"hyperkalemia"`, `"high potassium"`, `"elevated potassium"`
 * **`hypoglycaemia`:** `"hypoglycemia"`, `"low blood sugar"`, `"low blood glucose"`, `"insulin shock"`
+* **`lactic_acidosis`:** `"lactic acidosis"`, `"acidosis"`, `"metabolic acidosis"`
 * **`myocardial_infarction`:** `"heart attack"`, `"mi"`, `"acute myocardial infarction"`, `"cardiac infarction"`
 * **`pancreatic_cancer`:** `"pancreatic carcinoma"`, `"pancreatic neoplasm"`, `"cancer of pancreas"`, `"pancreatic tumor"`, `"malignant neoplasm of pancreas"`
+* **`pancreatitis`:** `"acute pancreatitis"`, `"pancreas inflammation"`, `"inflamed pancreas"`
 * **`pneumonitis`:** `"lung inflammation"`, `"interstitial pneumonitis"`, `"drug induced pneumonitis"`
+* **`rhabdomyolysis`:** `"rhabdo"`, `"muscle breakdown"`, `"muscle necrosis"`, `"myopathy"`
 * **`suicidal_ideation`:** `"suicidal thoughts"`, `"suicidality"`, `"suicide attempt"`, `"suicidal behavior"`, `"suicidal ideations"`
 * **`tendon_rupture`:** `"ruptured tendon"`, `"achilles tendon rupture"`, `"achilles tear"`, `"tendon tear"`, `"tendon injury"`
 * **`teratogenicity`:** `"birth defects"`, `"congenital malformation"`, `"congenital anomalies"`, `"fetal toxicity"`, `"embryotoxicity"`
 * **`tooth_eruption`:** `"teeth eruption"`, `"delayed tooth eruption"`, `"eruption of tooth"`
+
 
 #### Curated Drug Alias Table (Brand Names, INN, & Abbreviations):
 * **`albuterol`:** `"salbutamol"`, `"ventolin"`, `"proair"`

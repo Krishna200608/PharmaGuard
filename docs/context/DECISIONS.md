@@ -1,4 +1,4 @@
-Last updated: 2026-08-14 | Sprint: Sprint 3 (COMPLETED) | Updated by: Antigravity
+Last updated: 2026-09-24 | Sprint: Sprint 4 (Multi-Terminal Launcher, Live NLP, & CI/CD Pipeline) | Updated by: Antigravity
 
 # DECISIONS
 
@@ -1611,3 +1611,35 @@ The corrected evaluation re-executed both `outputs/experiments/holdout_baseline/
 6. **Production Architectural Decision:**
    - In production, `indication_concordance.discount_enabled` remains **`false`** by default in `configs/config.yaml`.
    - Indication concordance remains active in production as an informational, scoring-inert provenance annotation (§35), with the discount factor fully validated and config-gated for research and comparative pharmacovigilance benchmarking.
+---
+
+## 39. Two-Stage Biomedical NLP Term Canonicalization & Typo Auto-Correction in Live Triage
+- **Date:** 2026-09-24
+- **Decision:** Integrate the two-stage hybrid canonicalization module (`pharmaguard/utils/canonicalize.py`) directly into the Live Signal Triage input fields (`scripts/dashboard_modules/views/live_triage.py`), expanding canonical vocabularies to $N = 21$ MedDRA PT targets and 50 target drugs.
+- **Why:** Spontaneous adverse event reporting and user queries routinely suffer from typographical errors (`lisinoprll`), commercial brand names (`Zestril`, `Singulair`), lay colloquialisms (`heart attack`, `kidney injury`), or orthographic US vs. UK variations (`hypoglycemia` vs. `hypoglycaemia`). Because openFDA FAERS and ChEMBL APIs are sensitive to exact string tokens, unnormalized queries cause silent false negatives (e.g. 0 FAERS reports returned for `hypoglycemia` vs. 9,344 reports for `hypoglycaemia`).
+- **Architecture & Threshold Boundaries:**
+  1. *Stage 1 (Exact & Curated Aliases):* Instant resolution ($S = 1.00$ or $0.98$) for known brand names, INN mappings, and lay synonyms.
+  2. *Stage 2 (Bounded Fuzzy Sequence Match):*
+     - $S \ge 0.85$: High-confidence automatic typo correction applied with an informative notification badge.
+     - $0.65 \le S < 0.85$: Interactive suggestion flag (`Did you mean...?`) alerting clinicians to near matches without silently mutating input terms.
+     - $S < 0.65$: Unmapped term retained with transparent audit notice.
+- **Empirical Validation:** 51 unit tests in `tests/test_canonicalize.py` verify 100% exact match across all ground truth pairs, zero false muting, and robust handling of inverted word orders (`injury acute kidney` -> `acute_kidney_injury`).
+
+---
+
+## 40. Publication-Grade Emoji-Free Clinical Safety Briefing & Triage Dossier Generator
+- **Date:** 2026-09-24
+- **Decision:** Completely overhaul the clinical dossier export generator in `scripts/dashboard_modules/reports.py` to eliminate all emojis, unicode symbols, and informal glyphs, standardizing on **ICH E2C(R2)** (Periodic Benefit-Risk Evaluation Report) and **CIOMS VIII** (Signal Detection) regulatory dossier standards.
+- **Why:** Pharmacovigilance safety briefings submitted to institutional review boards, regulatory agencies (FDA, EMA), or pharmaceutical safety committees require strict clinical decorum. Emojis and informal glyphs violate regulatory documentation standards, create escaping bugs in markdown-to-PDF compilation pipelines, and compromise professional presentation.
+- **Key Enhancements:**
+  1. *Evans et al. 2001 Triad Audit:* Complete 2×2 contingency table breakdown ($a, b, c, d$), Proportional Reporting Ratio (PRR), Yates-corrected $\chi^2$ statistic ($p < 0.001$), and Woolf 95% confidence intervals.
+  2. *KaTeX Mathematical Rigor:* Clean LaTeX equations rendering the composite confidence formula, sub-score weights ($0.40 / 0.40 / 0.20$), and hard safety gate evaluation logic.
+  3. *Executive QA Sign-Off:* Formal review block for Qualified Persons for Pharmacovigilance (QPPV), Medical Directors, and Safety Surveillance Leads.
+
+---
+
+## 41. Multi-Terminal Subprocess Launcher (`run.py`) & Automated GitHub Actions CI/CD Matrix
+- **Date:** 2026-09-24
+- **Decision:** Implement a unified cross-platform launcher (`run.py` at repository root) that automatically manages local Ollama LLM services and the Streamlit dashboard via non-blocking subprocesses with dynamic port discovery, alongside an automated GitHub Actions CI/CD workflow (`.github/workflows/ci.yml`).
+- **Why:** Running local LLMs (`qwen2.5:7b`) alongside Streamlit previously required users to manually open multiple terminal windows, run commands in sequence, and debug port collision crashes (e.g. port 8501 or 11434 occupied). The launcher encapsulates health checks, dynamic port allocation via `find_free_port()`, and clean SIGINT teardown.
+- **CI/CD Matrix:** The GitHub Actions workflow executes on every push and pull request across Python 3.11, 3.12, and 3.13 on `ubuntu-latest`, verifying dependency installation, flake8 syntax integrity, and the complete 245-unit-test regression suite.

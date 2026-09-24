@@ -166,6 +166,34 @@ produced by commit e906fd3 was contingent on a biased rubric revision and is not
 - **Capstone Presentation Deck Update (Option 3):**
   - Synchronized `docs/presentation/End_Semester_Slide_Content.md` and `docs/presentation/SLIDE_DECK_NOTES.md` with the 165-pair multi-cohort benchmark data, updated master tables, and live multi-cohort dashboard demo narrative.
 
+---
+
+## Multi-Terminal Launcher, CI/CD Pipeline, Live NLP & Clinical Dossier Overhaul (2026-09-24)
+
+- **One-Click Multi-Terminal Launcher (`run.py` & `scripts/run.py`):**
+  - Engineered cross-platform orchestration launcher (`run.py` at repository root). Automatically checks for active Ollama background services (`http://localhost:11434`), launches the local daemon if absent, and spins up the Streamlit evaluation dashboard on port 8501.
+  - Implemented dynamic socket probe (`find_free_port()`) to prevent port collision crashes and a graceful signal handler (`signal.SIGINT`) for clean teardown of child processes.
+- **GitHub Actions Automated CI/CD Test Matrix (`.github/workflows/ci.yml`):**
+  - Deployed comprehensive GitHub Actions workflow testing across Python 3.11, 3.12, and 3.13 on `ubuntu-latest`.
+  - Configures dependency caching (`actions/cache`), flake8 syntax validation, and automated execution of the 245-unit-test regression suite.
+- **Capstone Defense 20-Slide 16:9 Presentation Deck (`docs/presentation/` & `scripts/dev/build_presentation_deck.py`):**
+  - Built automated PowerPoint generation utility creating `docs/presentation/PharmaGuard_Defense_Deck.pptx` (20 slides, 16:9 widescreen layout) adhering to strict visual pacing: 3:1 contrast ratios, content hierarchy, benchmark performance cards across all 165 pairs, case study spotlights, and architectural flowcharts.
+- **Publication-Grade Clinical Safety Briefing & Triage Dossier (`scripts/dashboard_modules/reports.py`):**
+  - Executed complete architectural overhaul of the dossier export generator in Live Signal Triage:
+    - **Regulatory Alignment:** Adheres to **ICH E2C(R2)** (Periodic Benefit-Risk Evaluation Report) and **CIOMS VIII** (Signal Detection) structural standards.
+    - **Zero-Emoji Discipline:** Fully removed informal emojis and unicode glyphs, replacing them with professional medical badges and high-contrast typographic hierarchy.
+    - **Evans et al. 2001 Triad Audit:** Embedded complete 2×2 contingency table breakdown ($a, b, c, d$), Proportional Reporting Ratio (PRR), Yates-corrected $\chi^2$ statistic ($p < 0.001$), and Woolf 95% confidence intervals.
+    - **KaTeX Mathematical Rigor:** Clean LaTeX rendering of the composite confidence calculation, sub-score weights ($0.40 / 0.40 / 0.20$), and hard safety gate evaluation logic.
+    - **Executive Sign-Off:** Added formal verification block for Qualified Persons for Pharmacovigilance (QPPV) and Medical Safety Reviewers.
+- **Real-Time Biomedical NLP Term Canonicalization & Spelling Auto-Correction:**
+  - Integrated the two-stage normalizer (`pharmaguard/utils/canonicalize.py`) directly into the Live Signal Triage input fields (`scripts/dashboard_modules/views/live_triage.py`).
+  - Implemented automatic high-confidence typo resolution ($S \ge 0.85$, e.g. `lisinoprll` $\to$ `lisinopril`), interactive middle-band suggestion flags ($0.65 \le S < 0.85$, `Did you mean...?`), brand-to-INN aliases (`zestril` $\to$ `lisinopril`, `singulair` $\to$ `montelukast`), and lay term mapping (`heart attack` $\to$ `myocardial_infarction`, `kidney injury` $\to$ `acute_kidney_injury`).
+  - Expanded `CANONICAL_EVENTS` and `EVENT_ALIASES` with critical postmarketing reactions: `angioedema`, `cough`, `lactic_acidosis`, `pancreatitis`, `rhabdomyolysis`, `hyperkalaemia`.
+- **Standardized Test Case Guide (`docs/test_cases.md` & `docs/test_case.md`):**
+  - Authored a comprehensive 6-suite reference manual detailing input variations, expected canonical forms, similarity scores ($S$), auto-correct vs. suggestion flag behaviors, and regulatory safety gating rationale.
+- **Pytest Regression Milestone (245 Passed):**
+  - Expanded test suite to **245 unit tests across 18 test files, passing 100% in ~50s** with zero regressions.
+
 
 
 

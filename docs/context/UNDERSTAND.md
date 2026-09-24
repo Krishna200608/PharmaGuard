@@ -1,6 +1,6 @@
 # Understanding PharmaGuard
 
-*A project overview for anyone joining this project with no prior context. This is a summary — the full decision-by-decision record with rationale lives in `docs/context/DECISIONS.md` (31 numbered sections), and this document points there wherever more depth is warranted. Where something in the project's own record is genuinely unclear, unverified, or still open, this document says so directly rather than smoothing it over.*
+*A project overview for anyone joining this project with no prior context. This is a summary — the full decision-by-decision record with rationale lives in `docs/context/DECISIONS.md` (38 numbered sections), and this document points there wherever more depth is warranted. Where something in the project's own record is genuinely unclear, unverified, or still open, this document says so directly rather than smoothing it over.*
 
 ---
 
@@ -12,11 +12,11 @@ PharmaGuard looks at a **drug** and a **possible side effect** — for example, 
 - **MONITOR** — worth watching; not confident enough yet to escalate, but not safe to dismiss either
 - **DO_NOT_ESCALATE** — no real evidence of a problem
 
-The core design choice: PharmaGuard is required to pull real evidence from three public data sources before answering, rather than letting an AI model just answer from what it already "knows" (its training data). That distinction — grounded reasoning versus memorized recall — is the actual thesis of the project, and it is demonstrated concretely through empirical comparisons and adversarial probes.
+The core design choice: PharmaGuard is required to pull real evidence from three public data sources before answering, rather than letting an AI model just answer from what it already "knows" (its training data). That distinction — grounded reasoning versus memorized recall — is the actual thesis of the project, and it is demonstrated concretely through empirical comparisons, multi-cohort benchmarks (165 total pairs), and adversarial probes.
 
 **Why this matters:** when a new drug safety concern surfaces, someone has to triage it — decide whether it's worth a formal investigation. This is a real, ongoing bottleneck in pharmacovigilance work. PharmaGuard is a capstone research prototype exploring whether an AI system, forced to check real evidence rather than reason from memory alone, can do a credible, transparent first pass at that triage.
 
-**Stated plainly, because it shapes how to read everything below:** this is a research prototype evaluated on a frozen benchmark of 15 hand-curated drug-event pairs, supplemented by targeted epistemic self-probes. It is not a validated clinical tool. Every primary performance claim in this document is scoped to that 15-pair set.
+**Stated plainly, because it shapes how to read everything below:** this is a research prototype evaluated on a frozen benchmark of 15 hand-curated drug-event pairs, multi-cohort extensions (165 total pairs across OMOP and Top Prescribed Boxed Warnings), and targeted epistemic self-probes. It is not a validated clinical tool.
 
 ---
 
@@ -140,21 +140,24 @@ PharmaGuard was compared against a single-shot LLM baseline (one prompt, no tool
 ## 4. What's still genuinely open
 
 1. **Human expert validation** — Biological plausibility ratings remain based on human-curated pharmacology summaries and LLM derivation; formal review by an external panel of clinical pharmacologists is planned as future work.
-2. **Escalation threshold calibration** — The 0.70 / 0.35 thresholds are fixed priors. Empirical threshold optimization (e.g., via Youden's J or ROC optimization) requires scaling the ground truth set well beyond 15 pairs (`DECISIONS.md §18`).
-3. **MedDRA term normalization** — Spontaneous reporting databases use specific MedDRA Preferred Terms (PT) or British spellings (e.g., `hypoglycaemia`). A general-purpose ontology resolution layer to map lay or American terms automatically remains planned for future production versions.
-4. **Benchmark set size** — Deliberately fixed at 15 heavily vetted pairs for capstone scope; expansion to 50–100 pairs from OMOP/EU-ADR benchmarks is the natural next phase.
-5. **EHR patient-level de-convolution** — While our confounding discount heuristic effectively addresses polypharmacy artifacts, true de-biasing requires patient-level electronic health records to mathematically deconvolve co-prescription odds ratios.
+2. **Escalation threshold calibration** — The 0.70 / 0.35 thresholds are fixed priors. While our multi-cohort expansion (165 pairs) offers substantial empirical coverage, ROC/Youden's J re-calibration remains an open research task (`DECISIONS.md §18`).
+3. **EHR patient-level de-convolution** — While our confounding discount heuristic effectively addresses polypharmacy artifacts, true de-biasing requires patient-level electronic health records to mathematically deconvolve co-prescription odds ratios.
+4. **Multi-Jurisdictional Reporting Integration** — Integrating additional global postmarketing reporting systems (EudraVigilance, WHO VigiBase, PMDA JADER) alongside openFDA FAERS.
+
+*(Note: Prior open items regarding Term Normalization and Benchmark Scaling have now been resolved: the two-stage hybrid canonicalization layer is live in `pharmaguard/utils/canonicalize.py`, and the benchmark has been scaled to 165 pairs across 4 cohorts).*
 
 ---
 
 ## 5. Interactive Dashboard & Verification Artifacts
 
-PharmaGuard includes a production Streamlit evaluation dashboard (`scripts/dashboard.py`):
-- **Tab 1: Evaluation Overview** — Headline recall, precision, confusion matrix, and 4-card Leave-One-Out stability metrics.
+PharmaGuard includes a production Streamlit clinical dashboard (`scripts/dashboard.py`) across **7 dedicated views**:
+- **Tab 1: Evaluation Overview** — Headline recall, precision, confusion matrix, 4-card Leave-One-Out stability metrics, and global multi-cohort switching.
 - **Tab 2: Per-Pair Table** — Dense aligned table with category/escalation filters, `AGREEMENT` badges (`DISCORDANT` vs `CONCORDANT`), and drill-down evidence breakdowns.
 - **Tab 3: Disagreement Spotlight** — Deep-dive evidence and waterfall decomposition charts for Montelukast and Metformin.
 - **Tab 4: Baseline Comparison** — Tool-grounded vs. ungrounded baseline metrics and Liraglutide case analysis.
 - **Tab 5: Methodology Audits & Epistemic Probes** — Visual reporting for the Adversarial Leakage Critic (§27), Polypharmacy Confounding Self-Probe (§28), and side-by-side Metformin waterfall comparisons, styled with Google Material Icons.
+- **Tab 6: OMOP Pilot Benchmark** — 32-pair external reference standard drill-down across acute phenotypes.
+- **Tab 7: Live Signal Triage** — Real-time interactive triage playground featuring 151 searchable benchmark presets, biomedical NLP typo auto-correction & suggestion flags, and one-click **Publication-Grade Clinical Briefing Dossier** generation compliant with ICH E2C(R2) & CIOMS VIII standards.
 - **High-Resolution Verification Captures:** High-resolution 1080p captures for all views in both Light and Dark modes are maintained under `assets/Screenshots/Light/` and `assets/Screenshots/Dark/`.
 
 ---
@@ -163,14 +166,17 @@ PharmaGuard includes a production Streamlit evaluation dashboard (`scripts/dashb
 
 | Question | Look here |
 |---|---|
-| Technical decisions and rationale (all 31 sections) | `docs/context/DECISIONS.md` |
-| Sprint status and bug history | `docs/context/PROGRESS.md` |
+| Technical decisions and rationale (all 38 sections) | `docs/context/DECISIONS.md` |
+| Sprint status, launcher, and CI/CD milestones | `docs/context/PROGRESS.md` |
 | Software architecture & graph flow | `docs/context/ARCHITECTURE.md` |
-| 15 ground-truth pairs with regulatory sourcing | `docs/context/GROUND_TRUTH_CANDIDATES.md` |
+| Biomedical NLP normalization & alias specs | `docs/context/CANONICALIZATION.md` |
+| NLP auto-correction & triage test cases | `docs/test_cases.md` |
+| Ground-truth pairs with regulatory sourcing | `docs/context/GROUND_TRUTH_CANDIDATES.md` |
+| Academic conference paper manuscript | `docs/paper/PharmaGuard_Conference_Paper.md` |
+| Capstone defense slide deck (16:9 widescreen) | `docs/presentation/PharmaGuard_Defense_Deck.pptx` |
 | Frozen production evaluation reports | `outputs/core/*.json` |
 | Baseline & ablation reports | `outputs/experiments/baseline/`, `outputs/experiments/ablation/` |
 | Stability & Leave-One-Out outputs | `outputs/research/stability/loo_analysis.json` |
+| Multi-cohort benchmark outputs | `outputs/research/omop_pilot/`, `outputs/research/top_prescribed/`, `outputs/research/omop_expanded/` |
 | Adversarial critic probe outputs | `outputs/experiments/critic_probe/leakage_critique_results.json` |
-| Confounding self-probe outputs | `outputs/experiments/confounding_probe/` |
-| Interactive dashboard code | `scripts/dashboard.py` and `scripts/dashboard_modules/` |
-| Verification screenshot captures | `assets/Screenshots/Light/`, `assets/Screenshots/Dark/` |
+| Interactive dashboard & reports code | `scripts/dashboard.py` and `scripts/dashboard_modules/` |

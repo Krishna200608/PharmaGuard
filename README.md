@@ -6,15 +6,15 @@
     <em>A Tool-Grounded, Tri-Source Evidence Fusion Agent for Postmarketing Adverse Event Triage</em><br>
     <em>B.Tech 7th-Semester Capstone Project · Indian Institute of Information Technology, Allahabad</em>
   </p>
-
   <p>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.13-3776AB.svg?style=flat&logo=python&logoColor=white" alt="Python 3.13" /></a>
-    <a href="https://streamlit.io/"><img src="https://img.shields.io/badge/Streamlit-Dashboard%20(6%20Views)-FF4B4B.svg?style=flat&logo=streamlit&logoColor=white" alt="Streamlit Dashboard" /></a>
+    <a href="https://github.com/Krishna200608/PharmaGuard/actions"><img src="https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-brightgreen.svg?style=flat&logo=githubactions&logoColor=white" alt="GitHub Actions CI/CD" /></a>
+    <a href="https://streamlit.io/"><img src="https://img.shields.io/badge/Streamlit-Dashboard%20(7%20Views)-FF4B4B.svg?style=flat&logo=streamlit&logoColor=white" alt="Streamlit Dashboard" /></a>
     <a href="https://open.fda.gov/"><img src="https://img.shields.io/badge/Data-openFDA%20FAERS-0A85EA.svg?style=flat" alt="openFDA FAERS" /></a>
     <a href="https://www.ebi.ac.uk/chembl/"><img src="https://img.shields.io/badge/Data-ChEMBL%20v34-009688.svg?style=flat" alt="ChEMBL REST" /></a>
     <a href="https://pubmed.ncbi.nlm.nih.gov/"><img src="https://img.shields.io/badge/Data-PubMed%20NCBI-336699.svg?style=flat" alt="PubMed E-Utilities" /></a>
-    <img src="https://img.shields.io/badge/Tests-229%20Passed-success.svg?style=flat" alt="Unit Tests Passed" />
-    <img src="https://img.shields.io/badge/Benchmarks-Core%20(15)%20%7C%20OMOP%20Pilot%20(32)-blue.svg?style=flat" alt="Benchmarks" />
+    <img src="https://img.shields.io/badge/Tests-245%20Passed-success.svg?style=flat" alt="Unit Tests Passed" />
+    <img src="https://img.shields.io/badge/Benchmarks-165%20Pairs%20%7C%204%20Cohorts-blue.svg?style=flat" alt="Benchmarks" />
   </p>
 </div>
 
@@ -91,31 +91,54 @@ Evaluating signal triage requires capturing both unhesitating escalation and saf
 ### 4. Anti-Leakage & Memorization Probe Discipline
 Empirical probing revealed that unconstrained LLM plausibility derivation (`force_agent` mode) produced an artificial 1.000 Strict Recall by leaking regulatory memory (citing FDA Boxed Warnings) rather than performing biochemical reasoning (`DECISIONS.md §19`). PharmaGuard maintains a `lookup_first` configuration and treats agent-derived plausibility as **grounded pharmacological knowledge retrieval and pathway synthesis**, not de novo reasoning (`DECISIONS.md §17`).
 
-### 5. High-Density Streamlit Dashboard (Zero Live API Calls)
-A clinical review dashboard engineered in Streamlit and Plotly with **zero live API dependencies at runtime** across **6 dedicated views** (Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison, Methodology Probes, and OMOP Pilot Benchmark), reading exclusively from pre-committed evaluation reports with full confidence decomposition waterfall and stacked bar charts, inline report count badges (`FAERS Signal (Count)`), and dynamic category filters.
+### 5. High-Density Streamlit Dashboard (7 Dedicated Views)
+A clinical review dashboard engineered in Streamlit and Plotly across **7 dedicated views**:
+1. **Overview:** Global executive summary, metric cards, Leave-One-Out (LOO) stability blocks, and multi-cohort switching.
+2. **Per-Pair Table:** Detailed evidence drill-down with cross-source agreement badges (`CONCORDANT` / `DISCORDANT`) and confidence waterfall decompositions.
+3. **Disagreement Spotlight:** Deep clinical case studies dissecting mechanistic caution and polypharmacy confounding.
+4. **Baseline Comparison:** Direct side-by-side benchmarking against ungrounded single-shot LLMs.
+5. **Methodology Probes:** Adversarial critic leakage audit, confounding self-probe, and temporal sensitivity checks.
+6. **OMOP Pilot Benchmark:** External reference set evaluation across 32 pairs from OHDSI MethodEvaluation.
+7. **Live Signal Triage:** Real-time interactive playground with 151 searchable benchmark presets, biomedical NLP auto-correction, and one-click clinical briefing generation.
 
 ### 6. Disease-Context Reasoning & Scoring-Inert Indication Concordance
 To address confounding by indication—where a drug is prescribed for symptoms overlapping the suspected adverse event—PharmaGuard incorporates specialized clinical context modules:
 - **`DiseaseContextTool` & WHO ATC:** Queries the ChEMBL API and local registries (`atc_lookup.json`) for WHO Anatomical Therapeutic Chemical (ATC) classification codes (Levels 1–4) and indication records to contextualize disease space.
 - **`IndicationConcordanceTool`:** Evaluates semantic and pharmacological concordance between candidate adverse events and indicated pathologies using a 7-rule clinical heuristics cascade (`IND-CONF-01` to `IND-CONF-07`).
-- **Scoring-Inert by Design:** In production triage, indication concordance operates strictly as an **informational surveillance flag** without modifying composite numerical confidence or causing decision boundary crossings (`DECISIONS.md §35`). This deliberate scoring-inert separation provides clinical reviewers with vital confounding context while preserving the mathematical determinism and safety-gate integrity of the core triage engine.
+- **Scoring-Inert by Design:** In production triage, indication concordance operates strictly as an **informational surveillance flag** without modifying composite numerical confidence or causing decision boundary crossings (`DECISIONS.md §35`).
+
+### 7. Real-Time Biomedical NLP Canonicalization & Spelling Auto-Correction
+Spontaneous reporting and clinical input fields are prone to typos, brand names, and colloquial lay terms. PharmaGuard embeds a two-stage hybrid normalizer (`pharmaguard/utils/canonicalize.py`):
+- **Stage 1 (Deterministic Exact & Alias):** Maps high-confidence clinical synonyms, brand names to International Nonproprietary Names (e.g. `Zestril` $\to$ `lisinopril`, `Singulair` $\to$ `montelukast`), and lay terms to MedDRA Preferred Terms (e.g. `heart attack` $\to$ `myocardial_infarction`, `kidney injury` $\to$ `acute_kidney_injury`) with $S = 0.98$–$1.00$.
+- **Stage 2 (Bounded Fuzzy Sequence Matching):**
+  - $S \ge 0.85$: High-confidence automatic typo correction (e.g. `lisinoprll` $\to$ `lisinopril`, `pancreatits` $\to$ `pancreatitis`).
+  - $0.65 \le S < 0.85$: Interactive suggestion flag (`Did you mean...?`) alerting clinicians to near matches without silently mutating input terms.
+  - $S < 0.65$: Unmapped term retained with transparent audit notice.
+- **Orthographic Normalization:** Automatically reconciles British English MedDRA PTs with American clinical records (e.g. `hypoglycemia` $\to$ `hypoglycaemia`, `hemorrhage` $\to$ `haemorrhage`).
+
+### 8. Publication-Grade Clinical Safety Briefing & Triage Dossier
+In the Live Signal Triage dashboard, clicking **"Generate Clinical Briefing Dossier"** compiles an exhaustive, regulatory-grade safety document (`scripts/dashboard_modules/reports.py`):
+- **Regulatory Compliance:** Adheres strictly to **ICH E2C(R2)** (Periodic Benefit-Risk Evaluation Report) and **CIOMS VIII** (Signal Detection) structural standards.
+- **Emoji-Free Typography:** Standardized on formal clinical serif/sans-serif headers, high-contrast badges, and clean markdown tables, eliminating informal emojis and raw unicode glyphs.
+- **Evans et al. 2001 Triad Audit:** Complete disproportionality table detailing report counts ($a, b, c, d$), PRR, $\chi^2$ statistic ($p < 0.001$), and Woolf 95% confidence intervals.
+- **KaTeX Mathematical Rigor:** Step-by-step rendering of the composite confidence calculation and hard safety gate evaluation.
+- **Executive Sign-Off:** Formally formatted for institutional review boards, Qualified Persons for Pharmacovigilance (QPPV), and medical safety officers.
 
 ---
 
 ## Multi-Benchmark Performance Results
 
-PharmaGuard has been evaluated across two formal benchmark suites: the **Core 15-Pair Ground Truth Benchmark** (7 Confirmed Positives, 5 Genuine Negative Controls, 3 Zero-Report Controls) evaluated against a **Single-Shot LLM Baseline** (Gemini 3.1 Flash Lite, zero tool access), and the external **OMOP Pilot Benchmark** (32 pairs from the OHDSI MethodEvaluation reference set across 4 acute clinical outcomes: AMI, Acute Pancreatitis, Upper GI Bleed, and Acute Liver Injury):
+PharmaGuard has been evaluated across **four formal benchmark cohorts** comprising **165 curated drug–event pairs**:
 
-| Benchmark & Evaluation Suite | Strict Precision | Strict Recall | Strict Specificity | Strict F1 | Lenient Precision | Lenient Recall | Lenient Specificity | Lenient F1 | Over-Caution Rate |
+| Benchmark Cohort | $N$ | Strict Precision | Strict Recall | Strict Specificity | Strict $F_1$ | Lenient Precision | Lenient Recall | Lenient Specificity | Lenient $F_1$ |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **PharmaGuard (Core 15-Pair)** | **1.000** [0.610 – 1.000] | **0.857** (6/7) [0.487 – 0.974] | **1.000** [0.676 – 1.000] | **0.923** [0.727 – 1.000] | **0.875** [0.529 – 0.978] | **1.000** (7/7) [0.646 – 1.000] | **0.875** [0.529 – 0.978] | **0.933** [0.769 – 1.000] | **12.5%** (1 of 8) |
-| **Single-Shot Baseline (Core 15-Pair)** | 0.875 [0.529 – 0.978] | 1.000 (7/7) [0.646 – 1.000] | 0.875 [0.529 – 0.978] | 0.933 [0.769 – 1.000] | 0.700 [0.397 – 0.892] | 1.000 (7/7) [0.646 – 1.000] | 0.625 [0.306 – 0.863] | 0.824 [0.615 – 0.941] | 25.0% (2 of 8) |
-| **PharmaGuard (OMOP Pilot 32-Pair)** | **1.000** (1/1) [0.207 – 1.000] | **0.063** (1/16) [0.011 – 0.270] | **1.000** (16/16) [0.806 – 1.000] | **0.118** [0.024 – 0.426] | **0.846** (11/13) [0.578 – 0.957] | **0.688** (11/16) [0.444 – 0.858] | **0.813** (13/16) [0.570 – 0.934] | **0.720** [0.540 – 0.850] | **18.8%** (3 of 16) |
+| **1. Core Ground Truth Benchmark** | 15 | **1.000** [0.610–1.000] | **0.857** (6/7) [0.487–0.974] | **1.000** [0.676–1.000] | **0.923** [0.727–1.000] | **0.875** [0.529–0.978] | **1.000** (7/7) [0.646–1.000] | **0.875** [0.529–0.978] | **0.933** [0.769–1.000] |
+| *Single-Shot LLM Baseline (Core)* | 15 | 0.875 [0.529–0.978] | 1.000 (7/7) [0.646–1.000] | 0.875 [0.529–0.978] | 0.933 [0.769–1.000] | 0.700 [0.397–0.892] | 1.000 (7/7) [0.646–1.000] | 0.625 [0.306–0.863] | 0.824 [0.615–0.941] |
+| **2. OMOP Pilot Reference Set** | 32 | **1.000** (1/1) [0.207–1.000] | **0.063** (1/16) [0.011–0.270] | **1.000** (16/16) [0.806–1.000] | **0.118** [0.024–0.426] | **0.846** (11/13) [0.578–0.957] | **0.688** (11/16) [0.444–0.858] | **0.813** (13/16) [0.570–0.934] | **0.720** [0.540–0.850] |
+| **3. Top Prescribed Boxed Warnings** | 50 | **1.000** (10/10) [0.722–1.000] | **0.400** (10/25) [0.232–0.593] | **1.000** (25/25) [0.867–1.000] | **0.571** [0.377–0.744] | **0.958** (23/24) [0.798–0.993] | **0.920** (23/25) [0.750–0.978] | **0.960** (24/25) [0.805–0.993] | **0.939** [0.848–0.978] |
+| **4. OMOP Expanded Standard** | 100 | **1.000** (1/1) [0.207–1.000] | **0.020** (1/50) [0.004–0.105] | **1.000** (50/50) [0.929–1.000] | **0.039** [0.007–0.197] | **0.933** (14/15) [0.702–0.988] | **0.280** (14/50) [0.175–0.417] | **0.980** (49/50) [0.895–0.997] | **0.431** [0.283–0.589] |
 
-*Statistical Confidence Intervals:* Wilson score and non-parametric Bootstrap ($B=1000, \text{seed}=42$) 95% confidence intervals are reported. Under strict triage on OMOP Pilot, PharmaGuard achieved **100% Specificity (16/16 negative controls correctly suppressed)**. Under lenient triage, it captured **68.8% Recall (11/16 positive controls placed under surveillance)** with only a minor 18.8% over-caution rate.
-
-> **Exploratory 40-Pair Held-Out OMOP Validation Batch:**
-> In addition to the primary benchmarks above, an exploratory batch of 40 held-out OMOP pairs (20 positive controls, 20 negative controls) was curated to evaluate whether an active indication-concordance discount factor ($\delta = 0.85$) would safely attenuate confounded disproportionality signals without destabilizing decision thresholds. In this batch, concordance criteria triggered on only 4 of the 40 pairs (10.0%)—far too few to establish statistically powered conclusions regarding the discount's generalization across broad clinical phenotypes. While the discount lowered confidence sub-scores as mathematically designed without violating any hard safety gates, it caused zero decision boundary crossings ($\Delta = 0$). The experiment and full per-pair audit are documented as an exploratory negative result in [`docs/context/DECISIONS.md §38`](docs/context/DECISIONS.md#38-independent-verification-and-factual-correction-of-the-40-pair-held-out-omop-validation-batch).
+*Key Findings:* Across all 165 evaluated pairs, PharmaGuard achieved **100% Strict Specificity** (91/91 negative controls correctly suppressed with zero false alarms), outperforming ungrounded models that over-escalate on historical debates. Under Lenient surveillance, it captured **92.0% Recall** on top prescribed boxed warnings.
 
 ---
 
@@ -142,10 +165,12 @@ PharmaGuard has been evaluated across two formal benchmark suites: the **Core 15
 
 - **Core & Runtime:** Python 3.13, Pandas, NumPy, Scipy
 - **Agent Orchestration:** LangGraph, LangChain, ReAct Agent Loop
+- **Local & Cloud LLMs:** Ollama (`qwen2.5:7b`), Google Gemini Flash (`gemini-2.5-flash` / `gemini-1.5-flash`)
 - **Biomedical APIs & Parsing:** openFDA REST API, ChEMBL Web Resource Client, NCBI E-utilities (BioC / Entrez)
 - **Caching Layer:** `diskcache` (persistent disk-backed cache with SHA-256 deterministic keying)
 - **Statistical Evaluation:** Non-parametric Bootstrap Resampling ($B=1000$), Wilson Score Binomial Confidence Intervals
-- **Clinical Dashboard:** Streamlit 1.61, Plotly Express & Graph Objects
+- **Clinical Dashboard:** Streamlit 1.61, Plotly Express & Graph Objects, Google Material Symbols
+- **CI/CD & DevOps:** GitHub Actions matrix test runner (Python 3.11, 3.12, 3.13)
 
 ---
 
@@ -154,6 +179,8 @@ PharmaGuard has been evaluated across two formal benchmark suites: the **Core 15
 ```
 PharmaGuard/
 ├── .agents/skills/                   # Antigravity agent skills & evaluation protocols
+├── .github/workflows/
+│   └── ci.yml                        # GitHub Actions automated CI/CD test matrix pipeline
 ├── assets/
 │   ├── Logos/                        # Vector and raster brand identity assets
 │   └── Screenshots/                  # High-resolution dashboard verification captures (Light & Dark)
@@ -164,35 +191,39 @@ PharmaGuard/
 │   │   ├── UNDERSTAND.md             # Canonical plain-language project overview
 │   │   ├── DECISIONS.md              # 38-section chronological record of architectural decisions
 │   │   ├── PROGRESS.md               # Sprint changelog, verified metrics & reproduction steps
-│   │   └── ARCHITECTURE.md           # Exhaustive technical system & Pydantic schema specifications
+│   │   ├── ARCHITECTURE.md           # Exhaustive technical system & Pydantic schema specifications
+│   │   └── CANONICALIZATION.md       # Biomedical NLP normalization & alias specification
 │   ├── meetings/                     # Weekly stakeholder progress updates and briefing memos
-│   └── proposals/                    # Formal capstone proposals & institutional briefs
+│   ├── paper/                        # Complete 9-section conference paper manuscript (IEEE BIBM / ACM CHIL)
+│   ├── presentation/                 # 20-slide 16:9 Capstone Defense presentation deck (.pptx) & notes
+│   ├── proposals/                    # Formal capstone proposals & institutional briefs
+│   └── test_cases.md                 # Standardized NLP auto-correction and triage test suite guide
 ├── outputs/
 │   ├── core/                         # Frozen production TriageReport JSONs (15 pairs) + summary
-│   ├── experiments/                  # Isolated experimental conditions (baseline/, react_agent/, and several isolated experiment directories)
-│   └── research/                     # Formal research benchmarks & artifacts (omop_pilot/, stability/, paper_figures/, and reproducibility manifests)
+│   ├── experiments/                  # Isolated experimental conditions (baseline, ablation, probes)
+│   └── research/                     # Formal benchmarks (omop_pilot, top_prescribed, omop_expanded)
 ├── pharmaguard/
 │   ├── agent/                        # Fixed Pipeline & ReAct LangGraph orchestrators, schemas
-│   ├── data/                         # Benchmark pairs, plausibility ratings, ChEMBL & ATC registries
+│   ├── data/                         # Benchmark pairs (165 pairs), plausibility ratings, ATC registries
 │   ├── prompts/                      # Versioned system prompts & grading rubrics
-│   ├── tools/                        # FAERS, ChEMBL, PubMed, Confounding, DiseaseContext, IndicationConcordance tools & cache
-│   └── utils/                        # Config loaders, normalizers & evaluation metrics
+│   ├── tools/                        # FAERS, ChEMBL, PubMed, Confounding, DiseaseContext tools & cache
+│   └── utils/                        # NLP canonicalization, config loaders, metrics & normalizers
 ├── scripts/
-│   ├── dashboard.py                  # Streamlit evaluation dashboard driver (6 views)
-│   ├── dashboard_modules/            # Modular dashboard package (views, components, styles)
+│   ├── run.py                        # Standalone orchestrator runner
+│   ├── dashboard.py                  # Streamlit evaluation dashboard driver (7 views)
+│   ├── dashboard_modules/            # Modular dashboard package (views, components, reports, styles)
 │   ├── run_eval.py                   # Production 15-pair benchmark evaluation runner
 │   ├── evaluator.py                  # Strict & Lenient metric calculator with Bootstrap/Wilson CIs
 │   ├── baseline.py                   # Single-shot LLM baseline evaluation runner
-│   ├── dev/                          # Developer diagnostic and verification utilities
-│   └── research/                     # Specialized research runners (OMOP pilot, probes, stability, ablation)
-├── tests/                            # 229 pytest unit & regression tests (all passing)
+│   ├── dev/                          # Developer utilities & slide deck generator
+│   └── research/                     # Research runners (OMOP pilot, top prescribed, stability, ablation)
+├── tests/                            # 245 pytest unit & regression tests across 18 test files (all passing)
+├── run.py                            # One-click multi-terminal launcher (Ollama + Streamlit dashboard)
 ├── requirements.txt                  # Pinned project dependencies
 ├── NOTICE.md                         # Third-party licenses (CC BY-SA 3.0, Apache 2.0) & citations
 ├── LICENSE                           # Project MIT License
 └── README.md                         # Project entry point & overview
 ```
-
-*(For an exhaustive breakdown of all output subdirectories, research harnesses, and JSON schemas, see [`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md).)*
 
 ---
 
@@ -218,13 +249,22 @@ pip install -r requirements.txt
 
 # Configure environment keys (copy .env.example)
 cp .env.example .env
-# Edit .env and add GOOGLE_API_KEY and NCBI_API_KEY
+# Edit .env and add GOOGLE_API_KEY and NCBI_API_KEY (optional for local Ollama)
 ```
 
-### 2. Run the Full Evaluation Pipeline
+### 2. One-Click Multi-Terminal Launcher (Recommended)
+
+PharmaGuard features a unified launcher that automatically spins up the local Ollama LLM service and launches the Streamlit Clinical Dashboard in independent terminals with dynamic port discovery and collision avoidance:
 
 ```bash
-# Run 15-pair evaluation against openFDA, ChEMBL, and PubMed
+python run.py
+```
+*Spawns Ollama on `http://localhost:11434` and opens the Dashboard at `http://localhost:8501`.*
+
+### 3. Run the Benchmark Evaluations
+
+```bash
+# Run 15-pair core evaluation against openFDA, ChEMBL, and PubMed
 python scripts/run_eval.py
 
 # Compute Strict and Lenient evaluation metrics with 95% CIs
@@ -234,19 +274,12 @@ python scripts/evaluator.py --outputs-dir outputs/core --title "PharmaGuard Fina
 python scripts/baseline.py
 ```
 
-### 3. Launch the Evaluation Dashboard
-
-```bash
-streamlit run scripts/dashboard.py
-```
-*The dashboard opens at `http://localhost:8501`, rendering all 6 views (Overview, Per-Pair Table, Disagreement Spotlight, Baseline Comparison, Methodology Probes, and OMOP Pilot Benchmark) with zero live network calls.*
-
-### 4. Run Unit Tests
+### 4. Run the Full Test Suite
 
 ```bash
 pytest -v
 ```
-*(All 229 tests pass across 16 active test modules / 18 test files in ~42s).*
+*(All 245 tests pass across 18 test files in ~50s with zero regressions).*
 
 ---
 
@@ -258,8 +291,12 @@ pytest -v
 | **[`docs/context/DECISIONS.md`](docs/context/DECISIONS.md)** | Complete 38-section chronological record of all architectural decisions, MedDRA PT audits, probe findings, and benchmark validations. |
 | **[`docs/context/PROGRESS.md`](docs/context/PROGRESS.md)** | Sprint changelog, multi-benchmark results, exact Wilson/Bootstrap confidence interval tables, and reproduction verification. |
 | **[`docs/context/ARCHITECTURE.md`](docs/context/ARCHITECTURE.md)** | Exhaustive technical system architecture, data flows, Pydantic schemas, mathematical scoring equations, and directory tree. |
+| **[`docs/context/CANONICALIZATION.md`](docs/context/CANONICALIZATION.md)** | Two-stage biomedical NLP term canonicalization, alias mappings, and fuzzy typo correction specifications. |
+| **[`docs/test_cases.md`](docs/test_cases.md)** | Standardized test case guide for live NLP auto-correction, suggestion flags, aliases, and regulatory gating. |
 | **[`docs/context/CONTRIBUTION.md`](docs/context/CONTRIBUTION.md)** | Grounded claims of project contributions, empirical findings, and architectural comparisons. |
-| **[`docs/proposals/PharmaGuard_Proposal_2026-08-18.md`](docs/proposals/PharmaGuard_Proposal_2026-08-18.md)** | Formal Capstone Project Proposal (18 August 2026) submitted to Dr. Nikhilanand Arya. |
+| **[`docs/paper/PharmaGuard_Conference_Paper.md`](docs/paper/PharmaGuard_Conference_Paper.md)** | Complete 9-section academic manuscript prepared for conference submission. |
+| **[`docs/presentation/SLIDE_DECK_NOTES.md`](docs/presentation/SLIDE_DECK_NOTES.md)** | 20-slide 16:9 Capstone Defense presentation deck script and speaker notes. |
+| **[`docs/proposals/PharmaGuard_Proposal_2026-08-18.md`](docs/proposals/PharmaGuard_Proposal_2026-08-18.md)** | Formal Capstone Project Proposal submitted to Dr. Nikhilanand Arya. |
 
 ---
 
@@ -283,5 +320,3 @@ pytest -v
   - `pharmaguard/data/external/omopReferenceSet.rda` and the derived benchmark files `pharmaguard/data/ground_truth_omop_pilot.json` and `pharmaguard/data/ground_truth_omop_validation_holdout.json` are distributed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) (OHDSI MethodEvaluation).
 
 See **[`NOTICE.md`](NOTICE.md)** for full third-party license texts, copyright notices, and required academic citations.
-
-

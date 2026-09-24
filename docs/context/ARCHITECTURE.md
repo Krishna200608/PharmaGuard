@@ -1,4 +1,4 @@
-Last updated: 2026-09-10 | Sprint: Sprint 4 Phase 3 (Multi-Benchmark & Indication Concordance) | Updated by: Antigravity
+Last updated: 2026-09-24 | Sprint: Sprint 4 (Multi-Terminal Launcher, Live NLP, & CI/CD Pipeline) | Updated by: Antigravity
 
 # ARCHITECTURE
 
@@ -18,119 +18,103 @@ fronted by a deterministic, persistent disk cache.
 ## Repo Structure
 
 ```
-pharmaguard/                  # Python package (core source)
+PharmaGuard/
+├── .agents/skills/                   # Antigravity agent skills & evaluation protocols
+├── .github/workflows/
+│   └── ci.yml                        # GitHub Actions automated CI/CD test matrix pipeline
+├── assets/
+│   ├── Logos/                        # Vector and raster brand identity assets
+│   └── Screenshots/                  # 1080p dashboard captures across Light and Dark themes
+├── configs/
+│   └── config.yaml                   # Central pipeline settings (modes, weights, thresholds, APIs, caches)
+├── run.py                            # One-click multi-terminal launcher (Ollama + Streamlit dashboard)
 │
-├── agent/
-│   ├── fixed_pipeline.py     # Fixed-order orchestrator (production default)
-│   ├── react_agent.py        # LangGraph ReAct orchestrator (dynamic tool call loop)
-│   ├── output_schema.py      # Pydantic output schemas, confidence formulas & escalation gating
-│   └── transcript_logger.py  # Per-run JSON transcript logger → run_logs/
+├── pharmaguard/                      # Python package (core source)
+│   ├── agent/
+│   │   ├── fixed_pipeline.py         # Fixed-order orchestrator (production default)
+│   │   ├── react_agent.py            # LangGraph ReAct orchestrator (dynamic tool call loop)
+│   │   ├── output_schema.py          # Pydantic output schemas, confidence formulas & escalation gating
+│   │   └── transcript_logger.py      # Per-run JSON transcript logger → run_logs/
+│   │
+│   ├── tools/
+│   │   ├── signal_source.py          # Abstract SignalDataSource + FaersLegacySource
+│   │   ├── chembl_tool.py            # ChEMBL static lookup + plausibility derivation + critic audit
+│   │   ├── pubmed_tool.py            # NCBI E-utilities + LLM evidence grading
+│   │   ├── confounding.py            # ConfoundingTool + ConfoundingAssessment schema
+│   │   ├── disease_context.py        # DiseaseContextTool (WHO ATC Level 1-4 ontology resolution)
+│   │   ├── indication_concordance.py # IndicationConcordanceTool (7 clinical rules IND-CONF-01..07)
+│   │   └── cache.py                  # Persistent disk-backed ToolCache (diskcache, SHA-256 keying)
+│   │
+│   ├── utils/
+│   │   ├── canonicalize.py           # Two-stage biomedical NLP entity normalization & typo auto-correction
+│   │   ├── config_loader.py          # Parses configs/config.yaml → AppConfig
+│   │   ├── prompt_loader.py          # Loads versioned prompt files from pharmaguard/prompts/
+│   │   └── text.py                   # normalize_term(): snake_case → natural language
+│   │
+│   ├── data/
+│   │   ├── chembl_lookup.json        # Pre-resolved ChEMBL IDs + MoA text (50 drugs, CC BY-SA 3.0)
+│   │   ├── atc_lookup.json           # WHO ATC classification registry (Levels 1–4, CC BY-SA 3.0)
+│   │   ├── plausibility_ratings.json # Human-curated plausibility labels (lookup default)
+│   │   ├── ground_truth.json         # 15-pair core evaluation set with categories & citations
+│   │   ├── ground_truth_omop_pilot.json # 32-pair OMOP pilot reference set (Apache 2.0)
+│   │   ├── ground_truth_top_prescribed_boxed_warnings.json # 50-pair blockbuster boxed warnings benchmark
+│   │   ├── ground_truth_omop_expanded.json # 100-pair expanded OMOP reference standard
+│   │   ├── ground_truth_omop_validation_holdout.json # 40-pair held-out validation set (Apache 2.0)
+│   │   └── external/
+│   │       ├── omopReferenceSet.rda  # OHDSI MethodEvaluation reference dataset (Apache 2.0)
+│   │       └── README.md             # Reference provenance notes
+│   │
+│   └── prompts/
+│       ├── baseline_single_shot.txt    # Single-shot prompt for baseline.py
+│       ├── confounding_assessment.txt  # Polypharmacy confounding evaluator prompt
+│       ├── evidence_grading_rubric.txt # Grade A/B/C rubric for PubMed LLM grading
+│       ├── leakage_critic.txt          # Adversarial maker-checker critic prompt
+│       ├── plausibility_rubric.txt     # Plausibility level grading guidelines
+│       ├── prompts_version.txt         # Active prompt version string (currently v1.1)
+│       ├── react_system.txt            # ReAct agent system prompt
+│       ├── react_tool_call_format.txt  # Tool-call format instructions for ReAct
+│       └── synthesis_prompt.txt        # Synthesis step prompt
 │
-├── tools/
-│   ├── signal_source.py      # Abstract SignalDataSource + FaersLegacySource
-│   ├── chembl_tool.py        # ChEMBL static lookup + plausibility derivation + critic audit
-│   ├── pubmed_tool.py        # NCBI E-utilities + LLM evidence grading
-│   ├── confounding.py        # ConfoundingTool + ConfoundingAssessment schema
-│   ├── disease_context.py    # DiseaseContextTool (WHO ATC Level 1-4 ontology resolution)
-│   ├── indication_concordance.py # IndicationConcordanceTool (7 clinical rules IND-CONF-01..07)
-│   └── cache.py              # Persistent disk-backed ToolCache (diskcache, SHA-256 keying)
+├── scripts/
+│   ├── run.py                        # Standalone orchestrator runner
+│   ├── dashboard.py                  # 7-view Streamlit evaluation dashboard entrypoint
+│   ├── evaluator.py                  # Score TriageReport JSONs against ground_truth.json
+│   ├── baseline.py                   # Single-shot Gemini baseline (zero tool use)
+│   ├── run_eval.py                   # Run 15 ground truth pairs → outputs/core/
+│   ├── dashboard_modules/            # Modular dashboard package (components, styles, reports, views)
+│   │   ├── reports.py                # ICH E2C(R2) / CIOMS VIII Publication-Grade Clinical Dossier Generator
+│   │   └── views/                    # 7 dashboard tabs (overview, per-pair, spotlight, baseline, probes, omop, live_triage)
+│   ├── dev/                          # Developer utilities & slide deck generators
+│   │   ├── build_presentation_deck.py# Automated 20-slide 16:9 widescreen PowerPoint deck builder
+│   │   ├── backfill_agreement.py     # Cross-source agreement backfill audit
+│   │   ├── capture_screenshots.py    # 1080p automated screenshot utility
+│   │   └── verify_reports.py         # Output schema & UTF-8 integrity diagnostic
+│   └── research/                     # Formal research experiments and publication artifacts
+│       ├── run_omop_pilot_eval.py    # 32-pair OMOP secondary pilot evaluation runner
+│       ├── stability_analysis.py     # 15-fold Leave-One-Out (LOO) stability analysis
+│       └── build_reproducibility_manifest.py # Automated provenance manifest builder
 │
-├── utils/
-│   ├── canonicalize.py       # Entity normalization & synonym resolution
-│   ├── config_loader.py      # Parses configs/config.yaml → AppConfig
-│   ├── prompt_loader.py      # Loads versioned prompt files from pharmaguard/prompts/
-│   └── text.py               # normalize_term(): snake_case → natural language
+├── tests/                            # 245 pytest unit tests across 18 test files (all passing)
 │
-├── data/
-│   ├── chembl_lookup.json    # Pre-resolved ChEMBL IDs + MoA text (50 drugs, CC BY-SA 3.0)
-│   ├── atc_lookup.json       # WHO ATC classification registry (Levels 1–4, CC BY-SA 3.0)
-│   ├── plausibility_ratings.json # Human-curated plausibility labels (lookup default)
-│   ├── ground_truth.json     # 15-pair core evaluation set with categories & citations
-│   ├── ground_truth_omop_pilot.json # 32-pair OMOP pilot reference set (Apache 2.0)
-│   ├── ground_truth_omop_validation_holdout.json # 40-pair held-out validation set (Apache 2.0)
-│   ├── archive/
-│   │   └── pilot_set.json    # 3-pair quick-check set (superseded by ground_truth.json)
-│   └── external/
-│       ├── omopReferenceSet.rda # OHDSI MethodEvaluation reference dataset (Apache 2.0)
-│       └── README.md         # Reference provenance notes
-│
-└── prompts/
-    ├── baseline_single_shot.txt    # Single-shot prompt for baseline.py
-    ├── confounding_assessment.txt  # Polypharmacy confounding evaluator prompt
-    ├── evidence_grading_rubric.txt # Grade A/B/C rubric for PubMed LLM grading
-    ├── leakage_critic.txt          # Adversarial maker-checker critic prompt
-    ├── plausibility_rubric.txt     # Plausibility level grading guidelines
-    ├── prompts_version.txt         # Active prompt version string (currently v1.1)
-    ├── react_system.txt            # ReAct agent system prompt
-    ├── react_tool_call_format.txt  # Tool-call format instructions for ReAct
-    └── synthesis_prompt.txt        # Synthesis step prompt
-
-configs/
-└── config.yaml               # Central pipeline settings (modes, weights, thresholds, APIs, caches)
-
-scripts/
-├── dashboard.py              # 6-view Streamlit evaluation dashboard entrypoint
-├── evaluator.py              # Score TriageReport JSONs against ground_truth.json
-├── baseline.py               # Single-shot Gemini baseline (zero tool use)
-├── run_eval.py               # Run 15 ground truth pairs → outputs/core/
-├── dashboard_modules/        # Modular dashboard package (components, styles, views)
-│   └── views/                # Individual dashboard view tabs (baseline, omop_pilot, probes, etc.)
-├── dev/                      # Developer and diagnostic utilities
-│   ├── backfill_agreement.py # Cross-source agreement backfill audit
-│   ├── build_project_update_docx.py # Project update Word document generator
-│   ├── capture_screenshots.py# 1080p automated screenshot utility
-│   ├── check_ablation.py     # Diagnostic script for ablation agreement
-│   ├── check_albuterol.py    # Diagnostic probe for albuterol
-│   ├── fetch_chembl.py       # Utility to query ChEMBL API for chembl_lookup.json
-│   ├── run_pilot.py          # Interactive pilot demonstration utility
-│   ├── verify_react_agreement.py # Read-only audit for ReAct vs deterministic gating
-│   └── verify_reports.py     # Output schema & UTF-8 integrity diagnostic
-└── research/                 # Formal research experiments and publication artifacts
-    ├── temporal_faers/       # Temporal FAERS partition ingestion and snapshot engine
-    ├── temporal_pubmed/      # Temporal PubMed evidence retrieval and filtering
-    ├── build_reproducibility_manifest.py # Automated provenance manifest builder
-    ├── error_taxonomy.py     # Programmatic error & edge-case taxonomy generator
-    ├── export_paper_figures.py # Publication-ready figure generator
-    ├── run_confounding_evaluation.py # Metformin confounding discounting evaluation
-    ├── run_confounding_probe.py # Confounding self-probe harness
-    ├── run_critic_probe.py   # Adversarial mechanistic leakage critic probe
-    ├── run_omop_pilot_eval.py# 32-pair OMOP secondary pilot evaluation runner
-    ├── run_probe.py          # Memorization-vs-reasoning probe on obscure pairs
-    ├── source_ablation.py    # Multi-source ablation & threshold sensitivity
-    ├── stability_analysis.py # 15-fold Leave-One-Out (LOO) stability analysis
-    └── stability_repeated_runs.py # Repeated-run sub-score variance experiment
-
-tests/                        # pytest unit tests (229 tests across 16 active test modules / 18 test files, all passing)
-
-docs/
-├── context/
-│   ├── UNDERSTAND.md         # Comprehensive project guide and results walk-through
-│   ├── DECISIONS.md          # Complete 38-section chronological record of design decisions
-│   ├── PROGRESS.md           # Continuous sprint log, verified metrics & reproduction steps
-│   ├── ARCHITECTURE.md       # Technical architecture & schema reference
-│   ├── CANONICALIZATION.md   # Event & drug term canonicalization protocols
-│   ├── CONTRIBUTION.md       # Grounded project contribution claims (9 verified findings)
-│   ├── CONVENTIONS.md        # Coding standards & git workflow
-│   ├── GROUND_TRUTH_CANDIDATES.md # Ground truth sourcing & regulatory citations
-│   ├── NOTES.md              # Design constraints & escalation thresholds
-│   └── PROJECT_OVERVIEW.md   # High-level project summary and scope boundaries
-├── meetings/                 # Weekly stakeholder progress updates and briefing memos
-│   ├── Weekly/
-│   │   ├── 1_PharmaGuard — Weekly Progress Update.md
-│   │   └── PharmaGuard - Weekly Progress Update.pdf
-│   ├── PharmaGuard_Project_Update_Group07.docx
-│   ├── Project_Brief.md
-│   └── PROJECT_UPDATE_MEETING_BRIEF.md
-├── presentation/             # Capstone defense slides and presentation notes
-│   ├── PharmaGuard_Midsem_Defense.pptx
-│   └── SLIDE_DECK_NOTES.md
-└── proposals/                # Formal capstone proposals & institutional briefs
-    ├── 7th_Semester_Project_Proposals.pdf
-    ├── Context_Prompt.md
-    ├── pharmaguard_build_brief.md
-    ├── PharmaGuard_Capstone_Proposal.pdf
-    ├── PharmaGuard_Proposal_2026-08-18.md
-    └── archive/pre-pivot-oncoswarm/ # Archived pre-pivot tumor-board proposal files
+├── docs/
+│   ├── context/
+│   │   ├── UNDERSTAND.md             # Comprehensive project guide and results walk-through
+│   │   ├── DECISIONS.md              # Complete 38-section chronological record of design decisions
+│   │   ├── PROGRESS.md               # Continuous sprint log, verified metrics & reproduction steps
+│   │   ├── ARCHITECTURE.md           # Technical architecture & schema reference
+│   │   ├── CANONICALIZATION.md       # Biomedical NLP normalization & alias specification
+│   │   ├── CONTRIBUTION.md           # Grounded project contribution claims (9 verified findings)
+│   │   ├── CONVENTIONS.md            # Coding standards & git workflow
+│   │   ├── GROUND_TRUTH_CANDIDATES.md# Ground truth sourcing & regulatory citations
+│   │   ├── NOTES.md                  # Design constraints & escalation thresholds
+│   │   └── PROJECT_OVERVIEW.md       # High-level project summary and scope boundaries
+│   ├── meetings/                     # Weekly stakeholder progress updates and briefing memos
+│   ├── paper/                        # Complete 9-section conference paper manuscript (IEEE BIBM / ACM CHIL)
+│   ├── presentation/                 # 20-slide 16:9 Capstone Defense presentation deck (.pptx) & notes
+│   │   ├── PharmaGuard_Defense_Deck.pptx # Primary capstone defense slide deck
+│   │   └── SLIDE_DECK_NOTES.md       # Slide-by-slide presenter scripts and technical defense notes
+│   ├── proposals/                    # Formal capstone proposals & institutional briefs
+│   └── test_cases.md                 # Standardized NLP auto-correction and triage test suite guide
 
 outputs/
 ├── core/                     # Frozen production TriageReport JSONs (15 pairs) + summary

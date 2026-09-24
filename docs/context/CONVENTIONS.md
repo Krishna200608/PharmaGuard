@@ -28,17 +28,25 @@ Last updated: 2026-08-29 | Sprint: Completed Capstone Benchmark | Updated by: An
 
 ## Testing Approach
 
-PharmaGuard maintains a comprehensive pytest suite (51 tests).
+PharmaGuard maintains a comprehensive pytest suite (245 unit tests across 18 test files, all passing in ~50s).
 
 - **Tool Mocks and Fixtures**: External HTTP requests are rigorously mocked out using monkeypatch.
 - **Adversarial Edge Cases**: Tests actively target adversarial data to expose heuristic vulnerabilities (e.g., `test_adversarial_regression_avoids_or_substring`, `test_adversarial_plausibility_extraction`).
+- **Scoring Inertness & CI/CD**: Gating rules, indication concordance scoring-inertness, and CI-based alternative gates are validated against automated regression suites.
 
-### Test File Inventory
+### Key Test File Inventory
 
-- `test_output_schema.py`: Tests the deterministic PRR formula (including CI-downgrade logic), the confidence weighted sum, and the exact escalation rules (including the NO_SIGNAL hard gate). These are the most critical tests in the project.
+- `test_output_schema.py`: Tests the deterministic PRR formula (including CI-downgrade logic), the confidence weighted sum, and the exact escalation rules (including the NO_SIGNAL hard gate).
+- `test_canonicalize.py`: Tests the two-stage biomedical NLP term canonicalization, brand-to-INN mapping, lay term normalization, US/UK orthographic reconciliation, and fuzzy sequence matching thresholds.
+- `test_clinical_dossier.py`: Tests the ICH E2C(R2) and CIOMS VIII regulatory briefing dossier generator, confirming mathematical consistency, Evans et al. triad table rendering, and emoji-free clinical typography.
+- `test_indication_concordance_inertness.py` & `test_indication_discount.py`: Verifies the scoring-inertness of indication concordance flags in production and validates the research discount factor.
+- `test_disease_context.py`: Tests WHO ATC classification lookups, ChEMBL fallback hierarchies, and indication metadata resolution.
+- `test_confounding.py`: Tests polypharmacy confounding assessment, co-prescription extraction, and signal discounting logic.
 - `test_signal_source.py`: Tests `SignalStats` null contract (zero-report pairs), query normalization, and mock source behaviours.
-- `test_chembl_tool.py`: Tests static ChEMBL lookup, curated plausibility retrieval, and LLM-derived plausibility fallbacks (including the `force_agent` mode).
+- `test_chembl_tool.py`: Tests static ChEMBL lookup, curated plausibility retrieval, and LLM-derived plausibility fallbacks.
 - `test_pubmed_tool.py`: Tests E-utilities query generation, rubric grading logic, and adversarial text handling.
 - `test_cache.py`: Tests cache key construction (including deterministic hashing and schema version inclusion) and hit/miss behavior.
-- `test_agent_parsers.py`: Tests the agent's ability to extract structured JSON/Enums from raw LLM output, ensuring explanations do not contaminate extraction.
-- `test_faers.py` / `test_openfda.py`: Legacy scratch scripts. These are not part of the pytest suite and should only be used for manual API probing.
+- `test_agent_parsers.py`: Tests the agent's ability to extract structured JSON/Enums from raw LLM output.
+- `test_stratified_evaluation.py` & `test_source_ablation.py`: Tests ATC therapeutic area stratification and multi-source ablation metrics.
+- `test_stability_repeated_runs.py` & `test_reproducibility_manifest.py`: Tests stochastic run stability and automated artifact provenance indexing.
+
