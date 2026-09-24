@@ -21,6 +21,7 @@ from pharmaguard.agent.fixed_pipeline import FixedPipelineAgent
 from pharmaguard.agent.output_schema import TriageReport, EscalationDecision
 from pharmaguard.utils.config_loader import load_config
 from pharmaguard.utils.llm_factory import check_ollama_status
+from pharmaguard.utils.canonicalize import canonicalize_term
 from scripts.dashboard_modules.reports import generate_clinical_dossier_markdown
 
 logger = logging.getLogger(__name__)
@@ -239,13 +240,13 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
         drug_input = st.text_input(
             "Drug Name",
             value=default_drug,
-            placeholder="e.g., montelukast",
+            placeholder="e.g., lisinopril (or brand e.g. zestril)",
         )
     with c_in2:
         event_input = st.text_input(
             "Adverse Event",
             value=default_event,
-            placeholder="e.g., suicidal ideation",
+            placeholder="e.g., angioedema (or lay term e.g. heart attack)",
         )
     with c_btn:
         st.markdown('<div style="height: 28px;"></div>', unsafe_allow_html=True)
@@ -256,10 +257,72 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
             width="stretch",
         )
 
+    # ── Real-Time NLP Term Canonicalization & Spelling Feedback ──
+    drug_canon = canonicalize_term(drug_input, "drug") if drug_input and drug_input.strip() else None
+    event_canon = canonicalize_term(event_input, "event") if event_input and event_input.strip() else None
+
+    show_drug_nlp = (
+        drug_canon
+        and drug_canon["canonical"]
+        and drug_canon["canonical"] != drug_input.strip().lower()
+    )
+    show_event_nlp = (
+        event_canon
+        and event_canon["canonical"]
+        and event_canon["canonical"] != event_input.strip().lower().replace(" ", "_")
+    )
+
+    if show_drug_nlp or show_event_nlp:
+        nlp_hints = []
+        if show_drug_nlp:
+            m_type = drug_canon["match_type"]
+            c_score = f"{drug_canon['confidence']*100:.0f}%"
+            if m_type == "alias":
+                nlp_hints.append(f"Drug alias recognized: <strong>{drug_input}</strong> &rarr; <span style='color:var(--primary); font-weight:600;'>{drug_canon['canonical']}</span>")
+            elif m_type == "fuzzy" and not drug_canon["needs_human_review"]:
+                nlp_hints.append(f"Spelling auto-corrected: <strong>{drug_input}</strong> &rarr; <span style='color:var(--primary); font-weight:600;'>{drug_canon['canonical']}</span> ({c_score} match)")
+            elif m_type == "fuzzy" and drug_canon["needs_human_review"]:
+                nlp_hints.append(f"Did you mean: <span style='color:var(--primary); font-weight:600;'>{drug_canon['canonical']}</span> for '{drug_input}'? ({c_score} match)")
+
+        if show_event_nlp:
+            m_type = event_canon["match_type"]
+            c_score = f"{event_canon['confidence']*100:.0f}%"
+            disp_event = event_canon["canonical"].replace("_", " ")
+            if m_type == "alias":
+                nlp_hints.append(f"Clinical synonym mapped: <strong>{event_input}</strong> &rarr; <span style='color:var(--primary); font-weight:600;'>{disp_event}</span> (MedDRA PT)")
+            elif m_type == "fuzzy" and not event_canon["needs_human_review"]:
+                nlp_hints.append(f"Spelling auto-corrected: <strong>{event_input}</strong> &rarr; <span style='color:var(--primary); font-weight:600;'>{disp_event}</span> ({c_score} match)")
+            elif m_type == "fuzzy" and event_canon["needs_human_review"]:
+                nlp_hints.append(f"Did you mean: <span style='color:var(--primary); font-weight:600;'>{disp_event}</span> for '{event_input}'? ({c_score} match)")
+
+        st.markdown(
+            f'<div style="background:{surface}; border:1px solid {border}; border-radius:6px; padding:6px 12px; margin-top:-6px; margin-bottom:10px; font-size:12.5px; color:{text_sec}; display:flex; align-items:center; gap:8px;">'
+            f'<span class="material-symbols-outlined" style="font-size:16px; color:var(--primary);">spellcheck</span>'
+            f'{" &middot; ".join(nlp_hints)}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
     # ── Live Execution ──
     if run_clicked:
-        clean_drug = drug_input.strip().lower()
-        clean_event = event_input.strip().lower()
+        # Resolve terms via NLP Canonicalization if high-confidence match or alias
+        if (
+            drug_canon
+            and drug_canon["canonical"]
+            and (drug_canon["match_type"] == "alias" or (drug_canon["match_type"] == "fuzzy" and not drug_canon["needs_human_review"]))
+        ):
+            clean_drug = drug_canon["canonical"]
+        else:
+            clean_drug = drug_input.strip().lower()
+
+        if (
+            event_canon
+            and event_canon["canonical"]
+            and (event_canon["match_type"] == "alias" or (event_canon["match_type"] == "fuzzy" and not event_canon["needs_human_review"]))
+        ):
+            clean_event = event_canon["canonical"].replace("_", " ")
+        else:
+            clean_event = event_input.strip().lower()
 
         if not clean_drug or not clean_event:
             st.error("Specify both drug name and adverse event.")
@@ -277,11 +340,16 @@ def view_live_triage(theme: str = "light", repo_root: Path | None = None) -> Non
             cache_dir = ".cache/pharmaguard_ollama" if is_ollama else ".cache/pharmaguard"
 
             with st.status("Executing Multi-Stream Triage Screening...", expanded=True) as status:
+                if clean_drug != drug_input.strip().lower() or clean_event != event_input.strip().lower():
+                    status.write(
+                        f":material/spellcheck: NLP Term Normalization Applied: '{drug_input}' &rarr; **{clean_drug}**, '{event_input}' &rarr; **{clean_event}**"
+                    )
                 status.write(":material/query_stats: FAERS Disproportionality Mining (PRR, ROR)...")
                 status.write(":material/biotech: ChEMBL Pharmacological Targets & Plausibility...")
                 status.write(
                     f":material/menu_book: PubMed Retrieval & Evidence Grading via {'local Ollama (qwen2.5:7b)' if is_ollama else 'Gemini Flash'}..."
                 )
+
 
                 try:
                     import importlib

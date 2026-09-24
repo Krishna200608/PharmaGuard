@@ -30,20 +30,27 @@ from typing import Any, Literal
 CANONICAL_EVENTS: list[str] = [
     "acute_kidney_injury",
     "agranulocytosis",
+    "angioedema",
     "common_cold",
+    "cough",
     "dementia",
     "frostbite",
     "gastrointestinal_haemorrhage",
     "hepatotoxicity",
+    "hyperkalaemia",
     "hypoglycaemia",
+    "lactic_acidosis",
     "myocardial_infarction",
     "pancreatic_cancer",
+    "pancreatitis",
     "pneumonitis",
+    "rhabdomyolysis",
     "suicidal_ideation",
     "tendon_rupture",
     "teratogenicity",
     "tooth_eruption",
 ]
+
 
 CANONICAL_DRUGS: list[str] = [
     "acarbose",
@@ -194,6 +201,35 @@ EVENT_ALIASES: dict[str, str] = {
     "teeth eruption": "tooth_eruption",
     "delayed tooth eruption": "tooth_eruption",
     "eruption of tooth": "tooth_eruption",
+    # angioedema
+    "angioedema": "angioedema",
+    "angio oedema": "angioedema",
+    "angioedemaa": "angioedema",
+    "angioneurotic edema": "angioedema",
+    "angioneurotic oedema": "angioedema",
+    "laryngeal edema": "angioedema",
+    "swelling of lips": "angioedema",
+    "facial swelling": "angioedema",
+    # cough
+    "dry cough": "cough",
+    "persistent cough": "cough",
+    "ace cough": "cough",
+    "chronic cough": "cough",
+    # hyperkalaemia
+    "hyperkalemia": "hyperkalaemia",
+    "high potassium": "hyperkalaemia",
+    "elevated potassium": "hyperkalaemia",
+    # lactic_acidosis
+    "lactic acidosis": "lactic_acidosis",
+    "mala": "lactic_acidosis",
+    "acidosis": "lactic_acidosis",
+    # pancreatitis
+    "acute pancreatitis": "pancreatitis",
+    "pancreatic inflammation": "pancreatitis",
+    # rhabdomyolysis
+    "rhabdo": "rhabdomyolysis",
+    "muscle breakdown": "rhabdomyolysis",
+    "muscle necrosis": "rhabdomyolysis",
 }
 
 DRUG_ALIASES: dict[str, str] = {
@@ -217,6 +253,8 @@ DRUG_ALIASES: dict[str, str] = {
     "capoten": "captopril",
     "zestril": "lisinopril",
     "prinivil": "lisinopril",
+    "qbrelis": "lisinopril",
+    "lysinopril": "lisinopril",
     "lipitor": "atorvastatin",
     "singulair": "montelukast",
     "cipro": "ciprofloxacin",
@@ -235,6 +273,13 @@ DRUG_ALIASES: dict[str, str] = {
     "wegovy": "semaglutide",
     "victoza": "liraglutide",
     "saxenda": "liraglutide",
+    "cozaar": "losartan",
+    "crestor": "rosuvastatin",
+    "plavix": "clopidogrel",
+    "prilosec": "omeprazole",
+    "protonix": "pantoprazole",
+    "lasix": "furosemide",
+
 }
 
 
