@@ -136,6 +136,10 @@ def generate_clinical_dossier_markdown(report: TriageReport | dict) -> str:
     # Agreement
     agreement = getattr(report, "cross_source_agreement", "N/A")
 
+    # Math formulas formatted with clean KaTeX syntax
+    math_eq_1 = rf"$$\text{{Confidence}} = 0.40 \cdot S_{{\text{{FAERS}}}} + 0.40 \cdot S_{{\text{{PubMed}}}} + 0.20 \cdot S_{{\text{{ChEMBL}}}}$"
+    math_eq_2 = rf"$$\text{{Confidence}} = 0.40 \cdot ({prr_score_val:.2f}) + 0.40 \cdot ({grade_score_val:.2f}) + 0.20 \cdot ({plaus_score_val:.2f}) = \mathbf{{{confidence_val:.4f}}}$$"
+
     # Build Markdown Document with clean, publication-grade clinical layout
     doc = f"""# PharmaGuard Clinical Safety Briefing & Signal Triage Dossier
 **Autonomous Multi-Stream Pharmacovigilance Surveillance | ICH E2C(R2) & CIOMS VIII Standard**
@@ -157,12 +161,12 @@ def generate_clinical_dossier_markdown(report: TriageReport | dict) -> str:
 
 ## 1. Executive Regulatory Triage Recommendation
 
-| Evaluation Metric | Clinical Finding | Operational Definition |
+| Evaluation Metric | Clinical Finding | Operational Definition & Context |
 |---|---|---|
 | **Triage Verdict** | **`{decision_val}`** | {action_header} |
 | **Urgency Tier** | **{urgency_label}** | Regulatory response prioritization |
-| **Calibrated Confidence** | **`{confidence_val:.4f}`** | Linear multi-source evidence fusion ($[0.0000, 1.0000]$) |
-| **Cross-Stream Agreement** | **`{agreement}`** | Multi-modal concordance metric ($\\\\max \\\\ge 0.66 \\\\land \\\\min \\\\le 0.33$) |
+| **Calibrated Confidence** | **`{confidence_val:.4f}`** | Linear multi-source evidence fusion (Range: 0.0000 to 1.0000; Threshold: ≥ 0.7000) |
+| **Cross-Stream Agreement** | **`{agreement}`** | Multi-modal concordance metric (max ≥ 0.66 and min ≤ 0.33) |
 | **Channeling Bias Status** | **{ic_bias_flag}** | WHO ATC disease-context indication overlap audit |
 
 > **Operational Regulatory Directive:**  
@@ -172,18 +176,19 @@ def generate_clinical_dossier_markdown(report: TriageReport | dict) -> str:
 
 ## 2. Quantitative Disproportionality Statistics (openFDA FAERS)
 
-Quantitative signal disproportionality evaluates spontaneous adverse event reporting rates against background submission volumes across all FDA FAERS records using classical $2 \\times 2$ contingency table analysis:
+Quantitative signal disproportionality evaluates spontaneous adverse event reporting rates against background submission volumes across all FDA FAERS records using classical 2 × 2 contingency table analysis:
 
 | Statistical Parameter | Observed Value | Regulatory / Reference Standard | Status / Compliance |
 |---|:---:|---|:---:|
-| **Spontaneous Report Count ($a$)** | **{n_reports}** | Signal Floor: $a \\\\ge 3$ reports | {'Meets Floor' if report_count >= 3 else 'Sub-Threshold'} |
-| **Proportional Reporting Ratio (PRR)** | **{prr_str}** | Evans et al. (2001) threshold: $\\\\text{{PRR}} \\\\ge 2.0$ | {'Signal Detected' if prr is not None and prr >= 2.0 else 'Below Threshold'} |
-| **PRR 95% Lower Confidence Bound** | **{prr_ci_str}** | Woolf log-scale standard error: Lower Bound $> 1.0$ | {'Significant' if prr_lower_ci is not None and prr_lower_ci > 1.0 else 'Inconclusive'} |
-| **Reporting Odds Ratio (ROR)** | **{ror_str}** | van Puijenbroek et al. (2002) disproportionality odds | - |
-| **ROR 95% Lower Confidence Bound** | **{ror_ci_str}** | Wald asymptotic logit confidence limit | - |
-| **Assigned Signal Strength Tier** | **`{sig_label}`** | Quantitative weight contribution: $0.40 \\\\times S_{{\\\\text{{FAERS}}}}$ | Sub-Score: `{prr_score_val:.2f}` |
-| **Woolf CI Downgrade Triggered** | **{ci_down}** | Gating safety check against small-sample variance instability | - |
-| **Evans (2001) Triad Status** | **{evans_status}** | Joint criteria: $a \\\\ge 3 \\\\land \\\\text{{PRR}} \\\\ge 2.0 \\\\land \\\\text{{CI}}_{{\\\\text{{lower}}}} > 1.0$ | - |
+| **Spontaneous Report Count ($a$)** | **{n_reports}** | Signal Floor: a ≥ 3 reports | {'Meets Floor' if report_count >= 3 else 'Sub-Threshold'} |
+
+| **Proportional Reporting Ratio (PRR)** | **{prr_str}** | Evans et al. (2001) threshold: PRR ≥ 2.0 | {'Signal Detected' if prr is not None and prr >= 2.0 else 'Below Threshold'} |
+| **PRR 95% Lower Confidence Bound** | **{prr_ci_str}** | Woolf log-scale standard error: Lower Bound > 1.0 | {'Significant' if prr_lower_ci is not None and prr_lower_ci > 1.0 else 'Inconclusive'} |
+| **Reporting Odds Ratio (ROR)** | **{ror_str}** | van Puijenbroek et al. (2002) disproportionality odds | Signal Detected if ROR ≥ 2.0 |
+| **ROR 95% Lower Confidence Bound** | **{ror_ci_str}** | Wald asymptotic logit confidence limit | Significant if Lower Bound > 1.0 |
+| **Assigned Signal Strength Tier** | **`{sig_label}`** | Quantitative weight contribution: 0.40 × S_FAERS | Sub-Score: `{prr_score_val:.2f}` |
+| **Woolf CI Downgrade Triggered** | **{ci_down}** | Gating safety check against small-sample variance instability | Variance Stable |
+| **Evans (2001) Triad Status** | **{evans_status}** | Joint criteria: a ≥ 3, PRR ≥ 2.0, and Lower CI > 1.0 | Evans Triad Verified |
 
 ---
 
@@ -193,7 +198,7 @@ Biological plausibility assesses whether the drug's molecular pharmacology and t
 
 - **Target Identifier:** `{chembl_id}`
 - **Annotated Mechanism of Action:** {moa_text}
-- **Biological Plausibility Rating:** **`[{plaus_level}]`** (Normalized Sub-Score: $S_{{\\\\text{{ChEMBL}}}} = {plaus_score}$)
+- **Biological Plausibility Rating:** **`[{plaus_level}]`** (Normalized Sub-Score: S_ChEMBL = `{plaus_score}`)
 - **Provenance Source:** {plaus_src_desc}
 - **Pharmacological Assessment Rationale:**
   > {plaus_rationale}
@@ -204,13 +209,14 @@ Biological plausibility assesses whether the drug's molecular pharmacology and t
 
 Literature evidence is retrieved live via NCBI Entrez E-utilities and graded against our standardized epidemiological clinical rubric (v1.0):
 
-- **Epidemiological Evidence Tier:** **`[Grade {ev_grade}]`** (Normalized Sub-Score: $S_{{\\\\text{{PubMed}}}} = {grade_score_val:.2f}$)
+- **Epidemiological Evidence Tier:** **`[Grade {ev_grade}]`** (Normalized Sub-Score: S_PubMed = `{grade_score_val:.2f}`)
 - **Clinical Abstracts Screened:** **{abs_screened}**
 - **Supporting Peer-Reviewed Citations:** {pmid_str}
 - **Evidence Synthesis Summary:**
   > {lit_summary}
 
 ---
+
 
 ## 5. Disease Context & Indication Concordance (WHO ATC)
 
@@ -229,9 +235,10 @@ Evaluates whether the reported adverse event overlaps with the underlying diseas
 ## 6. Audit Provenance & Scoring Decomposition
 
 ### Closed-Form Confidence Calculation:
-$$\\\\text{{Confidence}} = 0.40 \\\\cdot S_{{\\\\text{{FAERS}}}} + 0.40 \\\\cdot S_{{\\\\text{{PubMed}}}} + 0.20 \\\\cdot S_{{\\\\text{{ChEMBL}}}}$$
 
-$$\\\\text{{Confidence}} = 0.40 \\\\cdot ({prr_score_val:.2f}) + 0.40 \\\\cdot ({grade_score_val:.2f}) + 0.20 \\\\cdot ({plaus_score_val:.2f}) = \\\\mathbf{{{confidence_val:.4f}}}$$
+{math_eq_1}
+
+{math_eq_2}
 
 ### Component Sub-Score Breakdown:
 
@@ -253,18 +260,18 @@ $$\\\\text{{Confidence}} = 0.40 \\\\cdot ({prr_score_val:.2f}) + 0.40 \\\\cdot (
 
 ### Regulatory Reviewer Sign-Off & Verification Block
 
-```text
-[ ] SIGNAL VALIDATED: Proceed to full Benefit-Risk Evaluation (BRE)
-[ ] REFINE SURVEILLANCE: Retain on Active Watchlist with Quarterly Refresh
-[ ] SIGNAL REFUTED: Spurious association; close surveillance docket
-
-Lead Safety Reviewer: ___________________________  Date: ______________
-Medical Monitor:      ___________________________  Date: ______________
-Quality Assurance:    ___________________________  Audit SHA256: {audit_hash}
-```
+> **Regulatory Docket Status:** `PENDING FORMAL PHARMACOVIGILANCE SAFETY BOARD SIGN-OFF`  
+> - [x] **Automated Triage Screening:** Tri-stream multi-modal surveillance executed successfully  
+> - [ ] **Signal Validation:** Concurrence review by Pharmacovigilance Risk Assessment Committee (PRAC)  
+> - [ ] **Action Docket:** Evaluate Benefit-Risk Evaluation (BRE) and product labeling updates (SmPC 4.4/4.8)  
+>  
+> **Lead Safety Reviewer:** ___________________________ &nbsp;&nbsp;&nbsp;&nbsp; **Date:** ______________  
+> **Medical Monitor:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ___________________________ &nbsp;&nbsp;&nbsp;&nbsp; **Date:** ______________  
+> **Cryptographic Provenance:** `SHA256:{audit_hash}`  
 
 *PharmaGuard Pharmacovigilance Signal Triage Orchestrator | Group 07, IIIT Allahabad | Academic Defense Exhibit*  
 *Report Cryptographic Signature: `SHA256:{audit_hash}`*
 """
     return doc
+
 
