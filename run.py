@@ -58,6 +58,22 @@ def is_ollama_running(url: str = "http://localhost:11434", timeout: float = 1.5)
         return False
 
 
+def is_port_in_use(port: int) -> bool:
+    """Check whether a local TCP port is already bound."""
+    import socket
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(0.5)
+        return s.connect_ex(("127.0.0.1", port)) == 0
+
+
+def find_free_port(start_port: int, max_attempts: int = 20) -> int:
+    """Find the first available TCP port starting from start_port."""
+    for p in range(start_port, start_port + max_attempts):
+        if not is_port_in_use(p):
+            return p
+    return start_port
+
+
 def launch_in_new_terminal(title: str, command: str, cwd: Path) -> None:
     """Launch a command in a new dedicated terminal window based on operating system."""
     system = platform.system()
@@ -174,23 +190,30 @@ def main():
         print("[i] Ollama launch skipped (--no-ollama flag provided).")
 
     # ── 2. Streamlit Dashboard Launch ──
-    print(f"[+] Launching Streamlit Dashboard on port {args.port} in a separate terminal window...")
+    target_port = args.port
+    if is_port_in_use(target_port):
+        free_port = find_free_port(target_port)
+        print(f"[!] NOTICE: Port {target_port} is already in use by another process.")
+        print(f"[✓] Automatically re-routing Streamlit to free port: {free_port}")
+        target_port = free_port
+
+    print(f"[+] Launching Streamlit Dashboard on port {target_port} in a separate terminal window...")
     streamlit_cmd = (
         f"& '{python_bin}' -m streamlit run '{DASHBOARD_SCRIPT}' "
-        f"--server.port {args.port} --server.headless false"
+        f"--server.port {target_port} --server.headless false"
         if platform.system() == "Windows"
-        else f"'{python_bin}' -m streamlit run '{DASHBOARD_SCRIPT}' --server.port {args.port}"
+        else f"'{python_bin}' -m streamlit run '{DASHBOARD_SCRIPT}' --server.port {target_port}"
     )
 
     launch_in_new_terminal(
-        title=f"PharmaGuard — Clinical Evaluation Dashboard (Port {args.port})",
+        title=f"PharmaGuard — Clinical Evaluation Dashboard (Port {target_port})",
         command=streamlit_cmd,
         cwd=REPO_ROOT,
     )
 
     print("-" * 72)
     print("🚀 Both services have been launched into dedicated terminal windows!")
-    print(f"   • Evaluation Dashboard : http://localhost:{args.port}/")
+    print(f"   • Evaluation Dashboard : http://localhost:{target_port}/")
     if not args.no_ollama:
         print(f"   • Ollama API Endpoint  : http://localhost:11434/")
         print(f"   • Model Requirement    : 'ollama run {args.ollama_model}' (if not pulled yet)")
